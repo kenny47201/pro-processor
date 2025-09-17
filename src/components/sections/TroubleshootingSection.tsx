@@ -95,13 +95,33 @@ const TroubleshootingSection = () => {
         <p className="text-muted-foreground">Comprehensive problem-solving resources and knowledge base</p>
       </div>
 
-      <Tabs defaultValue="defects" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="defects">Defects</TabsTrigger>
-          <TabsTrigger value="machine">Machine Issues</TabsTrigger>
-          <TabsTrigger value="notes">Public Notes</TabsTrigger>
-          <TabsTrigger value="ai-help">AI Assistant</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="defects" className="space-y-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <TabsList className="h-auto p-1">
+            <TabsTrigger value="defects" className="flex-col h-16 px-4 gap-2">
+              <AlertTriangle className="h-4 w-4" />
+              <span className="text-xs font-medium">Defects</span>
+            </TabsTrigger>
+          </TabsList>
+          <TabsList className="h-auto p-1">
+            <TabsTrigger value="machine" className="flex-col h-16 px-4 gap-2">
+              <Wrench className="h-4 w-4" />
+              <span className="text-xs font-medium">Machine Issues</span>
+            </TabsTrigger>
+          </TabsList>
+          <TabsList className="h-auto p-1">
+            <TabsTrigger value="notes" className="flex-col h-16 px-4 gap-2">
+              <MessageSquare className="h-4 w-4" />
+              <span className="text-xs font-medium">Public Notes</span>
+            </TabsTrigger>
+          </TabsList>
+          <TabsList className="h-auto p-1">
+            <TabsTrigger value="ai-help" className="flex-col h-16 px-4 gap-2">
+              <Bot className="h-4 w-4" />
+              <span className="text-xs font-medium">AI Assistant</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="defects" className="space-y-6">
           <Card className="industrial-panel">
