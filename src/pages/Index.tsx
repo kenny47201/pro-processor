@@ -5,9 +5,15 @@ import StartupSection from "@/components/sections/StartupSection";
 import TroubleshootingSection from "@/components/sections/TroubleshootingSection";
 import ProfileSection from "@/components/sections/ProfileSection";
 import AdminSection from "@/components/sections/AdminSection";
+import LoginForm from "@/components/LoginForm";
 
 const Index = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeSection, setActiveSection] = useState("setup");
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
 
   const renderSection = () => {
     switch (activeSection) {
@@ -25,6 +31,10 @@ const Index = () => {
         return <SetupSection />;
     }
   };
+
+  if (!isLoggedIn) {
+    return <LoginForm onLogin={handleLogin} />;
+  }
 
   return (
     <div className="min-h-screen bg-background">

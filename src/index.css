@@ -18,9 +18,9 @@
     --popover: 210 18% 12%;
     --popover-foreground: 210 15% 95%;
 
-    --primary: 212 85% 55%;
+    --primary: 160 84% 39%;
     --primary-foreground: 210 20% 8%;
-    --primary-glow: 212 85% 65%;
+    --primary-glow: 160 84% 49%;
 
     --secondary: 210 15% 18%;
     --secondary-foreground: 210 15% 85%;
@@ -28,20 +28,20 @@
     --muted: 210 15% 15%;
     --muted-foreground: 210 10% 65%;
 
-    --accent: 25 85% 55%;
+    --accent: 158 64% 52%;
     --accent-foreground: 210 20% 8%;
-    --accent-glow: 25 85% 65%;
+    --accent-glow: 158 64% 62%;
 
     --destructive: 0 75% 55%;
     --destructive-foreground: 210 15% 95%;
 
     --border: 210 15% 20%;
     --input: 210 15% 18%;
-    --ring: 212 85% 55%;
+    --ring: 160 84% 39%;
 
     --success: 142 75% 45%;
     --warning: 45 85% 55%;
-    --info: 212 85% 55%;
+    --info: 160 84% 39%;
 
     --radius: 0.75rem;
 
@@ -64,12 +64,12 @@
     /* Sidebar Variables */
     --sidebar-background: 210 20% 6%;
     --sidebar-foreground: 210 15% 90%;
-    --sidebar-primary: 212 85% 55%;
+    --sidebar-primary: 160 84% 39%;
     --sidebar-primary-foreground: 210 20% 8%;
     --sidebar-accent: 210 15% 15%;
     --sidebar-accent-foreground: 210 15% 85%;
     --sidebar-border: 210 15% 18%;
-    --sidebar-ring: 212 85% 55%;
+    --sidebar-ring: 160 84% 39%;
   }
 
   .dark {
