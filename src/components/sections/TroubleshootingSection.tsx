@@ -13,7 +13,8 @@ import {
   Search, 
   Bot,
   FileText,
-  Plus
+  Plus,
+  BookOpen
 } from "lucide-react";
 
 const TroubleshootingSection = () => {
@@ -110,9 +111,9 @@ const TroubleshootingSection = () => {
             </TabsTrigger>
           </TabsList>
           <TabsList className="h-auto p-1">
-            <TabsTrigger value="notes" className="flex-col h-16 px-4 gap-2">
-              <MessageSquare className="h-4 w-4" />
-              <span className="text-xs font-medium">Public Notes</span>
+            <TabsTrigger value="knowledge" className="flex-col h-16 px-4 gap-2">
+              <BookOpen className="h-4 w-4" />
+              <span className="text-xs font-medium">Knowledge</span>
             </TabsTrigger>
           </TabsList>
           <TabsList className="h-auto p-1">
@@ -180,6 +181,38 @@ const TroubleshootingSection = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Notes Section for Defects */}
+          <Card className="industrial-panel">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <MessageSquare className="h-5 w-5" />
+                Defects Notes
+              </CardTitle>
+              <CardDescription>
+                Share your insights about defect solutions
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Card className="border-dashed border-accent">
+                <CardContent className="pt-4">
+                  <h3 className="font-medium mb-3">Add Defect Note</h3>
+                  <div className="space-y-3">
+                    <Textarea
+                      placeholder="Describe a defect issue and solution..."
+                      value={newNote}
+                      onChange={(e) => setNewNote(e.target.value)}
+                      rows={3}
+                    />
+                    <Button size="sm" className="w-full">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Share Note
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="machine" className="space-y-6">
@@ -218,52 +251,78 @@ const TroubleshootingSection = () => {
                 </div>
               ))}
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                <Button variant="industrial" className="h-auto p-4 flex-col">
-                  <FileText className="h-6 w-6 mb-2" />
-                  <span className="font-medium">Mechanical Troubleshooting</span>
-                  <span className="text-xs text-center">Step-by-step procedures</span>
-                </Button>
-                <Button variant="industrial" className="h-auto p-4 flex-col">
-                  <FileText className="h-6 w-6 mb-2" />
-                  <span className="font-medium">Electrical Diagnostics</span>
-                  <span className="text-xs text-center">Systematic approach</span>
-                </Button>
-              </div>
             </CardContent>
           </Card>
-        </TabsContent>
 
-        <TabsContent value="notes" className="space-y-6">
+          {/* Notes Section for Machine Issues */}
           <Card className="industrial-panel">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <MessageSquare className="h-5 w-5" />
-                Public Knowledge Base
+                Machine Issues Notes
               </CardTitle>
               <CardDescription>
-                Shared insights and solutions from the team
+                Share your machine troubleshooting insights
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent>
               <Card className="border-dashed border-accent">
                 <CardContent className="pt-4">
-                  <h3 className="font-medium mb-3">Add New Insight</h3>
+                  <h3 className="font-medium mb-3">Add Machine Note</h3>
                   <div className="space-y-3">
                     <Textarea
-                      placeholder="Describe the issue and solution..."
+                      placeholder="Describe a machine issue and solution..."
                       value={newNote}
                       onChange={(e) => setNewNote(e.target.value)}
                       rows={3}
                     />
                     <Button size="sm" className="w-full">
                       <Plus className="h-4 w-4 mr-2" />
-                      Share Knowledge
+                      Share Note
                     </Button>
                   </div>
                 </CardContent>
               </Card>
+            </CardContent>
+          </Card>
+        </TabsContent>
 
+        <TabsContent value="knowledge" className="space-y-6">
+          <Card className="industrial-panel">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <BookOpen className="h-5 w-5" />
+                Troubleshooting Knowledge Base
+              </CardTitle>
+              <CardDescription>
+                Comprehensive guides for electrical, mechanical, and molding troubleshooting
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Button variant="industrial" className="h-auto p-6 flex-col">
+                  <Wrench className="h-8 w-8 mb-3" />
+                  <span className="font-medium text-lg">Mechanical Troubleshooting</span>
+                  <span className="text-sm text-center text-muted-foreground mt-2">
+                    Step-by-step procedures for mechanical components
+                  </span>
+                </Button>
+                <Button variant="industrial" className="h-auto p-6 flex-col">
+                  <AlertTriangle className="h-8 w-8 mb-3" />
+                  <span className="font-medium text-lg">Electrical Diagnostics</span>
+                  <span className="text-sm text-center text-muted-foreground mt-2">
+                    Systematic approach to electrical issues
+                  </span>
+                </Button>
+                <Button variant="industrial" className="h-auto p-6 flex-col">
+                  <FileText className="h-8 w-8 mb-3" />
+                  <span className="font-medium text-lg">Molding Process Guide</span>
+                  <span className="text-sm text-center text-muted-foreground mt-2">
+                    Process optimization and problem solving
+                  </span>
+                </Button>
+              </div>
+              
               <div className="space-y-4">
                 {publicNotes.map((note, index) => (
                   <Card key={index} className="border-l-4 border-l-info">
