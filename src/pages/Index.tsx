@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
+import MainSection from "@/components/sections/MainSection";
 import SetupSection from "@/components/sections/SetupSection";
 import StartupSection from "@/components/sections/StartupSection";
 import TroubleshootingSection from "@/components/sections/TroubleshootingSection";
@@ -9,7 +10,7 @@ import LoginForm from "@/components/LoginForm";
 
 const Index = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activeSection, setActiveSection] = useState("setup");
+  const [activeSection, setActiveSection] = useState("dashboard");
 
   const handleLogin = () => {
     setIsLoggedIn(true);
@@ -17,6 +18,8 @@ const Index = () => {
 
   const renderSection = () => {
     switch (activeSection) {
+      case "dashboard":
+        return <MainSection />;
       case "setup":
         return <SetupSection />;
       case "startup":
@@ -28,7 +31,7 @@ const Index = () => {
       case "admin":
         return <AdminSection />;
       default:
-        return <SetupSection />;
+        return <MainSection />;
     }
   };
 
