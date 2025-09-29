@@ -8,7 +8,8 @@ import {
   User, 
   Shield,
   Menu,
-  X 
+  X,
+  Home
 } from "lucide-react";
 
 interface NavigationProps {
@@ -20,6 +21,7 @@ const Navigation = ({ activeSection, onSectionChange }: NavigationProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
+    { id: "dashboard", label: "Dashboard", icon: Home },
     { id: "setup", label: "Setup Sheets", icon: Settings },
     { id: "startup", label: "Sample/Startup", icon: Calculator },
     { id: "troubleshooting", label: "Troubleshooting", icon: AlertTriangle },
