@@ -19,11 +19,15 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background p-4">
-      <Card className="w-full max-w-md glass-effect">
+    <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
+      {/* Ambient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+      
+      <Card className="w-full max-w-md glass-effect relative z-10 animate-fade-in">
         <CardHeader className="text-center space-y-6">
-          <CardTitle className="text-4xl font-bold gradient-text-primary">
-            Pro - Processor
+          <CardTitle className="text-5xl font-bold shine-effect">
+            <span className="metallic-text">Pro</span>
+            <span className="gradient-text-primary block mt-2">Processor</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -36,6 +40,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter your username"
+                className="bg-input/50 border-border/50 focus:border-primary/50"
                 required
               />
             </div>
@@ -48,14 +53,15 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
+                className="bg-input/50 border-border/50 focus:border-primary/50"
                 required
               />
             </div>
             
             <Button 
               type="submit" 
-              className="w-full" 
-              variant="industrial"
+              className="w-full glow-primary" 
+              variant="default"
             >
               <LogIn className="w-4 h-4 mr-2" />
               Sign In
@@ -66,7 +72,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
             <Button
               variant="outline"
               size="lg"
-              className="w-full"
+              className="w-full border-primary/30 hover:border-primary/50 hover:bg-primary/10"
               onClick={onLogin}
             >
               <Fingerprint className="w-6 h-6 mr-2" />

@@ -7,8 +7,10 @@ import TroubleshootingSection from "@/components/sections/TroubleshootingSection
 import ProfileSection from "@/components/sections/ProfileSection";
 import AdminSection from "@/components/sections/AdminSection";
 import LoginForm from "@/components/LoginForm";
+import SplashScreen from "@/components/SplashScreen";
 
 const Index = () => {
+  const [showSplash, setShowSplash] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeSection, setActiveSection] = useState("dashboard");
 
@@ -34,6 +36,10 @@ const Index = () => {
         return <MainSection />;
     }
   };
+
+  if (showSplash) {
+    return <SplashScreen onContinue={() => setShowSplash(false)} />;
+  }
 
   if (!isLoggedIn) {
     return <LoginForm onLogin={handleLogin} />;
