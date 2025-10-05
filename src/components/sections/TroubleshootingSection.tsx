@@ -299,25 +299,25 @@ const TroubleshootingSection = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <Button variant="industrial" className="h-auto p-6 flex-col">
+              <div className="grid grid-cols-1 gap-4">
+                <Button variant="industrial" className="h-auto p-6 flex-col items-start">
                   <Wrench className="h-8 w-8 mb-3" />
                   <span className="font-medium text-lg">Mechanical Troubleshooting</span>
-                  <span className="text-sm text-center text-muted-foreground mt-2">
+                  <span className="text-sm text-left text-muted-foreground mt-2 break-words">
                     Step-by-step procedures for mechanical components
                   </span>
                 </Button>
-                <Button variant="industrial" className="h-auto p-6 flex-col">
+                <Button variant="industrial" className="h-auto p-6 flex-col items-start">
                   <AlertTriangle className="h-8 w-8 mb-3" />
                   <span className="font-medium text-lg">Electrical Diagnostics</span>
-                  <span className="text-sm text-center text-muted-foreground mt-2">
+                  <span className="text-sm text-left text-muted-foreground mt-2 break-words">
                     Systematic approach to electrical issues
                   </span>
                 </Button>
-                <Button variant="industrial" className="h-auto p-6 flex-col">
+                <Button variant="industrial" className="h-auto p-6 flex-col items-start">
                   <FileText className="h-8 w-8 mb-3" />
                   <span className="font-medium text-lg">Molding Process Guide</span>
-                  <span className="text-sm text-center text-muted-foreground mt-2">
+                  <span className="text-sm text-left text-muted-foreground mt-2 break-words">
                     Process optimization and problem solving
                   </span>
                 </Button>
