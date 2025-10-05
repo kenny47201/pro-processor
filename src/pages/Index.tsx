@@ -46,16 +46,14 @@ const Index = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="flex">
-        <Navigation 
-          activeSection={activeSection} 
-          onSectionChange={setActiveSection} 
-        />
-        <main className="flex-1 md:ml-0 p-6 md:p-8">
-          {renderSection()}
-        </main>
-      </div>
+    <div className="min-h-screen bg-background pb-20">
+      <main className="p-6 md:p-8">
+        {renderSection()}
+      </main>
+      <Navigation 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection} 
+      />
     </div>
   );
 };
