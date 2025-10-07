@@ -24,14 +24,14 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
         onClick={onContinue}
       >
         <div className={`transition-all duration-1000 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {/* Title with metallic effect */}
+          {/* Title with metallic effect and glow */}
           <h1 className="text-7xl md:text-8xl font-bold mb-4 shine-effect">
-            <span className="metallic-text inline-block group-hover:scale-105 transition-transform duration-300">
+            <span className="metallic-text glow-text inline-block group-hover:scale-105 transition-transform duration-300">
               Pro
             </span>
           </h1>
           
-          <h2 className="text-5xl md:text-6xl font-semibold gradient-text-primary mb-8 group-hover:scale-105 transition-transform duration-300">
+          <h2 className="text-5xl md:text-6xl font-semibold gradient-text-primary glow-text mb-8 group-hover:scale-105 transition-transform duration-300">
             Processor
           </h2>
 
