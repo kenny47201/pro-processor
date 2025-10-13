@@ -160,25 +160,27 @@
   }
 
   .gradient-text-primary {
-    background: var(--gradient-primary);
+    background: linear-gradient(145deg, #00ff80, #007a3d);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 128, 0.4));
   }
 
   .gradient-text-accent {
-    background: var(--gradient-accent);
+    background: linear-gradient(145deg, #00ff80, #007a3d);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px rgba(0, 255, 128, 0.4));
   }
 
   .metallic-text {
-    background: linear-gradient(135deg, hsl(0 0% 90%), hsl(0 0% 70%), hsl(0 0% 90%));
+    background: linear-gradient(145deg, #00ff80, #007a3d);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 2px 20px hsl(0 0% 100% / 0.3);
+    filter: drop-shadow(0 0 8px rgba(0, 255, 128, 0.4));
   }
 
   .shine-effect {
