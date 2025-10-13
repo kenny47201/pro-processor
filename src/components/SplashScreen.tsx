@@ -12,7 +12,7 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{ background: 'radial-gradient(circle, #0c1a0c 0%, #010101 100%)' }}>
+    <div className="h-screen flex justify-center items-center" style={{ background: 'radial-gradient(circle, #0c1a0c 0%, #010101 100%)' }}>
       <div 
         className="logo cursor-pointer"
         onClick={onContinue}
