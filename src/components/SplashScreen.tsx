@@ -13,8 +13,11 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
 
   return (
     <div className="splash-container">
-      <div className="logo cursor-pointer" onClick={onContinue}>
-        PRO-PROCESSOR
+      <div className="logo-hexagon cursor-pointer" onClick={onContinue}>
+        <div className="logo-text">
+          <div>PRO-</div>
+          <div>PROCESSOR</div>
+        </div>
       </div>
     </div>
   );

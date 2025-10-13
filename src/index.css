@@ -249,66 +249,96 @@
     animation: fadeIn 1.5s ease-out forwards;
   }
 
-  /* Animated hex grid background */
-  .hex-grid {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: radial-gradient(circle at 1px 1px, rgba(0,255,128,0.15) 1px, transparent 0);
-    background-size: 25px 25px;
-    z-index: 0;
-    opacity: 0.25;
-    animation: gridFlow 20s linear infinite;
-  }
-
-  @keyframes gridFlow {
-    from { background-position: 0 0; }
-    to { background-position: 100px 200px; }
-  }
-
-  /* Static glow behind logo */
-  .pulse-glow-bg {
-    content: "";
-    position: absolute;
-    width: 700px;
-    height: 700px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(0,255,128,0.3) 0%, transparent 70%);
-    filter: blur(100px);
-    z-index: 1;
-    opacity: 0.6;
-  }
-
-  /* Logo Image */
-  .logo-image {
+  /* Hexagon Container */
+  .logo-hexagon {
     position: relative;
-    width: auto;
-    height: 350px;
-    max-width: 90vw;
+    width: 600px;
+    height: 400px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: linear-gradient(145deg, #001a0a, #003d1a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: 2;
     opacity: 0;
     transform: scale(0.8);
-    animation: logoIn 2s ease-out forwards 0.5s, logoPulse 3s ease-in-out infinite 2.5s;
-    filter: drop-shadow(0 0 25px rgba(0, 255, 128, 0.6));
+    animation: logoIn 2s ease-out forwards 0.5s, hexagonPulse 3s ease-in-out infinite 2.5s;
   }
 
-  .logo-image:hover {
+  .logo-hexagon::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    background: linear-gradient(145deg, #002a1a, #004d2a);
+    z-index: -1;
+  }
+
+  .logo-hexagon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    border: 4px solid #00ff80;
+    box-shadow:
+      0 0 25px #00ff80,
+      inset 0 0 25px #007a3d;
+    z-index: -2;
+  }
+
+  .logo-hexagon:hover {
     transform: scale(1.05);
-    filter: drop-shadow(0 0 40px rgba(0, 255, 128, 0.8));
   }
 
-  @keyframes logoPulse {
+  @keyframes hexagonPulse {
     0%, 100% { 
-      filter: drop-shadow(0 0 25px rgba(0, 255, 128, 0.6));
-      transform: scale(1);
+      box-shadow: 0 0 25px #00ff80, inset 0 0 25px #007a3d;
     }
     50% { 
-      filter: drop-shadow(0 0 50px rgba(0, 255, 128, 0.9));
-      transform: scale(1.02);
+      box-shadow: 0 0 50px #00ff80, inset 0 0 50px #00cc66;
     }
   }
 
-  /* Splash Screen Logo */
+  /* Logo Text */
+  .logo-text {
+    position: relative;
+    font-size: 4.5rem;
+    font-weight: 800;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.1;
+    font-family: 'Orbitron', sans-serif;
+    color: transparent;
+    -webkit-text-stroke: 3px #00ff80;
+    text-stroke: 3px #00ff80;
+    text-shadow: 
+      0 0 10px #00ff80,
+      0 0 20px #00ff80,
+      0 0 30px #007a3d;
+    animation: textPulse 3s ease-in-out infinite 2.5s;
+  }
+
+  @keyframes textPulse {
+    0%, 100% { 
+      -webkit-text-stroke: 3px #00ff80;
+      text-stroke: 3px #00ff80;
+      text-shadow: 
+        0 0 10px #00ff80,
+        0 0 20px #00ff80,
+        0 0 30px #007a3d;
+    }
+    50% { 
+      -webkit-text-stroke: 3px #00ff80;
+      text-stroke: 3px #00ff80;
+      text-shadow: 
+        0 0 20px #00ff80,
+        0 0 40px #00ff80,
+        0 0 60px #00cc66;
+    }
+  }
+
+  /* Splash Screen Logo (deprecated) */
   .logo {
     position: relative;
     font-size: 4rem;
