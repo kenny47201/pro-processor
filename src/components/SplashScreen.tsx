@@ -16,10 +16,6 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
     <div className="splash-container">
       {/* Animated hex background */}
       <div className="hex-grid" />
-      
-      {/* Pulsing glow */}
-      <div className="pulse-glow-bg" />
-      
       <img 
         src={logoImage}
         alt="Pro-Processor Logo"
