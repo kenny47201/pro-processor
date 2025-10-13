@@ -12,38 +12,33 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
-      {/* Ambient background glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+    <div className="min-h-screen bg-gradient-radial from-[#0a120a] to-black flex items-center justify-center relative overflow-hidden">
+      {/* Animated hex grid background */}
+      <div className="absolute inset-0 hex-grid z-0 opacity-25" />
       
-      {/* Radial glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+      {/* Pulsing energy glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full energy-glow z-[1]" />
 
       <div 
-        className="relative z-10 text-center cursor-pointer group"
+        className="relative z-10 cursor-pointer group"
         onClick={onContinue}
       >
-        <div className={`transition-all duration-1000 ${animate ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          {/* Title with metallic effect and glow */}
-          <h1 className="text-7xl md:text-8xl font-bold mb-4 shine-effect">
-            <span className="metallic-text glow-text inline-block group-hover:scale-105 transition-transform duration-300">
-              Pro
-            </span>
-          </h1>
-          
-          <h2 className="text-5xl md:text-6xl font-semibold gradient-text-primary glow-text mb-8 group-hover:scale-105 transition-transform duration-300">
-            Processor
-          </h2>
+        <div className={`transition-all duration-1000 ${animate ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+          {/* Hexagonal logo */}
+          <div className="hexagonal-logo group-hover:scale-105 transition-all duration-400">
+            <div className="hexagonal-logo-inner" />
+            <div className="hexagonal-logo-content">
+              <span className="font-orbitron text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-wider uppercase">
+                Pro-Processor
+              </span>
+            </div>
+          </div>
 
           {/* Subtle hint text */}
-          <p className={`text-muted-foreground text-sm transition-all duration-1000 delay-500 ${animate ? 'opacity-100' : 'opacity-0'}`}>
+          <p className={`text-muted-foreground text-sm text-center mt-8 transition-all duration-1000 delay-500 ${animate ? 'opacity-100' : 'opacity-0'}`}>
             Tap to continue
           </p>
         </div>
-
-        {/* Decorative elements */}
-        <div className="absolute -top-20 -left-20 w-40 h-40 border border-primary/20 rounded-full blur-sm opacity-50 group-hover:scale-110 transition-transform duration-500" />
-        <div className="absolute -bottom-20 -right-20 w-40 h-40 border border-accent/20 rounded-full blur-sm opacity-50 group-hover:scale-110 transition-transform duration-500" />
       </div>
     </div>
   );
