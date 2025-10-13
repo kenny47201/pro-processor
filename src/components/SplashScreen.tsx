@@ -12,7 +12,13 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
   }, []);
 
   return (
-    <div className="h-screen flex justify-center items-center" style={{ background: 'radial-gradient(circle, #0c1a0c 0%, #010101 100%)' }}>
+    <div className="splash-container">
+      {/* Animated hex background */}
+      <div className="hex-grid" />
+      
+      {/* Pulsing glow */}
+      <div className="pulse-glow-bg" />
+      
       <div 
         className="logo cursor-pointer"
         onClick={onContinue}
