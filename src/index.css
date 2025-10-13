@@ -20,7 +20,7 @@
 
     --primary: 150 100% 50%;
     --primary-foreground: 0 0% 98%;
-    --primary-glow: 150 100% 60%;
+    --primary-glow: 150 100% 50%;
 
     --secondary: 220 10% 15%;
     --secondary-foreground: 0 0% 85%;
@@ -30,7 +30,7 @@
 
     --accent: 150 100% 50%;
     --accent-foreground: 0 0% 98%;
-    --accent-glow: 150 100% 60%;
+    --accent-glow: 150 100% 50%;
 
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 98%;
