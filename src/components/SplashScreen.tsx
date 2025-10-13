@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import logoImage from "@/assets/pro-processor-logo.png";
 
 interface SplashScreenProps {
   onContinue: () => void;
@@ -14,12 +13,9 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
 
   return (
     <div className="splash-container">
-      <img 
-        src={logoImage}
-        alt="Pro-Processor Logo"
-        className="logo-image cursor-pointer"
-        onClick={onContinue}
-      />
+      <div className="logo cursor-pointer" onClick={onContinue}>
+        PRO-PROCESSOR
+      </div>
     </div>
   );
 };
