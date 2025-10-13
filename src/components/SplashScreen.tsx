@@ -12,19 +12,12 @@ const SplashScreen = ({ onContinue }: SplashScreenProps) => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-radial from-[#0a120a] to-black flex items-center justify-center relative overflow-hidden">
-      {/* Animated hex grid background */}
-      <div className="absolute inset-0 hex-grid z-0 opacity-25" />
-      
-      {/* Pulsing energy glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full energy-glow z-[1]" />
-
+    <div className="min-h-screen flex items-center justify-center" style={{ background: 'radial-gradient(circle, #0c1a0c 0%, #010101 100%)' }}>
       <div 
-        className="relative z-10 cursor-pointer"
+        className="logo cursor-pointer"
         onClick={onContinue}
       >
-        {/* Hexagonal logo */}
-        <div className="logo">Pro-Processor</div>
+        Pro-Processor
       </div>
     </div>
   );
