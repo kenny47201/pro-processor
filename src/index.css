@@ -249,111 +249,81 @@
     animation: fadeIn 1.5s ease-out forwards;
   }
 
-  /* Hexagon Container */
-  .logo-hexagon {
+  /* Animated hex grid background */
+  .hex-grid {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgba(0,255,128,0.15) 1px, transparent 0);
+    background-size: 25px 25px;
+    z-index: 0;
+    opacity: 0.25;
+    animation: gridFlow 20s linear infinite;
+  }
+
+  @keyframes gridFlow {
+    from { background-position: 0 0; }
+    to { background-position: 100px 200px; }
+  }
+
+  /* Static glow behind logo */
+  .pulse-glow-bg {
+    content: "";
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,255,128,0.3) 0%, transparent 70%);
+    filter: blur(100px);
+    z-index: 1;
+    opacity: 0.6;
+  }
+
+  /* Logo Image */
+  .logo-image {
     position: relative;
-    width: 600px;
-    height: 400px;
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    background: linear-gradient(145deg, #001a0a, #003d1a);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: auto;
+    height: 350px;
+    max-width: 90vw;
     z-index: 2;
     opacity: 0;
     transform: scale(0.8);
-    animation: logoIn 2s ease-out forwards 0.5s, hexagonPulse 3s ease-in-out infinite 2.5s;
+    animation: logoIn 2s ease-out forwards 0.5s, logoPulse 3s ease-in-out infinite 2.5s;
+    filter: drop-shadow(0 0 25px rgba(0, 255, 128, 0.6));
   }
 
-  .logo-hexagon::before {
-    content: '';
-    position: absolute;
-    inset: 8px;
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    background: linear-gradient(145deg, #002a1a, #004d2a);
-    z-index: -1;
-  }
-
-  .logo-hexagon::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    border: 4px solid #00ff80;
-    box-shadow:
-      0 0 25px #00ff80,
-      inset 0 0 25px #007a3d;
-    z-index: -2;
-  }
-
-  .logo-hexagon:hover {
+  .logo-image:hover {
     transform: scale(1.05);
+    filter: drop-shadow(0 0 40px rgba(0, 255, 128, 0.8));
   }
 
-  @keyframes hexagonPulse {
+  @keyframes logoPulse {
     0%, 100% { 
-      box-shadow: 0 0 25px #00ff80, inset 0 0 25px #007a3d;
+      filter: drop-shadow(0 0 25px rgba(0, 255, 128, 0.6));
+      transform: scale(1);
     }
     50% { 
-      box-shadow: 0 0 50px #00ff80, inset 0 0 50px #00cc66;
+      filter: drop-shadow(0 0 50px rgba(0, 255, 128, 0.9));
+      transform: scale(1.02);
     }
   }
 
-  /* Logo Text */
-  .logo-text {
-    position: relative;
-    font-size: 4.5rem;
-    font-weight: 800;
-    letter-spacing: 8px;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1.1;
-    font-family: 'Orbitron', sans-serif;
-    color: transparent;
-    -webkit-text-stroke: 3px #00ff80;
-    text-stroke: 3px #00ff80;
-    text-shadow: 
-      0 0 10px #00ff80,
-      0 0 20px #00ff80,
-      0 0 30px #007a3d;
-    animation: textPulse 3s ease-in-out infinite 2.5s;
-  }
-
-  @keyframes textPulse {
-    0%, 100% { 
-      -webkit-text-stroke: 3px #00ff80;
-      text-stroke: 3px #00ff80;
-      text-shadow: 
-        0 0 10px #00ff80,
-        0 0 20px #00ff80,
-        0 0 30px #007a3d;
-    }
-    50% { 
-      -webkit-text-stroke: 3px #00ff80;
-      text-stroke: 3px #00ff80;
-      text-shadow: 
-        0 0 20px #00ff80,
-        0 0 40px #00ff80,
-        0 0 60px #00cc66;
-    }
-  }
-
-  /* Splash Screen Logo (deprecated) */
+  /* Splash Screen Logo */
   .logo {
     position: relative;
-    font-size: 4rem;
+    font-size: 5rem;
     font-weight: 800;
     letter-spacing: 4px;
     text-transform: uppercase;
     background: linear-gradient(145deg, #00ff80, #007a3d);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    padding: 40px 50px;
+    padding: 40px 60px;
     border: 4px solid #00ff80;
     box-shadow:
       0 0 25px #00ff80,
       inset 0 0 25px #007a3d;
-    clip-path: polygon(50% 0%, 93.3% 25%, 93.3% 75%, 50% 100%, 6.7% 75%, 6.7% 25%);
+    clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
     text-align: center;
     z-index: 2;
     font-family: 'Orbitron', sans-serif;
