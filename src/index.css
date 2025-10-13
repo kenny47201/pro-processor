@@ -283,7 +283,7 @@
   .logo-image {
     position: relative;
     width: auto;
-    height: 500px;
+    height: 350px;
     max-width: 90vw;
     z-index: 2;
     opacity: 0;
