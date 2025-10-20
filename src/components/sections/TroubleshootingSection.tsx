@@ -303,7 +303,7 @@ const TroubleshootingSection = () => {
                 <Button variant="industrial" className="h-auto p-6 flex-col items-start w-full">
                   <Wrench className="h-8 w-8 mb-3" />
                   <span className="font-medium text-lg w-full">Mechanical Troubleshooting</span>
-                  <span className="text-sm text-left text-muted-foreground mt-2 w-full break-words">
+                  <span className="text-xs sm:text-sm text-left text-muted-foreground mt-2 w-full break-words leading-relaxed">
                     Step-by-step procedures for mechanical components
                   </span>
                 </Button>
