@@ -26,8 +26,8 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       <Card className="w-full max-w-md glass-effect relative z-10 animate-fade-in">
         <CardHeader className="text-center space-y-6">
           <CardTitle className="text-5xl font-bold shine-effect">
-            {/* <span className="metallic-text">Pro</span> */}
-            <span className="gradient-text-primary block mt-2">Pro-Processor</span>
+            <span className="metallic-text">Pro</span>
+            <span className="gradient-text-primary block mt-2">Processor</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
