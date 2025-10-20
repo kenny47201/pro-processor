@@ -22,12 +22,12 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
     <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
       {/* Ambient background */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
-      
+
       <Card className="w-full max-w-md glass-effect relative z-10 animate-fade-in">
         <CardHeader className="text-center space-y-6">
           <CardTitle className="text-5xl font-bold shine-effect">
-            <span className="metallic-text">Pro</span>
-            <span className="gradient-text-primary block mt-2">Processor</span>
+            {/* <span className="metallic-text">Pro</span> */}
+            <span className="gradient-text-primary block mt-2">Pro - Processor</span>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -44,7 +44,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
               <Input
@@ -57,17 +57,13 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
                 required
               />
             </div>
-            
-            <Button 
-              type="submit" 
-              className="w-full glow-primary" 
-              variant="default"
-            >
+
+            <Button type="submit" className="w-full glow-primary" variant="default">
               <LogIn className="w-4 h-4 mr-2" />
               Sign In
             </Button>
           </form>
-          
+
           <div className="flex justify-center">
             <Button
               variant="outline"
