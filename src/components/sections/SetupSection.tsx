@@ -13,11 +13,11 @@ const SetupSection = () => {
     plate: "",
     material: "",
     color: "",
-    additive: ""
+    additive: "",
   });
 
   const handleSelectionChange = (field: string, value: string) => {
-    setSelections(prev => ({ ...prev, [field]: value }));
+    setSelections((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -45,9 +45,7 @@ const SetupSection = () => {
             <Search className="h-5 w-5" />
             Setup Sheet Selection
           </CardTitle>
-          <CardDescription>
-            Select parameters to access the corresponding setup sheet
-          </CardDescription>
+          <CardDescription>Select parameters to access the corresponding setup sheet</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -58,104 +56,91 @@ const SetupSection = () => {
                   <SelectValue placeholder="Select machine" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="haitian-ma1200">Haitian MA1200</SelectItem>
-                  <SelectItem value="engel-e-motion-440">Engel e-motion 440</SelectItem>
-                  <SelectItem value="arburg-270s">Arburg 270S</SelectItem>
-                  <SelectItem value="milacron-magna-330">Milacron Magna 330</SelectItem>
+                  <SelectItem value="Press 1 KM200/390C2">Press 1 KM200/390C2</SelectItem>
+                  <SelectItem value="Press 4 KM451/3000GX">Press 4 KM451/3000GX</SelectItem>
+                  <SelectItem value="Press 5 KM451/3000GX">Press 5 KM451/3000GX</SelectItem>
+                  <SelectItem value="Press 6 H400 RS65/60">Press 6 H400 RS65/60</SelectItem>
+                  <SelectItem value="Press 7 H400 RS65/60">Press 7 H400 RS65/60</SelectItem>
+                  <SelectItem value="Press 8 KM350-2000CX">Press 8 KM350-2000CX</SelectItem>
+                  <SelectItem value="Press 9 KM350/1900/C2+">Press 9 KM350/1900/C2+</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Mold</label>
-              <Select 
-                onValueChange={(value) => handleSelectionChange("mold", value)}
-                disabled={!selections.machine}
-              >
+              <Select onValueChange={(value) => handleSelectionChange("mold", value)} disabled={!selections.machine}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select mold" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="mold-001">Mold-001 (4 Cavity)</SelectItem>
-                  <SelectItem value="mold-002">Mold-002 (8 Cavity)</SelectItem>
-                  <SelectItem value="mold-003">Mold-003 (2 Cavity)</SelectItem>
-                  <SelectItem value="mold-004">Mold-004 (16 Cavity)</SelectItem>
+                  <SelectItem value="FF02 24CRI-A/64">FF02 24CRI-A/64</SelectItem>
+                  <SelectItem value="FF03 24CRO-A/64">FF03 24CRO-A/64</SelectItem>
+                  <SelectItem value="FF07 24CRI-B/64">FF07 24CRI-B/64</SelectItem>
+                  <SelectItem value="FF08 24CRO-B/64">FF08 24CRO-B/64</SelectItem>
+                  <SelectItem value="FG03 28CRI-A/64">FG03 28CRI-A/64</SelectItem>
+                  <SelectItem value="FG04 28CRO-A/64">FG04 28CRO-A/64</SelectItem>
+                  <SelectItem value="FH21 33CRO-E/64">FH21 33CRO-E/64</SelectItem>
+                  <SelectItem value="FH20 33CRI-E/64">FH20 33CRI-E/64</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Plate</label>
-              <Select 
-                onValueChange={(value) => handleSelectionChange("plate", value)}
-                disabled={!selections.mold}
-              >
+              <Select onValueChange={(value) => handleSelectionChange("plate", value)} disabled={!selections.mold}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select plate" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="standard-a">Standard A</SelectItem>
-                  <SelectItem value="standard-b">Standard B</SelectItem>
-                  <SelectItem value="custom-c1">Custom C1</SelectItem>
-                  <SelectItem value="custom-c2">Custom C2</SelectItem>
+                  <SelectItem value="Text">Text</SelectItem>
+                  <SelectItem value="Pictorial">Pictorial</SelectItem>
+                  <SelectItem value="Wave">Wave</SelectItem>
+                  <SelectItem value="Preimeter Text">Preimeter Text</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Material</label>
-              <Select 
-                onValueChange={(value) => handleSelectionChange("material", value)}
-                disabled={!selections.plate}
-              >
+              <Select onValueChange={(value) => handleSelectionChange("material", value)} disabled={!selections.plate}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select material" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="abs-high-impact">ABS High Impact</SelectItem>
-                  <SelectItem value="polypropylene">Polypropylene</SelectItem>
-                  <SelectItem value="nylon-6">Nylon 6</SelectItem>
-                  <SelectItem value="polycarbonate">Polycarbonate</SelectItem>
-                  <SelectItem value="pet">PET</SelectItem>
+                  <SelectItem value="B6X">B6X</SelectItem>
+                  <SelectItem value="B56">B56</SelectItem>
+                  <SelectItem value="B6L">B6L</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Color</label>
-              <Select 
-                onValueChange={(value) => handleSelectionChange("color", value)}
-                disabled={!selections.material}
-              >
+              <Select onValueChange={(value) => handleSelectionChange("color", value)} disabled={!selections.material}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select color" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="natural">Natural</SelectItem>
-                  <SelectItem value="black">Black</SelectItem>
-                  <SelectItem value="white">White</SelectItem>
-                  <SelectItem value="red">Red</SelectItem>
-                  <SelectItem value="blue">Blue</SelectItem>
-                  <SelectItem value="custom">Custom Mix</SelectItem>
+                  <SelectItem value="M1E-Black">M1E-Black</SelectItem>
+                  <SelectItem value="P14-White">P14-White</SelectItem>
+                  <SelectItem value="MA2-White">MA2-White</SelectItem>
+                  <SelectItem value="P3A-Red">P3A-Red</SelectItem>
+                  <SelectItem value="MA2-Blue">MA2-Blue</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
               <label className="text-sm font-medium">Additive</label>
-              <Select 
-                onValueChange={(value) => handleSelectionChange("additive", value)}
-                disabled={!selections.color}
-              >
+              <Select onValueChange={(value) => handleSelectionChange("additive", value)} disabled={!selections.color}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select additive" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">None</SelectItem>
-                  <SelectItem value="uv-stabilizer">UV Stabilizer</SelectItem>
-                  <SelectItem value="flame-retardant">Flame Retardant</SelectItem>
-                  <SelectItem value="glass-fiber">Glass Fiber 30%</SelectItem>
-                  <SelectItem value="carbon-fiber">Carbon Fiber</SelectItem>
+                  <SelectItem value="K31">K31</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -166,16 +151,17 @@ const SetupSection = () => {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Current Selection</h3>
             <div className="flex flex-wrap gap-2">
-              {Object.entries(selections).map(([key, value]) => 
-                value && (
-                  <Badge key={key} variant="secondary" className="capitalize">
-                    {key}: {value}
-                  </Badge>
-                )
+              {Object.entries(selections).map(
+                ([key, value]) =>
+                  value && (
+                    <Badge key={key} variant="secondary" className="capitalize">
+                      {key}: {value}
+                    </Badge>
+                  ),
               )}
             </div>
 
-            {Object.values(selections).every(v => v) && (
+            {Object.values(selections).every((v) => v) && (
               <Card className="border-success/20 bg-success/5">
                 <CardContent className="pt-6">
                   <div className="flex items-center justify-between">
