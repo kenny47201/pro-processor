@@ -71,9 +71,9 @@ const BarrelHeatCalculator = () => {
       barrelCapacity,
       heaterBands,
       temperatures,
-      profile: barrelCapacity === '10-35' ? 'Downward Slope' : 
+      profile: barrelCapacity === '10-35' ? 'Ramp Up Curve' : 
                barrelCapacity === '35-75' ? 'Flat Profile' : 
-               'Reverse Slope'
+               'Ramp Down Curve'
     });
   };
 
@@ -129,9 +129,9 @@ const BarrelHeatCalculator = () => {
               className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option value="">Select Capacity Range</option>
-              <option value="10-35">10% - 35% (Downward Slope)</option>
+              <option value="10-35">10% - 35% (Ramp Up Curve)</option>
               <option value="35-75">35% - 75% (Flat Profile)</option>
-              <option value="75-90">75% - 90% (Reverse Slope)</option>
+              <option value="75-90">75% - 90% (Ramp Down Curve)</option>
             </select>
           </div>
 
@@ -145,14 +145,14 @@ const BarrelHeatCalculator = () => {
               id="heater-bands-slider"
               type="range"
               min="2"
-              max="12"
+              max="16"
               value={heaterBands}
               onChange={(e) => setHeaterBands(parseInt(e.target.value))}
               className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer accent-primary"
             />
             <div className="flex justify-between text-xs text-muted-foreground mt-1">
               <span>2</span>
-              <span>12</span>
+              <span>16</span>
             </div>
           </div>
 
