@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calculator, Thermometer, Clock, Gauge, BarChart3 } from "lucide-react";
+import BarrelHeatCalculator from "@/components/calculators/BarrelHeatCalculator";
 
 const StartupSection = () => {
   const [tonnageInputs, setTonnageInputs] = useState({
@@ -57,8 +58,9 @@ const StartupSection = () => {
       </div>
 
       <Tabs defaultValue="calculators" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="calculators">Calculators</TabsTrigger>
+          <TabsTrigger value="barrel-heat">Barrel Heat</TabsTrigger>
           <TabsTrigger value="studies">Studies & Charts</TabsTrigger>
         </TabsList>
 
@@ -244,6 +246,10 @@ const StartupSection = () => {
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+
+        <TabsContent value="barrel-heat" className="space-y-6">
+          <BarrelHeatCalculator />
         </TabsContent>
 
         <TabsContent value="studies" className="space-y-6">
