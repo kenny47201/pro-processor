@@ -58,9 +58,8 @@ const StartupSection = () => {
       </div>
 
       <Tabs defaultValue="calculators" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="calculators">Calculators</TabsTrigger>
-          <TabsTrigger value="barrel-heat">Barrel Heat</TabsTrigger>
           <TabsTrigger value="studies">Studies & Charts</TabsTrigger>
         </TabsList>
 
@@ -162,57 +161,10 @@ const StartupSection = () => {
               </CardContent>
             </Card>
 
-            {/* Barrel Temperature Calculator */}
-            <Card className="industrial-panel">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Thermometer className="h-5 w-5" />
-                  Barrel Temperature Profile
-                </CardTitle>
-                <CardDescription>
-                  Calculate heating profile based on material and capacity
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="material">Material</Label>
-                  <Input
-                    id="material"
-                    value={barrelInputs.material}
-                    onChange={(e) => setBarrelInputs(prev => ({...prev, material: e.target.value}))}
-                    placeholder="e.g., ABS, PP, PC"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="suggested-temp">Suggested Temp (°F)</Label>
-                  <Input
-                    id="suggested-temp"
-                    value={barrelInputs.suggestedTemp}
-                    onChange={(e) => setBarrelInputs(prev => ({...prev, suggestedTemp: e.target.value}))}
-                    placeholder="Enter manufacturer's suggested temp"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="capacity">Barrel Capacity (%)</Label>
-                  <Input
-                    id="capacity"
-                    value={barrelInputs.capacity}
-                    onChange={(e) => setBarrelInputs(prev => ({...prev, capacity: e.target.value}))}
-                    placeholder="Capacity utilization"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="heater-bands">Number of Heater Bands</Label>
-                  <Input
-                    id="heater-bands"
-                    value={barrelInputs.heaterBands}
-                    onChange={(e) => setBarrelInputs(prev => ({...prev, heaterBands: e.target.value}))}
-                    placeholder="Enter number of bands"
-                  />
-                </div>
-                <Button className="w-full">Generate Temperature Profile</Button>
-              </CardContent>
-            </Card>
+            {/* Barrel Heat Profile Calculator */}
+            <div className="lg:col-span-2">
+              <BarrelHeatCalculator />
+            </div>
 
             {/* Cool Time Calculator */}
             <Card className="industrial-panel">
@@ -246,10 +198,6 @@ const StartupSection = () => {
               </CardContent>
             </Card>
           </div>
-        </TabsContent>
-
-        <TabsContent value="barrel-heat" className="space-y-6">
-          <BarrelHeatCalculator />
         </TabsContent>
 
         <TabsContent value="studies" className="space-y-6">
