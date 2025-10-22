@@ -6,16 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { 
-  AlertTriangle, 
-  Wrench, 
-  MessageSquare, 
-  Search, 
-  Bot,
-  FileText,
-  Plus,
-  BookOpen
-} from "lucide-react";
+import { AlertTriangle, Wrench, MessageSquare, Search, Bot, FileText, Plus, BookOpen } from "lucide-react";
 
 const TroubleshootingSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,25 +15,39 @@ const TroubleshootingSection = () => {
 
   const commonDefects = [
     {
-      name: "Flash/Burr",
-      causes: ["Excessive injection pressure", "Worn mold", "Insufficient clamping force"],
-      remedies: ["Reduce injection pressure", "Repair/replace mold", "Increase clamp tonnage"]
+      name: "Core Flash",
+      causes: [
+        "Cavities Froze Off",
+        "Plastic behind cavity plate/around cores",
+        "Excessive injection pressure",
+        "Worn mold",
+      ],
+      remedies: [
+        "Check Cusion",
+        "Clean Venting",
+        "pull stripper plate",
+        "Check to ensure Transfer position is set correctly",
+        "If Injection has more than 1 stage raise position that the last stage before transfer starts",
+        "lower Injection Velocity",
+        "Raise Transfer Position",
+        "Block Cavity",
+      ],
     },
     {
       name: "Short Shot",
       causes: ["Insufficient material", "Low injection pressure", "Cold material"],
-      remedies: ["Increase shot size", "Increase injection pressure", "Raise barrel temperature"]
+      remedies: ["Increase shot size", "Increase injection pressure", "Raise barrel temperature"],
     },
     {
       name: "Sink Marks",
       causes: ["Thick sections", "Insufficient packing", "High melt temperature"],
-      remedies: ["Optimize wall thickness", "Increase pack pressure", "Reduce melt temp"]
+      remedies: ["Optimize wall thickness", "Increase pack pressure", "Reduce melt temp"],
     },
     {
       name: "Warpage",
       causes: ["Uneven cooling", "Material stress", "Gate placement"],
-      remedies: ["Balance cooling", "Optimize process", "Review gate location"]
-    }
+      remedies: ["Balance cooling", "Optimize process", "Review gate location"],
+    },
   ];
 
   const machineProblems = [
@@ -51,25 +56,25 @@ const TroubleshootingSection = () => {
       issues: [
         { problem: "Slow cycle time", solution: "Check hydraulic fluid level and filter" },
         { problem: "Pressure loss", solution: "Inspect seals and replace if worn" },
-        { problem: "Overheating", solution: "Check cooling system and oil condition" }
-      ]
+        { problem: "Overheating", solution: "Check cooling system and oil condition" },
+      ],
     },
     {
-      category: "Electrical", 
+      category: "Electrical",
       issues: [
         { problem: "Heater failure", solution: "Test heater bands with multimeter" },
         { problem: "Sensor malfunction", solution: "Calibrate or replace temperature sensors" },
-        { problem: "Control issues", solution: "Check wiring connections and software" }
-      ]
+        { problem: "Control issues", solution: "Check wiring connections and software" },
+      ],
     },
     {
       category: "Mechanical",
       issues: [
         { problem: "Screw wear", solution: "Inspect screw and barrel, replace if needed" },
         { problem: "Clamp problems", solution: "Check toggle mechanism and lubrication" },
-        { problem: "Ejector issues", solution: "Verify ejector pin alignment and function" }
-      ]
-    }
+        { problem: "Ejector issues", solution: "Verify ejector pin alignment and function" },
+      ],
+    },
   ];
 
   const publicNotes = [
@@ -78,15 +83,16 @@ const TroubleshootingSection = () => {
       date: "2024-01-15",
       issue: "Weld line on ABS parts",
       solution: "Increased melt temp by 10°F and injection speed by 15%. Eliminated weld lines completely.",
-      machine: "Haitian MA1200"
+      machine: "Haitian MA1200",
     },
     {
-      user: "Sarah Johnson", 
+      user: "Sarah Johnson",
       date: "2024-01-14",
       issue: "Inconsistent part weight",
-      solution: "Found worn check ring causing material backflow. Replaced check ring and weights are now consistent ±0.2g.",
-      machine: "Engel e-motion 440"
-    }
+      solution:
+        "Found worn check ring causing material backflow. Replaced check ring and weights are now consistent ±0.2g.",
+      machine: "Engel e-motion 440",
+    },
   ];
 
   return (
@@ -131,9 +137,7 @@ const TroubleshootingSection = () => {
                 <AlertTriangle className="h-5 w-5" />
                 Injection Molding Defects Database
               </CardTitle>
-              <CardDescription>
-                Common defects, causes, and remedies
-              </CardDescription>
+              <CardDescription>Common defects, causes, and remedies</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="mb-4">
@@ -147,37 +151,37 @@ const TroubleshootingSection = () => {
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-4">
-                {commonDefects.filter(defect => 
-                  defect.name.toLowerCase().includes(searchQuery.toLowerCase())
-                ).map((defect, index) => (
-                  <Card key={index} className="border-l-4 border-l-accent">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg">{defect.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div>
-                        <h4 className="font-medium text-destructive mb-2">Common Causes:</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {defect.causes.map((cause, i) => (
-                            <Badge key={i} variant="destructive" className="text-xs">
-                              {cause}
-                            </Badge>
-                          ))}
+                {commonDefects
+                  .filter((defect) => defect.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map((defect, index) => (
+                    <Card key={index} className="border-l-4 border-l-accent">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-lg">{defect.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div>
+                          <h4 className="font-medium text-destructive mb-2">Common Causes:</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {defect.causes.map((cause, i) => (
+                              <Badge key={i} variant="destructive" className="text-xs">
+                                {cause}
+                              </Badge>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-success mb-2">Remedies:</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                          {defect.remedies.map((remedy, i) => (
-                            <li key={i}>{remedy}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                        <div>
+                          <h4 className="font-medium text-success mb-2">Remedies:</h4>
+                          <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                            {defect.remedies.map((remedy, i) => (
+                              <li key={i}>{remedy}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
               </div>
             </CardContent>
           </Card>
@@ -189,9 +193,7 @@ const TroubleshootingSection = () => {
                 <MessageSquare className="h-5 w-5" />
                 Defects Notes
               </CardTitle>
-              <CardDescription>
-                Share your insights about defect solutions
-              </CardDescription>
+              <CardDescription>Share your insights about defect solutions</CardDescription>
             </CardHeader>
             <CardContent>
               <Card className="border-dashed border-accent">
@@ -250,7 +252,6 @@ const TroubleshootingSection = () => {
                   {index < machineProblems.length - 1 && <Separator className="mt-6" />}
                 </div>
               ))}
-              
             </CardContent>
           </Card>
 
@@ -261,9 +262,7 @@ const TroubleshootingSection = () => {
                 <MessageSquare className="h-5 w-5" />
                 Machine Issues Notes
               </CardTitle>
-              <CardDescription>
-                Share your machine troubleshooting insights
-              </CardDescription>
+              <CardDescription>Share your machine troubleshooting insights</CardDescription>
             </CardHeader>
             <CardContent>
               <Card className="border-dashed border-accent">
@@ -322,7 +321,7 @@ const TroubleshootingSection = () => {
                   </span>
                 </Button>
               </div>
-              
+
               <div className="space-y-4">
                 {publicNotes.map((note, index) => (
                   <Card key={index} className="border-l-4 border-l-info">
@@ -351,9 +350,7 @@ const TroubleshootingSection = () => {
                 <Bot className="h-5 w-5" />
                 AI Assistant
               </CardTitle>
-              <CardDescription>
-                Get expert help with injection molding questions
-              </CardDescription>
+              <CardDescription>Get expert help with injection molding questions</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
@@ -368,10 +365,11 @@ const TroubleshootingSection = () => {
                   Get AI Assistance
                 </Button>
               </div>
-              
+
               <div className="bg-muted/30 p-4 rounded-lg">
                 <p className="text-sm text-muted-foreground">
-                  <strong>Note:</strong> To enable AI assistance, you'll need to connect to Supabase and configure API access.
+                  <strong>Note:</strong> To enable AI assistance, you'll need to connect to Supabase and configure API
+                  access.
                 </p>
               </div>
             </CardContent>
