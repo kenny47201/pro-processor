@@ -12,27 +12,12 @@ const TroubleshootingSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [aiQuery, setAiQuery] = useState("");
   const [newNote, setNewNote] = useState("");
-  const [selectedDefect, setSelectedDefect] = useState<number | null>(null);
 
   const commonDefects = [
     {
       name: "Core Flash",
-      causes: [
-        "Cavities Froze Off",
-        "Plastic behind cavity plate/around cores",
-        "Excessive injection pressure",
-        "Worn mold",
-      ],
-      remedies: [
-        "Check Cusion",
-        "Clean Venting",
-        "pull stripper plate",
-        "Check to ensure Transfer position is set correctly",
-        "If Injection has more than 1 stage raise position that the last stage before transfer starts",
-        "lower Injection Velocity",
-        "Raise Transfer Position",
-        "Block Cavity",
-      ],
+      causes: ["Excessive injection pressure", "Worn mold", "Insufficient clamping force"],
+      remedies: ["Reduce injection pressure", "Repair/replace mold", "Increase clamp tonnage"],
     },
     {
       name: "Short Shot",
@@ -147,68 +132,43 @@ const TroubleshootingSection = () => {
                   <Input
                     placeholder="Search defects..."
                     value={searchQuery}
-                    onChange={(e) => {
-                      setSearchQuery(e.target.value);
-                      setSelectedDefect(null);
-                    }}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="pl-9"
                   />
                 </div>
               </div>
 
-              {selectedDefect === null ? (
-                <div className="grid gap-2">
-                  {commonDefects
-                    .filter((defect) => defect.name.toLowerCase().includes(searchQuery.toLowerCase()))
-                    .map((defect, index) => (
-                      <Button
-                        key={index}
-                        variant="outline"
-                        className="justify-start h-auto p-4 text-left"
-                        onClick={() => setSelectedDefect(index)}
-                      >
-                        <AlertTriangle className="h-4 w-4 mr-3 flex-shrink-0" />
-                        <span className="font-medium">{defect.name}</span>
-                      </Button>
-                    ))}
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedDefect(null)}
-                    className="mb-2"
-                  >
-                    ← Back to list
-                  </Button>
-                  <Card className="border-l-4 border-l-accent">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg">{commonDefects[selectedDefect].name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div>
-                        <h4 className="font-medium text-destructive mb-2">Common Causes:</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {commonDefects[selectedDefect].causes.map((cause, i) => (
-                            <Badge key={i} variant="destructive" className="text-xs">
-                              {cause}
-                            </Badge>
-                          ))}
+              <div className="space-y-4">
+                {commonDefects
+                  .filter((defect) => defect.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                  .map((defect, index) => (
+                    <Card key={index} className="border-l-4 border-l-accent">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-lg">{defect.name}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div>
+                          <h4 className="font-medium text-destructive mb-2">Common Causes:</h4>
+                          <div className="flex flex-wrap gap-1">
+                            {defect.causes.map((cause, i) => (
+                              <Badge key={i} variant="destructive" className="text-xs">
+                                {cause}
+                              </Badge>
+                            ))}
+                          </div>
                         </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-success mb-2">Remedies:</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                          {commonDefects[selectedDefect].remedies.map((remedy, i) => (
-                            <li key={i}>{remedy}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              )}
+                        <div>
+                          <h4 className="font-medium text-success mb-2">Remedies:</h4>
+                          <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
+                            {defect.remedies.map((remedy, i) => (
+                              <li key={i}>{remedy}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+              </div>
             </CardContent>
           </Card>
 
