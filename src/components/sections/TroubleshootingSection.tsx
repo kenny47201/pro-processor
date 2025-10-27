@@ -74,10 +74,127 @@ const TroubleshootingSection = () => {
           image: blushImg
         },
         { 
+          issue: 'Brittleness', 
+          cause: 'Moisture in material, excessive or low melt temperature, contamination, or excessive regrind', 
+          solution: 'Verify moisture content and dry properly. Check melt temperature - adjust if too high or too low. Inspect for contamination. Limit regrind to 25-30%. Verify gate design and location.'
+        },
+        { 
           issue: 'Burns', 
           cause: 'Trapped air in cavity compressed to ignition point', 
           solution: 'Reduce fill speed, verify proper transfer position at 95% full part, clean or add vents, reduce clamping force, lower melt temperature.',
           image: burnsImg
+        },
+        { 
+          issue: 'Burns in Gates', 
+          cause: 'Burrs/sharp corners at gate, gate diameter too small, injection velocity too fast, or obstruction in gate', 
+          solution: 'Polish gate area eliminating sharp corners. Ensure gate size is 50-80% of nominal wall thickness. Reduce injection velocity. Check for obstructions in flow path.'
+        },
+        { 
+          issue: 'Cloudy Parts', 
+          cause: 'Contamination in material, incorrect cooling rate, or moisture', 
+          solution: 'Remove contaminated material, check regrind for contaminants, clean hopper and system. Increase melt temperature. If hygroscopic, improve drying conditions. Adjust cooling rate for semi-crystalline materials.'
+        },
+        { 
+          issue: 'Color Streaks', 
+          cause: 'Material contamination, mixing issues, or degradation', 
+          solution: 'Clean screw/barrel to remove skin layer from previous runs. Clean nozzle to remove dead spots. For manifold/hot tips: raise temperature 100°F on tips and 50°F on manifold, cycle 10-15 minutes, then cool down.'
+        },
+        { 
+          issue: 'Ejector Pin Marks', 
+          cause: 'Stress or deformation from concentrated ejection forces', 
+          solution: 'Add more ejector pins to equalize forces. Check for undercuts. Ensure sufficient cooling. Verify proper polishing of detail features around ejector pins.'
+        },
+        { 
+          issue: 'Degraded Polymer', 
+          cause: 'Melt temperature too high, screw speed too high, or long residence time', 
+          solution: 'Lower melt temperature and screw speed. Reduce residence time in barrel (use 25-75% of barrel for shot capacity). Check for over/under-dried material.'
+        },
+        { 
+          issue: 'Fish Hooks', 
+          cause: 'Cold or unmelted material dragged along flow front', 
+          solution: 'Check for drool from tip. For valve gates, ensure no build-up on pin and open pin briefly before injection. Adjust injection velocity. Address flow transition points.',
+          image: volcanoImg
+        },
+        { 
+          issue: 'Flash', 
+          cause: 'Damaged mold, excessive plastic pressure vs clamping force', 
+          solution: 'Reduce melt temperature and injection/pack pressure. Ensure part transfers at 95% full. Increase clamp tonnage if needed. Check mold for damage, verify heaters and thermocouples.',
+          image: ventDepthChartImg
+        },
+        { 
+          issue: 'Flow Lines', 
+          cause: 'Plastic melt flow slowing and freezing causing ripples', 
+          solution: 'Increase injection speed and mold temperature. Increase melt temperature to lower viscosity. Increase pack pressure and time to pack out ripples before skin freezes.'
+        },
+        { 
+          issue: 'Hot Tip Drool', 
+          cause: 'Over-pressured manifold system', 
+          solution: 'Reduce nozzle temperature. Check for moisture in material. Increase decompression (suck back). Review and adjust back pressure. Verify shut-off nozzle is working properly.'
+        },
+        { 
+          issue: 'Jetting', 
+          cause: 'Fill rate too fast, material/mold temperature too low', 
+          solution: 'Slow injection rate when going through gate, then speed up once fountain flow starts. Increase melt and mold temperature. Consider fan gate design or lengthen cold slug well.'
+        },
+        { 
+          issue: 'Long Gates', 
+          cause: 'Plastic solidifying in gate and being pulled out', 
+          solution: 'Ensure tip is level with gate when heated. Increase tip temperature. Increase mold breakaway speed. Sharpen gate geometry. Check gate size and tip height.'
+        },
+        { 
+          issue: 'Nozzle Drool', 
+          cause: 'Insufficient decompression, excessive back pressure, or moisture', 
+          solution: 'Add more decompression/suck back stroke and speed. Reduce back pressure. Check for moisture in material. Verify proper nozzle tip radius and orifice.'
+        },
+        { 
+          issue: 'Parts Sticking in Mold', 
+          cause: 'Over-packing, insufficient draft, or temperature issues', 
+          solution: 'Reduce pack pressure and time, reestablish gate freeze. Ensure plastic is below HDT at ejection. Add more draft if possible. Increase ejection stroke.'
+        },
+        { 
+          issue: 'Pulls/Deformation', 
+          cause: 'Tooling damage, over-packing, or insufficient draft', 
+          solution: 'Check for mold damage or undercuts. Reduce pack pressure. Increase mold temperature on ejection side. Verify surface finish is appropriate for material.'
+        },
+        { 
+          issue: 'Shorts/Non-Fills', 
+          cause: 'Insufficient material, premature freeze-off', 
+          solution: 'Increase mold and melt temperature. Ensure sufficient shot size (screw not bottoming out). Verify proper venting. Increase gate diameter. Check for blockages and ensure sufficient pack pressure.'
+        },
+        { 
+          issue: 'Sinks', 
+          cause: 'Outside frozen skin cannot withstand shrinking forces', 
+          solution: 'Increase shot size and transfer position to maintain 95% full. Increase pack pressure and time. Reduce mold temperature for thicker skin. Slow injection velocity. Review gate and runner design.'
+        },
+        { 
+          issue: 'Splay', 
+          cause: 'Molecular chain breakdown from moisture or excessive processing', 
+          solution: 'Dry material properly and check feed throat for condensation. Reduce melt temperature, injection velocity, back pressure, and screw speed. Minimize residence time in barrel.'
+        },
+        { 
+          issue: 'Sprue Sticking', 
+          cause: 'Nozzle orifice larger than sprue, insufficient taper, or over-packing', 
+          solution: 'Change nozzle tip so orifice is 1/64 or 1/32 smaller than sprue. Increase taper on sprue. Reduce pack time. Increase nozzle temperature. Add insulator between nozzle and mold.'
+        },
+        { 
+          issue: 'Surface Imperfections', 
+          cause: 'Low temperatures, insufficient pack, contamination, or poor venting', 
+          solution: 'Increase melt and mold temperature. Increase pack pressure and injection fill rate. Clean mold surface. Ensure proper venting. Verify correct steel finish.'
+        },
+        { 
+          issue: 'Voids', 
+          cause: 'Plastic tears apart internally as it cools and shrinks', 
+          solution: 'Increase pack and hold pressure/time. Heat mold to reduce cooling rate. Increase gate and runner size. Redesign part for uniform wall thickness or gate into thicker sections.'
+        },
+        { 
+          issue: 'Warpage', 
+          cause: 'Differential shrinkage from various factors', 
+          solution: 'Increase pack/hold pressure and time. Balance mold temperatures between halves. Ensure material below HDT at ejection. Profile pack pressure if needed. Increase cooling time. Consider gate location.'
+        },
+        { 
+          issue: 'Weld Lines', 
+          cause: 'Two melt fronts meet and hesitate, creating weak spot', 
+          solution: 'Increase melt and mold temperature for better bonding. Increase pack pressure at end of fill. Add vents at weld line location. Increase fill rate for shear thinning. Review gate location.'
         }
       ]
     },
