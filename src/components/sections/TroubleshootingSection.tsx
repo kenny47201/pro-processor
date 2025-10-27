@@ -7,6 +7,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { AlertTriangle, Wrench, MessageSquare, Search, Bot, FileText, Plus, BookOpen } from "lucide-react";
+import blackSpecksImg from "@/assets/defects/black-specks.jpg";
+import blushImg from "@/assets/defects/blush.jpg";
+import burnsImg from "@/assets/defects/burns.jpg";
+import ventDepthChartImg from "@/assets/defects/vent-depth-chart.jpg";
+import volcanoImg from "@/assets/defects/volcano.jpg";
 
 const TroubleshootingSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -42,6 +47,7 @@ const TroubleshootingSection = () => {
       issue: string;
       cause: string;
       solution: string;
+      image?: string;
     }>;
   }> = {
     'Polypropylene (PP)': {
@@ -55,9 +61,24 @@ const TroubleshootingSection = () => {
         screwSpeed: '100-300 rpm'
       },
       troubleshooting: [
-        { issue: 'Warpage', cause: 'Uneven cooling', solution: 'Balance cooling channels, increase mold temp' },
-        { issue: 'Brittleness', cause: 'Contamination or degradation', solution: 'Check material quality, reduce residence time' },
-        { issue: 'Sink marks', cause: 'Insufficient packing', solution: 'Increase pack pressure and time' }
+        { 
+          issue: 'Black Specks', 
+          cause: 'Contamination in material, heater band malfunction, or material degradation', 
+          solution: 'Check surrounding area for airborne contamination, verify heater bands are working properly, clean nozzle and feed throat areas. If material changed, raise heats and run natural material to eliminate previous skin layer.',
+          image: blackSpecksImg
+        },
+        { 
+          issue: 'Blush', 
+          cause: 'Too fast injection velocity washing away plastic on opposite side of gate', 
+          solution: 'Slow down plastic as it enters gate, provide cold slug well before gate, increase melt and mold temperature for smoother transition.',
+          image: blushImg
+        },
+        { 
+          issue: 'Burns', 
+          cause: 'Trapped air in cavity compressed to ignition point', 
+          solution: 'Reduce fill speed, verify proper transfer position at 95% full part, clean or add vents, reduce clamping force, lower melt temperature.',
+          image: burnsImg
+        }
       ]
     },
     'Polyethylene (PE)': {
@@ -595,14 +616,28 @@ const TroubleshootingSection = () => {
                         <CardDescription>Common issues and solutions</CardDescription>
                       </CardHeader>
                       <CardContent>
-                        <div className="space-y-4">
+                        <div className="space-y-6">
                           {materialGuides[selectedMaterial].troubleshooting.map((item, index) => (
-                            <div key={index} className="border-l-2 border-l-muted pl-4 space-y-2">
-                              <h4 className="font-medium text-destructive">{item.issue}</h4>
-                              <div className="text-sm space-y-1">
-                                <p><span className="font-medium">Cause:</span> {item.cause}</p>
-                                <p><span className="font-medium text-success">Solution:</span> {item.solution}</p>
+                            <div key={index} className="space-y-3">
+                              {item.image && (
+                                <div className="rounded-lg overflow-hidden border border-border">
+                                  <img 
+                                    src={item.image} 
+                                    alt={item.issue}
+                                    className="w-full h-auto object-cover"
+                                  />
+                                </div>
+                              )}
+                              <div className="border-l-2 border-l-muted pl-4 space-y-2">
+                                <h4 className="font-medium text-destructive">{item.issue}</h4>
+                                <div className="text-sm space-y-1">
+                                  <p><span className="font-medium">Cause:</span> {item.cause}</p>
+                                  <p><span className="font-medium text-success">Solution:</span> {item.solution}</p>
+                                </div>
                               </div>
+                              {index < materialGuides[selectedMaterial].troubleshooting.length - 1 && (
+                                <Separator />
+                              )}
                             </div>
                           ))}
                         </div>
