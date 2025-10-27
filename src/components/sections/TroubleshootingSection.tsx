@@ -12,6 +12,199 @@ const TroubleshootingSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [aiQuery, setAiQuery] = useState("");
   const [newNote, setNewNote] = useState("");
+  const [showMaterialSelector, setShowMaterialSelector] = useState(false);
+  const [selectedMaterial, setSelectedMaterial] = useState<string | null>(null);
+
+  const materials = [
+    'Polypropylene (PP)',
+    'Polyethylene (PE)',
+    'Polystyrene (PS)',
+    'ABS',
+    'Nylon (PA)',
+    'Polycarbonate (PC)',
+    'PET',
+    'Acetal (POM)',
+    'TPU',
+    'PVC'
+  ];
+
+  const materialGuides: Record<string, {
+    processing: {
+      dryingTemp: string;
+      dryingTime: string;
+      meltTemp: string;
+      moldTemp: string;
+      injectionPressure: string;
+      backPressure: string;
+      screwSpeed: string;
+    };
+    troubleshooting: Array<{
+      issue: string;
+      cause: string;
+      solution: string;
+    }>;
+  }> = {
+    'Polypropylene (PP)': {
+      processing: {
+        dryingTemp: 'Not typically required',
+        dryingTime: 'N/A',
+        meltTemp: '400-450°F (204-232°C)',
+        moldTemp: '40-80°F (4-27°C)',
+        injectionPressure: '10,000-20,000 psi',
+        backPressure: '50-200 psi',
+        screwSpeed: '100-300 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Warpage', cause: 'Uneven cooling', solution: 'Balance cooling channels, increase mold temp' },
+        { issue: 'Brittleness', cause: 'Contamination or degradation', solution: 'Check material quality, reduce residence time' },
+        { issue: 'Sink marks', cause: 'Insufficient packing', solution: 'Increase pack pressure and time' }
+      ]
+    },
+    'Polyethylene (PE)': {
+      processing: {
+        dryingTemp: 'Not typically required',
+        dryingTime: 'N/A',
+        meltTemp: '350-450°F (177-232°C)',
+        moldTemp: '30-70°F (−1-21°C)',
+        injectionPressure: '8,000-15,000 psi',
+        backPressure: '25-150 psi',
+        screwSpeed: '100-250 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Flow lines', cause: 'Low melt temperature', solution: 'Increase barrel temperature' },
+        { issue: 'Flashing', cause: 'Excessive pressure', solution: 'Reduce injection pressure and clamp force' },
+        { issue: 'Sticking', cause: 'Mold temp too low', solution: 'Increase mold temperature' }
+      ]
+    },
+    'Polystyrene (PS)': {
+      processing: {
+        dryingTemp: '150-180°F (65-82°C)',
+        dryingTime: '2-3 hours',
+        meltTemp: '380-450°F (193-232°C)',
+        moldTemp: '40-80°F (4-27°C)',
+        injectionPressure: '10,000-20,000 psi',
+        backPressure: '100-300 psi',
+        screwSpeed: '50-200 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Brittle parts', cause: 'Material degradation', solution: 'Reduce melt temp and residence time' },
+        { issue: 'Poor surface', cause: 'Contamination', solution: 'Purge thoroughly, check hopper' },
+        { issue: 'Voids', cause: 'Trapped air', solution: 'Increase injection speed, add venting' }
+      ]
+    },
+    'ABS': {
+      processing: {
+        dryingTemp: '180-200°F (82-93°C)',
+        dryingTime: '2-4 hours',
+        meltTemp: '400-500°F (204-260°C)',
+        moldTemp: '120-180°F (49-82°C)',
+        injectionPressure: '10,000-20,000 psi',
+        backPressure: '50-500 psi',
+        screwSpeed: '50-150 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Weld lines', cause: 'Cold material meeting', solution: 'Increase melt temp and injection speed' },
+        { issue: 'Burn marks', cause: 'Air entrapment', solution: 'Add venting, reduce injection speed' },
+        { issue: 'Warpage', cause: 'Stress from cooling', solution: 'Increase mold temp, optimize gate location' }
+      ]
+    },
+    'Nylon (PA)': {
+      processing: {
+        dryingTemp: '180-200°F (82-93°C)',
+        dryingTime: '4-8 hours',
+        meltTemp: '450-550°F (232-288°C)',
+        moldTemp: '140-200°F (60-93°C)',
+        injectionPressure: '15,000-25,000 psi',
+        backPressure: '100-500 psi',
+        screwSpeed: '50-150 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Brittleness', cause: 'Material too dry', solution: 'Ensure moisture content at 0.2-0.3%' },
+        { issue: 'Voids/bubbles', cause: 'Moisture or gas', solution: 'Increase drying time, reduce melt temp' },
+        { issue: 'Flash', cause: 'Low viscosity', solution: 'Reduce melt temp, increase clamp force' }
+      ]
+    },
+    'Polycarbonate (PC)': {
+      processing: {
+        dryingTemp: '250-280°F (121-138°C)',
+        dryingTime: '4-6 hours',
+        meltTemp: '550-650°F (288-343°C)',
+        moldTemp: '180-230°F (82-110°C)',
+        injectionPressure: '12,000-20,000 psi',
+        backPressure: '200-800 psi',
+        screwSpeed: '40-80 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Optical defects', cause: 'Contamination or stress', solution: 'Ensure clean material, optimize cooling' },
+        { issue: 'Black specks', cause: 'Degradation', solution: 'Reduce residence time, lower temp' },
+        { issue: 'Cracking', cause: 'Stress or moisture', solution: 'Anneal parts, improve drying' }
+      ]
+    },
+    'PET': {
+      processing: {
+        dryingTemp: '300-350°F (149-177°C)',
+        dryingTime: '4-6 hours',
+        meltTemp: '490-570°F (254-299°C)',
+        moldTemp: '40-140°F (4-60°C)',
+        injectionPressure: '12,000-20,000 psi',
+        backPressure: '100-500 psi',
+        screwSpeed: '50-120 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Haze', cause: 'Moisture or contamination', solution: 'Increase drying time, purge system' },
+        { issue: 'Crystallization', cause: 'Slow cooling', solution: 'Reduce mold temp, increase cooling time' },
+        { issue: 'Brittleness', cause: 'Over-drying', solution: 'Reduce drying time or temperature' }
+      ]
+    },
+    'Acetal (POM)': {
+      processing: {
+        dryingTemp: '180-200°F (82-93°C)',
+        dryingTime: '2-3 hours',
+        meltTemp: '350-410°F (177-210°C)',
+        moldTemp: '160-200°F (71-93°C)',
+        injectionPressure: '10,000-20,000 psi',
+        backPressure: '50-300 psi',
+        screwSpeed: '80-150 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Formaldehyde odor', cause: 'Degradation', solution: 'Reduce barrel temp and residence time' },
+        { issue: 'Flash', cause: 'Material too hot', solution: 'Lower melt temp, increase clamp force' },
+        { issue: 'Sink marks', cause: 'Insufficient packing', solution: 'Increase pack pressure and time' }
+      ]
+    },
+    'TPU': {
+      processing: {
+        dryingTemp: '200-230°F (93-110°C)',
+        dryingTime: '2-4 hours',
+        meltTemp: '350-420°F (177-216°C)',
+        moldTemp: '40-80°F (4-27°C)',
+        injectionPressure: '8,000-15,000 psi',
+        backPressure: '50-200 psi',
+        screwSpeed: '40-100 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Bubbles', cause: 'Moisture', solution: 'Ensure thorough drying' },
+        { issue: 'Poor surface', cause: 'Mold temp too low', solution: 'Increase mold temperature' },
+        { issue: 'Sticking', cause: 'Excessive mold release', solution: 'Reduce or eliminate mold release agent' }
+      ]
+    },
+    'PVC': {
+      processing: {
+        dryingTemp: 'Not typically required',
+        dryingTime: 'N/A',
+        meltTemp: '320-400°F (160-204°C)',
+        moldTemp: '40-80°F (4-27°C)',
+        injectionPressure: '10,000-20,000 psi',
+        backPressure: '50-300 psi',
+        screwSpeed: '50-100 rpm'
+      },
+      troubleshooting: [
+        { issue: 'Degradation', cause: 'Temperature too high', solution: 'Reduce barrel temp, minimize residence time' },
+        { issue: 'Poor color', cause: 'Heat degradation', solution: 'Lower processing temp, add stabilizers' },
+        { issue: 'Brittleness', cause: 'Insufficient plasticizer', solution: 'Check material formulation' }
+      ]
+    }
+  };
 
   const commonDefects = [
     {
@@ -299,13 +492,124 @@ const TroubleshootingSection = () => {
                     Systematic approach to electrical issues
                   </span>
                 </Button>
-                <Button variant="industrial" className="h-auto p-6 flex-col items-start w-full">
-                  <FileText className="h-8 w-8 mb-3" />
-                  <span className="font-medium text-lg w-full">Molding Process Guide</span>
-                  <span className="text-sm text-left text-muted-foreground mt-2 w-full break-words">
-                    Process optimization and problem solving
-                  </span>
-                </Button>
+                {!showMaterialSelector && !selectedMaterial ? (
+                  <Button 
+                    variant="industrial" 
+                    className="h-auto p-6 flex-col items-start w-full"
+                    onClick={() => setShowMaterialSelector(true)}
+                  >
+                    <FileText className="h-8 w-8 mb-3" />
+                    <span className="font-medium text-lg w-full">Molding Process Guide</span>
+                    <span className="text-sm text-left text-muted-foreground mt-2 w-full break-words">
+                      Process optimization and problem solving
+                    </span>
+                  </Button>
+                ) : showMaterialSelector && !selectedMaterial ? (
+                  <Card className="border-l-4 border-l-primary">
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <CardTitle>Select Material</CardTitle>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => setShowMaterialSelector(false)}
+                        >
+                          Back
+                        </Button>
+                      </div>
+                      <CardDescription>Choose a plastic material to view processing and troubleshooting guides</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {materials.map((material) => (
+                          <Button
+                            key={material}
+                            variant="outline"
+                            className="h-auto p-4 justify-start"
+                            onClick={() => {
+                              setSelectedMaterial(material);
+                              setShowMaterialSelector(false);
+                            }}
+                          >
+                            {material}
+                          </Button>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ) : selectedMaterial && materialGuides[selectedMaterial] ? (
+                  <div className="space-y-4">
+                    <Card className="border-l-4 border-l-primary">
+                      <CardHeader>
+                        <div className="flex items-center justify-between">
+                          <CardTitle>{selectedMaterial} - Processing Guide</CardTitle>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => {
+                              setSelectedMaterial(null);
+                              setShowMaterialSelector(true);
+                            }}
+                          >
+                            Back to Materials
+                          </Button>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Drying Temperature</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.dryingTemp}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Drying Time</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.dryingTime}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Melt Temperature</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.meltTemp}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Mold Temperature</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.moldTemp}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Injection Pressure</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.injectionPressure}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Back Pressure</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.backPressure}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-medium text-sm text-muted-foreground mb-1">Screw Speed</h4>
+                            <p className="font-semibold">{materialGuides[selectedMaterial].processing.screwSpeed}</p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="border-l-4 border-l-accent">
+                      <CardHeader>
+                        <CardTitle>{selectedMaterial} - Troubleshooting Guide</CardTitle>
+                        <CardDescription>Common issues and solutions</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-4">
+                          {materialGuides[selectedMaterial].troubleshooting.map((item, index) => (
+                            <div key={index} className="border-l-2 border-l-muted pl-4 space-y-2">
+                              <h4 className="font-medium text-destructive">{item.issue}</h4>
+                              <div className="text-sm space-y-1">
+                                <p><span className="font-medium">Cause:</span> {item.cause}</p>
+                                <p><span className="font-medium text-success">Solution:</span> {item.solution}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                ) : null}
               </div>
 
               <div className="space-y-4">
