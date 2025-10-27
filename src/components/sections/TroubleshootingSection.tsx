@@ -726,40 +726,6 @@ const TroubleshootingSection = () => {
                         </div>
                       </CardContent>
                     </Card>
-
-                    <Card className="border-l-4 border-l-accent">
-                      <CardHeader>
-                        <CardTitle>{selectedMaterial} - Troubleshooting Guide</CardTitle>
-                        <CardDescription>Common issues and solutions</CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="space-y-6">
-                          {materialGuides[selectedMaterial].troubleshooting.map((item, index) => (
-                            <div key={index} className="space-y-3">
-                              {item.image && (
-                                <div className="rounded-lg overflow-hidden border border-border">
-                                  <img 
-                                    src={item.image} 
-                                    alt={item.issue}
-                                    className="w-full h-auto object-cover"
-                                  />
-                                </div>
-                              )}
-                              <div className="border-l-2 border-l-muted pl-4 space-y-2">
-                                <h4 className="font-medium text-destructive">{item.issue}</h4>
-                                <div className="text-sm space-y-1">
-                                  <p><span className="font-medium">Cause:</span> {item.cause}</p>
-                                  <p><span className="font-medium text-success">Solution:</span> {item.solution}</p>
-                                </div>
-                              </div>
-                              {index < materialGuides[selectedMaterial].troubleshooting.length - 1 && (
-                                <Separator />
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
                   </div>
                 ) : null}
               </div>
