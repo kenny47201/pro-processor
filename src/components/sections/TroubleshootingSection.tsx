@@ -14,13 +14,16 @@ import {
   Bot,
   FileText,
   Plus,
-  BookOpen
+  BookOpen,
+  ArrowLeft,
+  ChevronRight
 } from "lucide-react";
 
 const TroubleshootingSection = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [aiQuery, setAiQuery] = useState("");
   const [newNote, setNewNote] = useState("");
+  const [selectedDefect, setSelectedDefect] = useState<string | null>(null);
 
   const commonDefects = [
     {
@@ -125,62 +128,82 @@ const TroubleshootingSection = () => {
         </div>
 
         <TabsContent value="defects" className="space-y-6">
-          <Card className="industrial-panel">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5" />
-                Injection Molding Defects Database
-              </CardTitle>
-              <CardDescription>
-                Common defects, causes, and remedies
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="mb-4">
-                <div className="relative">
-                  <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search defects..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9"
-                  />
+          {selectedDefect ? (
+            // Detail View
+            <Card className="industrial-panel">
+              <CardHeader>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={() => setSelectedDefect(null)}
+                  className="mb-4 -ml-2"
+                >
+                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  Back to Defects List
+                </Button>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5" />
+                  {selectedDefect} - Technical Dossier
+                </CardTitle>
+                <CardDescription>
+                  Comprehensive technical documentation and analysis
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="bg-muted/30 p-6 rounded-lg text-center">
+                  <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">
+                    Technical dossier content will be uploaded here
+                  </p>
                 </div>
-              </div>
-              
-              <div className="space-y-4">
-                {commonDefects.filter(defect => 
-                  defect.name.toLowerCase().includes(searchQuery.toLowerCase())
-                ).map((defect, index) => (
-                  <Card key={index} className="border-l-4 border-l-accent">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-lg">{defect.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-3">
-                      <div>
-                        <h4 className="font-medium text-destructive mb-2">Common Causes:</h4>
-                        <div className="flex flex-wrap gap-1">
-                          {defect.causes.map((cause, i) => (
-                            <Badge key={i} variant="destructive" className="text-xs">
-                              {cause}
-                            </Badge>
-                          ))}
+              </CardContent>
+            </Card>
+          ) : (
+            // List View
+            <Card className="industrial-panel">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <AlertTriangle className="h-5 w-5" />
+                  Injection Molding Defects Database
+                </CardTitle>
+                <CardDescription>
+                  Select a defect to view its technical dossier
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="mb-4">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      placeholder="Search defects..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-9"
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-3">
+                  {commonDefects.filter(defect => 
+                    defect.name.toLowerCase().includes(searchQuery.toLowerCase())
+                  ).map((defect, index) => (
+                    <Card 
+                      key={index} 
+                      className="border-l-4 border-l-accent cursor-pointer hover:bg-accent/5 transition-colors"
+                      onClick={() => setSelectedDefect(defect.name)}
+                    >
+                      <CardContent className="pt-4">
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-lg font-semibold">{defect.name}</h3>
+                          <ChevronRight className="h-5 w-5 text-muted-foreground" />
                         </div>
-                      </div>
-                      <div>
-                        <h4 className="font-medium text-success mb-2">Remedies:</h4>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                          {defect.remedies.map((remedy, i) => (
-                            <li key={i}>{remedy}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Notes Section for Defects */}
           <Card className="industrial-panel">
