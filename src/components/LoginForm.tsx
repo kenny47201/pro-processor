@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Fingerprint, LogIn } from "lucide-react";
+import proProcessorLogo from "@/assets/pro-processor-login.png";
 
 interface LoginFormProps {
   onLogin: () => void;
@@ -25,10 +26,9 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       
       <Card className="w-full max-w-md glass-effect relative z-10 animate-fade-in">
         <CardHeader className="text-center space-y-6">
-          <CardTitle className="text-5xl font-bold shine-effect">
-            <span className="metallic-text">Pro</span>
-            <span className="gradient-text-primary block mt-2">Processor</span>
-          </CardTitle>
+          <div className="flex justify-center">
+            <img src={proProcessorLogo} alt="Pro Processor" className="w-full max-w-md" />
+          </div>
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
