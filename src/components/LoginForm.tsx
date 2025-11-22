@@ -25,7 +25,7 @@ const LoginForm = ({ onLogin }: LoginFormProps) => {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
       
       <Card className="w-full max-w-md glass-effect relative z-10 animate-fade-in">
-        <CardHeader className="text-center space-y-6">
+        <CardHeader className="text-center pb-2">
           <div className="flex justify-center">
             <img src={proProcessorLogo} alt="Pro Processor" className="w-full max-w-md" />
           </div>
