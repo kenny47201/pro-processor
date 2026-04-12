@@ -45,7 +45,7 @@ export default function Login() {
   const navigate = useNavigate();
   const { login, getDefaultRoute, isAuthenticated } = useTenant();
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
-  const [email, setEmail] = useState('');
+  const [screenName, setScreenName] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
@@ -63,7 +63,7 @@ export default function Login() {
     setIsSubmitting(true);
 
     try {
-      const result = await login(email, password);
+      const result = await login(screenName, password);
       if (result.error) {
         setError(result.error);
       } else {
@@ -78,7 +78,7 @@ export default function Login() {
 
   const handleBack = () => {
     setSelectedRole(null);
-    setEmail('');
+    setScreenName('');
     setPassword('');
     setError('');
   };
@@ -143,15 +143,15 @@ export default function Login() {
             <CardContent>
               <form onSubmit={handleLogin} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="screenName">Screen Name</Label>
                   <div className="relative">
                     <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
-                      id="email"
-                      type="email"
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                      id="screenName"
+                      type="text"
+                      placeholder="Enter your screen name"
+                      value={screenName}
+                      onChange={(e) => setScreenName(e.target.value)}
                       className="pl-9"
                       required
                     />
