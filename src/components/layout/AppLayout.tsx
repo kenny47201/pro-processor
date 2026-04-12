@@ -10,21 +10,30 @@ interface AppLayoutProps {
 }
 
 export function AppLayout({ children }: AppLayoutProps) {
-  const { isAuthenticated, hasPermission, getDefaultRoute } = useTenant();
+  const { isAuthenticated, isLoading, hasPermission, getDefaultRoute } = useTenant();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
+    if (isLoading) return;
+    
     if (!isAuthenticated) {
       navigate('/login');
       return;
     }
 
-    // Check route permission
     if (!hasPermission(location.pathname) && location.pathname !== '/') {
       navigate(getDefaultRoute());
     }
-  }, [isAuthenticated, hasPermission, location.pathname, navigate, getDefaultRoute]);
+  }, [isAuthenticated, isLoading, hasPermission, location.pathname, navigate, getDefaultRoute]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="text-muted-foreground">Loading...</div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return null;

@@ -1,29 +1,15 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Building2, Users, Zap, ChevronDown, Search, Info } from 'lucide-react';
+import { Lock, User, Eye, EyeOff } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
-import { users, tenants } from '@/data';
-import { ROLE_LABELS, ROLE_ICONS, UserRole, Shift, Department } from '@/types/models';
+import { ROLE_LABELS, ROLE_ICONS, UserRole } from '@/types/models';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import logoBadge from '@/assets/logo-badge.png';
 import processorIcon from '@/assets/processor-login-icon.png';
 import toolingIcon from '@/assets/tooling-login-icon.png';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
 
 const roleOrder: UserRole[] = [
   'processor',
@@ -57,61 +43,50 @@ const roleColors: Record<UserRole, string> = {
 
 export default function Login() {
   const navigate = useNavigate();
-  const { login, getDefaultRoute } = useTenant();
-  const [selectedTenant, setSelectedTenant] = useState<string>(tenants[0]?.id || '');
-  const [selectedShift, setSelectedShift] = useState<Shift | 'all'>('all');
-  const [selectedDept, setSelectedDept] = useState<Department | 'all'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [expandedRoles, setExpandedRoles] = useState<Set<UserRole>>(new Set(['processor', 'supervisor']));
+  const { login, getDefaultRoute, isAuthenticated } = useTenant();
+  const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleLogin = (userId: string) => {
-    login(userId);
+  // Redirect if already authenticated
+  if (isAuthenticated) {
     navigate(getDefaultRoute());
-  };
+    return null;
+  }
 
-  // Filter users by tenant, shift, and department
-  const filteredUsers = useMemo(() => {
-    return users.filter(u => 
-      u.tenantId === selectedTenant &&
-      (selectedShift === 'all' || u.shift === selectedShift) &&
-      (selectedDept === 'all' || u.department === selectedDept) &&
-      (searchQuery === '' || 
-        u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        u.email.toLowerCase().includes(searchQuery.toLowerCase()))
-    );
-  }, [selectedTenant, selectedShift, selectedDept, searchQuery]);
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setIsSubmitting(true);
 
-  // Group by role
-  const usersByRole = useMemo(() => {
-    return roleOrder.reduce((acc, role) => {
-      acc[role] = filteredUsers.filter(u => u.role === role);
-      return acc;
-    }, {} as Record<UserRole, typeof users>);
-  }, [filteredUsers]);
-
-  // Quick login picks (one per role for selected tenant)
-  const quickPicks = useMemo(() => {
-    return roleOrder.map(role => 
-      users.find(u => u.tenantId === selectedTenant && u.role === role)
-    ).filter(Boolean);
-  }, [selectedTenant]);
-
-  const toggleRole = (role: UserRole) => {
-    const newExpanded = new Set(expandedRoles);
-    if (newExpanded.has(role)) {
-      newExpanded.delete(role);
-    } else {
-      newExpanded.add(role);
+    try {
+      const result = await login(email, password);
+      if (result.error) {
+        setError(result.error);
+      } else {
+        navigate(getDefaultRoute());
+      }
+    } catch (err) {
+      setError('An unexpected error occurred');
+    } finally {
+      setIsSubmitting(false);
     }
-    setExpandedRoles(newExpanded);
   };
 
-  const departments: Department[] = ['Processing', 'Maintenance', 'Tooling', 'Quality', 'Management'];
+  const handleBack = () => {
+    setSelectedRole(null);
+    setEmail('');
+    setPassword('');
+    setError('');
+  };
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      <div className="w-full max-w-5xl">
-        {/* Logo and Title */}
+      <div className="w-full max-w-md">
+        {/* Logo */}
         <div className="text-center mb-8">
           <img 
             src={logoBadge} 
@@ -120,187 +95,112 @@ export default function Login() {
           />
         </div>
 
-        {/* Tenant Selector */}
-        <div className="flex justify-center gap-2 mb-6">
-          {tenants.map(tenant => (
-            <Button
-              key={tenant.id}
-              variant={selectedTenant === tenant.id ? 'default' : 'outline'}
-              onClick={() => setSelectedTenant(tenant.id)}
-              className="gap-2"
-            >
-              <Building2 className="h-4 w-4" />
-              {tenant.name}
-            </Button>
-          ))}
-        </div>
-
-        {/* Quick Login */}
-        <Card className="mb-6">
-          <CardHeader className="pb-3">
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <Zap className="h-5 w-5 text-primary" />
-              Quick Login by Role
-            </CardTitle>
-            <CardDescription>
-              One-click access to experience each role's perspective
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-2">
-              {quickPicks.map(user => user && (
-                <Button
-                  key={user.id}
-                  variant="outline"
-                  className={`h-auto py-3 flex flex-col items-center gap-1 transition-all ${roleColors[user.role]}`}
-                  onClick={() => handleLogin(user.id)}
-                >
-                  {user.role === 'processor' ? (
-                    <img src={processorIcon} alt="Processor" className="w-10 h-10 object-contain" />
-                  ) : user.role === 'tooling_specialist' ? (
-                    <img src={toolingIcon} alt="Tooling Specialist" className="w-[52px] h-[52px] object-contain" />
-                  ) : (
-                    <span className="text-xl">{ROLE_ICONS[user.role]}</span>
-                  )}
-                  <span className="text-xs font-medium">{ROLE_LABELS[user.role]}</span>
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Full User List */}
-        <Card>
-          <CardHeader className="pb-3">
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Users className="h-5 w-5 text-primary" />
-                  All Demo Users
-                </CardTitle>
-                <CardDescription>
-                  {filteredUsers.length} users grouped by role
-                </CardDescription>
+        {!selectedRole ? (
+          /* Role Selection */
+          <Card>
+            <CardHeader className="pb-3 text-center">
+              <CardTitle className="text-lg">Select Your Role</CardTitle>
+              <CardDescription>Choose your role to continue to login</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-2">
+                {roleOrder.map(role => (
+                  <Button
+                    key={role}
+                    variant="outline"
+                    className={`h-auto py-3 flex flex-col items-center gap-1 transition-all ${roleColors[role]}`}
+                    onClick={() => setSelectedRole(role)}
+                  >
+                    {role === 'processor' ? (
+                      <img src={processorIcon} alt="Processor" className="w-10 h-10 object-contain" />
+                    ) : role === 'tooling_specialist' ? (
+                      <img src={toolingIcon} alt="Tooling Specialist" className="w-[52px] h-[52px] object-contain" />
+                    ) : (
+                      <span className="text-xl">{ROLE_ICONS[role]}</span>
+                    )}
+                    <span className="text-xs font-medium">{ROLE_LABELS[role]}</span>
+                  </Button>
+                ))}
               </div>
-              <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                <Info className="h-3 w-3" />
-                Click any user to login
+            </CardContent>
+          </Card>
+        ) : (
+          /* Login Form */
+          <Card>
+            <CardHeader className="pb-3 text-center">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                {selectedRole === 'processor' ? (
+                  <img src={processorIcon} alt="Processor" className="w-8 h-8 object-contain" />
+                ) : selectedRole === 'tooling_specialist' ? (
+                  <img src={toolingIcon} alt="Tooling Specialist" className="w-10 h-10 object-contain" />
+                ) : (
+                  <span className="text-2xl">{ROLE_ICONS[selectedRole]}</span>
+                )}
               </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {/* Filters */}
-            <div className="flex flex-wrap gap-3 mb-4">
-              <div className="flex-1 min-w-[200px]">
-                <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    placeholder="Search users..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 h-9"
-                  />
+              <CardTitle className="text-lg">{ROLE_LABELS[selectedRole]} Login</CardTitle>
+              <CardDescription>{roleDescriptions[selectedRole]}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <form onSubmit={handleLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email</Label>
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="Enter your email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="pl-9"
+                      required
+                    />
+                  </div>
                 </div>
-              </div>
-              <Select value={selectedShift} onValueChange={(v) => setSelectedShift(v as Shift | 'all')}>
-                <SelectTrigger className="w-[120px] h-9">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Shifts</SelectItem>
-                  <SelectItem value="Day">Day</SelectItem>
-                  <SelectItem value="Swing">Swing</SelectItem>
-                  <SelectItem value="Night">Night</SelectItem>
-                </SelectContent>
-              </Select>
-              <Select value={selectedDept} onValueChange={(v) => setSelectedDept(v as Department | 'all')}>
-                <SelectTrigger className="w-[140px] h-9">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Depts</SelectItem>
-                  {departments.map(dept => (
-                    <SelectItem key={dept} value={dept}>{dept}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
 
-            <Separator className="mb-4" />
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password</Label>
+                  <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="password"
+                      type={showPassword ? 'text' : 'password'}
+                      placeholder="Enter your password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="pl-9 pr-9"
+                      required
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
+                </div>
 
-            {/* Role Groups */}
-            <div className="space-y-2 max-h-[400px] overflow-y-auto">
-              {roleOrder.map(role => {
-                const roleUsers = usersByRole[role];
-                if (roleUsers.length === 0) return null;
+                {error && (
+                  <p className="text-sm text-destructive text-center">{error}</p>
+                )}
 
-                const isExpanded = expandedRoles.has(role);
+                <Button type="submit" className="w-full" disabled={isSubmitting}>
+                  {isSubmitting ? 'Signing in...' : 'Sign In'}
+                </Button>
 
-                return (
-                  <Collapsible key={role} open={isExpanded} onOpenChange={() => toggleRole(role)}>
-                    <CollapsibleTrigger asChild>
-                      <button className="w-full flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center gap-3">
-                          {role === 'processor' ? (
-                            <img src={processorIcon} alt="Processor" className="w-8 h-8 object-contain" />
-                          ) : role === 'tooling_specialist' ? (
-                            <img src={toolingIcon} alt="Tooling Specialist" className="w-10 h-10 object-contain" />
-                          ) : (
-                            <span className="text-xl">{ROLE_ICONS[role]}</span>
-                          )}
-                          <div className="text-left">
-                            <span className="font-medium">{ROLE_LABELS[role]}</span>
-                            <span className="text-xs text-muted-foreground ml-2">
-                              ({roleUsers.length})
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground hidden md:block">
-                            {roleDescriptions[role]}
-                          </span>
-                          <ChevronDown className={`h-4 w-4 transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
-                        </div>
-                      </button>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 p-2 mt-1">
-                        {roleUsers.map(user => (
-                          <Button
-                            key={user.id}
-                            variant="ghost"
-                            className="h-auto py-2 px-3 justify-start text-left hover:bg-muted"
-                            onClick={() => handleLogin(user.id)}
-                          >
-                            <div className="flex items-center gap-3 w-full">
-                              <div className="w-9 h-9 rounded-full bg-primary/20 flex items-center justify-center text-primary font-medium text-sm flex-shrink-0">
-                                {user.name.split(' ').map(n => n[0]).join('')}
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <p className="font-medium text-sm truncate">{user.name}</p>
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                                  <span>{user.department}</span>
-                                  <span>•</span>
-                                  <Badge variant="outline" className="text-xs px-1.5 py-0">
-                                    {user.shift}
-                                  </Badge>
-                                </div>
-                              </div>
-                            </div>
-                          </Button>
-                        ))}
-                      </div>
-                    </CollapsibleContent>
-                  </Collapsible>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        <p className="text-center text-xs text-muted-foreground mt-6">
-          No authentication required — click any user to explore the demo
-        </p>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full"
+                  onClick={handleBack}
+                >
+                  ← Back to Role Selection
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
