@@ -160,9 +160,9 @@ export default function Login() {
                   onClick={() => handleLogin(user.id)}
                 >
                   {user.role === 'processor' ? (
-                    <img src={processorIcon} alt="Processor" className="w-8 h-8 object-contain" />
+                    <img src={processorIcon} alt="Processor" className="w-10 h-10 object-contain" />
                   ) : user.role === 'tooling_specialist' ? (
-                    <img src={toolingIcon} alt="Tooling Specialist" className="w-10 h-10 object-contain" />
+                    <img src={toolingIcon} alt="Tooling Specialist" className="w-[52px] h-[52px] object-contain" />
                   ) : (
                     <span className="text-xl">{ROLE_ICONS[user.role]}</span>
                   )}
@@ -246,9 +246,9 @@ export default function Login() {
                       <button className="w-full flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                         <div className="flex items-center gap-3">
                           {role === 'processor' ? (
-                            <img src={processorIcon} alt="Processor" className="w-6 h-6 object-contain" />
+                            <img src={processorIcon} alt="Processor" className="w-8 h-8 object-contain" />
                           ) : role === 'tooling_specialist' ? (
-                            <img src={toolingIcon} alt="Tooling Specialist" className="w-8 h-8 object-contain" />
+                            <img src={toolingIcon} alt="Tooling Specialist" className="w-10 h-10 object-contain" />
                           ) : (
                             <span className="text-xl">{ROLE_ICONS[role]}</span>
                           )}
