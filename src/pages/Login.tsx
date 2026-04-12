@@ -162,7 +162,7 @@ export default function Login() {
                   {user.role === 'processor' ? (
                     <img src={processorIcon} alt="Processor" className="w-8 h-8 object-contain" />
                   ) : user.role === 'tooling_specialist' ? (
-                    <img src={toolingIcon} alt="Tooling Specialist" className="w-8 h-8 object-contain" />
+                    <img src={toolingIcon} alt="Tooling Specialist" className="w-10 h-10 object-contain" />
                   ) : (
                     <span className="text-xl">{ROLE_ICONS[user.role]}</span>
                   )}
@@ -248,7 +248,7 @@ export default function Login() {
                           {role === 'processor' ? (
                             <img src={processorIcon} alt="Processor" className="w-6 h-6 object-contain" />
                           ) : role === 'tooling_specialist' ? (
-                            <img src={toolingIcon} alt="Tooling Specialist" className="w-6 h-6 object-contain" />
+                            <img src={toolingIcon} alt="Tooling Specialist" className="w-8 h-8 object-contain" />
                           ) : (
                             <span className="text-xl">{ROLE_ICONS[role]}</span>
                           )}
