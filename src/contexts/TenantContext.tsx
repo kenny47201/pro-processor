@@ -52,7 +52,7 @@ interface TenantContextType {
   currentFacility: Facility | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  login: (email: string, password: string) => Promise<{ error?: string }>;
+  login: (screenName: string, password: string) => Promise<{ error?: string }>;
   logout: () => Promise<void>;
   switchTenant: (tenantId: string) => void;
   switchFacility: (facilityId: string) => void;
@@ -162,7 +162,9 @@ export function TenantProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, [loadUserData]);
 
-  const login = useCallback(async (email: string, password: string) => {
+  const login = useCallback(async (screenName: string, password: string) => {
+    // Convert screen name to internal email format for Supabase auth
+    const email = `${screenName.toLowerCase().replace(/\s+/g, '_')}@proprocessor.app`;
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { error: error.message };
     return {};
