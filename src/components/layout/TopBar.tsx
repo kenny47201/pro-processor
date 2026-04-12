@@ -77,11 +77,6 @@ export function TopBar() {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Demo mode badge */}
-        <Badge variant="outline" className="bg-warning/10 text-warning border-warning/30">
-          Demo Mode
-        </Badge>
-        
         {/* Shift indicator */}
         {currentUser?.shift && (
           <Badge variant="secondary" className="text-xs">
