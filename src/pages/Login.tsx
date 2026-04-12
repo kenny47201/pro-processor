@@ -116,9 +116,8 @@ export default function Login() {
           <img 
             src={logoBadge} 
             alt="Pro-Processor" 
-            className="h-20 w-20 mx-auto mb-4 object-contain"
+            className="h-28 w-28 mx-auto object-contain"
           />
-          <h1 className="text-3xl font-bold text-primary">Pro-Processor</h1>
         </div>
 
         {/* Tenant Selector */}
