@@ -9,6 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import logoBadge from '@/assets/logo-badge.png';
+import processorIcon from '@/assets/processor-login-icon.png';
 import {
   Collapsible,
   CollapsibleContent,
@@ -157,7 +158,11 @@ export default function Login() {
                   className={`h-auto py-3 flex flex-col items-center gap-1 transition-all ${roleColors[user.role]}`}
                   onClick={() => handleLogin(user.id)}
                 >
-                  <span className="text-xl">{ROLE_ICONS[user.role]}</span>
+                  {user.role === 'processor' ? (
+                    <img src={processorIcon} alt="Processor" className="w-8 h-8 object-contain" />
+                  ) : (
+                    <span className="text-xl">{ROLE_ICONS[user.role]}</span>
+                  )}
                   <span className="text-xs font-medium">{ROLE_LABELS[user.role]}</span>
                 </Button>
               ))}
@@ -237,7 +242,11 @@ export default function Login() {
                     <CollapsibleTrigger asChild>
                       <button className="w-full flex items-center justify-between p-3 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                         <div className="flex items-center gap-3">
-                          <span className="text-xl">{ROLE_ICONS[role]}</span>
+                          {role === 'processor' ? (
+                            <img src={processorIcon} alt="Processor" className="w-6 h-6 object-contain" />
+                          ) : (
+                            <span className="text-xl">{ROLE_ICONS[role]}</span>
+                          )}
                           <div className="text-left">
                             <span className="font-medium">{ROLE_LABELS[role]}</span>
                             <span className="text-xs text-muted-foreground ml-2">
