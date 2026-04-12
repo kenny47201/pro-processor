@@ -119,9 +119,6 @@ export default function Login() {
             className="h-20 w-20 mx-auto mb-4 object-contain"
           />
           <h1 className="text-3xl font-bold text-primary">Pro-Processor</h1>
-          <Badge variant="outline" className="mt-3 bg-warning/10 text-warning border-warning/30">
-            Demo Mode — All data is simulated
-          </Badge>
         </div>
 
         {/* Tenant Selector */}
