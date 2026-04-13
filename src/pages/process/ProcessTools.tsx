@@ -8,6 +8,17 @@ import { RunnerScrapYieldCalculator } from '@/components/process-tools/RunnerScr
 import { DryerSizingCalculator } from '@/components/process-tools/DryerSizingCalculator';
 import { ChillerSizingCalculator } from '@/components/process-tools/ChillerSizingCalculator';
 import { MeltDensityCalculator } from '@/components/process-tools/MeltDensityCalculator';
+import { ViscosityCurveStudy } from '@/components/process-tools/ViscosityCurveStudy';
+import { GateSealStudy } from '@/components/process-tools/GateSealStudy';
+import { CoolingTimeCalculator } from '@/components/process-tools/CoolingTimeCalculator';
+import { PackHoldStudy } from '@/components/process-tools/PackHoldStudy';
+import { CpkCalculator } from '@/components/process-tools/CpkCalculator';
+import { CostPerPartCalculator } from '@/components/process-tools/CostPerPartCalculator';
+import { RejectRateAnalyzer } from '@/components/process-tools/RejectRateAnalyzer';
+import { UnitConverterTool } from '@/components/process-tools/UnitConverterTool';
+import { CycleTimeEstimator } from '@/components/process-tools/CycleTimeEstimator';
+import { EnergyCostCalculator } from '@/components/process-tools/EnergyCostCalculator';
+import { VentDepthCalculator } from '@/components/process-tools/VentDepthCalculator';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
@@ -54,8 +65,8 @@ export default function ProcessTools() {
           </TabsTrigger>
         </TabsList>
 
+        {/* ===== SETUP & SIZING ===== */}
         <TabsContent value="setup" className="mt-6 space-y-6">
-          {/* Machine & Tonnage Section */}
           <section>
             <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
               <span className="w-1 h-5 bg-primary rounded-full"></span>
@@ -67,7 +78,6 @@ export default function ProcessTools() {
             </div>
           </section>
 
-          {/* Material Properties Section */}
           <section>
             <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
               <span className="w-1 h-5 bg-primary rounded-full"></span>
@@ -78,7 +88,6 @@ export default function ProcessTools() {
             </div>
           </section>
 
-          {/* Throughput & Production Section */}
           <section>
             <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
               <span className="w-1 h-5 bg-primary rounded-full"></span>
@@ -90,7 +99,6 @@ export default function ProcessTools() {
             </div>
           </section>
 
-          {/* Studies Section */}
           <section>
             <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
               <span className="w-1 h-5 bg-primary rounded-full"></span>
@@ -102,7 +110,6 @@ export default function ProcessTools() {
             </div>
           </section>
 
-          {/* Auxiliary Equipment Section */}
           <section>
             <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
               <span className="w-1 h-5 bg-primary rounded-full"></span>
@@ -115,22 +122,78 @@ export default function ProcessTools() {
           </section>
         </TabsContent>
 
-        <TabsContent value="optimization">
-          <div className="p-8 text-center text-muted-foreground">
-            Process Optimization tools coming soon...
-          </div>
+        {/* ===== OPTIMIZATION ===== */}
+        <TabsContent value="optimization" className="mt-6 space-y-6">
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Scientific Molding Studies
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <ViscosityCurveStudy />
+              <GateSealStudy />
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Pack, Hold & Cooling
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <PackHoldStudy />
+              <CoolingTimeCalculator />
+            </div>
+          </section>
         </TabsContent>
 
-        <TabsContent value="quality">
-          <div className="p-8 text-center text-muted-foreground">
-            Quality & SPC tools coming soon...
-          </div>
+        {/* ===== QUALITY ===== */}
+        <TabsContent value="quality" className="mt-6 space-y-6">
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Statistical Process Control
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <CpkCalculator />
+              <RejectRateAnalyzer />
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Cost Analysis
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <CostPerPartCalculator />
+            </div>
+          </section>
         </TabsContent>
 
-        <TabsContent value="utilities">
-          <div className="p-8 text-center text-muted-foreground">
-            Utilities & Cost tools coming soon...
-          </div>
+        {/* ===== UTILITIES ===== */}
+        <TabsContent value="utilities" className="mt-6 space-y-6">
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Conversions & Reference
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <UnitConverterTool />
+              <VentDepthCalculator />
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Cycle & Energy
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <CycleTimeEstimator />
+              <EnergyCostCalculator />
+            </div>
+          </section>
         </TabsContent>
       </Tabs>
     </div>
