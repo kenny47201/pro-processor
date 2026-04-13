@@ -37,17 +37,17 @@ export default function ProcessTools() {
             <span className="hidden sm:inline">Setup & Sizing</span>
             <span className="sm:hidden">Setup</span>
           </TabsTrigger>
-          <TabsTrigger value="optimization" className="flex items-center gap-1.5" disabled>
+          <TabsTrigger value="optimization" className="flex items-center gap-1.5">
             <Gauge className="h-4 w-4" />
             <span className="hidden sm:inline">Optimization</span>
             <span className="sm:hidden">Optim</span>
           </TabsTrigger>
-          <TabsTrigger value="quality" className="flex items-center gap-1.5" disabled>
+          <TabsTrigger value="quality" className="flex items-center gap-1.5">
             <Thermometer className="h-4 w-4" />
             <span className="hidden sm:inline">Quality</span>
             <span className="sm:hidden">QC</span>
           </TabsTrigger>
-          <TabsTrigger value="utilities" className="flex items-center gap-1.5" disabled>
+          <TabsTrigger value="utilities" className="flex items-center gap-1.5">
             <Wrench className="h-4 w-4" />
             <span className="hidden sm:inline">Utilities</span>
             <span className="sm:hidden">Utils</span>
