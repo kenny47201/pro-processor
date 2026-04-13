@@ -147,6 +147,17 @@ export default function ProcessTools() {
               <CoolingTimeCalculator />
             </div>
           </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Runner System Analysis
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <PressureLossCalculator />
+              <RunnerSizingTool />
+            </div>
+          </section>
         </TabsContent>
 
         {/* ===== QUALITY ===== */}
