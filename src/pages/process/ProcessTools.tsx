@@ -19,6 +19,8 @@ import { UnitConverterTool } from '@/components/process-tools/UnitConverterTool'
 import { CycleTimeEstimator } from '@/components/process-tools/CycleTimeEstimator';
 import { EnergyCostCalculator } from '@/components/process-tools/EnergyCostCalculator';
 import { VentDepthCalculator } from '@/components/process-tools/VentDepthCalculator';
+import { PressureLossCalculator } from '@/components/process-tools/PressureLossCalculator';
+import { RunnerSizingTool } from '@/components/process-tools/RunnerSizingTool';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
@@ -143,6 +145,17 @@ export default function ProcessTools() {
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               <PackHoldStudy />
               <CoolingTimeCalculator />
+            </div>
+          </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Runner System Analysis
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <PressureLossCalculator />
+              <RunnerSizingTool />
             </div>
           </section>
         </TabsContent>
