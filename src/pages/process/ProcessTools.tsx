@@ -19,6 +19,8 @@ import { UnitConverterTool } from '@/components/process-tools/UnitConverterTool'
 import { CycleTimeEstimator } from '@/components/process-tools/CycleTimeEstimator';
 import { EnergyCostCalculator } from '@/components/process-tools/EnergyCostCalculator';
 import { VentDepthCalculator } from '@/components/process-tools/VentDepthCalculator';
+import { PressureLossCalculator } from '@/components/process-tools/PressureLossCalculator';
+import { RunnerSizingTool } from '@/components/process-tools/RunnerSizingTool';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
