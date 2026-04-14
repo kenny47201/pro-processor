@@ -21,6 +21,7 @@ import { EnergyCostCalculator } from '@/components/process-tools/EnergyCostCalcu
 import { VentDepthCalculator } from '@/components/process-tools/VentDepthCalculator';
 import { PressureLossCalculator } from '@/components/process-tools/PressureLossCalculator';
 import { RunnerSizingTool } from '@/components/process-tools/RunnerSizingTool';
+import { RunnerBalanceCalculator } from '@/components/process-tools/RunnerBalanceCalculator';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
