@@ -159,6 +159,16 @@ export default function ProcessTools() {
               <RunnerSizingTool />
             </div>
           </section>
+
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Runner Balance Analysis
+            </h2>
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <RunnerBalanceCalculator />
+            </div>
+          </section>
         </TabsContent>
 
         {/* ===== QUALITY ===== */}
