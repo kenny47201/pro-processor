@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Ruler } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface SizingResult {
   recommendedDiameter: number;
@@ -32,6 +33,7 @@ const MATERIAL_PRESETS: Record<string, { name: string; minDia: number; maxDia: n
 };
 
 export function RunnerSizingTool() {
+  const { ref: cardRef, ExportBtn } = useExport('Runner Sizing Tool');
   const [material, setMaterial] = useState('abs');
   const [partWeight, setPartWeight] = useState('25'); // grams
   const [wallThickness, setWallThickness] = useState('2.5'); // mm
