@@ -377,8 +377,8 @@ function ResinDetail({ resin, onBack }: { resin: ResinData; onBack: () => void }
 
         <TabsContent value="pressure" className="mt-3">
           <div className="grid grid-cols-2 gap-3">
-            <ParamCard label="Injection Pressure" value={`${r.injectionPressureMin}–${r.injectionPressureMax} bar`} />
-            <ParamCard label="Back Pressure" value={`${r.backPressureMin}–${r.backPressureMax} bar`} />
+            <ParamCard label="Injection Pressure" value={`${r.injectionPressureMin.toLocaleString()}–${r.injectionPressureMax.toLocaleString()} psi`} />
+            <ParamCard label="Back Pressure" value={`${r.backPressureMin.toLocaleString()}–${r.backPressureMax.toLocaleString()} psi`} />
             <ParamCard label="Screw Speed" value={`${r.screwSpeedRPM} RPM`} />
             <ParamCard label="Vent Depth" value={`${r.ventDepthMm} mm`} />
           </div>
