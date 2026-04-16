@@ -12,6 +12,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Beaker, Copy, Download, Plus, Trash2, HelpCircle, ChevronDown, AlertTriangle, CheckCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { useExport } from './ExportButton';
 
 // Types
 interface SampleRow {
@@ -58,13 +59,17 @@ const calculateStdev = (values: number[], mean: number): number => {
 };
 
 export function MeltDensityCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Melt Density Calculator');
   return (
-    <Card className="w-full">
+    <Card ref={cardRef} className="w-full">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Beaker className="h-5 w-5 text-primary" />
-          Melt Density Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Beaker className="h-5 w-5 text-primary" />
+            Melt Density Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Calculate melt density using machine calibration or PVT data
         </CardDescription>
