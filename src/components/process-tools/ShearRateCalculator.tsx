@@ -8,8 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateGateShearRate } from '@/lib/processCalculations';
+import { useExport } from './ExportButton';
 
 export function ShearRateCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Gate Shear Rate Calculator');
   const [flowRate, setFlowRate] = useState<string>('');
   const [gateType, setGateType] = useState<'circular' | 'rectangular'>('circular');
   const [gateDiameter, setGateDiameter] = useState<string>('');
@@ -62,12 +64,15 @@ export function ShearRateCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Gate Shear Rate Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Gate Shear Rate Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           γ = (4 × Q) / (π × r³) for circular gates — approximate shear rate through the gate
         </CardDescription>

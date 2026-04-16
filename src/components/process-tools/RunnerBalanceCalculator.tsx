@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Trash2, GitBranch } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface CavityEntry {
   id: number;
@@ -47,6 +48,7 @@ function createDefaultCavity(id: number): CavityEntry {
 }
 
 export function RunnerBalanceCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Runner Balance Calculator');
   const [cavities, setCavities] = useState<CavityEntry[]>([
     createDefaultCavity(1),
     createDefaultCavity(2),
@@ -125,12 +127,15 @@ export function RunnerBalanceCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2">
-          <GitBranch className="h-5 w-5 text-primary" />
-          Runner Balance Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base flex items-center gap-2">
+            <GitBranch className="h-5 w-5 text-primary" />
+            Runner Balance Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Analyze multi-cavity runner layouts for balanced fill by comparing fill times, part weights, and runner geometry across cavities.
         </CardDescription>

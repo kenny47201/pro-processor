@@ -5,8 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator, Plus, Trash2 } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 export function CpkCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Cpk / Process Capability');
   const [usl, setUsl] = useState<string>('');
   const [lsl, setLsl] = useState<string>('');
   const [measurements, setMeasurements] = useState<string>('');
@@ -60,12 +62,15 @@ export function CpkCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Cpk / Process Capability
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Cpk / Process Capability
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Cpk = min((USL - μ) / 3σ, (μ - LSL) / 3σ) — measures how centered and capable your process is
         </CardDescription>

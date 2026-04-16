@@ -7,8 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateRunnerScrapYield } from '@/lib/processCalculations';
+import { useExport } from './ExportButton';
 
 export function RunnerScrapYieldCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Runner Scrap & Yield Calculator');
   const [partWeight, setPartWeight] = useState<string>('');
   const [runnerWeight, setRunnerWeight] = useState<string>('');
   const [cavities, setCavities] = useState<string>('1');
@@ -59,12 +61,15 @@ export function RunnerScrapYieldCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Runner Scrap & Yield Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Runner Scrap & Yield Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Calculate runner scrap percentage, yield rate, and material costs
         </CardDescription>

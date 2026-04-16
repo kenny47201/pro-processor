@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useExport } from './ExportButton';
 
 const VENT_DEPTHS: Record<string, { min: number; max: number; typical: number; unit: string }> = {
   'ABS': { min: 0.0010, max: 0.0020, typical: 0.0015, unit: 'in' },
@@ -26,6 +27,7 @@ const VENT_DEPTHS: Record<string, { min: number; max: number; typical: number; u
 };
 
 export function VentDepthCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Vent Depth Reference');
   const [material, setMaterial] = useState<string>('');
   const [partPerimeter, setPartPerimeter] = useState<string>('');
   const [ventWidth, setVentWidth] = useState<string>('0.250');
@@ -53,12 +55,15 @@ export function VentDepthCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Vent Depth Reference
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Vent Depth Reference
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Recommended vent depths by material — prevent flash while allowing gas escape
         </CardDescription>

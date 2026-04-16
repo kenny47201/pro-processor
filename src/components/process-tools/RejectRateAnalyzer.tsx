@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator, Plus, Trash2 } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface DefectEntry {
   id: number;
@@ -13,6 +14,7 @@ interface DefectEntry {
 }
 
 export function RejectRateAnalyzer() {
+  const { ref: cardRef, ExportBtn } = useExport('Reject Rate & Pareto Analysis');
   const [totalParts, setTotalParts] = useState<string>('');
   const [defects, setDefects] = useState<DefectEntry[]>([
     { id: 1, defect: 'Short Shot', count: '' },
@@ -78,12 +80,15 @@ export function RejectRateAnalyzer() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Reject Rate & Pareto Analysis
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Reject Rate & Pareto Analysis
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Track defect types and quantities to identify the vital few causes (80/20 rule)
         </CardDescription>

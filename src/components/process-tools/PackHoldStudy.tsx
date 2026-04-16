@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator, Plus, Trash2 } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface DataPoint {
   id: number;
@@ -14,6 +15,7 @@ interface DataPoint {
 }
 
 export function PackHoldStudy() {
+  const { ref: cardRef, ExportBtn } = useExport('Pack & Hold Pressure Study');
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([
     { id: 1, holdPressure: '', partWeight: '', dimension: '' },
     { id: 2, holdPressure: '', partWeight: '', dimension: '' },
@@ -92,12 +94,15 @@ export function PackHoldStudy() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Pack & Hold Pressure Study
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Pack & Hold Pressure Study
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Incrementally increase pack pressure — find the optimal point where weight and dimensions stabilize
         </CardDescription>

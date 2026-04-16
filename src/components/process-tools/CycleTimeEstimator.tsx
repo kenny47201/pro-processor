@@ -6,8 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { useExport } from './ExportButton';
 
 export function CycleTimeEstimator() {
+  const { ref: cardRef, ExportBtn } = useExport('Cycle Time Breakdown');
   const [fillTime, setFillTime] = useState<string>('');
   const [packHoldTime, setPackHoldTime] = useState<string>('');
   const [coolingTime, setCoolingTime] = useState<string>('');
@@ -53,12 +55,15 @@ export function CycleTimeEstimator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Cycle Time Breakdown
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Cycle Time Breakdown
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Total Cycle = Fill + Pack/Hold + Cooling + Mold Open/Close/Eject
         </CardDescription>

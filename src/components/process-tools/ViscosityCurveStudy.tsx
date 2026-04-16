@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator, Plus, Trash2 } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface DataPoint {
   id: number;
@@ -14,6 +15,7 @@ interface DataPoint {
 }
 
 export function ViscosityCurveStudy() {
+  const { ref: cardRef, ExportBtn } = useExport('Viscosity Curve Study');
   const [shotVolume, setShotVolume] = useState<string>('');
   const [intensificationRatio, setIntensificationRatio] = useState<string>('10');
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([
@@ -86,12 +88,15 @@ export function ViscosityCurveStudy() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Viscosity Curve (In-Machine Rheology)
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Viscosity Curve (In-Machine Rheology)
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Relative viscosity study — vary injection speed to find the process-insensitive region
         </CardDescription>

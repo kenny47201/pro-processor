@@ -8,8 +8,10 @@ import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateShotVolumeWeight } from '@/lib/processCalculations';
 import { MATERIAL_DENSITIES } from '@/types/processTools';
+import { useExport } from './ExportButton';
 
 export function ShotVolumeCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Shot Volume & Weight Calculator');
   const [partVolume, setPartVolume] = useState<string>('');
   const [runnerVolume, setRunnerVolume] = useState<string>('');
   const [cavities, setCavities] = useState<string>('1');
@@ -46,12 +48,15 @@ export function ShotVolumeCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Shot Volume & Weight Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Shot Volume & Weight Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Calculate part, runner, and total shot volume and weight
         </CardDescription>

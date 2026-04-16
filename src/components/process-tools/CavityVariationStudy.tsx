@@ -7,8 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Calculator, Plus, Trash2, Camera } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { calculateCavityVariation } from '@/lib/processCalculations';
+import { useExport } from './ExportButton';
 
 export function CavityVariationStudy() {
+  const { ref: cardRef, ExportBtn } = useExport('Cavity-to-Cavity Weight Variation Study');
   const [weights, setWeights] = useState<string[]>(['', '', '', '']);
   const [result, setResult] = useState<ReturnType<typeof calculateCavityVariation> | null>(null);
 
@@ -52,12 +54,15 @@ export function CavityVariationStudy() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Cavity-to-Cavity Weight Variation Study
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Cavity-to-Cavity Weight Variation Study
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Measure and analyze part weight variation across cavities
         </CardDescription>

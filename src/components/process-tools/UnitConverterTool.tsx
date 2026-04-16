@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calculator, ArrowRight } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 const CATEGORIES: Record<string, Array<{ unit: string; factor: number }>> = {
   Pressure: [
@@ -44,6 +45,7 @@ const CATEGORIES: Record<string, Array<{ unit: string; factor: number }>> = {
 };
 
 export function UnitConverterTool() {
+  const { ref: cardRef, ExportBtn } = useExport('Unit Converter');
   const [category, setCategory] = useState<string>('Pressure');
   const [fromUnit, setFromUnit] = useState<string>('');
   const [toUnit, setToUnit] = useState<string>('');
@@ -75,12 +77,15 @@ export function UnitConverterTool() {
   const result = convert();
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Unit Converter
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Unit Converter
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Common conversions for injection molding — pressure, temperature, weight, length, volume, force
         </CardDescription>
