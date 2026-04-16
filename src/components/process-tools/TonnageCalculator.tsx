@@ -9,8 +9,10 @@ import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateClampTonnage } from '@/lib/processCalculations';
 import { TYPICAL_CAVITY_PRESSURES, STANDARD_TONNAGES } from '@/types/processTools';
+import { useExport } from './ExportButton';
 
 export function TonnageCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Clamp Tonnage Calculator');
   const [projectedArea, setProjectedArea] = useState<string>('');
   const [cavityPressure, setCavityPressure] = useState<string>('');
   const [safetyFactor, setSafetyFactor] = useState<string>('1.1');
@@ -46,12 +48,15 @@ export function TonnageCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Clamp Tonnage Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Clamp Tonnage Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           F<sub>required</sub> = Projected Area × Cavity Pressure × Safety Factor
         </CardDescription>
