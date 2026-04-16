@@ -104,7 +104,7 @@ export function RunnerSizingTool() {
   };
 
   return (
-    <Card className="border-border/50">
+    <Card ref={cardRef} className="border-border/50">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
@@ -116,7 +116,10 @@ export function RunnerSizingTool() {
               Recommend runner diameter based on material, part, and flow requirements
             </CardDescription>
           </div>
-          <Badge variant="outline" className="text-xs">Optimization</Badge>
+          <div className="flex items-center gap-2">
+            <ExportBtn />
+            <Badge variant="outline" className="text-xs">Optimization</Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

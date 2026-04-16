@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Trash2, Calculator } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface RunnerSegment {
   id: number;
@@ -23,6 +24,7 @@ interface SegmentResult {
 }
 
 export function PressureLossCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Pressure Loss Calculator');
   const [segments, setSegments] = useState<RunnerSegment[]>([
     { id: 1, name: 'Sprue', length: '75', diameter: '8' },
     { id: 2, name: 'Primary Runner', length: '100', diameter: '6' },
@@ -85,7 +87,7 @@ export function PressureLossCalculator() {
   };
 
   return (
-    <Card className="border-border/50">
+    <Card ref={cardRef} className="border-border/50">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
@@ -97,7 +99,10 @@ export function PressureLossCalculator() {
               Hagen-Poiseuille pressure drop across runner segments
             </CardDescription>
           </div>
-          <Badge variant="outline" className="text-xs">Optimization</Badge>
+          <div className="flex items-center gap-2">
+            <ExportBtn />
+            <Badge variant="outline" className="text-xs">Optimization</Badge>
+          </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">

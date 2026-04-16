@@ -125,12 +125,15 @@ export function RunnerBalanceCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="text-base flex items-center gap-2">
-          <GitBranch className="h-5 w-5 text-primary" />
-          Runner Balance Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base flex items-center gap-2">
+            <GitBranch className="h-5 w-5 text-primary" />
+            Runner Balance Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Analyze multi-cavity runner layouts for balanced fill by comparing fill times, part weights, and runner geometry across cavities.
         </CardDescription>

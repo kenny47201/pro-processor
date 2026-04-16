@@ -75,12 +75,15 @@ export function UnitConverterTool() {
   const result = convert();
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Unit Converter
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Unit Converter
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Common conversions for injection molding — pressure, temperature, weight, length, volume, force
         </CardDescription>

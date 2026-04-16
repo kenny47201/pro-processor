@@ -5,8 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 export function EnergyCostCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Energy Cost Calculator');
   const [machineKw, setMachineKw] = useState<string>('');
   const [utilizationPct, setUtilizationPct] = useState<string>('70');
   const [electricRate, setElectricRate] = useState<string>('0.10');
@@ -48,12 +50,15 @@ export function EnergyCostCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Energy Cost Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Energy Cost Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Estimate electricity cost per part, per hour, and annually for a press + auxiliaries
         </CardDescription>
