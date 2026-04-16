@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Trash2, GitBranch } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface CavityEntry {
   id: number;
@@ -47,6 +48,7 @@ function createDefaultCavity(id: number): CavityEntry {
 }
 
 export function RunnerBalanceCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Runner Balance Calculator');
   const [cavities, setCavities] = useState<CavityEntry[]>([
     createDefaultCavity(1),
     createDefaultCavity(2),

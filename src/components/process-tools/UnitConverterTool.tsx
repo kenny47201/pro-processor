@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Calculator, ArrowRight } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 const CATEGORIES: Record<string, Array<{ unit: string; factor: number }>> = {
   Pressure: [
@@ -44,6 +45,7 @@ const CATEGORIES: Record<string, Array<{ unit: string; factor: number }>> = {
 };
 
 export function UnitConverterTool() {
+  const { ref: cardRef, ExportBtn } = useExport('Unit Converter');
   const [category, setCategory] = useState<string>('Pressure');
   const [fromUnit, setFromUnit] = useState<string>('');
   const [toUnit, setToUnit] = useState<string>('');
