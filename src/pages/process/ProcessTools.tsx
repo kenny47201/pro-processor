@@ -22,6 +22,7 @@ import { VentDepthCalculator } from '@/components/process-tools/VentDepthCalcula
 import { PressureLossCalculator } from '@/components/process-tools/PressureLossCalculator';
 import { RunnerSizingTool } from '@/components/process-tools/RunnerSizingTool';
 import { RunnerBalanceCalculator } from '@/components/process-tools/RunnerBalanceCalculator';
+import { MaterialDataSheet } from '@/components/process-tools/MaterialDataSheet';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
@@ -197,6 +198,16 @@ export default function ProcessTools() {
 
         {/* ===== UTILITIES ===== */}
         <TabsContent value="utilities" className="mt-6 space-y-6">
+          <section>
+            <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
+              <span className="w-1 h-5 bg-primary rounded-full"></span>
+              Material Reference
+            </h2>
+            <div className="grid grid-cols-1 gap-6">
+              <MaterialDataSheet />
+            </div>
+          </section>
+
           <section>
             <h2 className="text-lg font-semibold mb-4 text-foreground flex items-center gap-2">
               <span className="w-1 h-5 bg-primary rounded-full"></span>
