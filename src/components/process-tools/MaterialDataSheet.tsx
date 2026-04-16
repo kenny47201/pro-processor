@@ -39,7 +39,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 200, meltTempMax: 280, moldTempMin: 20, moldTempMax: 80,
     dryTempC: 80, dryTimeHrs: 2, maxMoisturePct: 0.1,
     densitySolid: 0.905, densityMelt: 0.74, shrinkageMin: 1.0, shrinkageMax: 2.5,
-    injectionPressureMin: 800, injectionPressureMax: 1400, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 11600, injectionPressureMax: 20300, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '50–100', ventDepthMm: '0.025–0.050',
     notes: 'Good chemical resistance. Low moisture uptake — drying optional unless foaming is observed.'
   },
@@ -48,7 +48,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 190, meltTempMax: 280, moldTempMin: 10, moldTempMax: 70,
     dryTempC: 80, dryTimeHrs: 1, maxMoisturePct: 0.1,
     densitySolid: 0.954, densityMelt: 0.78, shrinkageMin: 1.5, shrinkageMax: 4.0,
-    injectionPressureMin: 600, injectionPressureMax: 1200, backPressureMin: 50, backPressureMax: 200,
+    injectionPressureMin: 8700, injectionPressureMax: 17400, backPressureMin: 725, backPressureMax: 2900,
     screwSpeedRPM: '50–100', ventDepthMm: '0.025–0.050',
     notes: 'High shrinkage — especially in thick sections. Typically does not require drying.'
   },
@@ -57,7 +57,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 160, meltTempMax: 240, moldTempMin: 20, moldTempMax: 60,
     dryTempC: 70, dryTimeHrs: 1, maxMoisturePct: 0.1,
     densitySolid: 0.920, densityMelt: 0.76, shrinkageMin: 1.5, shrinkageMax: 3.5,
-    injectionPressureMin: 500, injectionPressureMax: 1000, backPressureMin: 50, backPressureMax: 200,
+    injectionPressureMin: 7250, injectionPressureMax: 14500, backPressureMin: 725, backPressureMax: 2900,
     screwSpeedRPM: '40–80', ventDepthMm: '0.025–0.050',
     notes: 'Flexible, low-stiffness. No drying usually needed.'
   },
@@ -66,7 +66,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 220, meltTempMax: 270, moldTempMin: 40, moldTempMax: 80,
     dryTempC: 80, dryTimeHrs: 3, maxMoisturePct: 0.05,
     densitySolid: 1.05, densityMelt: 0.94, shrinkageMin: 0.4, shrinkageMax: 0.8,
-    injectionPressureMin: 800, injectionPressureMax: 1500, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 11600, injectionPressureMax: 21750, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '40–80', ventDepthMm: '0.025–0.050',
     notes: 'Good impact strength. Hygroscopic — must be dried. Susceptible to splay if moisture present.'
   },
@@ -75,7 +75,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 180, meltTempMax: 260, moldTempMin: 20, moldTempMax: 50,
     dryTempC: 70, dryTimeHrs: 2, maxMoisturePct: 0.1,
     densitySolid: 1.05, densityMelt: 0.95, shrinkageMin: 0.3, shrinkageMax: 0.6,
-    injectionPressureMin: 600, injectionPressureMax: 1200, backPressureMin: 50, backPressureMax: 200,
+    injectionPressureMin: 8700, injectionPressureMax: 17400, backPressureMin: 725, backPressureMax: 2900,
     screwSpeedRPM: '50–100', ventDepthMm: '0.025–0.050',
     notes: 'Brittle, excellent clarity. Easy to process. Low shrinkage.'
   },
@@ -84,7 +84,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 190, meltTempMax: 260, moldTempMin: 20, moldTempMax: 60,
     dryTempC: 70, dryTimeHrs: 2, maxMoisturePct: 0.1,
     densitySolid: 1.04, densityMelt: 0.94, shrinkageMin: 0.3, shrinkageMax: 0.7,
-    injectionPressureMin: 600, injectionPressureMax: 1300, backPressureMin: 50, backPressureMax: 250,
+    injectionPressureMin: 8700, injectionPressureMax: 18850, backPressureMin: 725, backPressureMax: 3625,
     screwSpeedRPM: '50–90', ventDepthMm: '0.025–0.050',
     notes: 'Improved toughness vs GPPS. Opaque. Good dimensional stability.'
   },
@@ -93,7 +93,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 280, meltTempMax: 320, moldTempMin: 80, moldTempMax: 120,
     dryTempC: 120, dryTimeHrs: 4, maxMoisturePct: 0.02,
     densitySolid: 1.20, densityMelt: 1.06, shrinkageMin: 0.5, shrinkageMax: 0.8,
-    injectionPressureMin: 1000, injectionPressureMax: 1800, backPressureMin: 75, backPressureMax: 300,
+    injectionPressureMin: 14500, injectionPressureMax: 26100, backPressureMin: 1088, backPressureMax: 4350,
     screwSpeedRPM: '30–60', ventDepthMm: '0.025–0.050',
     notes: 'High clarity, high heat. Very hygroscopic — proper drying critical. Sensitive to residence time.'
   },
@@ -102,7 +102,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 240, meltTempMax: 290, moldTempMin: 70, moldTempMax: 100,
     dryTempC: 100, dryTimeHrs: 4, maxMoisturePct: 0.03,
     densitySolid: 1.12, densityMelt: 1.00, shrinkageMin: 0.5, shrinkageMax: 0.7,
-    injectionPressureMin: 800, injectionPressureMax: 1600, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 11600, injectionPressureMax: 23200, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '40–70', ventDepthMm: '0.025–0.050',
     notes: 'Combines PC toughness with ABS processability. Common in automotive interiors.'
   },
@@ -111,7 +111,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 230, meltTempMax: 280, moldTempMin: 60, moldTempMax: 100,
     dryTempC: 80, dryTimeHrs: 6, maxMoisturePct: 0.15,
     densitySolid: 1.14, densityMelt: 0.98, shrinkageMin: 0.8, shrinkageMax: 2.0,
-    injectionPressureMin: 800, injectionPressureMax: 1600, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 11600, injectionPressureMax: 23200, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '40–80', ventDepthMm: '0.013–0.025',
     notes: 'Very hygroscopic — requires thorough drying. High shrinkage. Excellent wear resistance.'
   },
@@ -120,7 +120,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 270, meltTempMax: 300, moldTempMin: 60, moldTempMax: 100,
     dryTempC: 80, dryTimeHrs: 6, maxMoisturePct: 0.10,
     densitySolid: 1.14, densityMelt: 0.98, shrinkageMin: 1.0, shrinkageMax: 2.5,
-    injectionPressureMin: 900, injectionPressureMax: 1700, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 13050, injectionPressureMax: 24650, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '40–80', ventDepthMm: '0.013–0.025',
     notes: 'Higher melt point than PA6. Narrow processing window. Excellent mechanical properties.'
   },
@@ -129,7 +129,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 190, meltTempMax: 210, moldTempMin: 60, moldTempMax: 120,
     dryTempC: 80, dryTimeHrs: 3, maxMoisturePct: 0.10,
     densitySolid: 1.41, densityMelt: 1.18, shrinkageMin: 1.5, shrinkageMax: 3.0,
-    injectionPressureMin: 800, injectionPressureMax: 1500, backPressureMin: 50, backPressureMax: 200,
+    injectionPressureMin: 11600, injectionPressureMax: 21750, backPressureMin: 725, backPressureMax: 2900,
     screwSpeedRPM: '40–70', ventDepthMm: '0.013–0.025',
     notes: 'Excellent dimensional stability, low friction. Narrow processing window. Generates formaldehyde gas — ensure venting.'
   },
@@ -138,7 +138,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 260, meltTempMax: 290, moldTempMin: 20, moldTempMax: 140,
     dryTempC: 150, dryTimeHrs: 4, maxMoisturePct: 0.02,
     densitySolid: 1.37, densityMelt: 1.18, shrinkageMin: 1.5, shrinkageMax: 3.0,
-    injectionPressureMin: 800, injectionPressureMax: 1500, backPressureMin: 50, backPressureMax: 250,
+    injectionPressureMin: 11600, injectionPressureMax: 21750, backPressureMin: 725, backPressureMax: 3625,
     screwSpeedRPM: '40–70', ventDepthMm: '0.013–0.025',
     notes: 'Very hygroscopic. Cold mold → amorphous/clear. Hot mold → crystalline/opaque. IV loss if overdried.'
   },
@@ -147,7 +147,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 230, meltTempMax: 270, moldTempMin: 40, moldTempMax: 90,
     dryTempC: 120, dryTimeHrs: 4, maxMoisturePct: 0.03,
     densitySolid: 1.31, densityMelt: 1.12, shrinkageMin: 1.5, shrinkageMax: 2.5,
-    injectionPressureMin: 800, injectionPressureMax: 1400, backPressureMin: 50, backPressureMax: 250,
+    injectionPressureMin: 11600, injectionPressureMax: 20300, backPressureMin: 725, backPressureMax: 3625,
     screwSpeedRPM: '40–70', ventDepthMm: '0.013–0.025',
     notes: 'Faster crystallization than PET. Good electrical properties. Common in connectors.'
   },
@@ -156,7 +156,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 220, meltTempMax: 270, moldTempMin: 40, moldTempMax: 90,
     dryTempC: 80, dryTimeHrs: 4, maxMoisturePct: 0.05,
     densitySolid: 1.19, densityMelt: 1.06, shrinkageMin: 0.3, shrinkageMax: 0.8,
-    injectionPressureMin: 800, injectionPressureMax: 1500, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 11600, injectionPressureMax: 21750, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '30–60', ventDepthMm: '0.025–0.050',
     notes: 'Excellent optical clarity (92% light transmission). Brittle. Sensitive to shear — use large gates.'
   },
@@ -165,7 +165,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 190, meltTempMax: 230, moldTempMin: 20, moldTempMax: 60,
     dryTempC: 100, dryTimeHrs: 3, maxMoisturePct: 0.03,
     densitySolid: 1.20, densityMelt: 1.05, shrinkageMin: 0.5, shrinkageMax: 2.0,
-    injectionPressureMin: 500, injectionPressureMax: 1200, backPressureMin: 25, backPressureMax: 150,
+    injectionPressureMin: 7250, injectionPressureMax: 17400, backPressureMin: 363, backPressureMax: 2175,
     screwSpeedRPM: '20–50', ventDepthMm: '0.025–0.050',
     notes: 'Flexible elastomer. Low shear/speed recommended. Can stick in mold — use mold release if needed.'
   },
@@ -174,7 +174,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 180, meltTempMax: 240, moldTempMin: 20, moldTempMax: 60,
     dryTempC: 70, dryTimeHrs: 2, maxMoisturePct: 0.05,
     densitySolid: 1.05, densityMelt: 0.92, shrinkageMin: 0.5, shrinkageMax: 2.0,
-    injectionPressureMin: 400, injectionPressureMax: 1000, backPressureMin: 25, backPressureMax: 150,
+    injectionPressureMin: 5800, injectionPressureMax: 14500, backPressureMin: 363, backPressureMax: 2175,
     screwSpeedRPM: '20–50', ventDepthMm: '0.025–0.050',
     notes: 'Soft-touch over-molding applications. Low injection speeds preferred. Shore A 20–90 range.'
   },
@@ -183,7 +183,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 300, meltTempMax: 340, moldTempMin: 130, moldTempMax: 160,
     dryTempC: 150, dryTimeHrs: 4, maxMoisturePct: 0.02,
     densitySolid: 1.35, densityMelt: 1.15, shrinkageMin: 0.5, shrinkageMax: 1.5,
-    injectionPressureMin: 1000, injectionPressureMax: 2000, backPressureMin: 50, backPressureMax: 300,
+    injectionPressureMin: 14500, injectionPressureMax: 29000, backPressureMin: 725, backPressureMax: 4350,
     screwSpeedRPM: '30–60', ventDepthMm: '0.013–0.025',
     notes: 'Excellent chemical and thermal resistance. Very high mold temps required. Flash-prone — tight tooling needed.'
   },
@@ -192,7 +192,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 340, meltTempMax: 400, moldTempMin: 140, moldTempMax: 175,
     dryTempC: 150, dryTimeHrs: 6, maxMoisturePct: 0.02,
     densitySolid: 1.27, densityMelt: 1.10, shrinkageMin: 0.5, shrinkageMax: 0.8,
-    injectionPressureMin: 1000, injectionPressureMax: 2000, backPressureMin: 75, backPressureMax: 300,
+    injectionPressureMin: 14500, injectionPressureMax: 29000, backPressureMin: 1088, backPressureMax: 4350,
     screwSpeedRPM: '30–60', ventDepthMm: '0.013–0.025',
     notes: 'Amber transparent. High heat (HDT 200°C). Aerospace and medical grade. Requires high-temp capable machine.'
   },
@@ -201,7 +201,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 360, meltTempMax: 400, moldTempMin: 160, moldTempMax: 200,
     dryTempC: 150, dryTimeHrs: 4, maxMoisturePct: 0.02,
     densitySolid: 1.30, densityMelt: 1.13, shrinkageMin: 1.0, shrinkageMax: 2.0,
-    injectionPressureMin: 1000, injectionPressureMax: 2200, backPressureMin: 75, backPressureMax: 300,
+    injectionPressureMin: 14500, injectionPressureMax: 31900, backPressureMin: 1088, backPressureMax: 4350,
     screwSpeedRPM: '20–50', ventDepthMm: '0.013–0.025',
     notes: 'Premium high-performance resin. Extreme heat and chemical resistance. Requires specialized equipment.'
   },
@@ -210,7 +210,7 @@ const RESINS: ResinData[] = [
     meltTempMin: 200, meltTempMax: 260, moldTempMin: 40, moldTempMax: 80,
     dryTempC: 80, dryTimeHrs: 3, maxMoisturePct: 0.05,
     densitySolid: 1.08, densityMelt: 0.96, shrinkageMin: 0.3, shrinkageMax: 0.7,
-    injectionPressureMin: 700, injectionPressureMax: 1400, backPressureMin: 50, backPressureMax: 250,
+    injectionPressureMin: 10150, injectionPressureMax: 20300, backPressureMin: 725, backPressureMax: 3625,
     screwSpeedRPM: '40–80', ventDepthMm: '0.025–0.050',
     notes: 'Better chemical resistance and heat resistance than PS. Good clarity.'
   },
