@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator, Plus, Trash2 } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 interface DataPoint {
   id: number;
@@ -13,6 +14,7 @@ interface DataPoint {
 }
 
 export function GateSealStudy() {
+  const { ref: cardRef, ExportBtn } = useExport('Gate Seal Study');
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([
     { id: 1, holdTime: '', partWeight: '' },
     { id: 2, holdTime: '', partWeight: '' },
@@ -80,12 +82,15 @@ export function GateSealStudy() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Gate Seal Study
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Gate Seal Study
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Incrementally increase hold time and weigh parts to determine gate freeze-off time
         </CardDescription>

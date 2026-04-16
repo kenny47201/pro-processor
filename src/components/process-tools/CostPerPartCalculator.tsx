@@ -5,8 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calculator } from 'lucide-react';
+import { useExport } from './ExportButton';
 
 export function CostPerPartCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Cost Per Part Calculator');
   const [materialCostPerLb, setMaterialCostPerLb] = useState<string>('');
   const [partWeightGrams, setPartWeightGrams] = useState<string>('');
   const [runnerWeightGrams, setRunnerWeightGrams] = useState<string>('');
@@ -67,12 +69,15 @@ export function CostPerPartCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Cost Per Part Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Cost Per Part Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Material + machine + labor cost breakdown per part
         </CardDescription>

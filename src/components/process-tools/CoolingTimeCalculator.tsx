@@ -7,6 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useExport } from './ExportButton';
 
 const THERMAL_DIFFUSIVITY: Record<string, number> = {
   'ABS': 0.00012,
@@ -21,6 +22,7 @@ const THERMAL_DIFFUSIVITY: Record<string, number> = {
 };
 
 export function CoolingTimeCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Cooling Time Estimator');
   const [wallThickness, setWallThickness] = useState<string>('');
   const [meltTemp, setMeltTemp] = useState<string>('');
   const [moldTemp, setMoldTemp] = useState<string>('');
@@ -65,12 +67,15 @@ export function CoolingTimeCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Cooling Time Estimator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Cooling Time Estimator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           t = (h² / π²α) × ln(4/π × (T<sub>m</sub> - T<sub>w</sub>) / (T<sub>e</sub> - T<sub>w</sub>))
         </CardDescription>
