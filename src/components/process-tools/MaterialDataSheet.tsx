@@ -280,10 +280,10 @@ export function MaterialDataSheet() {
                 <TableRow>
                   <TableHead>Material</TableHead>
                   <TableHead className="text-center">Type</TableHead>
-                  <TableHead className="text-center">Melt °C</TableHead>
-                  <TableHead className="text-center">Mold °C</TableHead>
+                  <TableHead className="text-center">Melt °F</TableHead>
+                  <TableHead className="text-center">Mold °F</TableHead>
                   <TableHead className="text-center">Shrinkage %</TableHead>
-                  <TableHead className="text-center hidden md:table-cell">Dry °C / hrs</TableHead>
+                  <TableHead className="text-center hidden md:table-cell">Dry °F / hrs</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -308,10 +308,10 @@ export function MaterialDataSheet() {
                         {r.type === 'amorphous' ? 'Amorphous' : 'Semi-Cryst.'}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-center text-sm">{r.meltTempMin}–{r.meltTempMax}</TableCell>
-                    <TableCell className="text-center text-sm">{r.moldTempMin}–{r.moldTempMax}</TableCell>
+                    <TableCell className="text-center text-sm">{c2f(r.meltTempMin)}–{c2f(r.meltTempMax)}</TableCell>
+                    <TableCell className="text-center text-sm">{c2f(r.moldTempMin)}–{c2f(r.moldTempMax)}</TableCell>
                     <TableCell className="text-center text-sm">{r.shrinkageMin}–{r.shrinkageMax}</TableCell>
-                    <TableCell className="text-center text-sm hidden md:table-cell">{r.dryTempC}°C / {r.dryTimeHrs}h</TableCell>
+                    <TableCell className="text-center text-sm hidden md:table-cell">{c2f(r.dryTempC)}°F / {r.dryTimeHrs}h</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -362,14 +362,14 @@ function ResinDetail({ resin, onBack }: { resin: ResinData; onBack: () => void }
 
         <TabsContent value="temps" className="mt-3">
           <div className="grid grid-cols-2 gap-3">
-            <ParamCard label="Melt Temperature" value={`${r.meltTempMin}–${r.meltTempMax} °C`} sub={`${c2f(r.meltTempMin)}–${c2f(r.meltTempMax)} °F`} />
-            <ParamCard label="Mold Temperature" value={`${r.moldTempMin}–${r.moldTempMax} °C`} sub={`${c2f(r.moldTempMin)}–${c2f(r.moldTempMax)} °F`} />
+            <ParamCard label="Melt Temperature" value={`${c2f(r.meltTempMin)}–${c2f(r.meltTempMax)} °F`} sub={`${r.meltTempMin}–${r.meltTempMax} °C`} />
+            <ParamCard label="Mold Temperature" value={`${c2f(r.moldTempMin)}–${c2f(r.moldTempMax)} °F`} sub={`${r.moldTempMin}–${r.moldTempMax} °C`} />
           </div>
         </TabsContent>
 
         <TabsContent value="drying" className="mt-3">
           <div className="grid grid-cols-3 gap-3">
-            <ParamCard label="Drying Temp" value={`${r.dryTempC} °C`} sub={`${c2f(r.dryTempC)} °F`} />
+            <ParamCard label="Drying Temp" value={`${c2f(r.dryTempC)} °F`} sub={`${r.dryTempC} °C`} />
             <ParamCard label="Drying Time" value={`${r.dryTimeHrs} hrs`} sub="minimum" />
             <ParamCard label="Max Moisture" value={`${r.maxMoisturePct}%`} sub="at hopper" />
           </div>
