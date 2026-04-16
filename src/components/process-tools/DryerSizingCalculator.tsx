@@ -9,8 +9,10 @@ import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateDryerSizing } from '@/lib/processCalculations';
 import { DRYING_PARAMETERS } from '@/types/processTools';
+import { useExport } from './ExportButton';
 
 export function DryerSizingCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Dryer Sizing Calculator');
   const [throughput, setThroughput] = useState<string>('');
   const [selectedMaterial, setSelectedMaterial] = useState<string>('');
   const [residenceTime, setResidenceTime] = useState<string>('');
@@ -47,12 +49,15 @@ export function DryerSizingCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Dryer Sizing Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Dryer Sizing Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Hopper Volume = (Throughput × Residence Time) / Bulk Density
         </CardDescription>

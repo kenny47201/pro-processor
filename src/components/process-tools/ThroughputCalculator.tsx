@@ -5,8 +5,10 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Calculator } from 'lucide-react';
 import { calculateThroughput } from '@/lib/processCalculations';
+import { useExport } from './ExportButton';
 
 export function ThroughputCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Throughput Calculator');
   const [shotWeight, setShotWeight] = useState<string>('');
   const [cycleTime, setCycleTime] = useState<string>('');
   const [cavities, setCavities] = useState<string>('1');
@@ -34,12 +36,15 @@ export function ThroughputCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Throughput Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Throughput Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Lb/hr = Shot Weight × (3600 / Cycle Time) — Parts per hour and cases per hour
         </CardDescription>

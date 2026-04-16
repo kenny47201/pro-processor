@@ -7,8 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateChillerSizing } from '@/lib/processCalculations';
+import { useExport } from './ExportButton';
 
 export function ChillerSizingCalculator() {
+  const { ref: cardRef, ExportBtn } = useExport('Chiller Sizing Calculator');
   const [shotWeight, setShotWeight] = useState<string>('');
   const [cycleTime, setCycleTime] = useState<string>('');
   const [meltTemp, setMeltTemp] = useState<string>('450');
@@ -42,12 +44,15 @@ export function ChillerSizingCalculator() {
   };
 
   return (
-    <Card>
+    <Card ref={cardRef}>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calculator className="h-5 w-5 text-primary" />
-          Chiller Sizing Calculator
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <Calculator className="h-5 w-5 text-primary" />
+            Chiller Sizing Calculator
+          </CardTitle>
+          <ExportBtn />
+        </div>
         <CardDescription>
           Tons = Q(BTU/hr) / 12,000 — GPM = Q / (500 × ΔT)
         </CardDescription>
