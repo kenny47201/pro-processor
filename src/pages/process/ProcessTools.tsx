@@ -26,7 +26,6 @@ import { RunnerBalanceCalculator } from '@/components/process-tools/RunnerBalanc
 import { MaterialDataSheet } from '@/components/process-tools/MaterialDataSheet';
 import { RecentToolsBar } from '@/components/process-tools/RecentToolsBar';
 import { useRecentTools, RecentToolEntry } from '@/hooks/useRecentTools';
-import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
 type ToolDef = {
