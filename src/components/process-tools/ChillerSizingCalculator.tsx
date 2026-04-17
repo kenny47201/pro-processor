@@ -48,7 +48,6 @@ export function ChillerSizingCalculator() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
-            <Calculator className="h-5 w-5 text-primary" />
             Chiller Sizing Calculator
           </CardTitle>
           <ExportBtn />

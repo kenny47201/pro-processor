@@ -131,7 +131,6 @@ export function RunnerBalanceCalculator() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="text-base flex items-center gap-2">
-            <GitBranch className="h-5 w-5 text-primary" />
             Runner Balance Calculator
           </CardTitle>
           <ExportBtn />
