@@ -54,7 +54,6 @@ export function EnergyCostCalculator() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
-            <Calculator className="h-5 w-5 text-primary" />
             Energy Cost Calculator
           </CardTitle>
           <ExportBtn />
