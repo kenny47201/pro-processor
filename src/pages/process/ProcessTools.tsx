@@ -141,12 +141,6 @@ export default function ProcessTools() {
         <p className="text-muted-foreground mt-1">
           Engineering calculators, studies, and analysis tools for injection molding
         </p>
-        <div className="flex gap-2 mt-3">
-          <Badge variant="default">Setup & Sizing</Badge>
-          <Badge variant="outline">Process Optimization</Badge>
-          <Badge variant="outline">Quality & SPC</Badge>
-          <Badge variant="outline">Utilities & Cost</Badge>
-        </div>
       </div>
 
       <RecentToolsBar
