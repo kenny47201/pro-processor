@@ -27,7 +27,7 @@ export function PinnableToolWrapper({
         aria-label={pinned ? `Unpin ${label}` : `Pin ${label}`}
         title={pinned ? `Unpin ${label}` : `Pin ${label}`}
         className={cn(
-          'absolute top-3 right-3 z-10 h-8 w-8 rounded-md flex items-center justify-center',
+          'absolute top-3 left-3 z-10 h-8 w-8 rounded-md flex items-center justify-center',
           'bg-background/80 backdrop-blur-sm border border-border',
           'hover:border-primary hover:bg-primary/10 transition-colors',
           pinned ? 'text-primary' : 'text-muted-foreground'
