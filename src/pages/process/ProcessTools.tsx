@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TonnageCalculator } from '@/components/process-tools/TonnageCalculator';
 import { ShotVolumeCalculator } from '@/components/process-tools/ShotVolumeCalculator';
@@ -24,8 +24,9 @@ import { PressureLossCalculator } from '@/components/process-tools/PressureLossC
 import { RunnerSizingTool } from '@/components/process-tools/RunnerSizingTool';
 import { RunnerBalanceCalculator } from '@/components/process-tools/RunnerBalanceCalculator';
 import { MaterialDataSheet } from '@/components/process-tools/MaterialDataSheet';
-import { RecentToolsBar } from '@/components/process-tools/RecentToolsBar';
-import { useRecentTools, RecentToolEntry } from '@/hooks/useRecentTools';
+import { PinnedToolsBar, PinnedToolItem } from '@/components/process-tools/PinnedToolsBar';
+import { PinnableToolWrapper } from '@/components/process-tools/PinnableToolWrapper';
+import { usePinnedTools } from '@/hooks/usePinnedTools';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
 type ToolDef = {
@@ -78,60 +79,49 @@ function findTool(id: string) {
 
 export default function ProcessTools() {
   const [activeTab, setActiveTab] = useState('setup');
-  const { recents, recordUse, clear } = useRecentTools();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { pinned, isPinned, toggle, clear } = usePinnedTools();
 
-  const handleToolClick = useCallback(
-    (id: string) => {
-      const tool = findTool(id);
-      if (!tool) return;
-      recordUse(tool.id, tool.label, tool.tab);
-    },
-    [recordUse]
-  );
+  const pinnedItems: PinnedToolItem[] = pinned
+    .map((id) => findTool(id))
+    .filter((t): t is ToolDef => Boolean(t))
+    .map((t) => ({ id: t.id, label: t.label, tab: t.tab }));
 
-  const handleRecentSelect = useCallback(
-    (entry: RecentToolEntry) => {
-      const tool = findTool(entry.id);
-      if (!tool) return;
-      recordUse(tool.id, tool.label, tool.tab);
-      setActiveTab(tool.tab);
-      // Wait for tab content to render, then scroll to anchor
-      requestAnimationFrame(() => {
-        setTimeout(() => {
-          const el = document.getElementById(`tool-${tool.id}`);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            el.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
-            setTimeout(() => {
-              el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
-            }, 2000);
-          }
-        }, 80);
-      });
-    },
-    [recordUse]
-  );
+  const handlePinnedSelect = useCallback((item: PinnedToolItem) => {
+    setActiveTab(item.tab);
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const el = document.getElementById(`tool-${item.id}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          el.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
+          setTimeout(() => {
+            el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
+          }, 2000);
+        }
+      }, 80);
+    });
+  }, []);
 
   const renderToolGrid = (tools: ToolDef[], cols: 1 | 2 = 2) => (
     <div
       className={`grid grid-cols-1 ${cols === 2 ? 'xl:grid-cols-2' : ''} gap-6`}
     >
-      {tools.map(({ id, Component }) => (
-        <div
+      {tools.map(({ id, label, Component }) => (
+        <PinnableToolWrapper
           key={id}
-          id={`tool-${id}`}
-          onClick={() => handleToolClick(id)}
-          className="rounded-lg transition-all scroll-mt-24"
+          id={id}
+          label={label}
+          pinned={isPinned(id)}
+          onTogglePin={toggle}
         >
           <Component />
-        </div>
+        </PinnableToolWrapper>
       ))}
     </div>
   );
 
   return (
-    <div className="space-y-6" ref={containerRef}>
+    <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Wrench className="h-6 w-6 text-primary" />
@@ -142,9 +132,10 @@ export default function ProcessTools() {
         </p>
       </div>
 
-      <RecentToolsBar
-        recents={recents}
-        onSelect={handleRecentSelect}
+      <PinnedToolsBar
+        items={pinnedItems}
+        onSelect={handlePinnedSelect}
+        onUnpin={toggle}
         onClear={clear}
       />
 
