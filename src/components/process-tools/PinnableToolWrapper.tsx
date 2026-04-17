@@ -17,7 +17,10 @@ export function PinnableToolWrapper({
   children,
 }: PinnableToolWrapperProps) {
   return (
-    <div id={`tool-${id}`} className="relative rounded-lg transition-all scroll-mt-24">
+    <div
+      id={`tool-${id}`}
+      className="relative rounded-lg transition-all scroll-mt-24 [&>*]:pt-10"
+    >
       <button
         type="button"
         onClick={(e) => {
@@ -27,7 +30,7 @@ export function PinnableToolWrapper({
         aria-label={pinned ? `Unpin ${label}` : `Pin ${label}`}
         title={pinned ? `Unpin ${label}` : `Pin ${label}`}
         className={cn(
-          'absolute top-3 left-3 z-10 h-8 w-8 rounded-md flex items-center justify-center',
+          'absolute top-2 left-1/2 -translate-x-1/2 z-10 h-7 w-7 rounded-md flex items-center justify-center',
           'bg-background/80 backdrop-blur-sm border border-border',
           'hover:border-primary hover:bg-primary/10 transition-colors',
           pinned ? 'text-primary' : 'text-muted-foreground'
