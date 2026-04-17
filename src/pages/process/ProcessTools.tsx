@@ -1,3 +1,4 @@
+import { useState, useRef, useCallback } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TonnageCalculator } from '@/components/process-tools/TonnageCalculator';
 import { ShotVolumeCalculator } from '@/components/process-tools/ShotVolumeCalculator';
@@ -23,12 +24,115 @@ import { PressureLossCalculator } from '@/components/process-tools/PressureLossC
 import { RunnerSizingTool } from '@/components/process-tools/RunnerSizingTool';
 import { RunnerBalanceCalculator } from '@/components/process-tools/RunnerBalanceCalculator';
 import { MaterialDataSheet } from '@/components/process-tools/MaterialDataSheet';
+import { RecentToolsBar } from '@/components/process-tools/RecentToolsBar';
+import { useRecentTools, RecentToolEntry } from '@/hooks/useRecentTools';
 import { Badge } from '@/components/ui/badge';
 import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
 
+type ToolDef = {
+  id: string;
+  label: string;
+  tab: string;
+  Component: React.ComponentType;
+};
+
+const TOOL_REGISTRY: Record<string, ToolDef[]> = {
+  setup: [
+    { id: 'tonnage', label: 'Clamp Tonnage', tab: 'setup', Component: TonnageCalculator },
+    { id: 'shot-volume', label: 'Shot Volume', tab: 'setup', Component: ShotVolumeCalculator },
+    { id: 'melt-density', label: 'Melt Density', tab: 'setup', Component: MeltDensityCalculator },
+    { id: 'throughput', label: 'Throughput', tab: 'setup', Component: ThroughputCalculator },
+    { id: 'runner-scrap', label: 'Runner Scrap Yield', tab: 'setup', Component: RunnerScrapYieldCalculator },
+    { id: 'cavity-variation', label: 'Cavity Variation', tab: 'setup', Component: CavityVariationStudy },
+    { id: 'shear-rate', label: 'Shear Rate', tab: 'setup', Component: ShearRateCalculator },
+    { id: 'dryer-sizing', label: 'Dryer Sizing', tab: 'setup', Component: DryerSizingCalculator },
+    { id: 'chiller-sizing', label: 'Chiller Sizing', tab: 'setup', Component: ChillerSizingCalculator },
+  ],
+  optimization: [
+    { id: 'viscosity-curve', label: 'Viscosity Curve', tab: 'optimization', Component: ViscosityCurveStudy },
+    { id: 'gate-seal', label: 'Gate Seal Study', tab: 'optimization', Component: GateSealStudy },
+    { id: 'pack-hold', label: 'Pack & Hold Study', tab: 'optimization', Component: PackHoldStudy },
+    { id: 'cooling-time', label: 'Cooling Time', tab: 'optimization', Component: CoolingTimeCalculator },
+    { id: 'pressure-loss', label: 'Pressure Loss', tab: 'optimization', Component: PressureLossCalculator },
+    { id: 'runner-sizing', label: 'Runner Sizing', tab: 'optimization', Component: RunnerSizingTool },
+    { id: 'runner-balance', label: 'Runner Balance', tab: 'optimization', Component: RunnerBalanceCalculator },
+  ],
+  quality: [
+    { id: 'cpk', label: 'Cpk Calculator', tab: 'quality', Component: CpkCalculator },
+    { id: 'reject-rate', label: 'Reject Rate', tab: 'quality', Component: RejectRateAnalyzer },
+    { id: 'cost-per-part', label: 'Cost per Part', tab: 'quality', Component: CostPerPartCalculator },
+  ],
+  utilities: [
+    { id: 'material-data', label: 'Material Data Sheet', tab: 'utilities', Component: MaterialDataSheet },
+    { id: 'unit-converter', label: 'Unit Converter', tab: 'utilities', Component: UnitConverterTool },
+    { id: 'vent-depth', label: 'Vent Depth', tab: 'utilities', Component: VentDepthCalculator },
+    { id: 'cycle-time', label: 'Cycle Time', tab: 'utilities', Component: CycleTimeEstimator },
+    { id: 'energy-cost', label: 'Energy Cost', tab: 'utilities', Component: EnergyCostCalculator },
+  ],
+};
+
+const ALL_TOOLS = Object.values(TOOL_REGISTRY).flat();
+
+function findTool(id: string) {
+  return ALL_TOOLS.find((t) => t.id === id);
+}
+
 export default function ProcessTools() {
+  const [activeTab, setActiveTab] = useState('setup');
+  const { recents, recordUse, clear } = useRecentTools();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleToolClick = useCallback(
+    (id: string) => {
+      const tool = findTool(id);
+      if (!tool) return;
+      recordUse(tool.id, tool.label, tool.tab);
+    },
+    [recordUse]
+  );
+
+  const handleRecentSelect = useCallback(
+    (entry: RecentToolEntry) => {
+      const tool = findTool(entry.id);
+      if (!tool) return;
+      recordUse(tool.id, tool.label, tool.tab);
+      setActiveTab(tool.tab);
+      // Wait for tab content to render, then scroll to anchor
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const el = document.getElementById(`tool-${tool.id}`);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            el.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
+            setTimeout(() => {
+              el.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
+            }, 2000);
+          }
+        }, 80);
+      });
+    },
+    [recordUse]
+  );
+
+  const renderToolGrid = (tools: ToolDef[], cols: 1 | 2 = 2) => (
+    <div
+      className={`grid grid-cols-1 ${cols === 2 ? 'xl:grid-cols-2' : ''} gap-6`}
+    >
+      {tools.map(({ id, Component }) => (
+        <div
+          key={id}
+          id={`tool-${id}`}
+          onClick={() => handleToolClick(id)}
+          className="rounded-lg transition-all scroll-mt-24"
+        >
+          <Component />
+        </div>
+      ))}
+    </div>
+  );
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" ref={containerRef}>
       <div>
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
           <Wrench className="h-6 w-6 text-primary" />
@@ -45,7 +149,13 @@ export default function ProcessTools() {
         </div>
       </div>
 
-      <Tabs defaultValue="setup" className="w-full">
+      <RecentToolsBar
+        recents={recents}
+        onSelect={handleRecentSelect}
+        onClear={clear}
+      />
+
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid grid-cols-4 w-full max-w-2xl">
           <TabsTrigger value="setup" className="flex items-center gap-1.5">
             <Scale className="h-4 w-4" />
@@ -76,10 +186,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Machine & Tonnage
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <TonnageCalculator />
-              <ShotVolumeCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => ['tonnage', 'shot-volume'].includes(t.id)))}
           </section>
 
           <section>
@@ -87,9 +194,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Material Properties
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <MeltDensityCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => t.id === 'melt-density'))}
           </section>
 
           <section>
@@ -97,10 +202,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Throughput & Production
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <ThroughputCalculator />
-              <RunnerScrapYieldCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => ['throughput', 'runner-scrap'].includes(t.id)))}
           </section>
 
           <section>
@@ -108,10 +210,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Studies & Analysis
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <CavityVariationStudy />
-              <ShearRateCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => ['cavity-variation', 'shear-rate'].includes(t.id)))}
           </section>
 
           <section>
@@ -119,10 +218,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Auxiliary Equipment Sizing
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <DryerSizingCalculator />
-              <ChillerSizingCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => ['dryer-sizing', 'chiller-sizing'].includes(t.id)))}
           </section>
         </TabsContent>
 
@@ -133,10 +229,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Scientific Molding Studies
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <ViscosityCurveStudy />
-              <GateSealStudy />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.optimization.filter((t) => ['viscosity-curve', 'gate-seal'].includes(t.id)))}
           </section>
 
           <section>
@@ -144,10 +237,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Pack, Hold & Cooling
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <PackHoldStudy />
-              <CoolingTimeCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.optimization.filter((t) => ['pack-hold', 'cooling-time'].includes(t.id)))}
           </section>
 
           <section>
@@ -155,10 +245,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Runner System Analysis
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <PressureLossCalculator />
-              <RunnerSizingTool />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.optimization.filter((t) => ['pressure-loss', 'runner-sizing'].includes(t.id)))}
           </section>
 
           <section>
@@ -166,9 +253,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Runner Balance Analysis
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <RunnerBalanceCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.optimization.filter((t) => t.id === 'runner-balance'))}
           </section>
         </TabsContent>
 
@@ -179,10 +264,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Statistical Process Control
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <CpkCalculator />
-              <RejectRateAnalyzer />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.quality.filter((t) => ['cpk', 'reject-rate'].includes(t.id)))}
           </section>
 
           <section>
@@ -190,9 +272,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Cost Analysis
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <CostPerPartCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.quality.filter((t) => t.id === 'cost-per-part'))}
           </section>
         </TabsContent>
 
@@ -203,9 +283,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Material Reference
             </h2>
-            <div className="grid grid-cols-1 gap-6">
-              <MaterialDataSheet />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.utilities.filter((t) => t.id === 'material-data'), 1)}
           </section>
 
           <section>
@@ -213,10 +291,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Conversions & Reference
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <UnitConverterTool />
-              <VentDepthCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.utilities.filter((t) => ['unit-converter', 'vent-depth'].includes(t.id)))}
           </section>
 
           <section>
@@ -224,10 +299,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Cycle & Energy
             </h2>
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-              <CycleTimeEstimator />
-              <EnergyCostCalculator />
-            </div>
+            {renderToolGrid(TOOL_REGISTRY.utilities.filter((t) => ['cycle-time', 'energy-cost'].includes(t.id)))}
           </section>
         </TabsContent>
       </Tabs>
