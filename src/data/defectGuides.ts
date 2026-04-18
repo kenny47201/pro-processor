@@ -1,3 +1,5 @@
+import { additionalDefectGuides } from './additionalDefectGuides';
+
 export interface DefectGuideSection {
   id: string;
   title: string;
@@ -479,6 +481,7 @@ export const defectGuides: DefectGuide[] = [
       { id: 'R18', text: 'Industry blister cross-section interpretation references.' },
     ],
   },
+  ...additionalDefectGuides,
 ];
 
 export const getDefectGuide = (slug: string) =>
