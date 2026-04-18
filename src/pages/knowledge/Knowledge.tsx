@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { BookOpen, FileText, AlertTriangle, Wrench, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { defectGuides } from '@/data/defectGuides';
 
 export default function Knowledge() {
   const sections = [
@@ -18,7 +19,7 @@ export default function Knowledge() {
       description: 'Defect identification, root causes, and corrective actions',
       icon: <AlertTriangle className="h-6 w-6" />,
       link: '/knowledge/defects',
-      count: 0,
+      count: defectGuides.length,
       color: 'text-orange-500',
     },
     {
