@@ -479,6 +479,22 @@ export const additionalDefectGuides: DefectGuide[] = [
             text:
               'Cold runners impose greater pre-gate heat loss, often reducing runner-side thermal degradation but increasing viscosity variation and cavity-to-cavity color spread. Hot runners minimize pre-gate loss and improve uniformity when properly tuned, but add residence time and create surfaces/pockets where degraded material accumulates. Hot runners only outperform cold runners when temperature control, purge discipline, manifold balance, and flow-path cleanliness are tightly controlled.',
           },
+          {
+            type: 'image',
+            src: discolorationRunnerComparison,
+            alt: 'Side-by-side schematic comparing cold runner versus hot runner thermal history and color stability',
+            figureNumber: 'Figure 3',
+            caption: 'Cold runner vs hot runner — color stability trade-off.',
+            lookFor: {
+              title: 'Trade-offs at a glance',
+              tone: 'info',
+              items: [
+                'Cold runner — more pre-gate heat loss; lower runner-side degradation but more cavity-to-cavity color spread.',
+                'Hot runner — stable gate temperature; higher degradation risk if hot spots, dead zones, or excessive soak time exist.',
+                'Hot runner only wins when manifold balance, purge discipline, and flow-path cleanliness are tight.',
+              ],
+            },
+          },
         ],
       },
       {
@@ -495,6 +511,24 @@ export const additionalDefectGuides: DefectGuide[] = [
               'For local color: review gate geometry, vent condition, and air-trap maps from simulation.',
               'For cavity mismatch: log hot-runner zone actuals, check manifold balance and water-circuit symmetry.',
             ],
+          },
+          {
+            type: 'image',
+            src: discolorationFlowchart,
+            alt: 'Troubleshooting flowchart for discoloration emphasizing changeover, residence, temperature, venting, and objective color confirmation',
+            figureNumber: 'Figure 4',
+            caption: 'Shop-floor troubleshooting sequence — changeover → residence → temperature → venting → objective ΔE confirmation.',
+            lookFor: {
+              title: 'Sequence to follow on the floor',
+              tone: 'success',
+              items: [
+                'Confirm defect mode (uniform yellowing vs streaks vs local burn) before changing any setpoint.',
+                'Check changeover, purge quality, raw material lot, dryer status, and downtime first.',
+                'For local issues: inspect venting, air traps, gate shear, and hot spots.',
+                'For global shifts: reduce residence and melt temperature, clean barrel/HR/nozzle.',
+                'Always close the loop with a ΔE measurement, then lock the process window.',
+              ],
+            },
           },
         ],
       },
