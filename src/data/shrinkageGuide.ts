@@ -34,7 +34,18 @@ export const shrinkageGuide: DefectGuide = {
           type: 'image',
           src: shrinkageTimeline,
           alt: 'Moulding and post-moulding shrinkage timeline chart',
-          caption: 'Figure 1 — Shrinkage develops during filling/packing/cooling and continues after ejection as residual stress relaxes and the polymer approaches equilibrium.',
+          figureNumber: 'Figure 1',
+          caption: 'Shrinkage develops during filling/packing/cooling and continues after ejection as residual stress relaxes and the polymer approaches equilibrium.',
+          lookFor: {
+            title: 'What to look for on the timeline',
+            tone: 'info',
+            items: [
+              'Steep drop during packing — indicates whether hold pressure is feeding the cavity or losing seal at the gate.',
+              'Slope between demould and 24 h — large continued shrinkage points to residual stress or insufficient cooling time.',
+              'Divergence between flow and cross-flow directions — anisotropy from fiber orientation; expect the larger value parallel to flow for unfilled resins, perpendicular for fiber-filled.',
+              'Late drift past 48 h — moisture conditioning of hygroscopic resins (PA, PC) rather than true shrinkage.',
+            ],
+          },
         },
         { type: 'heading', level: 3, text: '1.2 How shrinkage manifests' },
         {
