@@ -1,8 +1,174 @@
+import { useMemo, useState } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, Info, CheckCircle2, Calculator, ArrowRight } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from '@/components/ui/button';
+import {
+  AlertTriangle,
+  Info,
+  CheckCircle2,
+  Calculator,
+  ArrowRight,
+  Eye,
+  Ruler,
+  Settings2,
+  ClipboardCheck,
+  RotateCcw,
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import type { GuideBlock } from '@/data/defectGuides';
 import { cn } from '@/lib/utils';
+
+const groupKindConfig = {
+  inspect: { icon: Eye, label: 'Inspect', accent: 'text-primary' },
+  measure: { icon: Ruler, label: 'Measure', accent: 'text-warning' },
+  calculator: { icon: Calculator, label: 'Calculate', accent: 'text-primary' },
+  setting: { icon: Settings2, label: 'Review settings', accent: 'text-foreground' },
+} as const;
+
+function DiagnoseChecklist({
+  block,
+  storageKey,
+}: {
+  block: Extract<GuideBlock, { type: 'diagnoseChecklist' }>;
+  storageKey: string;
+}) {
+  const total = useMemo(
+    () => block.groups.reduce((n, g) => n + g.items.length, 0),
+    [block],
+  );
+  const [checked, setChecked] = useState<Record<string, boolean>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const raw = window.localStorage.getItem(storageKey);
+      return raw ? JSON.parse(raw) : {};
+    } catch {
+      return {};
+    }
+  });
+
+  const persist = (next: Record<string, boolean>) => {
+    setChecked(next);
+    try {
+      window.localStorage.setItem(storageKey, JSON.stringify(next));
+    } catch {
+      /* ignore quota errors */
+    }
+  };
+
+  const toggle = (key: string) => persist({ ...checked, [key]: !checked[key] });
+  const reset = () => persist({});
+
+  const completed = Object.values(checked).filter(Boolean).length;
+  const pct = total ? Math.round((completed / total) * 100) : 0;
+
+  return (
+    <div className="my-5 rounded-lg border border-primary/30 bg-primary/5 p-4 space-y-4">
+      <div className="flex items-start gap-2">
+        <ClipboardCheck className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+        <div className="space-y-0.5 min-w-0 flex-1">
+          <div className="font-semibold text-sm">
+            {block.title ?? 'Diagnose Checklist'}
+          </div>
+          {block.description && (
+            <div className="text-xs text-muted-foreground leading-relaxed">
+              {block.description}
+            </div>
+          )}
+        </div>
+        <div className="flex items-center gap-2 shrink-0">
+          <span className="text-xs font-mono text-muted-foreground tabular-nums">
+            {completed}/{total} · {pct}%
+          </span>
+          {completed > 0 && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 px-2 text-xs"
+              onClick={reset}
+            >
+              <RotateCcw className="h-3 w-3 mr-1" />
+              Reset
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div className="h-1 rounded-full bg-muted overflow-hidden">
+        <div
+          className="h-full bg-primary transition-all duration-300"
+          style={{ width: `${pct}%` }}
+        />
+      </div>
+
+      <div className="space-y-3">
+        {block.groups.map((group, gi) => {
+          const cfg = groupKindConfig[group.kind];
+          const Icon = cfg.icon;
+          return (
+            <div key={gi} className="rounded-md border bg-background/60 p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Icon className={cn('h-4 w-4', cfg.accent)} />
+                <span className="text-xs font-semibold uppercase tracking-wide text-foreground/80">
+                  {group.label}
+                </span>
+                <span className="text-[10px] font-mono text-muted-foreground">
+                  {cfg.label}
+                </span>
+              </div>
+              <ul className="space-y-1.5">
+                {group.items.map((item, ii) => {
+                  const key = `${gi}:${ii}`;
+                  const id = `${storageKey}:${key}`;
+                  const isChecked = !!checked[key];
+                  return (
+                    <li key={ii} className="flex items-start gap-2.5 group">
+                      <Checkbox
+                        id={id}
+                        checked={isChecked}
+                        onCheckedChange={() => toggle(key)}
+                        className="mt-0.5"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <label
+                          htmlFor={id}
+                          className={cn(
+                            'text-sm leading-snug cursor-pointer block',
+                            isChecked && 'line-through text-muted-foreground',
+                          )}
+                        >
+                          {item.text}
+                        </label>
+                        {item.hint && (
+                          <div
+                            className={cn(
+                              'text-xs text-muted-foreground mt-0.5 leading-snug',
+                              isChecked && 'line-through opacity-60',
+                            )}
+                          >
+                            {item.hint}
+                          </div>
+                        )}
+                      </div>
+                      {item.toolId && (
+                        <Link
+                          to={`/process-tools?tool=${item.toolId}`}
+                          className="shrink-0 inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline px-2 py-0.5 rounded border border-primary/30 hover:bg-primary/10 transition-colors"
+                        >
+                          Open
+                          <ArrowRight className="h-3 w-3" />
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
 
 const calloutConfig = {
   info: { icon: Info, classes: 'border-l-primary bg-primary/5 text-foreground' },
@@ -167,6 +333,13 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
                 </div>
               </div>
             );
+          case 'diagnoseChecklist': {
+            const sig = `${block.title ?? 'diagnose'}|${block.groups
+              .map((g) => `${g.kind}:${g.items.length}`)
+              .join(',')}`;
+            const storageKey = `defect-checklist:${sig}`;
+            return <DiagnoseChecklist key={i} block={block} storageKey={storageKey} />;
+          }
           default:
             return null;
         }
