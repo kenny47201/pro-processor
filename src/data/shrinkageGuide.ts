@@ -222,7 +222,7 @@ export const shrinkageGuide: DefectGuide = {
           type: 'image',
           src: shrinkageFlowchart,
           alt: 'Shrinkage troubleshooting flowchart',
-          figureNumber: 'Figure 2',
+          figureNumber: 'Figure 4',
           caption: 'Decision tree: classify global undersize vs local sink/void, then branch by stability and geometry.',
           lookFor: {
             title: 'How to walk this flowchart',
