@@ -1877,6 +1877,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'root-causes',
         title: '2. Root Causes',
         blocks: [
+          {
+            type: 'image',
+            src: sinkMarksFormationTimeline,
+            alt: 'Four-stage timeline: mold fills, packing, gate freezes, interior cools and sink appears',
+            figureNumber: 'Figure 3',
+            caption:
+              'Sink formation timeline — the surface remains nominal through fill and pack. Once the gate freezes, no more melt can be fed; as the still-hot interior continues to cool and contract, the now-rigid skin is pulled inward and a sink appears.',
+            lookFor: {
+              tone: 'warning',
+              title: 'Why timing matters',
+              items: [
+                'Stages 1–2: defect not yet visible — early inspection misses it.',
+                'Stage 3 (gate freeze): the last opportunity to compensate via pack pressure.',
+                'Stage 4: sink emerges minutes-to-hours after ejection — verify with delayed inspection.',
+                'Most sink fixes target Stage 3: extend the open-gate window (larger gate, hotter melt, valve-gate hold).',
+              ],
+            },
+          },
           { type: 'heading', level: 3, text: '2.1 Material factors' },
           {
             type: 'list',
