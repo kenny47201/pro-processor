@@ -2,6 +2,9 @@ import type { DefectGuide } from './defectGuides';
 import voidsCrossSection from '@/assets/voids-cross-section.jpg';
 import voidsWallThickness from '@/assets/voids-wall-thickness.jpg';
 import voidsFlowchart from '@/assets/voids-flowchart.jpg';
+import voidsPressureProfile from '@/assets/voids-pressure-profile.jpg';
+import voidsRunnerSchematic from '@/assets/voids-runner-schematic.jpg';
+import voidsBossRibDesign from '@/assets/voids-boss-rib-design.jpg';
 
 export const voidsGuide: DefectGuide = {
   slug: 'voids',
