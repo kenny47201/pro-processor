@@ -907,6 +907,23 @@ export const additionalDefectGuides: DefectGuide[] = [
         title: '1. Definition & Visual Manifestation',
         blocks: [
           {
+            type: 'image',
+            src: flowLinesAppearance,
+            alt: 'Three molded plates showing the three visual signatures of flow lines: gate-near concentric rings, mid-flow wave-like banding (tiger stripes), and feature-induced streaking around bosses and ribs, plus a gloss/dull alternation key.',
+            figureNumber: 'Figure 1',
+            caption: 'Visual appearance of flow lines — gate-near concentric rings, wave-like flow-path banding (tiger stripes), feature-induced streaking, and the characteristic gloss/dull alternation perpendicular to flow.',
+            lookFor: {
+              title: 'Match the pattern to the cause',
+              tone: 'info',
+              items: [
+                'Concentric rings centered on the gate → cold slug, direct-sprue thermal mismatch, or hot-runner tip drift.',
+                'Wave-like bands extending downstream → unstable fountain flow; usually fill-speed profile or melt/mold temp.',
+                'Streaks emerging around bosses, ribs, or holes → flow hesitation at geometry transitions.',
+                'Alternating gloss/dull bands perpendicular to flow → classic tiger-stripe slip-stick signature, common on filled PP.',
+              ],
+            },
+          },
+          {
             type: 'list',
             items: [
               'Gate-centered concentric rings or halos, especially on direct-sprue gating.',
