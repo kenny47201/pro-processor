@@ -5,6 +5,30 @@ import burnMarksRunnerComparison from '@/assets/burn-marks-runner-comparison.jpg
 import burnMarksVentingSolutions from '@/assets/burn-marks-venting-solutions.jpg';
 import burnMarksDieselEffect from '@/assets/burn-marks-diesel-effect.jpg';
 import burnMarksFlowchart from '@/assets/burn-marks-flowchart.jpg';
+// Discoloration
+import discolorationMechanismMap from '@/assets/discoloration-mechanism-map.jpg';
+import discolorationDeltaEThresholds from '@/assets/discoloration-deltae-thresholds.jpg';
+import discolorationRunnerComparison from '@/assets/discoloration-runner-comparison.jpg';
+import discolorationFlowchart from '@/assets/discoloration-flowchart.png';
+// Flash
+import flashProcessEffects from '@/assets/flash-process-effects.jpg';
+import flashPartingLineCrossSection from '@/assets/flash-parting-line-cross-section.png';
+import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
+import flashTypeComparison from '@/assets/flash-type-comparison.png';
+import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
+import flashVentingComparison from '@/assets/flash-venting-comparison.png';
+import flashTroubleshootingFlowchart from '@/assets/flash-troubleshooting-flowchart.png';
+// Jetting
+import jettingTopView from '@/assets/jetting-top-view.jpg';
+import jettingCrossSection from '@/assets/jetting-cross-section.jpg';
+import jettingGateTypes from '@/assets/jetting-gate-types.png';
+import jettingFlowchart from '@/assets/jetting-flowchart.jpg';
+// Meld Line
+import meldLineFormation from '@/assets/meld-line-formation.jpg';
+import meldLineCrossSection from '@/assets/meld-line-cross-section.jpg';
+import meldLineRunnerComparison from '@/assets/meld-line-runner-comparison.png';
+import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
+import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
 const commonRefs = [
