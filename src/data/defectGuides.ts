@@ -1,6 +1,7 @@
 import { additionalDefectGuides } from './additionalDefectGuides';
 import bubblesBlistersComparison from '@/assets/bubbles-blisters-comparison.png';
 import bubblesBlistersLocations from '@/assets/bubbles-blisters-locations.png';
+import bubblesBlistersFlowchart from '@/assets/bubbles-blisters-flowchart.png';
 import { coldSlugMarksGuide } from './coldSlugMarksGuide';
 import { delaminationGuide } from './delaminationGuide';
 import { warpageGuide } from './warpageGuide';
@@ -485,6 +486,23 @@ export const defectGuides: DefectGuide[] = [
         title: '8. Troubleshooting Guide',
         blocks: [
           { type: 'heading', level: 3, text: '8.1 Step-by-step flowchart' },
+          {
+            type: 'image',
+            src: bubblesBlistersFlowchart,
+            alt: 'Bubbles and blisters troubleshooting decision tree',
+            figureNumber: 'Figure 3',
+            caption: 'Yes/no decision tree from initial defect classification through material check, location triage, and corrective action by mechanism.',
+            lookFor: {
+              title: 'How to read the flowchart',
+              tone: 'success',
+              items: [
+                'Step 1 splits the path on resin family — hygroscopic resins start with moisture verification.',
+                'Step 2 triages by location: thick section → gate-freeze study; end-of-fill → venting; cavity-specific → hot-runner audit.',
+                'Always verify actual melt temperature, purge quality, and back-pressure / decompression before changing setpoints.',
+                'Avoid the listed pitfalls — most repeat-offender defects come from skipping verification steps.',
+              ],
+            },
+          },
           {
             type: 'orderedList',
             items: [
