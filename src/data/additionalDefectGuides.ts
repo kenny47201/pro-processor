@@ -2042,6 +2042,7 @@ export const additionalDefectGuides: DefectGuide[] = [
               },
             ],
           },
+          {
             type: 'image',
             src: sinkMarksLocationMap,
             alt: 'Top-down enclosure outline showing sink mark locations opposite ribs, bosses, gussets, thick wall steps, and inserts',
