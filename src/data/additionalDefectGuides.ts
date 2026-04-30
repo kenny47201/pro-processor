@@ -98,6 +98,8 @@ export const additionalDefectGuides: DefectGuide[] = [
           },
         ],
       },
+      {
+        id: 'definition',
         title: '1. Definition & Overview',
         blocks: [
           { type: 'heading', level: 3, text: '1.1 Visual & structural manifestation' },
