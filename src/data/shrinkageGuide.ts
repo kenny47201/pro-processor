@@ -79,6 +79,10 @@ export const shrinkageGuide: DefectGuide = {
           figureNumber: 'Figure 2',
           caption: 'Illustrative linear moulding shrinkage bands by material family. Actual values depend on grade, filler level, test method, gate direction, packing, cooling, and time of measurement.',
         },
+      ],
+    },
+    {
+      id: 'root-causes',
       title: '2. Root Causes',
       blocks: [
         { type: 'heading', level: 3, text: '2.1 Material factors' },
