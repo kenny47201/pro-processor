@@ -5,6 +5,30 @@ import burnMarksRunnerComparison from '@/assets/burn-marks-runner-comparison.jpg
 import burnMarksVentingSolutions from '@/assets/burn-marks-venting-solutions.jpg';
 import burnMarksDieselEffect from '@/assets/burn-marks-diesel-effect.jpg';
 import burnMarksFlowchart from '@/assets/burn-marks-flowchart.jpg';
+// Discoloration
+import discolorationMechanismMap from '@/assets/discoloration-mechanism-map.jpg';
+import discolorationDeltaEThresholds from '@/assets/discoloration-deltae-thresholds.jpg';
+import discolorationRunnerComparison from '@/assets/discoloration-runner-comparison.jpg';
+import discolorationFlowchart from '@/assets/discoloration-flowchart.png';
+// Flash
+import flashProcessEffects from '@/assets/flash-process-effects.jpg';
+import flashPartingLineCrossSection from '@/assets/flash-parting-line-cross-section.png';
+import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
+import flashTypeComparison from '@/assets/flash-type-comparison.png';
+import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
+import flashVentingComparison from '@/assets/flash-venting-comparison.png';
+import flashTroubleshootingFlowchart from '@/assets/flash-troubleshooting-flowchart.png';
+// Jetting
+import jettingTopView from '@/assets/jetting-top-view.jpg';
+import jettingCrossSection from '@/assets/jetting-cross-section.jpg';
+import jettingGateTypes from '@/assets/jetting-gate-types.png';
+import jettingFlowchart from '@/assets/jetting-flowchart.jpg';
+// Meld Line
+import meldLineFormation from '@/assets/meld-line-formation.jpg';
+import meldLineCrossSection from '@/assets/meld-line-cross-section.jpg';
+import meldLineRunnerComparison from '@/assets/meld-line-runner-comparison.png';
+import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
+import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
 const commonRefs = [
@@ -371,6 +395,39 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Reject / containment', '5.0'],
             ],
           },
+          {
+            type: 'image',
+            src: discolorationMechanismMap,
+            alt: 'Mechanism map showing the four primary defect families that produce visible color shift in molded parts: thermal degradation, contamination, colorant/masterbatch dispersion, and oxidation/venting/burn-related shift',
+            figureNumber: 'Figure 1',
+            caption: 'Mechanism map — the four coupled drivers behind visible color shift on molded parts.',
+            lookFor: {
+              title: 'Use this map to bucket the defect first',
+              tone: 'info',
+              items: [
+                'Thermal degradation → check residence time, hot-runner soak, and barrel/nozzle setpoints.',
+                'Contamination → audit material identity, hopper/throat cleanliness, and changeover purge records.',
+                'Colorant/masterbatch dispersion → check feed rate, back pressure, screw mixing, and masterbatch carrier compatibility.',
+                'Oxidation / venting / burn → inspect vents at end-of-fill, weld lines, and trapped-air zones.',
+              ],
+            },
+          },
+          {
+            type: 'image',
+            src: discolorationDeltaEThresholds,
+            alt: 'Bar chart showing example visual color-difference thresholds for molded parts: 1.0 barely perceptible, 3.0 production alert, 5.0 reject/containment',
+            figureNumber: 'Figure 2',
+            caption: 'Example ΔE* alert thresholds for molded-part color verification. Customer-specific limits always override generic thresholds.',
+            lookFor: {
+              title: 'How to read this on the floor',
+              tone: 'info',
+              items: [
+                'Always measure with a calibrated spectrophotometer (CIELAB per ASTM D2244) — never rely on visual judgement alone.',
+                'A ΔE in the 1–3 band is a leading indicator: investigate before it crosses 5.',
+                'Document the ΔE release criterion with the customer before production — it converts subjective color calls into measurable control.',
+              ],
+            },
+          },
         ],
       },
       {
@@ -422,6 +479,22 @@ export const additionalDefectGuides: DefectGuide[] = [
             text:
               'Cold runners impose greater pre-gate heat loss, often reducing runner-side thermal degradation but increasing viscosity variation and cavity-to-cavity color spread. Hot runners minimize pre-gate loss and improve uniformity when properly tuned, but add residence time and create surfaces/pockets where degraded material accumulates. Hot runners only outperform cold runners when temperature control, purge discipline, manifold balance, and flow-path cleanliness are tightly controlled.',
           },
+          {
+            type: 'image',
+            src: discolorationRunnerComparison,
+            alt: 'Side-by-side schematic comparing cold runner versus hot runner thermal history and color stability',
+            figureNumber: 'Figure 3',
+            caption: 'Cold runner vs hot runner — color stability trade-off.',
+            lookFor: {
+              title: 'Trade-offs at a glance',
+              tone: 'info',
+              items: [
+                'Cold runner — more pre-gate heat loss; lower runner-side degradation but more cavity-to-cavity color spread.',
+                'Hot runner — stable gate temperature; higher degradation risk if hot spots, dead zones, or excessive soak time exist.',
+                'Hot runner only wins when manifold balance, purge discipline, and flow-path cleanliness are tight.',
+              ],
+            },
+          },
         ],
       },
       {
@@ -438,6 +511,24 @@ export const additionalDefectGuides: DefectGuide[] = [
               'For local color: review gate geometry, vent condition, and air-trap maps from simulation.',
               'For cavity mismatch: log hot-runner zone actuals, check manifold balance and water-circuit symmetry.',
             ],
+          },
+          {
+            type: 'image',
+            src: discolorationFlowchart,
+            alt: 'Troubleshooting flowchart for discoloration emphasizing changeover, residence, temperature, venting, and objective color confirmation',
+            figureNumber: 'Figure 4',
+            caption: 'Shop-floor troubleshooting sequence — changeover → residence → temperature → venting → objective ΔE confirmation.',
+            lookFor: {
+              title: 'Sequence to follow on the floor',
+              tone: 'success',
+              items: [
+                'Confirm defect mode (uniform yellowing vs streaks vs local burn) before changing any setpoint.',
+                'Check changeover, purge quality, raw material lot, dryer status, and downtime first.',
+                'For local issues: inspect venting, air traps, gate shear, and hot spots.',
+                'For global shifts: reduce residence and melt temperature, clean barrel/HR/nozzle.',
+                'Always close the loop with a ΔE measurement, then lock the process window.',
+              ],
+            },
           },
         ],
       },
