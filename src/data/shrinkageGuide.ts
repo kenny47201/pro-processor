@@ -1,6 +1,8 @@
 import type { DefectGuide } from './defectGuides';
-import shrinkageTimeline from '@/assets/shrinkage-timeline.jpg';
-import shrinkageFlowchart from '@/assets/shrinkage-flowchart.jpg';
+import shrinkageTimeline from '@/assets/shrinkage-timeline-chart.jpg';
+import shrinkageMaterialBands from '@/assets/shrinkage-material-bands.jpg';
+import shrinkageColdVsHotRunner from '@/assets/shrinkage-cold-vs-hot-runner.jpg';
+import shrinkageFlowchart from '@/assets/shrinkage-troubleshooting-flowchart.png';
 
 export const shrinkageGuide: DefectGuide = {
   slug: 'shrinkage',
