@@ -289,10 +289,26 @@ export const additionalDefectGuides: DefectGuide[] = [
               'In severe cases: machine vent slots, add porous steel (Porcerax) inserts at trapped-air zones.',
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksFlowchart,
+            alt: 'Burn Mark Diagnosis and Troubleshooting Flowchart with branches for Gate Burn (cold runner and hot runner fixes) and End-of-Fill Burn (vent inspection, fill speed, valve gating, advanced venting)',
+            figureNumber: 'Figure 5',
+            caption: 'Complete burn-mark diagnostic flowchart — Gate Burn pathway on the left, End-of-Fill (Diesel) pathway on the right, converging at "Burn Mark Resolved → document parameters & update SOP."',
+            lookFor: {
+              title: 'How to walk this flowchart on the floor',
+              tone: 'info',
+              items: [
+                'Always answer the first decision (where is the burn located?) before changing any parameter — wrong branch = wrong fix.',
+                'Cold-runner branch: drop injection speed and check melt temp / back pressure before touching the steel.',
+                'Hot-runner branch: tip thermocouple and manifold dead-leg checks come before any process change.',
+                'EOF branch: clean the vent first, then reduce last-stage fill speed, then add a vent — in that order.',
+                'If "still burning" after the simulation step, escalate to gate geometry or sequential valve gating; do not keep tweaking the same parameters.',
+              ],
+            },
+          },
         ],
       },
-      {
-        id: 'best-practices',
         title: '6. Industry Best Practices & Pitfalls',
         blocks: [
           {
