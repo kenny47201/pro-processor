@@ -1,5 +1,6 @@
 import { additionalDefectGuides } from './additionalDefectGuides';
 import { coldSlugMarksGuide } from './coldSlugMarksGuide';
+import { delaminationGuide } from './delaminationGuide';
 
 export interface DefectGuideSection {
   id: string;
@@ -485,6 +486,7 @@ export const defectGuides: DefectGuide[] = [
   },
   ...additionalDefectGuides,
   coldSlugMarksGuide,
+  delaminationGuide,
 ];
 
 export const getDefectGuide = (slug: string) =>
