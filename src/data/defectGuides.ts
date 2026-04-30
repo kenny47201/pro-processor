@@ -590,5 +590,45 @@ export const defectGuides: DefectGuide[] = [
   weldLinesGuide,
 ];
 
+import { defectDiagnostics } from './defectDiagnostics';
+
+/**
+ * Slugs that already have hand-authored Diagnose checklists in their guide
+ * data. The auto-injector below skips these to avoid duplicate blocks.
+ */
+const SKIP_AUTO_INJECT = new Set<string>(['sink-marks']);
+
+/**
+ * Pick the best section to inject the Diagnose checklist + calculator links
+ * into. Preference: an existing diagnostics section, then troubleshooting,
+ * corrective-actions, root-causes — finally any non-summary section.
+ */
+function pickDiagnosticsSectionIndex(guide: DefectGuide): number {
+  const preferred = ['diagnostics', 'troubleshooting', 'corrective-actions', 'root-causes'];
+  for (const id of preferred) {
+    const idx = guide.sections.findIndex((s) => s.id === id);
+    if (idx >= 0) return idx;
+  }
+  // Skip executive-summary / overview / definition if possible.
+  const idx = guide.sections.findIndex(
+    (s) => !/summary|overview|definition/i.test(s.id),
+  );
+  return idx >= 0 ? idx : 0;
+}
+
+// Auto-inject Diagnose checklist + Related Process Tools at the top of the
+// most relevant section of every guide that has a registered diagnostics entry.
+for (const guide of defectGuides) {
+  if (SKIP_AUTO_INJECT.has(guide.slug)) continue;
+  const diag = defectDiagnostics[guide.slug];
+  if (!diag) continue;
+  const sectionIdx = pickDiagnosticsSectionIndex(guide);
+  const section = guide.sections[sectionIdx];
+  if (!section) continue;
+  // Prepend so users see the actionable checklist before the prose.
+  section.blocks = [diag.checklist, diag.links, ...section.blocks];
+}
+
 export const getDefectGuide = (slug: string) =>
   defectGuides.find((g) => g.slug === slug);
+
