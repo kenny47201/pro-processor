@@ -1,4 +1,5 @@
 import { additionalDefectGuides } from './additionalDefectGuides';
+import bubblesBlistersComparison from '@/assets/bubbles-blisters-comparison.png';
 import { coldSlugMarksGuide } from './coldSlugMarksGuide';
 import { delaminationGuide } from './delaminationGuide';
 import { warpageGuide } from './warpageGuide';
