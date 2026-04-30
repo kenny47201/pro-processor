@@ -205,6 +205,13 @@ export const voidsGuide: DefectGuide = {
             'For hot-runner tools, individually balance zones and verify valve-gate timing.',
           ],
         },
+        {
+          type: 'image',
+          src: voidsBossRibDesign,
+          alt: 'Boss and rib design comparison: poor solid boss vs cored hollow boss with rib design rules',
+          figureNumber: 'Figure 4',
+          caption: 'Void-resistant geometry: a solid boss with wall thickness equal to the nominal wall (T:T = 1:1) traps shrinkage as a void. Cored-out hollow bosses keep the wall ≤ 0.6T. Ribs follow the same rule — width ≤ 0.6T, height ≤ 3× rib width.',
+        },
       ],
     },
     {
