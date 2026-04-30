@@ -1,4 +1,10 @@
 import type { DefectGuide } from './defectGuides';
+import burnMarksGateBurn from '@/assets/burn-marks-gate-burn.jpg';
+import burnMarksEndOfFill from '@/assets/burn-marks-end-of-fill.jpg';
+import burnMarksRunnerComparison from '@/assets/burn-marks-runner-comparison.jpg';
+import burnMarksVentingSolutions from '@/assets/burn-marks-venting-solutions.jpg';
+import burnMarksDieselEffect from '@/assets/burn-marks-diesel-effect.jpg';
+import burnMarksFlowchart from '@/assets/burn-marks-flowchart.jpg';
 
 // Shared reference list reused across guides
 const commonRefs = [
@@ -56,6 +62,40 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Cold runner specific', 'Runner pressure drop forces high gate velocity', 'Limited vent locations amplify risk'],
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksGateBurn,
+            alt: 'Gate Burn Mark diagram showing thermal degradation at the gate land caused by shear heat, with brown/black discoloration and brittle surface',
+            figureNumber: 'Figure 1A',
+            caption: 'Gate Burn — shear heat at the gate land causes thermal degradation immediately at or downstream of the gate vestige.',
+            lookFor: {
+              title: 'Gate Burn — visual signature',
+              tone: 'warning',
+              items: [
+                'Elliptical brown/black halo radiating from the gate center; sometimes with downstream streaks following flow direction.',
+                'Burn is co-located with the gate vestige — never deep into the cavity.',
+                'Surface feels brittle or rough; in severe cases the cross-section is degraded, not just the skin.',
+                'Worsens as injection speed increases — the smoking gun for shear-driven burn.',
+              ],
+            },
+          },
+          {
+            type: 'image',
+            src: burnMarksEndOfFill,
+            alt: 'End-of-Fill Burn (Diesel Effect) diagram showing adiabatic compression of trapped air at the last-fill zone causing auto-ignition of the polymer',
+            figureNumber: 'Figure 1B',
+            caption: 'End-of-Fill Burn (Diesel Effect) — trapped air compressed by the advancing melt front auto-ignites at 300–500 °C and chars the polymer at the cavity extremity.',
+            lookFor: {
+              title: 'End-of-Fill Burn — visual signature',
+              tone: 'warning',
+              items: [
+                'Discrete black/dark-brown char dot or patch at a corner, rib tip, boss, or end of a long flow path — never near the gate.',
+                'Characteristic silver-gray halo around the char zone (partial pyrolysis in the slightly cooler region).',
+                'Char residue accumulates on the tool surface at the same spot — confirms diesel mechanism.',
+                'Always co-located with a missing, plugged, or undersized vent — the diagnostic key.',
+              ],
+            },
+          },
         ],
       },
       {
@@ -109,6 +149,23 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Clamp tonnage excessive — closes vents too tightly.',
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksDieselEffect,
+            alt: 'Diesel Effect adiabatic compression mechanism diagram showing four stages from cavity filling to autoignition and char formation, with air temperature progression from ambient to 300-500°C',
+            figureNumber: 'Figure 2',
+            caption: 'The Diesel Effect — four-stage adiabatic compression of trapped air. T₂ = T₁ × (P₂/P₁)^((γ-1)/γ); 10:1 compression of 50 °C air reaches ~540 °C, well above polymer degradation.',
+            lookFor: {
+              title: 'Stages on the floor — what to verify',
+              tone: 'warning',
+              items: [
+                'Stage 2 (compression begins) is where venting must already be open — by Stage 3, char is forming.',
+                'If the burn worsens with higher injection speed, you are spending more time in Stage 3 — slow the last 20–30 % of fill.',
+                'Char accumulating on the tool surface at one location is a Stage-3 fingerprint — clean and measure that vent first.',
+                'Use a short-shot study to identify which corner reaches Stage 2 last — that is your air-trap location.',
+              ],
+            },
+          },
           { type: 'heading', level: 3, text: '2.4 Cold runner vs hot runner' },
           {
             type: 'table',
@@ -118,6 +175,23 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Diesel risk', 'Higher (constrained vent locations)', 'Lower with sequential valve gating'],
               ['Diagnostic priority', 'Gate size & velocity, vent condition', 'Tip temperature accuracy, manifold balance, residence time'],
             ],
+          },
+          {
+            type: 'image',
+            src: burnMarksRunnerComparison,
+            alt: 'Cold Runner vs Hot Runner system comparison showing burn mark susceptibility, temperature profiles, and risk factors for both gate burn and end-of-fill burn',
+            figureNumber: 'Figure 3',
+            caption: 'Cold-runner vs hot-runner susceptibility. Cold runners carry higher risk for both burn types; hot runners reduce risk overall but introduce unique tip and manifold failure modes.',
+            lookFor: {
+              title: 'How to use this comparison during diagnosis',
+              tone: 'info',
+              items: [
+                'Cold runner + gate burn → start with injection speed and gate diameter; the runner pressure drop is forcing high gate velocity.',
+                'Cold runner + EOF burn → vent placement is constrained; expect to add a vent insert or ejector-pin vent.',
+                'Hot runner + single-cavity burn → suspect tip thermocouple, dead leg, or stagnation in that drop — not a global process drift.',
+                'Hot runner + EOF burn → check valve-gate sequencing first; sequential fill virtually eliminates the diesel mode.',
+              ],
+            },
           },
           { type: 'heading', level: 3, text: '2.5 Machine factors' },
           {
@@ -170,6 +244,23 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Train operators to recognize charred purge as an early warning of barrel hold-up.',
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksVentingSolutions,
+            alt: 'Venting Design Solutions diagram comparing poor/no venting, parting-line vent, and ejector-pin/insert vent options for end-of-fill burn prevention, with vent depth reference table by material group',
+            figureNumber: 'Figure 4',
+            caption: 'Venting design solutions for End-of-Fill burn prevention — three configurations with vent depth reference by material group.',
+            lookFor: {
+              title: 'Vent design checks before cutting steel',
+              tone: 'success',
+              items: [
+                'Match vent depth to the resin group: polyolefins 0.010–0.020 mm; ABS/HIPS/PS 0.020–0.030 mm; engineering resins (PC, PA, POM, PBT) 0.025–0.040 mm.',
+                'Vent width 3–10 mm at the burn location, with a 0.5–1.0 mm relief land behind it venting to atmosphere or vacuum.',
+                'For deep ribs, blind pockets, or bosses where parting-line venting is impossible, use ejector-pin clearance or porous-steel (Porcerax) inserts at 0.005–0.015 mm.',
+                'Verify clamp tonnage is the minimum that prevents flash — over-clamping closes the vents you just cut.',
+              ],
+            },
+          },
         ],
       },
       {
@@ -197,6 +288,24 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Reduce clamp tonnage to the minimum that prevents flash.',
               'In severe cases: machine vent slots, add porous steel (Porcerax) inserts at trapped-air zones.',
             ],
+          },
+          {
+            type: 'image',
+            src: burnMarksFlowchart,
+            alt: 'Burn Mark Diagnosis and Troubleshooting Flowchart with branches for Gate Burn (cold runner and hot runner fixes) and End-of-Fill Burn (vent inspection, fill speed, valve gating, advanced venting)',
+            figureNumber: 'Figure 5',
+            caption: 'Complete burn-mark diagnostic flowchart — Gate Burn pathway on the left, End-of-Fill (Diesel) pathway on the right, converging at "Burn Mark Resolved → document parameters & update SOP."',
+            lookFor: {
+              title: 'How to walk this flowchart on the floor',
+              tone: 'info',
+              items: [
+                'Always answer the first decision (where is the burn located?) before changing any parameter — wrong branch = wrong fix.',
+                'Cold-runner branch: drop injection speed and check melt temp / back pressure before touching the steel.',
+                'Hot-runner branch: tip thermocouple and manifold dead-leg checks come before any process change.',
+                'EOF branch: clean the vent first, then reduce last-stage fill speed, then add a vent — in that order.',
+                'If "still burning" after the simulation step, escalate to gate geometry or sequential valve gating; do not keep tweaking the same parameters.',
+              ],
+            },
           },
         ],
       },
