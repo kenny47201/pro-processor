@@ -1,4 +1,10 @@
 import type { DefectGuide } from './defectGuides';
+import burnMarksGateBurn from '@/assets/burn-marks-gate-burn.jpg';
+import burnMarksEndOfFill from '@/assets/burn-marks-end-of-fill.jpg';
+import burnMarksRunnerComparison from '@/assets/burn-marks-runner-comparison.jpg';
+import burnMarksVentingSolutions from '@/assets/burn-marks-venting-solutions.jpg';
+import burnMarksDieselEffect from '@/assets/burn-marks-diesel-effect.jpg';
+import burnMarksFlowchart from '@/assets/burn-marks-flowchart.jpg';
 
 // Shared reference list reused across guides
 const commonRefs = [
