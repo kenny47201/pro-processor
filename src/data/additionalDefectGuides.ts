@@ -31,6 +31,7 @@ import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
 // Flow Lines
 import flowLinesAppearance from '@/assets/flow-lines-appearance.png';
 import flowLinesFountainFlow from '@/assets/flow-lines-fountain-flow.png';
+import flowLinesVulnerabilityMap from '@/assets/flow-lines-vulnerability-map.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
@@ -1006,6 +1007,23 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'diagnostics',
         title: '3. Diagnostic Techniques',
         blocks: [
+          {
+            type: 'image',
+            src: flowLinesVulnerabilityMap,
+            alt: 'Top-down map of a typical injection molded part showing three vulnerability zones for flow lines: Zone 1 gate-near rings, Zone 2 mid-flow wave bands, and Zone 3 feature-induced streaking around bosses, ribs, and holes.',
+            figureNumber: 'Figure 3',
+            caption: 'Part vulnerability map — three flow-line zones triaged by location: gate-near (Zone 1), mid-flow tiger stripes (Zone 2), and feature-induced streaks around bosses/ribs/holes (Zone 3).',
+            lookFor: {
+              title: 'Triage by location first',
+              tone: 'info',
+              items: [
+                'Zone 1 (gate): cold slug, gate restriction, or nozzle/tip temperature mismatch — inspect gate size and tip temp.',
+                'Zone 2 (mid-flow): fill speed too low, melt/mold temp low — raise speed (multi-stage) and verify temps.',
+                'Zone 3 (around features): hesitation at thickness changes — smooth transitions, relocate gate, profile speed.',
+                'Always locate the defect on the part before changing any setpoint.',
+              ],
+            },
+          },
           {
             type: 'orderedList',
             items: [
