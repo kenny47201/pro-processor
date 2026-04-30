@@ -13,6 +13,8 @@ import discolorationFlowchart from '@/assets/discoloration-flowchart.png';
 // Flash
 import flashProcessEffects from '@/assets/flash-process-effects.jpg';
 import flashPartingLineCrossSection from '@/assets/flash-parting-line-cross-section.png';
+// Sink marks
+import sinkMarksCrossSection from '@/assets/sink-marks-cross-section.png';
 import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
 import flashTypeComparison from '@/assets/flash-type-comparison.png';
 import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
@@ -1829,6 +1831,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'definition',
         title: '1. Definition & Distinction',
         blocks: [
+          {
+            type: 'image',
+            src: sinkMarksCrossSection,
+            alt: 'Cross-section showing a rib on the back of a nominal wall causing a sink mark on the cosmetic show surface',
+            figureNumber: 'Figure 1',
+            caption:
+              'Cross section — a thick rib on the back side acts as a hot core. As its interior shrinks after the skin freezes, the cosmetic show surface is pulled inward, producing a sink mark directly opposite the rib.',
+            lookFor: {
+              tone: 'warning',
+              title: 'What to look for',
+              items: [
+                'Depression directly opposite a rib, boss, or thick intersection.',
+                'Solidified outer skin (yellow) over a still-hot interior (red) — the classic skin/core thermal imbalance.',
+                'Dashed orange zone marks the hot core / thick section that drives volumetric shrinkage.',
+                'Cosmetic visibility increases on glossy or dark show surfaces.',
+              ],
+            },
+          },
           {
             type: 'list',
             items: [
