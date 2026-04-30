@@ -309,6 +309,8 @@ export const additionalDefectGuides: DefectGuide[] = [
           },
         ],
       },
+      {
+        id: 'best-practices',
         title: '6. Industry Best Practices & Pitfalls',
         blocks: [
           {
