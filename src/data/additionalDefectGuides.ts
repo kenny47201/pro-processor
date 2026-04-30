@@ -2031,6 +2031,32 @@ export const additionalDefectGuides: DefectGuide[] = [
             },
           },
           {
+            type: 'calculatorLinks',
+            title: 'Diagnose with Process Tools',
+            description:
+              'Open these calculators to quantify the three variables most often behind sink marks: cooling time, pack/hold transfer, and shot/part volume.',
+            links: [
+              {
+                toolId: 'cooling-time',
+                label: 'Cooling Time Calculator',
+                description:
+                  'Estimate required cooling so the interior stiffens before the skin is pulled inward.',
+              },
+              {
+                toolId: 'pack-hold',
+                label: 'Pack & Hold Study',
+                description:
+                  'Run a gate-freeze study — the decisive test that splits process fixes from geometry fixes.',
+              },
+              {
+                toolId: 'shot-volume',
+                label: 'Shot & Part Volume',
+                description:
+                  'Confirm part volume, runner share, and shot weight — the basis for pack pressure and feed-path sizing.',
+              },
+            ],
+          },
+          {
             type: 'orderedList',
             items: [
               'Increase pack pressure (within clamp/flash limits).',

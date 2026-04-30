@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TonnageCalculator } from '@/components/process-tools/TonnageCalculator';
 import { ShotVolumeCalculator } from '@/components/process-tools/ShotVolumeCalculator';
@@ -79,6 +80,7 @@ function findTool(id: string) {
 
 export default function ProcessTools() {
   const [activeTab, setActiveTab] = useState('setup');
+  const [searchParams, setSearchParams] = useSearchParams();
   const { pinned, isPinned, toggle, clear } = usePinnedTools();
 
   const pinnedItems: PinnedToolItem[] = pinned
@@ -86,11 +88,13 @@ export default function ProcessTools() {
     .filter((t): t is ToolDef => Boolean(t))
     .map((t) => ({ id: t.id, label: t.label, tab: t.tab }));
 
-  const handlePinnedSelect = useCallback((item: PinnedToolItem) => {
-    setActiveTab(item.tab);
+  const focusTool = useCallback((id: string) => {
+    const tool = findTool(id);
+    if (!tool) return;
+    setActiveTab(tool.tab);
     requestAnimationFrame(() => {
       setTimeout(() => {
-        const el = document.getElementById(`tool-${item.id}`);
+        const el = document.getElementById(`tool-${id}`);
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'start' });
           el.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
@@ -101,6 +105,23 @@ export default function ProcessTools() {
       }, 80);
     });
   }, []);
+
+  // Deep-link support: ?tool=<id> focuses the named calculator on mount/change.
+  useEffect(() => {
+    const toolId = searchParams.get('tool');
+    if (toolId && findTool(toolId)) {
+      focusTool(toolId);
+      // Clean the param so revisits don't re-trigger scroll.
+      const next = new URLSearchParams(searchParams);
+      next.delete('tool');
+      setSearchParams(next, { replace: true });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
+
+  const handlePinnedSelect = useCallback((item: PinnedToolItem) => {
+    focusTool(item.id);
+  }, [focusTool]);
 
   const renderToolGrid = (tools: ToolDef[], cols: 1 | 2 = 2) => (
     <div

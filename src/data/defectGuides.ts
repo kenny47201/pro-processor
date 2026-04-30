@@ -33,6 +33,13 @@ export type GuideBlock =
       figureNumber?: string;
       /** Optional diagnostic checklist — "what to look for" items shown beside the figure. */
       lookFor?: { title?: string; items: string[]; tone?: 'info' | 'warning' | 'success' };
+    }
+  | {
+      /** Cross-link to one or more Process Tools calculators relevant to this defect. */
+      type: 'calculatorLinks';
+      title?: string;
+      description?: string;
+      links: { toolId: string; label: string; description?: string }[];
     };
 
 export interface DefectGuide {
