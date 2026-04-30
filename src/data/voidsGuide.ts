@@ -2,6 +2,9 @@ import type { DefectGuide } from './defectGuides';
 import voidsCrossSection from '@/assets/voids-cross-section.jpg';
 import voidsWallThickness from '@/assets/voids-wall-thickness.jpg';
 import voidsFlowchart from '@/assets/voids-flowchart.jpg';
+import voidsPressureProfile from '@/assets/voids-pressure-profile.jpg';
+import voidsRunnerSchematic from '@/assets/voids-runner-schematic.jpg';
+import voidsBossRibDesign from '@/assets/voids-boss-rib-design.jpg';
 
 export const voidsGuide: DefectGuide = {
   slug: 'voids',
@@ -124,7 +127,13 @@ export const voidsGuide: DefectGuide = {
             ['Cushion', 'No reservoir for pack', 'Material degradation from extra residence'],
           ],
         },
-        { type: 'heading', level: 3, text: '2.3 Mold design — cold runner vs hot runner' },
+        {
+          type: 'image',
+          src: voidsPressureProfile,
+          alt: 'Cavity pressure profile chart showing optimal hold vs low hold pressure void risk',
+          figureNumber: 'Figure 2',
+          caption: 'Cavity pressure profile during fill / pack-hold / cool. Sustained hold pressure (green) feeds shrinkage and prevents voids; insufficient hold (red dashed) lets pressure collapse before gate freeze, dramatically raising void risk.',
+        },
         {
           type: 'table',
           caption: 'Runner system effect on void formation',
@@ -137,7 +146,13 @@ export const voidsGuide: DefectGuide = {
             ['Failure modes', 'Cold slug, undersized gate, runner freeze', 'Tip drift, valve-gate mistiming, hold-up degradation'],
           ],
         },
-        { type: 'heading', level: 3, text: '2.4 Machine & auxiliary factors' },
+        {
+          type: 'image',
+          src: voidsRunnerSchematic,
+          alt: 'Cold runner vs hot runner system schematic',
+          figureNumber: 'Figure 3',
+          caption: 'Cold runner systems lose pressure and heat through the solidifying runner — gate freezes earlier and elevates void risk. Hot runner systems maintain melt at temperature up to the gate, transmitting pack pressure more reliably to the cavity.',
+        },
         {
           type: 'list',
           items: [
@@ -190,6 +205,13 @@ export const voidsGuide: DefectGuide = {
             'For hot-runner tools, individually balance zones and verify valve-gate timing.',
           ],
         },
+        {
+          type: 'image',
+          src: voidsBossRibDesign,
+          alt: 'Boss and rib design comparison: poor solid boss vs cored hollow boss with rib design rules',
+          figureNumber: 'Figure 4',
+          caption: 'Void-resistant geometry: a solid boss with wall thickness equal to the nominal wall (T:T = 1:1) traps shrinkage as a void. Cored-out hollow bosses keep the wall ≤ 0.6T. Ribs follow the same rule — width ≤ 0.6T, height ≤ 3× rib width.',
+        },
       ],
     },
     {
@@ -225,7 +247,7 @@ export const voidsGuide: DefectGuide = {
           type: 'image',
           src: voidsFlowchart,
           alt: 'Void defect diagnostic flowchart',
-          figureNumber: 'Figure 2',
+          figureNumber: 'Figure 5',
           caption: 'Void diagnostic flowchart: classify location → cavity count → resin condition → pack/weight → runner type → geometry → check ring → vent.',
           lookFor: {
             title: 'How to walk this flowchart',
