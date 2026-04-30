@@ -33,6 +33,7 @@ import flowLinesAppearance from '@/assets/flow-lines-appearance.png';
 import flowLinesFountainFlow from '@/assets/flow-lines-fountain-flow.png';
 import flowLinesVulnerabilityMap from '@/assets/flow-lines-vulnerability-map.png';
 import flowLinesRunnerComparison from '@/assets/flow-lines-runner-comparison.png';
+import flowLinesPreventionLevers from '@/assets/flow-lines-prevention-levers.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
@@ -1060,6 +1061,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'prevention',
         title: '4. Preventive Measures',
         blocks: [
+          {
+            type: 'image',
+            src: flowLinesPreventionLevers,
+            alt: 'Infographic of the five preventive levers for flow lines: fill speed control, melt temperature, mold temperature, gate and runner design, and material selection, with a first-response action banner at the bottom.',
+            figureNumber: 'Figure 5',
+            caption: 'Five preventive levers for flow lines, in working priority order, with the standard first-response sequence to stabilize the process.',
+            lookFor: {
+              title: 'First-response sequence',
+              tone: 'success',
+              items: [
+                'Lever 1 — Fill speed: stage the velocity profile to keep the front moving without hesitation or oscillation.',
+                'Lever 2 — Melt temp: raise within resin limits to lower viscosity and delay front freeze.',
+                'Lever 3 — Mold temp: increase and equalize surface temperature to delay skin freeze and improve replication.',
+                'Lever 4 — Gate & runner: size adequately and gate into the thickest accessible section.',
+                'Lever 5 — Material: confirm flow grade fits the geometry and dry hygroscopic resins to spec.',
+              ],
+            },
+          },
           {
             type: 'list',
             items: [
