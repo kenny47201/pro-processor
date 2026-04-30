@@ -62,10 +62,42 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Cold runner specific', 'Runner pressure drop forces high gate velocity', 'Limited vent locations amplify risk'],
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksGateBurn,
+            alt: 'Gate Burn Mark diagram showing thermal degradation at the gate land caused by shear heat, with brown/black discoloration and brittle surface',
+            figureNumber: 'Figure 1A',
+            caption: 'Gate Burn — shear heat at the gate land causes thermal degradation immediately at or downstream of the gate vestige.',
+            lookFor: {
+              title: 'Gate Burn — visual signature',
+              tone: 'warning',
+              items: [
+                'Elliptical brown/black halo radiating from the gate center; sometimes with downstream streaks following flow direction.',
+                'Burn is co-located with the gate vestige — never deep into the cavity.',
+                'Surface feels brittle or rough; in severe cases the cross-section is degraded, not just the skin.',
+                'Worsens as injection speed increases — the smoking gun for shear-driven burn.',
+              ],
+            },
+          },
+          {
+            type: 'image',
+            src: burnMarksEndOfFill,
+            alt: 'End-of-Fill Burn (Diesel Effect) diagram showing adiabatic compression of trapped air at the last-fill zone causing auto-ignition of the polymer',
+            figureNumber: 'Figure 1B',
+            caption: 'End-of-Fill Burn (Diesel Effect) — trapped air compressed by the advancing melt front auto-ignites at 300–500 °C and chars the polymer at the cavity extremity.',
+            lookFor: {
+              title: 'End-of-Fill Burn — visual signature',
+              tone: 'warning',
+              items: [
+                'Discrete black/dark-brown char dot or patch at a corner, rib tip, boss, or end of a long flow path — never near the gate.',
+                'Characteristic silver-gray halo around the char zone (partial pyrolysis in the slightly cooler region).',
+                'Char residue accumulates on the tool surface at the same spot — confirms diesel mechanism.',
+                'Always co-located with a missing, plugged, or undersized vent — the diagnostic key.',
+              ],
+            },
+          },
         ],
       },
-      {
-        id: 'definition',
         title: '1. Definition & Overview',
         blocks: [
           { type: 'heading', level: 3, text: '1.1 Visual & structural manifestation' },
