@@ -263,6 +263,8 @@ export const additionalDefectGuides: DefectGuide[] = [
           },
         ],
       },
+      {
+        id: 'corrective-actions',
         title: '5. Corrective Actions',
         blocks: [
           { type: 'heading', level: 3, text: '5.1 Gate burn — first-response sequence' },
