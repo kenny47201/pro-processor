@@ -127,6 +127,24 @@ export const defectGuides: DefectGuide[] = [
             ],
           },
           {
+            type: 'image',
+            src: bubblesBlistersComparison,
+            alt: 'Cross-sectional comparison of bubble, blister, sink mark, and vacuum void',
+            figureNumber: 'Figure 1',
+            caption: 'Cross-sectional view contrasting the four most-confused defects: gas-filled bubbles and blisters vs. shrinkage-driven sink marks and vacuum voids.',
+            lookFor: {
+              title: 'How to classify on the floor',
+              tone: 'info',
+              items: [
+                'Bubble — internal cavity; only visible in transparent parts or after sectioning.',
+                'Blister — raised dome on the surface; gas trapped just under the skin.',
+                'Sink mark — surface depression over a thick section, rib, or boss; pure shrinkage.',
+                'Vacuum void — internal shrinkage cavity with no gas; usually no surface sign until cut.',
+                'Confirm with transmitted light (clear resins) or cross-section (opaque resins) before changing process setpoints.',
+              ],
+            },
+          },
+          {
             type: 'paragraph',
             text:
               'Structurally, these defects matter beyond appearance. Internal bubbles reduce effective cross-section, act as crack initiators, disrupt optics, and change local modulus. In transparent medical housings or fluidic parts they can invalidate inspection, compromise leak-tightness, or trap sterilant residues. In plated or painted housings, blisters can telegraph through coatings during aging. In load-bearing clips and bosses they can trigger premature brittle fracture. [R2][R11][R13]',
