@@ -487,6 +487,23 @@ export const defectGuides: DefectGuide[] = [
         blocks: [
           { type: 'heading', level: 3, text: '8.1 Step-by-step flowchart' },
           {
+            type: 'image',
+            src: bubblesBlistersFlowchart,
+            alt: 'Bubbles and blisters troubleshooting decision tree',
+            figureNumber: 'Figure 3',
+            caption: 'Yes/no decision tree from initial defect classification through material check, location triage, and corrective action by mechanism.',
+            lookFor: {
+              title: 'How to read the flowchart',
+              tone: 'success',
+              items: [
+                'Step 1 splits the path on resin family — hygroscopic resins start with moisture verification.',
+                'Step 2 triages by location: thick section → gate-freeze study; end-of-fill → venting; cavity-specific → hot-runner audit.',
+                'Always verify actual melt temperature, purge quality, and back-pressure / decompression before changing setpoints.',
+                'Avoid the listed pitfalls — most repeat-offender defects come from skipping verification steps.',
+              ],
+            },
+          },
+          {
             type: 'orderedList',
             items: [
               'Confirm defect class: raised blister, internal bubble, sink, or vacuum void.',
