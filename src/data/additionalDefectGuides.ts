@@ -15,6 +15,7 @@ import flashProcessEffects from '@/assets/flash-process-effects.jpg';
 import flashPartingLineCrossSection from '@/assets/flash-parting-line-cross-section.png';
 // Sink marks
 import sinkMarksCrossSection from '@/assets/sink-marks-cross-section.png';
+import sinkMarksLocationMap from '@/assets/sink-marks-location-map.png';
 import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
 import flashTypeComparison from '@/assets/flash-type-comparison.png';
 import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
@@ -1920,6 +1921,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'diagnostics',
         title: '3. Diagnostic Techniques',
         blocks: [
+          {
+            type: 'image',
+            src: sinkMarksLocationMap,
+            alt: 'Top-down enclosure outline showing sink mark locations opposite ribs, bosses, gussets, thick wall steps, and inserts',
+            figureNumber: 'Figure 2',
+            caption:
+              'Plan view of a typical enclosure — sink marks (dashed red) appear on the show surface directly opposite hidden mass concentrations: ribs, bosses, gussets, thick wall steps, and metal inserts.',
+            lookFor: {
+              tone: 'info',
+              title: 'Diagnostic mapping',
+              items: [
+                'Overlay defect photo onto CAD plan view — sinks should align with hidden ribs, bosses, or thick intersections.',
+                'A sink with no opposing thick feature points to a different mechanism (gas trap, weld, flow line).',
+                'Boss sinks indicate insufficient coring; rib sinks indicate rib-to-wall thickness > 60% rule.',
+                'Insert sinks signal the surrounding wall is too thick around the metal — re-core or relieve.',
+              ],
+            },
+          },
           {
             type: 'orderedList',
             items: [
