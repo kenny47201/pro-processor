@@ -114,7 +114,18 @@ export const warpageGuide: DefectGuide = {
           type: 'image',
           src: warpageCooling,
           alt: 'Differential cooling diagram — cavity vs core temperature mismatch causing warp',
-          caption: 'Figure 2 — Differential cooling between cavity and core sides of the mold is the single largest process driver of warp.',
+          figureNumber: 'Figure 2',
+          caption: 'Differential cooling between cavity and core sides of the mold is the single largest process driver of warp.',
+          lookFor: {
+            title: 'Diagnostic checks driven by this diagram',
+            tone: 'warning',
+            items: [
+              'Measure cavity vs core surface temperature with a contact pyrometer — a delta > 10 °C will warp most semi-crystalline resins.',
+              'Concave side of the warp curls toward the hotter mold half — use this to identify which side needs cooler water.',
+              'Check water-line flow rate and inlet/outlet ΔT separately on each half; turbulent flow (Re > 4000) is required.',
+              'Verify cooling-line layout matches part geometry — long unsupported runs above thick sections are common offenders.',
+            ],
+          },
         },
         {
           type: 'table',
