@@ -1,6 +1,10 @@
 import { additionalDefectGuides } from './additionalDefectGuides';
 import { coldSlugMarksGuide } from './coldSlugMarksGuide';
 import { delaminationGuide } from './delaminationGuide';
+import { warpageGuide } from './warpageGuide';
+import { voidsGuide } from './voidsGuide';
+import { shrinkageGuide } from './shrinkageGuide';
+import { weldLinesGuide } from './weldLinesGuide';
 
 export interface DefectGuideSection {
   id: string;
@@ -487,6 +491,10 @@ export const defectGuides: DefectGuide[] = [
   ...additionalDefectGuides,
   coldSlugMarksGuide,
   delaminationGuide,
+  warpageGuide,
+  voidsGuide,
+  shrinkageGuide,
+  weldLinesGuide,
 ];
 
 export const getDefectGuide = (slug: string) =>
