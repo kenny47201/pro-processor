@@ -13,6 +13,8 @@ import discolorationFlowchart from '@/assets/discoloration-flowchart.png';
 // Flash
 import flashProcessEffects from '@/assets/flash-process-effects.jpg';
 import flashPartingLineCrossSection from '@/assets/flash-parting-line-cross-section.png';
+// Sink marks
+import sinkMarksCrossSection from '@/assets/sink-marks-cross-section.png';
 import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
 import flashTypeComparison from '@/assets/flash-type-comparison.png';
 import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
