@@ -40,6 +40,27 @@ export type GuideBlock =
       title?: string;
       description?: string;
       links: { toolId: string; label: string; description?: string }[];
+    }
+  | {
+      /**
+       * Auto-suggested diagnostic checklist for the defect — a triage of inspections,
+       * measurements, calculators to run, and machine/process settings to review.
+       * Renders as interactive checkboxes the user can tick off while diagnosing.
+       */
+      type: 'diagnoseChecklist';
+      title?: string;
+      description?: string;
+      groups: {
+        label: string;
+        kind: 'inspect' | 'measure' | 'calculator' | 'setting';
+        items: {
+          text: string;
+          /** Optional Process Tools calculator id for a deep-link button on this row. */
+          toolId?: string;
+          /** Optional helper hint shown under the item. */
+          hint?: string;
+        }[];
+      }[];
     };
 
 export interface DefectGuide {
