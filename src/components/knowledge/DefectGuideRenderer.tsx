@@ -1,5 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, Info, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, Info, CheckCircle2, Calculator, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import type { GuideBlock } from '@/data/defectGuides';
 import { cn } from '@/lib/utils';
 
