@@ -28,6 +28,8 @@ import meldLineFormation from '@/assets/meld-line-formation.jpg';
 import meldLineCrossSection from '@/assets/meld-line-cross-section.jpg';
 import meldLineRunnerComparison from '@/assets/meld-line-runner-comparison.png';
 import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
+// Flow Lines
+import flowLinesAppearance from '@/assets/flow-lines-appearance.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
