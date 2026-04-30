@@ -1,4 +1,5 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TonnageCalculator } from '@/components/process-tools/TonnageCalculator';
 import { ShotVolumeCalculator } from '@/components/process-tools/ShotVolumeCalculator';
