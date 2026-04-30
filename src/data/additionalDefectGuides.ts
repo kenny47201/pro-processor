@@ -30,6 +30,7 @@ import meldLineRunnerComparison from '@/assets/meld-line-runner-comparison.png';
 import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
 // Flow Lines
 import flowLinesAppearance from '@/assets/flow-lines-appearance.png';
+import flowLinesFountainFlow from '@/assets/flow-lines-fountain-flow.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
@@ -944,6 +945,23 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'root-causes',
         title: '2. Root Causes',
         blocks: [
+          {
+            type: 'image',
+            src: flowLinesFountainFlow,
+            alt: 'Side-by-side cross-section comparing stable fountain flow (smooth hemispherical front, no surface defect) with unstable fountain flow (oscillating front, gloss/dull bands printed on the part surface).',
+            figureNumber: 'Figure 2',
+            caption: 'Root cause — stable vs unstable fountain flow. The unstable front hesitates, slip-sticks at the wall, and prints alternating gloss/dull bands. After Iannuzzi et al. (2009), Tredoux et al. (1999).',
+            lookFor: {
+              title: 'Mechanism check',
+              tone: 'warning',
+              items: [
+                'Stable front (A): smooth hemispherical advance, melt rolls outward to the cooler walls — no banding.',
+                'Unstable front (B): velocity oscillates, skin forms then incoming melt rolls over it, printing a band per event.',
+                'Each visible gloss/dull pair on the part corresponds to one front-instability event in time.',
+                'Confirm by short-shot study: hesitation marks at the front edge match the band spacing on the full part.',
+              ],
+            },
+          },
           { type: 'heading', level: 3, text: '2.1 Material factors' },
           {
             type: 'list',
