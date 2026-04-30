@@ -20,7 +20,17 @@ export type GuideBlock =
   | { type: 'orderedList'; items: string[] }
   | { type: 'callout'; tone: 'info' | 'warning' | 'success'; title?: string; text: string }
   | { type: 'table'; columns: string[]; rows: string[][]; caption?: string }
-  | { type: 'image'; src: string; alt: string; caption?: string };
+  | {
+      type: 'image';
+      src: string;
+      alt: string;
+      /** Short descriptive caption rendered under the figure. */
+      caption?: string;
+      /** Optional figure label, e.g. "Figure 2". Rendered as a tag above the caption. */
+      figureNumber?: string;
+      /** Optional diagnostic checklist — "what to look for" items shown beside the figure. */
+      lookFor?: { title?: string; items: string[]; tone?: 'info' | 'warning' | 'success' };
+    };
 
 export interface DefectGuide {
   slug: string;
