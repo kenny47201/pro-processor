@@ -149,6 +149,23 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Clamp tonnage excessive — closes vents too tightly.',
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksDieselEffect,
+            alt: 'Diesel Effect adiabatic compression mechanism diagram showing four stages from cavity filling to autoignition and char formation, with air temperature progression from ambient to 300-500°C',
+            figureNumber: 'Figure 2',
+            caption: 'The Diesel Effect — four-stage adiabatic compression of trapped air. T₂ = T₁ × (P₂/P₁)^((γ-1)/γ); 10:1 compression of 50 °C air reaches ~540 °C, well above polymer degradation.',
+            lookFor: {
+              title: 'Stages on the floor — what to verify',
+              tone: 'warning',
+              items: [
+                'Stage 2 (compression begins) is where venting must already be open — by Stage 3, char is forming.',
+                'If the burn worsens with higher injection speed, you are spending more time in Stage 3 — slow the last 20–30 % of fill.',
+                'Char accumulating on the tool surface at one location is a Stage-3 fingerprint — clean and measure that vent first.',
+                'Use a short-shot study to identify which corner reaches Stage 2 last — that is your air-trap location.',
+              ],
+            },
+          },
           { type: 'heading', level: 3, text: '2.4 Cold runner vs hot runner' },
           {
             type: 'table',
@@ -158,6 +175,23 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Diesel risk', 'Higher (constrained vent locations)', 'Lower with sequential valve gating'],
               ['Diagnostic priority', 'Gate size & velocity, vent condition', 'Tip temperature accuracy, manifold balance, residence time'],
             ],
+          },
+          {
+            type: 'image',
+            src: burnMarksRunnerComparison,
+            alt: 'Cold Runner vs Hot Runner system comparison showing burn mark susceptibility, temperature profiles, and risk factors for both gate burn and end-of-fill burn',
+            figureNumber: 'Figure 3',
+            caption: 'Cold-runner vs hot-runner susceptibility. Cold runners carry higher risk for both burn types; hot runners reduce risk overall but introduce unique tip and manifold failure modes.',
+            lookFor: {
+              title: 'How to use this comparison during diagnosis',
+              tone: 'info',
+              items: [
+                'Cold runner + gate burn → start with injection speed and gate diameter; the runner pressure drop is forcing high gate velocity.',
+                'Cold runner + EOF burn → vent placement is constrained; expect to add a vent insert or ejector-pin vent.',
+                'Hot runner + single-cavity burn → suspect tip thermocouple, dead leg, or stagnation in that drop — not a global process drift.',
+                'Hot runner + EOF burn → check valve-gate sequencing first; sequential fill virtually eliminates the diesel mode.',
+              ],
+            },
           },
           { type: 'heading', level: 3, text: '2.5 Machine factors' },
           {
