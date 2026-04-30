@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import coldSlugMarksFlowchart from '@/assets/cold-slug-marks-flowchart.png';
 
 const refs = [
   { id: 'R1', text: 'Plastics Technology. "Don\'t Forget the Cold Slug Well." The Troubleshooter Series.' },
@@ -275,6 +276,12 @@ export const coldSlugMarksGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'Use the following decision flow when cold slug marks are detected. Step 1 is always visual: location of the mark drives whether you investigate the runner system or process parameters first.',
+        },
+        {
+          type: 'image',
+          src: coldSlugMarksFlowchart,
+          alt: 'Cold Slug Marks troubleshooting decision flowchart: visual inspection branches into Runner System Check (cold/hot runner paths) and Process Parameter Check (melt temp, injection speed, back pressure, moisture), converging on a Problem Solved verification step.',
+          caption: 'Cold Slug Marks — full response & decision flowchart',
         },
         { type: 'heading', level: 3, text: 'Step 1 — Visual Inspection: where are the marks?' },
         {

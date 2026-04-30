@@ -14,7 +14,8 @@ export type GuideBlock =
   | { type: 'list'; items: string[] }
   | { type: 'orderedList'; items: string[] }
   | { type: 'callout'; tone: 'info' | 'warning' | 'success'; title?: string; text: string }
-  | { type: 'table'; columns: string[]; rows: string[][]; caption?: string };
+  | { type: 'table'; columns: string[]; rows: string[][]; caption?: string }
+  | { type: 'image'; src: string; alt: string; caption?: string };
 
 export interface DefectGuide {
   slug: string;
