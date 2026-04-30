@@ -486,6 +486,7 @@ export const defectGuides: DefectGuide[] = [
   },
   ...additionalDefectGuides,
   coldSlugMarksGuide,
+  delaminationGuide,
 ];
 
 export const getDefectGuide = (slug: string) =>
