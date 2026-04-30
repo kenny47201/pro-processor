@@ -18,6 +18,7 @@ import sinkMarksCrossSection from '@/assets/sink-marks-cross-section.png';
 import sinkMarksLocationMap from '@/assets/sink-marks-location-map.png';
 import sinkMarksFormationTimeline from '@/assets/sink-marks-formation-timeline.png';
 import sinkMarksRibDesignRule from '@/assets/sink-marks-rib-design-rule.png';
+import sinkMarksDecisionTree from '@/assets/sink-marks-decision-tree.png';
 import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
 import flashTypeComparison from '@/assets/flash-type-comparison.png';
 import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
@@ -2011,6 +2012,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'corrective-actions',
         title: '5. Corrective Actions',
         blocks: [
+          {
+            type: 'image',
+            src: sinkMarksDecisionTree,
+            alt: 'Decision tree for diagnosing sink marks: confirm depression opposite hidden mass, run a gate-freeze study, then branch to process or geometry corrections',
+            figureNumber: 'Figure 5',
+            caption:
+              'Sink mark troubleshooting decision tree — confirm the depression sits opposite a rib, boss, or insert, then run a gate-freeze study. If the gate freezes before pack is complete, fix the process (pack pressure, hold time, melt temp, cushion). If the gate is fully sealed and sink persists, the cause is geometric (thin the rib/boss, enlarge gate, core out mass, relocate gate).',
+            lookFor: {
+              tone: 'info',
+              title: 'How to use this tree',
+              items: [
+                'Always start with Step 2 — sinks not opposite hidden mass are usually a different defect (flow, jetting, weld read-through).',
+                'Step 3 (gate-freeze study) is the single most decisive test — it determines which branch to take.',
+                'Process branch: cheap, fast, reversible. Try it first even when geometry is suspect.',
+                'Geometry branch: required when pack is maxed and gate is fully sealed but sink remains. Loop back to Step 2 with CT scan or sectioning if uncertain.',
+              ],
+            },
+          },
           {
             type: 'orderedList',
             items: [
