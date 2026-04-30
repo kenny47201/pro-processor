@@ -395,6 +395,39 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Reject / containment', '5.0'],
             ],
           },
+          {
+            type: 'image',
+            src: discolorationMechanismMap,
+            alt: 'Mechanism map showing the four primary defect families that produce visible color shift in molded parts: thermal degradation, contamination, colorant/masterbatch dispersion, and oxidation/venting/burn-related shift',
+            figureNumber: 'Figure 1',
+            caption: 'Mechanism map — the four coupled drivers behind visible color shift on molded parts.',
+            lookFor: {
+              title: 'Use this map to bucket the defect first',
+              tone: 'info',
+              items: [
+                'Thermal degradation → check residence time, hot-runner soak, and barrel/nozzle setpoints.',
+                'Contamination → audit material identity, hopper/throat cleanliness, and changeover purge records.',
+                'Colorant/masterbatch dispersion → check feed rate, back pressure, screw mixing, and masterbatch carrier compatibility.',
+                'Oxidation / venting / burn → inspect vents at end-of-fill, weld lines, and trapped-air zones.',
+              ],
+            },
+          },
+          {
+            type: 'image',
+            src: discolorationDeltaEThresholds,
+            alt: 'Bar chart showing example visual color-difference thresholds for molded parts: 1.0 barely perceptible, 3.0 production alert, 5.0 reject/containment',
+            figureNumber: 'Figure 2',
+            caption: 'Example ΔE* alert thresholds for molded-part color verification. Customer-specific limits always override generic thresholds.',
+            lookFor: {
+              title: 'How to read this on the floor',
+              tone: 'info',
+              items: [
+                'Always measure with a calibrated spectrophotometer (CIELAB per ASTM D2244) — never rely on visual judgement alone.',
+                'A ΔE in the 1–3 band is a leading indicator: investigate before it crosses 5.',
+                'Document the ΔE release criterion with the customer before production — it converts subjective color calls into measurable control.',
+              ],
+            },
+          },
         ],
       },
       {
