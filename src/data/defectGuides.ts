@@ -172,6 +172,10 @@ export const defectGuides: DefectGuide[] = [
               ],
             },
           },
+        ],
+      },
+      {
+        id: 'root-causes',
         title: '2. Root Causes',
         blocks: [
           { type: 'heading', level: 3, text: '2.1 Material factors' },
