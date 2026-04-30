@@ -1943,6 +1943,105 @@ export const additionalDefectGuides: DefectGuide[] = [
         title: '3. Diagnostic Techniques',
         blocks: [
           {
+            type: 'diagnoseChecklist',
+            title: 'Diagnose Sink Marks — Auto-Suggested Checklist',
+            description:
+              'Work top-to-bottom. Each step narrows the cause. Calculator rows open the relevant Process Tool in one click. Progress is saved on this device.',
+            groups: [
+              {
+                label: 'Visual & geometric inspection',
+                kind: 'inspect',
+                items: [
+                  {
+                    text: 'Confirm the depression sits directly opposite a rib, boss, gusset, insert, or thick wall step.',
+                    hint: 'If not opposite hidden mass, suspect flow line, jetting, or weld read-through instead.',
+                  },
+                  {
+                    text: 'Re-inspect the part 5 min and 24 hr after ejection — does the sink deepen?',
+                    hint: 'Growing sink → confirms shrinkage / late freeze mechanism.',
+                  },
+                  {
+                    text: 'Compare first-cavity vs last-cavity (multi-cavity tools) and gate-side vs end-of-fill.',
+                  },
+                  {
+                    text: 'Overlay defect photo on CAD section — measure local rib-to-wall ratio at the sink.',
+                    hint: 'Rib base > 0.6 × nominal wall is a structural sink risk regardless of process.',
+                  },
+                ],
+              },
+              {
+                label: 'Measure on the press',
+                kind: 'measure',
+                items: [
+                  {
+                    text: 'Verify actual melt temperature with a purge-shot pyrometer (do not trust barrel setpoint).',
+                  },
+                  {
+                    text: 'Log cushion shot-to-shot for 20 cycles — instability points to a leaking check ring.',
+                  },
+                  {
+                    text: 'Record mold surface temperature at the thick zone with a contact pyrometer.',
+                    hint: 'Hot spots over the rib/boss extend cooling and amplify shrinkage.',
+                  },
+                  {
+                    text: 'Weigh 5 consecutive parts — variation > 0.5% indicates pack/cushion inconsistency.',
+                  },
+                ],
+              },
+              {
+                label: 'Quantify with calculators',
+                kind: 'calculator',
+                items: [
+                  {
+                    text: 'Run a gate-freeze (pack & hold) study — increase hold time in steps until part weight stops climbing.',
+                    hint: 'The single most decisive test. Splits process fixes from geometry fixes.',
+                    toolId: 'pack-hold',
+                  },
+                  {
+                    text: 'Estimate required cooling time for the thickest local section.',
+                    hint: 'Skin must be stiff enough to resist being pulled inward before ejection.',
+                    toolId: 'cooling-time',
+                  },
+                  {
+                    text: 'Confirm part volume, runner share, and shot weight vs. machine capacity.',
+                    hint: 'Pack pressure transmission requires adequate shot size and cushion.',
+                    toolId: 'shot-volume',
+                  },
+                  {
+                    text: 'Check shear rate at the gate — high shear can mask sink behind localized burn or flow effects.',
+                    toolId: 'shear-rate',
+                  },
+                ],
+              },
+              {
+                label: 'Settings to review on the controller',
+                kind: 'setting',
+                items: [
+                  {
+                    text: 'Pack pressure — currently within clamp/flash limits? Step up 5–10% and re-evaluate.',
+                  },
+                  {
+                    text: 'Hold time — set at or just past gate-freeze (from the pack & hold study).',
+                  },
+                  {
+                    text: 'Melt temperature — modest increase improves pressure transmission to thick zones.',
+                  },
+                  {
+                    text: 'Mold temperature at thick areas — lower it to speed skin formation.',
+                  },
+                  {
+                    text: 'Cooling time — ensure interior stiffens before ejection.',
+                  },
+                  {
+                    text: 'Decompression / suckback — excessive pull-back drops pack pressure at switchover.',
+                  },
+                  {
+                    text: 'For hot runners: extend valve-gate hold-open time and verify tip/zone temperatures.',
+                  },
+                ],
+              },
+            ],
+          },
             type: 'image',
             src: sinkMarksLocationMap,
             alt: 'Top-down enclosure outline showing sink mark locations opposite ribs, bosses, gussets, thick wall steps, and inserts',
