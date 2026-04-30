@@ -1,5 +1,6 @@
 import { additionalDefectGuides } from './additionalDefectGuides';
 import bubblesBlistersComparison from '@/assets/bubbles-blisters-comparison.png';
+import bubblesBlistersLocations from '@/assets/bubbles-blisters-locations.png';
 import { coldSlugMarksGuide } from './coldSlugMarksGuide';
 import { delaminationGuide } from './delaminationGuide';
 import { warpageGuide } from './warpageGuide';
@@ -153,6 +154,23 @@ export const defectGuides: DefectGuide[] = [
             type: 'paragraph',
             text:
               'Morphology gives clues. Moisture-related defects often appear with silvering or foamed purge. Gas entrapment defects cluster at end-of-fill, near blind pockets, around thick-to-thin transitions, or adjacent to poorly vented features. Shrinkage-driven bubbles concentrate in thick sections and worsen when hold pressure/time is too low or gate freeze is too early. Surface blisters often appear after demolding or after warm storage as trapped gas expands. [R1][R2][R11][R12][R18]',
+          },
+          {
+            type: 'image',
+            src: bubblesBlistersLocations,
+            alt: 'Diagram of common bubble and blister locations on a molded part',
+            figureNumber: 'Figure 2',
+            caption: 'Common defect sites: thick sections, boss roots, rib intersections, blind pockets, thin-to-thick transitions, and end-of-fill / poorly vented zones.',
+            lookFor: {
+              title: 'Inspect these zones first',
+              tone: 'warning',
+              items: [
+                'Thick sections and boss roots — shrinkage-driven internal bubbles or vacuum voids.',
+                'Rib intersections and thin-to-thick transitions — local hot spots and skin lift → blisters.',
+                'Blind pockets and end-of-fill / last-fill areas — trapped air; check vent depth and witness marks.',
+                'Correlate the defect site with cavity-fill simulation or short-shot study before changing setpoints.',
+              ],
+            },
           },
         ],
       },
