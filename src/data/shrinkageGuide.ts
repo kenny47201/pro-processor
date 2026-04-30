@@ -1,6 +1,8 @@
 import type { DefectGuide } from './defectGuides';
-import shrinkageTimeline from '@/assets/shrinkage-timeline.jpg';
-import shrinkageFlowchart from '@/assets/shrinkage-flowchart.jpg';
+import shrinkageTimeline from '@/assets/shrinkage-timeline-chart.jpg';
+import shrinkageMaterialBands from '@/assets/shrinkage-material-bands.jpg';
+import shrinkageColdVsHotRunner from '@/assets/shrinkage-cold-vs-hot-runner.jpg';
+import shrinkageFlowchart from '@/assets/shrinkage-troubleshooting-flowchart.png';
 
 export const shrinkageGuide: DefectGuide = {
   slug: 'shrinkage',
@@ -70,6 +72,13 @@ export const shrinkageGuide: DefectGuide = {
             ['HDPE', '1.5 – 4.0', 'Highest crystalline shrink — major sink risk'],
           ],
         },
+        {
+          type: 'image',
+          src: shrinkageMaterialBands,
+          alt: 'Typical material shrinkage bands by polymer family',
+          figureNumber: 'Figure 2',
+          caption: 'Illustrative linear moulding shrinkage bands by material family. Actual values depend on grade, filler level, test method, gate direction, packing, cooling, and time of measurement.',
+        },
       ],
     },
     {
@@ -121,6 +130,13 @@ export const shrinkageGuide: DefectGuide = {
             ['Cavity-to-cavity repeatability', 'Geometric balance only', 'Per-zone control'],
             ['Failure modes', 'Cold slug, runner imbalance, undersized gate', 'Tip drift, manifold imbalance, valve timing'],
           ],
+        },
+        {
+          type: 'image',
+          src: shrinkageColdVsHotRunner,
+          alt: 'Cold runner vs hot runner shrinkage-control implications bar chart',
+          figureNumber: 'Figure 3',
+          caption: 'Relative severity / capability comparison (0–10 scale): cold runners carry higher heat loss and gate-freeze risk; hot runners deliver better pack transmission and dimensional repeatability when balanced.',
         },
         { type: 'heading', level: 3, text: '2.5 Mold design & geometry' },
         {
@@ -206,7 +222,7 @@ export const shrinkageGuide: DefectGuide = {
           type: 'image',
           src: shrinkageFlowchart,
           alt: 'Shrinkage troubleshooting flowchart',
-          figureNumber: 'Figure 2',
+          figureNumber: 'Figure 4',
           caption: 'Decision tree: classify global undersize vs local sink/void, then branch by stability and geometry.',
           lookFor: {
             title: 'How to walk this flowchart',
