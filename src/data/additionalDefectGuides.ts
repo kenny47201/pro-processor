@@ -1977,6 +1977,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         title: '4. Preventive Measures',
         blocks: [
           {
+            type: 'image',
+            src: sinkMarksRibDesignRule,
+            alt: 'Side-by-side comparison of a thick rib that produces a sink mark versus a thin rib that yields a smooth surface',
+            figureNumber: 'Figure 4',
+            caption:
+              'Rib-to-wall thickness rule — a rib equal to or thicker than the nominal wall (left) creates a hot mass that pulls a sink into the show surface. Sizing the rib to roughly half the wall (right) keeps the local section thin enough to freeze with the skin.',
+            lookFor: {
+              tone: 'success',
+              title: 'Design rule of thumb',
+              items: [
+                'Target rib base thickness = 0.5–0.6 × nominal wall.',
+                'Above 0.6× the rib becomes a thermal mass and a sink risk.',
+                'For multiple ribs at one location, sum their effective mass — keep total ≤ wall thickness.',
+                'Combine with adequate draft (0.5–1°) and a generous fillet at the rib base for stress, not mass.',
+              ],
+            },
+          },
+          {
             type: 'list',
             items: [
               'Design rule: rib thickness ≤ 60% of adjacent nominal wall.',
