@@ -1830,6 +1830,24 @@ export const additionalDefectGuides: DefectGuide[] = [
         title: '1. Definition & Distinction',
         blocks: [
           {
+            type: 'image',
+            src: sinkMarksCrossSection,
+            alt: 'Cross-section showing a rib on the back of a nominal wall causing a sink mark on the cosmetic show surface',
+            figureNumber: 'Figure 1',
+            caption:
+              'Cross section — a thick rib on the back side acts as a hot core. As its interior shrinks after the skin freezes, the cosmetic show surface is pulled inward, producing a sink mark directly opposite the rib.',
+            lookFor: {
+              tone: 'warning',
+              title: 'What to look for',
+              items: [
+                'Depression directly opposite a rib, boss, or thick intersection.',
+                'Solidified outer skin (yellow) over a still-hot interior (red) — the classic skin/core thermal imbalance.',
+                'Dashed orange zone marks the hot core / thick section that drives volumetric shrinkage.',
+                'Cosmetic visibility increases on glossy or dark show surfaces.',
+              ],
+            },
+          },
+          {
             type: 'list',
             items: [
               'Shallow dimples opposite ribs, bosses, gussets, thick walls, inserts, or reinforced intersections.',
