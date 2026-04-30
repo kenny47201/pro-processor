@@ -246,7 +246,18 @@ export const warpageGuide: DefectGuide = {
           type: 'image',
           src: warpageFlowchart,
           alt: 'Warpage troubleshooting flowchart for injection molding',
-          caption: 'Figure 3 — Warpage troubleshooting flowchart: quantify → check shot-to-shot consistency → branch by runner system → cooling → material → mold design → validate.',
+          figureNumber: 'Figure 3',
+          caption: 'Warpage troubleshooting flowchart: quantify → check shot-to-shot consistency → branch by runner system → cooling → material → mold design → validate.',
+          lookFor: {
+            title: 'How to walk this flowchart',
+            tone: 'info',
+            items: [
+              'Always begin with quantification — a CMM or fixture report establishes the baseline before any change.',
+              'Confirm shot-to-shot stability before blaming the mold; an unstable process invalidates downstream nodes.',
+              'Branch by runner system: cold-runner branches focus on balance and gate freeze; hot-runner branches focus on tip temperature uniformity.',
+              'Re-validate after every node — never stack two changes between measurements.',
+            ],
+          },
         },
         {
           type: 'table',
