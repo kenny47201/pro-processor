@@ -85,6 +85,24 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
                 </CardContent>
               </Card>
             );
+          case 'image':
+            return (
+              <figure key={i} className="my-4">
+                <div className="rounded-md border bg-muted/20 overflow-hidden">
+                  <img
+                    src={block.src}
+                    alt={block.alt}
+                    loading="lazy"
+                    className="w-full h-auto block"
+                  />
+                </div>
+                {block.caption && (
+                  <figcaption className="text-xs text-muted-foreground mt-2 text-center italic">
+                    {block.caption}
+                  </figcaption>
+                )}
+              </figure>
+            );
           default:
             return null;
         }
