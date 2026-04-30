@@ -34,6 +34,7 @@ import flowLinesFountainFlow from '@/assets/flow-lines-fountain-flow.png';
 import flowLinesVulnerabilityMap from '@/assets/flow-lines-vulnerability-map.png';
 import flowLinesRunnerComparison from '@/assets/flow-lines-runner-comparison.png';
 import flowLinesPreventionLevers from '@/assets/flow-lines-prevention-levers.png';
+import flowLinesDecisionTree from '@/assets/flow-lines-decision-tree.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
@@ -1096,6 +1097,25 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'corrective-actions',
         title: '5. Corrective Actions',
         blocks: [
+          {
+            type: 'image',
+            src: flowLinesDecisionTree,
+            alt: 'Troubleshooting decision tree for flow lines: classify defect pattern by location (gate-near, mid-flow tiger stripes, or feature-induced), apply zone-specific actions, validate with short-shot study and simulation, then either lock the process or move to tool/geometry redesign.',
+            figureNumber: 'Figure 6',
+            caption: 'Troubleshooting decision tree — classify by defect location, apply targeted actions, validate, then either lock the process or escalate to tool/geometry redesign.',
+            lookFor: {
+              title: 'How to walk the tree',
+              tone: 'info',
+              items: [
+                'Start by classifying the pattern: gate-near, mid-flow/tiger stripes, or feature-induced.',
+                'Gate-near → inspect gate size and land length, audit nozzle/tip temperature, check for cold slug.',
+                'Mid-flow banding → raise fill speed in stages and increase melt/mold temperatures before touching tooling.',
+                'Feature-induced → adjust fill-speed profile through the geometry change; consider gate relocation.',
+                'Validate every change with a short-shot study and (where available) Moldflow/Moldex3D simulation.',
+                'If the defect persists after process work, escalate to tool/geometry redesign; if resolved, lock the process and document.',
+              ],
+            },
+          },
           {
             type: 'orderedList',
             items: [
