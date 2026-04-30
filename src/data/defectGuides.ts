@@ -1,4 +1,5 @@
 import { additionalDefectGuides } from './additionalDefectGuides';
+import bubblesBlistersComparison from '@/assets/bubbles-blisters-comparison.png';
 import { coldSlugMarksGuide } from './coldSlugMarksGuide';
 import { delaminationGuide } from './delaminationGuide';
 import { warpageGuide } from './warpageGuide';
@@ -124,6 +125,24 @@ export const defectGuides: DefectGuide[] = [
               ['Sink mark', 'Over thick section, rib, or boss', 'Depression or dimpling', 'External skin drawn inward by late shrinkage'],
               ['Vacuum void', 'Core of thick section', 'Usually no surface sign until sectioned', 'Unfed core shrinkage after gate freeze'],
             ],
+          },
+          {
+            type: 'image',
+            src: bubblesBlistersComparison,
+            alt: 'Cross-sectional comparison of bubble, blister, sink mark, and vacuum void',
+            figureNumber: 'Figure 1',
+            caption: 'Cross-sectional view contrasting the four most-confused defects: gas-filled bubbles and blisters vs. shrinkage-driven sink marks and vacuum voids.',
+            lookFor: {
+              title: 'How to classify on the floor',
+              tone: 'info',
+              items: [
+                'Bubble — internal cavity; only visible in transparent parts or after sectioning.',
+                'Blister — raised dome on the surface; gas trapped just under the skin.',
+                'Sink mark — surface depression over a thick section, rib, or boss; pure shrinkage.',
+                'Vacuum void — internal shrinkage cavity with no gas; usually no surface sign until cut.',
+                'Confirm with transmitted light (clear resins) or cross-section (opaque resins) before changing process setpoints.',
+              ],
+            },
           },
           {
             type: 'paragraph',
