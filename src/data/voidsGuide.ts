@@ -35,7 +35,18 @@ export const voidsGuide: DefectGuide = {
           type: 'image',
           src: voidsCrossSection,
           alt: 'Cross-section of a part showing internal void with shrinkage arrows',
-          caption: 'Figure 1-A — Cross-sectional view: shrinkage forces pull the polymer away from the core, leaving an internal void.',
+          figureNumber: 'Figure 1-A',
+          caption: 'Cross-sectional view: shrinkage forces pull the polymer away from the core, leaving an internal void.',
+          lookFor: {
+            title: 'Diagnostic clues in the cross-section',
+            tone: 'info',
+            items: [
+              'Void shape: spherical = vacuum/shrinkage void; elongated or torn = trapped gas or moisture.',
+              'Void location: centered in the thickest mass = pack/hold issue; near surface = gas/moisture origin.',
+              'Wall around the void: stress-whitening rings indicate shrinkage tear, not gas entrapment.',
+              'Multiple aligned voids along flow path = degassing of moisture; isolated single void = local thick section.',
+            ],
+          },
         },
         { type: 'heading', level: 3, text: '1.2 Detection' },
         {
