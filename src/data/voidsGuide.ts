@@ -247,7 +247,7 @@ export const voidsGuide: DefectGuide = {
           type: 'image',
           src: voidsFlowchart,
           alt: 'Void defect diagnostic flowchart',
-          figureNumber: 'Figure 2',
+          figureNumber: 'Figure 5',
           caption: 'Void diagnostic flowchart: classify location → cavity count → resin condition → pack/weight → runner type → geometry → check ring → vent.',
           lookFor: {
             title: 'How to walk this flowchart',
