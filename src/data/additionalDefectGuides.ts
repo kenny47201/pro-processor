@@ -850,6 +850,22 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Treat cavity pressure as the truth source; setpoints alone do not reveal overpacking.',
             ],
           },
+          {
+            type: 'image',
+            src: flashTroubleshootingFlowchart,
+            alt: 'Flash troubleshooting flowchart from gate/runner check through process adjustments and escalation',
+            figureNumber: 'Figure 7',
+            caption: 'Shop-floor flash troubleshooting flowchart — start by classifying gate/runner vs cavity flash, then walk the process-adjustment ladder before escalating to tooling.',
+            lookFor: {
+              title: 'Sequence to follow on the floor',
+              tone: 'success',
+              items: [
+                'Classify location first (gate/runner vs parting line vs core) — branching the wrong way wastes setup time.',
+                'Step the process ladder in order: pressure → temp → speed → pack/hold; verify after each change.',
+                'If process adjustments do not resolve flash, escalate to mold inspection — do not mask with tonnage.',
+              ],
+            },
+          },
         ],
       },
     ],
