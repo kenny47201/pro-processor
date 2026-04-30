@@ -17,6 +17,7 @@ import flashPartingLineCrossSection from '@/assets/flash-parting-line-cross-sect
 import sinkMarksCrossSection from '@/assets/sink-marks-cross-section.png';
 import sinkMarksLocationMap from '@/assets/sink-marks-location-map.png';
 import sinkMarksFormationTimeline from '@/assets/sink-marks-formation-timeline.png';
+import sinkMarksRibDesignRule from '@/assets/sink-marks-rib-design-rule.png';
 import flashCorePinCrossSection from '@/assets/flash-core-pin-cross-section.png';
 import flashTypeComparison from '@/assets/flash-type-comparison.png';
 import flashRunnerComparison from '@/assets/flash-runner-comparison.png';
