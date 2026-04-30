@@ -28,8 +28,6 @@ import meldLineFormation from '@/assets/meld-line-formation.jpg';
 import meldLineCrossSection from '@/assets/meld-line-cross-section.jpg';
 import meldLineRunnerComparison from '@/assets/meld-line-runner-comparison.png';
 import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
-// Flow Lines
-import flowLinesVisualGuide from '@/assets/flow-lines-visual-guide.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
@@ -906,25 +904,6 @@ export const additionalDefectGuides: DefectGuide[] = [
         id: 'definition',
         title: '1. Definition & Visual Manifestation',
         blocks: [
-          {
-            type: 'image',
-            src: flowLinesVisualGuide,
-            alt: 'Comprehensive visual guide to flow lines: appearance patterns, unstable fountain flow mechanism, part vulnerability map, cold vs hot runner thermal paths, prevention levers, and troubleshooting decision tree.',
-            figureNumber: 'Figure 1',
-            caption: 'Flow lines visual reference — appearance patterns, root-cause mechanism (unstable fountain flow), part vulnerability zones, runner thermal-path comparison, 5 prevention levers, and full troubleshooting decision tree.',
-            lookFor: {
-              title: 'How to use this reference',
-              tone: 'info',
-              items: [
-                'Figure 1 panel — match the observed pattern: gate-near rings, mid-flow wave bands (tiger stripes), or feature-induced streaking around bosses/ribs/holes.',
-                'Figure 2 — confirms the underlying mechanism: stable hemispherical fountain front vs oscillating/slip-stick front that prints gloss/dull bands.',
-                'Figure 3 — locates the defect on the part to triage: Zone 1 (gate), Zone 2 (mid-flow), or Zone 3 (around features).',
-                'Figure 4 — use when comparing cold-runner vs hot-runner cosmetic robustness; thermal path length drives gate-temperature stability.',
-                'Figure 5 — the 5 prevention levers in priority order: fill-speed profile, melt temp, mold temp, gate/runner design, material selection.',
-                'Figure 6 — follow the decision tree from observation through validation (short-shot + simulation) to either lock the process or redesign the tool.',
-              ],
-            },
-          },
           {
             type: 'list',
             items: [
