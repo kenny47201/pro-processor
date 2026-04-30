@@ -333,6 +333,13 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
                 </div>
               </div>
             );
+          case 'diagnoseChecklist': {
+            const sig = `${block.title ?? 'diagnose'}|${block.groups
+              .map((g) => `${g.kind}:${g.items.length}`)
+              .join(',')}`;
+            const storageKey = `defect-checklist:${sig}`;
+            return <DiagnoseChecklist key={i} block={block} storageKey={storageKey} />;
+          }
           default:
             return null;
         }
