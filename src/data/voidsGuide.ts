@@ -58,7 +58,18 @@ export const voidsGuide: DefectGuide = {
           type: 'image',
           src: voidsWallThickness,
           alt: 'Wall thickness vs void formation diagram showing thin, medium, and thick sections',
-          caption: 'Figure 1-B — Wall thickness vs void formation: thicker sections solidify their skin first and trap shrinkage as internal voids. Sections ≥ 8 mm carry the highest void risk.',
+          figureNumber: 'Figure 1-B',
+          caption: 'Wall thickness vs void formation: thicker sections solidify their skin first and trap shrinkage as internal voids. Sections ≥ 8 mm carry the highest void risk.',
+          lookFor: {
+            title: 'What to flag during part review',
+            tone: 'warning',
+            items: [
+              'Any nominal wall ≥ 4× the surrounding wall — coring out is preferable to thick sections.',
+              'Bosses and rib intersections — the junction is effectively double-thickness and concentrates voids.',
+              'Section transitions sharper than 3:1 — they freeze unevenly and trap shrinkage downstream.',
+              'Mass concentrations far from the gate — the pressure path freezes off before pack reaches them.',
+            ],
+          },
         },
         { type: 'heading', level: 3, text: '1.3 Structural impact' },
         {
