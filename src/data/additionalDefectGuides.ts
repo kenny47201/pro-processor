@@ -613,6 +613,22 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Primary corrective', 'Clamp support, transfer/pack reduction, spotting', 'Component repair, fit restoration, seal-off redesign'],
             ],
           },
+          {
+            type: 'image',
+            src: flashTypeComparison,
+            alt: 'Side-by-side comparison of parting line flash and core flash',
+            figureNumber: 'Figure 1',
+            caption: 'Parting line flash (continuous feather edge along the split line) vs core flash (localized ring/crescent at a pin, insert, or shutoff).',
+            lookFor: {
+              title: 'Classify before you adjust',
+              tone: 'info',
+              items: [
+                'Continuous fin tracking the split line → parting-line family (clamp / breathing / pack).',
+                'Localized ring or crescent around a pin, insert, sleeve, or shutoff → core family (fit / wear / local pressure).',
+                'Both present together → diagnose parting-line first, then re-evaluate core after pressure is corrected.',
+              ],
+            },
+          },
         ],
       },
       {
