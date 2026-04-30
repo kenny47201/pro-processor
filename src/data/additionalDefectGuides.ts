@@ -244,10 +244,25 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Train operators to recognize charred purge as an early warning of barrel hold-up.',
             ],
           },
+          {
+            type: 'image',
+            src: burnMarksVentingSolutions,
+            alt: 'Venting Design Solutions diagram comparing poor/no venting, parting-line vent, and ejector-pin/insert vent options for end-of-fill burn prevention, with vent depth reference table by material group',
+            figureNumber: 'Figure 4',
+            caption: 'Venting design solutions for End-of-Fill burn prevention — three configurations with vent depth reference by material group.',
+            lookFor: {
+              title: 'Vent design checks before cutting steel',
+              tone: 'success',
+              items: [
+                'Match vent depth to the resin group: polyolefins 0.010–0.020 mm; ABS/HIPS/PS 0.020–0.030 mm; engineering resins (PC, PA, POM, PBT) 0.025–0.040 mm.',
+                'Vent width 3–10 mm at the burn location, with a 0.5–1.0 mm relief land behind it venting to atmosphere or vacuum.',
+                'For deep ribs, blind pockets, or bosses where parting-line venting is impossible, use ejector-pin clearance or porous-steel (Porcerax) inserts at 0.005–0.015 mm.',
+                'Verify clamp tonnage is the minimum that prevents flash — over-clamping closes the vents you just cut.',
+              ],
+            },
+          },
         ],
       },
-      {
-        id: 'corrective-actions',
         title: '5. Corrective Actions',
         blocks: [
           { type: 'heading', level: 3, text: '5.1 Gate burn — first-response sequence' },
