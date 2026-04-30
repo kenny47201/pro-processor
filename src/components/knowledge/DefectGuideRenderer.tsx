@@ -85,9 +85,11 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
                 </CardContent>
               </Card>
             );
-          case 'image':
+          case 'image': {
+            const lookForCfg = block.lookFor ? calloutConfig[block.lookFor.tone ?? 'info'] : null;
+            const LookForIcon = lookForCfg?.icon;
             return (
-              <figure key={i} className="my-4">
+              <figure key={i} className="my-5 space-y-3">
                 <div className="rounded-md border bg-muted/20 overflow-hidden">
                   <img
                     src={block.src}
@@ -96,13 +98,32 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
                     className="w-full h-auto block"
                   />
                 </div>
-                {block.caption && (
-                  <figcaption className="text-xs text-muted-foreground mt-2 text-center italic">
-                    {block.caption}
+                {(block.figureNumber || block.caption) && (
+                  <figcaption className="text-xs text-muted-foreground text-center space-y-1">
+                    {block.figureNumber && (
+                      <div className="inline-block px-2 py-0.5 rounded bg-muted/60 text-foreground/80 font-mono uppercase tracking-wide text-[10px]">
+                        {block.figureNumber}
+                      </div>
+                    )}
+                    {block.caption && <div className="italic leading-relaxed">{block.caption}</div>}
                   </figcaption>
+                )}
+                {block.lookFor && lookForCfg && LookForIcon && (
+                  <div className={cn('border-l-4 rounded-md p-3 flex gap-3', lookForCfg.classes)}>
+                    <LookForIcon className="h-4 w-4 shrink-0 mt-0.5" />
+                    <div className="space-y-1.5 min-w-0">
+                      <div className="font-semibold text-xs uppercase tracking-wide">
+                        {block.lookFor.title ?? 'What to look for'}
+                      </div>
+                      <ul className="list-disc pl-4 space-y-1 text-sm leading-relaxed">
+                        {block.lookFor.items.map((it, j) => <li key={j}>{it}</li>)}
+                      </ul>
+                    </div>
+                  </div>
                 )}
               </figure>
             );
+          }
           default:
             return null;
         }

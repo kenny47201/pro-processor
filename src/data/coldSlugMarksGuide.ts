@@ -281,7 +281,18 @@ export const coldSlugMarksGuide: DefectGuide = {
           type: 'image',
           src: coldSlugMarksFlowchart,
           alt: 'Cold Slug Marks troubleshooting decision flowchart: visual inspection branches into Runner System Check (cold/hot runner paths) and Process Parameter Check (melt temp, injection speed, back pressure, moisture), converging on a Problem Solved verification step.',
-          caption: 'Cold Slug Marks — full response & decision flowchart',
+          figureNumber: 'Response Guide',
+          caption: 'Cold Slug Marks — full response & decision flowchart.',
+          lookFor: {
+            title: 'How to use this flowchart on the floor',
+            tone: 'info',
+            items: [
+              'Confirm the defect is a cold slug mark (silvery teardrop near the gate) before entering the tree — splay and jetting use different paths.',
+              'Branch by runner system first: cold-runner issues usually trace to cold-slug well sizing; hot-runner issues trace to tip temperature and gate freeze.',
+              'On the process branch, change one parameter at a time and re-run 5–10 shots before moving to the next node.',
+              'If both branches return to start, escalate to mold maintenance — worn gate land or undersized cold-slug well.',
+            ],
+          },
         },
         { type: 'heading', level: 3, text: 'Step 1 — Visual Inspection: where are the marks?' },
         {

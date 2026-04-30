@@ -53,7 +53,18 @@ export const warpageGuide: DefectGuide = {
           type: 'image',
           src: warpageTwisting,
           alt: 'Twisting / torsional warp deflection contour map showing high-stress zone',
-          caption: 'Figure 1 — Twisting/torsional warp deflection map; the high-stress zone correlates with anisotropic fiber orientation and uneven cooling.',
+          figureNumber: 'Figure 1',
+          caption: 'Twisting/torsional warp deflection map; the high-stress zone correlates with anisotropic fiber orientation and uneven cooling.',
+          lookFor: {
+            title: 'What to look for on the contour map',
+            tone: 'info',
+            items: [
+              'Diagonal deflection pattern across the part — classic signature of fiber orientation, not pack pressure.',
+              'Hot-spot color (red/orange) clustered on one face — indicates one mold half is running hotter than the other.',
+              'Symmetric warp around the gate — points to flow-induced orientation; asymmetric warp points to cooling imbalance.',
+              'Compare the high-stress zone against the gate location — re-gating can rotate the orientation pattern.',
+            ],
+          },
         },
         { type: 'heading', level: 3, text: '1.3 Economic impact' },
         {
@@ -103,7 +114,18 @@ export const warpageGuide: DefectGuide = {
           type: 'image',
           src: warpageCooling,
           alt: 'Differential cooling diagram — cavity vs core temperature mismatch causing warp',
-          caption: 'Figure 2 — Differential cooling between cavity and core sides of the mold is the single largest process driver of warp.',
+          figureNumber: 'Figure 2',
+          caption: 'Differential cooling between cavity and core sides of the mold is the single largest process driver of warp.',
+          lookFor: {
+            title: 'Diagnostic checks driven by this diagram',
+            tone: 'warning',
+            items: [
+              'Measure cavity vs core surface temperature with a contact pyrometer — a delta > 10 °C will warp most semi-crystalline resins.',
+              'Concave side of the warp curls toward the hotter mold half — use this to identify which side needs cooler water.',
+              'Check water-line flow rate and inlet/outlet ΔT separately on each half; turbulent flow (Re > 4000) is required.',
+              'Verify cooling-line layout matches part geometry — long unsupported runs above thick sections are common offenders.',
+            ],
+          },
         },
         {
           type: 'table',
@@ -224,7 +246,18 @@ export const warpageGuide: DefectGuide = {
           type: 'image',
           src: warpageFlowchart,
           alt: 'Warpage troubleshooting flowchart for injection molding',
-          caption: 'Figure 3 — Warpage troubleshooting flowchart: quantify → check shot-to-shot consistency → branch by runner system → cooling → material → mold design → validate.',
+          figureNumber: 'Figure 3',
+          caption: 'Warpage troubleshooting flowchart: quantify → check shot-to-shot consistency → branch by runner system → cooling → material → mold design → validate.',
+          lookFor: {
+            title: 'How to walk this flowchart',
+            tone: 'info',
+            items: [
+              'Always begin with quantification — a CMM or fixture report establishes the baseline before any change.',
+              'Confirm shot-to-shot stability before blaming the mold; an unstable process invalidates downstream nodes.',
+              'Branch by runner system: cold-runner branches focus on balance and gate freeze; hot-runner branches focus on tip temperature uniformity.',
+              'Re-validate after every node — never stack two changes between measurements.',
+            ],
+          },
         },
         {
           type: 'table',
