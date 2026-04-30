@@ -53,7 +53,18 @@ export const warpageGuide: DefectGuide = {
           type: 'image',
           src: warpageTwisting,
           alt: 'Twisting / torsional warp deflection contour map showing high-stress zone',
-          caption: 'Figure 1 — Twisting/torsional warp deflection map; the high-stress zone correlates with anisotropic fiber orientation and uneven cooling.',
+          figureNumber: 'Figure 1',
+          caption: 'Twisting/torsional warp deflection map; the high-stress zone correlates with anisotropic fiber orientation and uneven cooling.',
+          lookFor: {
+            title: 'What to look for on the contour map',
+            tone: 'info',
+            items: [
+              'Diagonal deflection pattern across the part — classic signature of fiber orientation, not pack pressure.',
+              'Hot-spot color (red/orange) clustered on one face — indicates one mold half is running hotter than the other.',
+              'Symmetric warp around the gate — points to flow-induced orientation; asymmetric warp points to cooling imbalance.',
+              'Compare the high-stress zone against the gate location — re-gating can rotate the orientation pattern.',
+            ],
+          },
         },
         { type: 'heading', level: 3, text: '1.3 Economic impact' },
         {
