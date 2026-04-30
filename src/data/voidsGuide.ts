@@ -127,7 +127,13 @@ export const voidsGuide: DefectGuide = {
             ['Cushion', 'No reservoir for pack', 'Material degradation from extra residence'],
           ],
         },
-        { type: 'heading', level: 3, text: '2.3 Mold design — cold runner vs hot runner' },
+        {
+          type: 'image',
+          src: voidsPressureProfile,
+          alt: 'Cavity pressure profile chart showing optimal hold vs low hold pressure void risk',
+          figureNumber: 'Figure 2',
+          caption: 'Cavity pressure profile during fill / pack-hold / cool. Sustained hold pressure (green) feeds shrinkage and prevents voids; insufficient hold (red dashed) lets pressure collapse before gate freeze, dramatically raising void risk.',
+        },
         {
           type: 'table',
           caption: 'Runner system effect on void formation',
@@ -140,7 +146,13 @@ export const voidsGuide: DefectGuide = {
             ['Failure modes', 'Cold slug, undersized gate, runner freeze', 'Tip drift, valve-gate mistiming, hold-up degradation'],
           ],
         },
-        { type: 'heading', level: 3, text: '2.4 Machine & auxiliary factors' },
+        {
+          type: 'image',
+          src: voidsRunnerSchematic,
+          alt: 'Cold runner vs hot runner system schematic',
+          figureNumber: 'Figure 3',
+          caption: 'Cold runner systems lose pressure and heat through the solidifying runner — gate freezes earlier and elevates void risk. Hot runner systems maintain melt at temperature up to the gate, transmitting pack pressure more reliably to the cavity.',
+        },
         {
           type: 'list',
           items: [
