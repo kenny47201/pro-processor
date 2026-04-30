@@ -613,6 +613,22 @@ export const additionalDefectGuides: DefectGuide[] = [
               ['Primary corrective', 'Clamp support, transfer/pack reduction, spotting', 'Component repair, fit restoration, seal-off redesign'],
             ],
           },
+          {
+            type: 'image',
+            src: flashTypeComparison,
+            alt: 'Side-by-side comparison of parting line flash and core flash',
+            figureNumber: 'Figure 1',
+            caption: 'Parting line flash (continuous feather edge along the split line) vs core flash (localized ring/crescent at a pin, insert, or shutoff).',
+            lookFor: {
+              title: 'Classify before you adjust',
+              tone: 'info',
+              items: [
+                'Continuous fin tracking the split line → parting-line family (clamp / breathing / pack).',
+                'Localized ring or crescent around a pin, insert, sleeve, or shutoff → core family (fit / wear / local pressure).',
+                'Both present together → diagnose parting-line first, then re-evaluate core after pressure is corrected.',
+              ],
+            },
+          },
         ],
       },
       {
@@ -623,6 +639,38 @@ export const additionalDefectGuides: DefectGuide[] = [
             type: 'paragraph',
             text:
               'Visually, parting line flash tracks an edge or split line; core flash appears as a circular or crescent fin around a hole, boss, or insert. Structurally, flash is rarely "just cosmetic" — it interferes with mating surfaces, creates sealing leaks, changes snap-fit geometry, obstructs assembly, and can become a critical cleanliness/safety issue in medical and electrical parts. Flash is also an indirect marker of overpacking, mold wear, poor support, misalignment, or hot-runner thermal instability.',
+          },
+          {
+            type: 'image',
+            src: flashPartingLineCrossSection,
+            alt: 'Cross-section showing melt escaping through an opened parting line',
+            figureNumber: 'Figure 2',
+            caption: 'Parting line flash mechanism — mold breathing or worn shut-off lands let melt extrude into the split line under pack pressure.',
+            lookFor: {
+              title: 'Cross-section diagnostic cues',
+              tone: 'warning',
+              items: [
+                'Gap opens during pack/hold, not during fill — flash thickness scales with peak cavity pressure.',
+                'Continuous fin = global breathing or clamp deficit; intermittent fin = localized damage or debris on the land.',
+                'Verify support pillars and tie-bar balance before adding tonnage.',
+              ],
+            },
+          },
+          {
+            type: 'image',
+            src: flashCorePinCrossSection,
+            alt: 'Cross-section showing flash forming around a worn core pin',
+            figureNumber: 'Figure 3',
+            caption: 'Core flash mechanism — clearance growth or loss of seal length at a pin, sleeve, insert, or shutoff allows melt to leak around the local feature.',
+            lookFor: {
+              title: 'Local feature diagnostic cues',
+              tone: 'warning',
+              items: [
+                'Ring or crescent geometry tells you which side of the clearance failed — blue-spot to confirm.',
+                'Check seal-land length: short lands flash long before nominal clearance is exceeded.',
+                'Cold clearance can be correct while thermal growth at running temperature opens the gap — measure hot if possible.',
+              ],
+            },
           },
         ],
       },
@@ -651,7 +699,39 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Insufficient clamp tonnage — mold breathing opens parting line.',
             ],
           },
+          {
+            type: 'image',
+            src: flashProcessEffects,
+            alt: 'Charts of polymer flash risk by resin and clamp force vs flash severity',
+            figureNumber: 'Figure 4',
+            caption: 'Process parameter effects — polymer flash risk by resin family (left) and clamp force adequacy vs flash severity (right).',
+            lookFor: {
+              title: 'Read the curves on the floor',
+              tone: 'info',
+              items: [
+                'High-MFR resins (PP, TPU, POM, PA66) sit in the high-risk band — start with conservative pack and earlier transfer.',
+                'Flash severity climbs steeply below ~80% of required clamp; above 100% returns diminish — do not chase flash with tonnage.',
+                'Use this as a sanity check before changing setpoints: confirm clamp adequacy first.',
+              ],
+            },
+          },
           { type: 'heading', level: 3, text: '2.3 Cold runner vs hot runner' },
+          {
+            type: 'image',
+            src: flashRunnerComparison,
+            alt: 'Comparison of cold runner and hot runner pressure profiles relative to flash risk',
+            figureNumber: 'Figure 5',
+            caption: 'Hot runners maintain melt temperature and pressure closer to the gate, raising local cavity pressure for the same setpoints — a known flash amplifier after conversion.',
+            lookFor: {
+              title: 'After hot-runner conversion, re-qualify',
+              tone: 'warning',
+              items: [
+                'Transfer position and pack pressure carried over from cold runner are typically too aggressive.',
+                'Check manifold-zone balance — a hot drop running 10–15 °C above target will flash that cavity first.',
+                'Valve-gate timing and stroke directly affect annular flash around the pin.',
+              ],
+            },
+          },
           {
             type: 'callout',
             tone: 'warning',
@@ -669,6 +749,22 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Insert misalignment or thermal growth mismatch.',
               'Contamination (debris, regrind chips) trapped on shut-off surfaces.',
             ],
+          },
+          {
+            type: 'image',
+            src: flashVentingComparison,
+            alt: 'Proper versus inadequate mold venting design',
+            figureNumber: 'Figure 6',
+            caption: 'Proper vs inadequate mold venting. Vents that are too deep flash directly; vents that are too shallow trap gas, force higher pack, and indirectly create flash elsewhere.',
+            lookFor: {
+              title: 'Vent inspection checklist',
+              tone: 'info',
+              items: [
+                'Vent depth within resin spec (typical 0.013–0.038 mm depending on viscosity) — measure, do not eyeball.',
+                'Land length short enough to clear gas without restricting (typ. 1.0–1.5 mm before relief).',
+                'Vents free of polish-over, packed contamination, or crushed edges from over-clamping.',
+              ],
+            },
           },
         ],
       },
@@ -753,6 +849,22 @@ export const additionalDefectGuides: DefectGuide[] = [
               'If flash appears after material change → check lot viscosity before changing process.',
               'Treat cavity pressure as the truth source; setpoints alone do not reveal overpacking.',
             ],
+          },
+          {
+            type: 'image',
+            src: flashTroubleshootingFlowchart,
+            alt: 'Flash troubleshooting flowchart from gate/runner check through process adjustments and escalation',
+            figureNumber: 'Figure 7',
+            caption: 'Shop-floor flash troubleshooting flowchart — start by classifying gate/runner vs cavity flash, then walk the process-adjustment ladder before escalating to tooling.',
+            lookFor: {
+              title: 'Sequence to follow on the floor',
+              tone: 'success',
+              items: [
+                'Classify location first (gate/runner vs parting line vs core) — branching the wrong way wastes setup time.',
+                'Step the process ladder in order: pressure → temp → speed → pack/hold; verify after each change.',
+                'If process adjustments do not resolve flash, escalate to mold inspection — do not mask with tonnage.',
+              ],
+            },
           },
         ],
       },
