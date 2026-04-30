@@ -125,6 +125,48 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
               </figure>
             );
           }
+          case 'calculatorLinks':
+            return (
+              <div
+                key={i}
+                className="my-5 rounded-lg border border-primary/30 bg-primary/5 p-4 space-y-3"
+              >
+                <div className="flex items-start gap-2">
+                  <Calculator className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                  <div className="space-y-0.5 min-w-0">
+                    <div className="font-semibold text-sm">
+                      {block.title ?? 'Related Process Tools'}
+                    </div>
+                    {block.description && (
+                      <div className="text-xs text-muted-foreground leading-relaxed">
+                        {block.description}
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {block.links.map((link, j) => (
+                    <Link
+                      key={j}
+                      to={`/process-tools?tool=${link.toolId}`}
+                      className="group flex items-start gap-2 rounded-md border bg-background hover:bg-accent hover:border-primary/50 transition-colors p-3"
+                    >
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                          {link.label}
+                        </div>
+                        {link.description && (
+                          <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                            {link.description}
+                          </div>
+                        )}
+                      </div>
+                      <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 mt-0.5" />
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
           default:
             return null;
         }
