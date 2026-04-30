@@ -32,6 +32,7 @@ import meldLineMeetingAngle from '@/assets/meld-line-meeting-angle.jpg';
 import flowLinesAppearance from '@/assets/flow-lines-appearance.png';
 import flowLinesFountainFlow from '@/assets/flow-lines-fountain-flow.png';
 import flowLinesVulnerabilityMap from '@/assets/flow-lines-vulnerability-map.png';
+import flowLinesRunnerComparison from '@/assets/flow-lines-runner-comparison.png';
 import meldLineFlowchart from '@/assets/meld-line-flowchart.png';
 
 // Shared reference list reused across guides
@@ -1000,6 +1001,23 @@ export const additionalDefectGuides: DefectGuide[] = [
             type: 'paragraph',
             text:
               'Cold runners introduce additional heat loss before the gate, amplifying temperature gradients, viscosity rise, and hesitation risk. Well-balanced hot runners reduce pressure loss and preserve melt temperature, generally improving cosmetic robustness — but can create flow-line-like defects if manifold/nozzle temperatures are imbalanced, residence is excessive, or tip temperature drifts.',
+          },
+          {
+            type: 'image',
+            src: flowLinesRunnerComparison,
+            alt: 'Side-by-side schematic comparing cold-runner system (long thermal path: nozzle, sprue, runner, gate, part with significant heat loss) to hot-runner system (short thermal path: heated manifold, tip, gate, part with minimal heat loss).',
+            figureNumber: 'Figure 4',
+            caption: 'Cold-runner vs hot-runner thermal path. Cold runners drop melt temperature before the gate (hesitation risk); well-balanced hot runners preserve it. Source: Mold-Masters, Husky, SPE technical guides.',
+            lookFor: {
+              title: 'Pick the right battle',
+              tone: 'info',
+              items: [
+                'Cold runner with cosmetic flow lines → look first at gate temperature and pressure loss across sprue/runner.',
+                'Hot runner with cavity-specific banding → audit zone-to-zone manifold/tip temperatures and balance.',
+                'Hot runner with gate-zone halos → check tip temperature drift and residence time.',
+                'Both systems benefit from gating into the thickest accessible section to minimize hesitation.',
+              ],
+            },
           },
         ],
       },
