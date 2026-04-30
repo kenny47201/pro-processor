@@ -72,10 +72,13 @@ export const shrinkageGuide: DefectGuide = {
             ['HDPE', '1.5 – 4.0', 'Highest crystalline shrink — major sink risk'],
           ],
         },
-      ],
-    },
-    {
-      id: 'root-causes',
+        {
+          type: 'image',
+          src: shrinkageMaterialBands,
+          alt: 'Typical material shrinkage bands by polymer family',
+          figureNumber: 'Figure 2',
+          caption: 'Illustrative linear moulding shrinkage bands by material family. Actual values depend on grade, filler level, test method, gate direction, packing, cooling, and time of measurement.',
+        },
       title: '2. Root Causes',
       blocks: [
         { type: 'heading', level: 3, text: '2.1 Material factors' },
