@@ -11,7 +11,7 @@ import { DryerSizingCalculator } from '@/components/process-tools/DryerSizingCal
 import { ChillerSizingCalculator } from '@/components/process-tools/ChillerSizingCalculator';
 import { MeltDensityCalculator } from '@/components/process-tools/MeltDensityCalculator';
 import { ViscosityCurveStudy } from '@/components/process-tools/ViscosityCurveStudy';
-import { GateSealStudy } from '@/components/process-tools/GateSealStudy';
+import { GateFreezeWorksheet } from '@/components/process-tools/GateFreezeWorksheet';
 import { CoolingTimeCalculator } from '@/components/process-tools/CoolingTimeCalculator';
 import { PackHoldStudy } from '@/components/process-tools/PackHoldStudy';
 import { CpkCalculator } from '@/components/process-tools/CpkCalculator';
