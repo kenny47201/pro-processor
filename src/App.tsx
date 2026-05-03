@@ -21,6 +21,7 @@ import KnowledgeFixDetail from "./pages/knowledge/KnowledgeFixDetail";
 import KnowledgeFixVerify from "./pages/knowledge/KnowledgeFixVerify";
 import KnowledgeFixCommit from "./pages/knowledge/KnowledgeFixCommit";
 import DefectAIChat from "./pages/knowledge/DefectAIChat";
+import MorphologyTroubleshooting from "./pages/knowledge/MorphologyTroubleshooting";
 
 // Process Tools
 import ProcessTools from "./pages/process/ProcessTools";
