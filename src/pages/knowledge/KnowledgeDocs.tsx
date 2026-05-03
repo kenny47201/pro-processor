@@ -90,12 +90,14 @@ ${images
   if (activeDoc) {
     return (
       <div className="space-y-6 max-w-5xl">
-        <Button variant="ghost" size="sm" onClick={() => setOpenDocSlug(null)}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Knowledge Docs
-        </Button>
+        <div className="no-print">
+          <Button variant="ghost" size="sm" onClick={() => setOpenDocSlug(null)}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back to Knowledge Docs
+          </Button>
+        </div>
 
-        <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center justify-between flex-wrap gap-3 no-print">
           <div className="space-y-1">
             <h1 className="text-2xl font-bold flex items-center gap-2">
               <FileText className="h-6 w-6 text-primary" />
@@ -111,32 +113,33 @@ ${images
           </Button>
         </div>
 
-        <div ref={printRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div ref={printRef} className="print-infographics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 print:block print:grid-cols-1">
           {activeDoc.images.map((img, i) => (
-            <Card
-              key={i}
-              className="overflow-hidden cursor-pointer hover:border-primary transition-colors group"
-              onClick={() => setLightboxImg(img)}
-            >
-              <div className="relative aspect-[4/3] bg-muted/30 flex items-center justify-center overflow-hidden">
-                <img
-                  src={img.src}
-                  alt={img.alt}
-                  className="object-contain w-full h-full p-2"
-                />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                  <ZoomIn className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div key={i} className="print-infographic-page">
+              <Card
+                className="overflow-hidden cursor-pointer hover:border-primary transition-colors group print:border-none print:shadow-none print:overflow-visible"
+                onClick={() => setLightboxImg(img)}
+              >
+                <div className="relative aspect-[4/3] bg-muted/30 flex items-center justify-center overflow-hidden print:aspect-auto print:bg-transparent">
+                  <img
+                    src={img.src}
+                    alt={img.alt}
+                    className="object-contain w-full h-full p-2 print:p-0 print:max-h-[85vh]"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center no-print">
+                    <ZoomIn className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                  </div>
                 </div>
-              </div>
-              {(img.figureNumber || img.caption) && (
-                <CardContent className="p-3">
-                  <p className="text-xs text-muted-foreground line-clamp-2">
-                    {img.figureNumber && <span className="font-semibold text-foreground">{img.figureNumber} — </span>}
-                    {img.caption}
-                  </p>
-                </CardContent>
-              )}
-            </Card>
+                {(img.figureNumber || img.caption) && (
+                  <CardContent className="p-3">
+                    <p className="text-xs text-muted-foreground line-clamp-2 print:line-clamp-none print:text-black print:text-center print:mt-2">
+                      {img.figureNumber && <span className="font-semibold text-foreground print:text-black">{img.figureNumber} — </span>}
+                      {img.caption}
+                    </p>
+                  </CardContent>
+                )}
+              </Card>
+            </div>
           ))}
         </div>
 
