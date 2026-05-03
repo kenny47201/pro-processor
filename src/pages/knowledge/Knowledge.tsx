@@ -3,6 +3,7 @@ import { BookOpen, FileText, AlertTriangle, Wrench, ArrowRight } from 'lucide-re
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { defectGuides } from '@/data/defectGuides';
+import { knowledgeDocs } from '@/data/knowledgeDocs';
 
 export default function Knowledge() {
   const sections = [
