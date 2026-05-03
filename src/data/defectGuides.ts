@@ -589,6 +589,7 @@ export const defectGuides: DefectGuide[] = [
   voidsGuide,
   shrinkageGuide,
   weldLinesGuide,
+  fountainFlowGuide,
 ];
 
 import { defectDiagnostics } from './defectDiagnostics';
