@@ -109,10 +109,18 @@ ${images
               {activeDoc.images.length} infographic{activeDoc.images.length !== 1 ? 's' : ''}
             </p>
           </div>
-          <Button variant="outline" size="sm" onClick={handlePrint}>
-            <Printer className="h-4 w-4 mr-2" />
-            Print All
-          </Button>
+          <div className="flex gap-2">
+            {activeDoc.doc.slug === 'morphology' && (
+              <Button variant="outline" size="sm" onClick={() => navigate('/knowledge/morphology-troubleshooting')}>
+                <Wrench className="h-4 w-4 mr-2" />
+                Troubleshooting
+              </Button>
+            )}
+            <Button variant="outline" size="sm" onClick={handlePrint}>
+              <Printer className="h-4 w-4 mr-2" />
+              Print All
+            </Button>
+          </div>
         </div>
 
         <div ref={printRef} className="print-infographics grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 print:block print:grid-cols-1">
