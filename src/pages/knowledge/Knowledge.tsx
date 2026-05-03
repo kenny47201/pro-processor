@@ -3,6 +3,7 @@ import { BookOpen, FileText, AlertTriangle, Wrench, ArrowRight } from 'lucide-re
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { defectGuides } from '@/data/defectGuides';
+import { knowledgeDocs } from '@/data/knowledgeDocs';
 
 export default function Knowledge() {
   const sections = [
@@ -11,7 +12,7 @@ export default function Knowledge() {
       description: 'Process guides, material guides, and machine documentation',
       icon: <FileText className="h-6 w-6" />,
       link: '/knowledge/docs',
-      count: 0,
+      count: knowledgeDocs.length,
       color: 'text-blue-500',
     },
     {
