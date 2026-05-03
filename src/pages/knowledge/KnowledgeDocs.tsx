@@ -32,6 +32,7 @@ function extractImages(doc: (typeof knowledgeDocs)[0]): ExtractedImage[] {
 }
 
 export default function KnowledgeDocs() {
+  const navigate = useNavigate();
   const [openDocSlug, setOpenDocSlug] = useState<string | null>(null);
   const [lightboxImg, setLightboxImg] = useState<ExtractedImage | null>(null);
   const printRef = useRef<HTMLDivElement>(null);
