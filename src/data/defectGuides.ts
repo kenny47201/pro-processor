@@ -8,6 +8,7 @@ import { warpageGuide } from './warpageGuide';
 import { voidsGuide } from './voidsGuide';
 import { shrinkageGuide } from './shrinkageGuide';
 import { weldLinesGuide } from './weldLinesGuide';
+import { fountainFlowGuide } from './fountainFlowGuide';
 
 export interface DefectGuideSection {
   id: string;
