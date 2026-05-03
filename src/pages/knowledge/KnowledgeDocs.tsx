@@ -1,158 +1,208 @@
-import { useMemo, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { useMemo, useState, useRef } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { FileText, ArrowLeft, ChevronRight, Search } from 'lucide-react';
-import { knowledgeDocs, getKnowledgeDoc } from '@/data/knowledgeDocs';
-import { DefectGuideRenderer } from '@/components/knowledge/DefectGuideRenderer';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { FileText, Printer, ArrowLeft, ChevronRight, Image as ImageIcon, ZoomIn } from 'lucide-react';
+import { knowledgeDocs } from '@/data/knowledgeDocs';
+
+interface ExtractedImage {
+  src: string;
+  alt: string;
+  caption?: string;
+  figureNumber?: string;
+}
+
+function extractImages(doc: (typeof knowledgeDocs)[0]): ExtractedImage[] {
+  const images: ExtractedImage[] = [];
+  for (const section of doc.sections) {
+    for (const block of section.blocks) {
+      if (block.type === 'image') {
+        images.push({
+          src: (block as any).src,
+          alt: (block as any).alt ?? '',
+          caption: (block as any).caption,
+          figureNumber: (block as any).figureNumber,
+        });
+      }
+    }
+  }
+  return images;
+}
 
 export default function KnowledgeDocs() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [query, setQuery] = useState('');
+  const [openDocSlug, setOpenDocSlug] = useState<string | null>(null);
+  const [lightboxImg, setLightboxImg] = useState<ExtractedImage | null>(null);
+  const printRef = useRef<HTMLDivElement>(null);
 
-  const doc = id ? getKnowledgeDoc(id) : null;
+  const docsWithImages = useMemo(
+    () =>
+      knowledgeDocs
+        .map((doc) => ({ doc, images: extractImages(doc) }))
+        .filter(({ images }) => images.length > 0),
+    [],
+  );
 
-  const filtered = useMemo(() => {
-    const q = query.toLowerCase().trim();
-    if (!q) return knowledgeDocs;
-    return knowledgeDocs.filter(
-      (d) =>
-        d.title.toLowerCase().includes(q) ||
-        d.summary.toLowerCase().includes(q) ||
-        d.tags.some((t) => t.toLowerCase().includes(q)),
-    );
-  }, [query]);
+  const activeDoc = openDocSlug
+    ? docsWithImages.find(({ doc }) => doc.slug === openDocSlug)
+    : null;
 
-  if (id && doc) {
+  const handlePrint = () => {
+    if (!printRef.current) return;
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) return;
+
+    const images = activeDoc?.images ?? [];
+    const title = activeDoc?.doc.title ?? 'Infographics';
+
+    printWindow.document.write(`<!DOCTYPE html>
+<html><head><title>${title}</title>
+<style>
+  @media print {
+    @page { margin: 0.5in; }
+    .page-break { page-break-after: always; }
+    .page-break:last-child { page-break-after: auto; }
+  }
+  body { margin: 0; padding: 20px; font-family: system-ui, sans-serif; background: white; }
+  .infographic { width: 100%; max-width: 100%; height: auto; display: block; }
+  .caption { font-size: 11px; color: #666; margin-top: 8px; text-align: center; }
+  .figure { font-weight: 600; }
+  h1 { font-size: 18px; margin-bottom: 16px; }
+</style></head><body>
+<h1>${title}</h1>
+${images
+  .map(
+    (img, i) => `
+  <div class="${i < images.length - 1 ? 'page-break' : ''}" style="margin-bottom:24px">
+    <img class="infographic" src="${img.src}" alt="${img.alt}" />
+    ${img.caption ? `<p class="caption"><span class="figure">${img.figureNumber ? img.figureNumber + ' — ' : ''}</span>${img.caption}</p>` : ''}
+  </div>`,
+  )
+  .join('')}
+</body></html>`);
+    printWindow.document.close();
+    printWindow.onload = () => {
+      printWindow.print();
+    };
+  };
+
+  // Detail view — thumbnails for selected topic
+  if (activeDoc) {
     return (
       <div className="space-y-6 max-w-5xl">
-        <Button variant="ghost" size="sm" onClick={() => navigate('/knowledge/docs')}>
+        <Button variant="ghost" size="sm" onClick={() => setOpenDocSlug(null)}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Knowledge Docs
         </Button>
 
-        <div className="space-y-3">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Badge variant="secondary">{doc.category}</Badge>
-            {doc.tags.map((t) => (
-              <Badge key={t} variant="outline" className="text-xs">{t}</Badge>
-            ))}
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold flex items-center gap-2">
+              <FileText className="h-6 w-6 text-primary" />
+              {activeDoc.doc.title}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              {activeDoc.images.length} infographic{activeDoc.images.length !== 1 ? 's' : ''}
+            </p>
           </div>
-          <h1 className="text-3xl font-bold flex items-center gap-3">
-            <FileText className="h-7 w-7 text-primary" />
-            {doc.title}
-          </h1>
-          <p className="text-muted-foreground">{doc.summary}</p>
+          <Button variant="outline" size="sm" onClick={handlePrint}>
+            <Printer className="h-4 w-4 mr-2" />
+            Print All
+          </Button>
         </div>
 
-        {/* Table of contents */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">Contents</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <nav className="grid gap-1.5 sm:grid-cols-2">
-              {doc.sections.map((s) => (
-                <a
-                  key={s.id}
-                  href={`#${s.id}`}
-                  className="text-sm text-primary hover:underline flex items-center gap-1.5"
-                >
-                  <ChevronRight className="h-3.5 w-3.5" />
-                  {s.title}
-                </a>
-              ))}
-            </nav>
-          </CardContent>
-        </Card>
+        <div ref={printRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {activeDoc.images.map((img, i) => (
+            <Card
+              key={i}
+              className="overflow-hidden cursor-pointer hover:border-primary transition-colors group"
+              onClick={() => setLightboxImg(img)}
+            >
+              <div className="relative aspect-[4/3] bg-muted/30 flex items-center justify-center overflow-hidden">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="object-contain w-full h-full p-2"
+                />
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                  <ZoomIn className="h-8 w-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
+                </div>
+              </div>
+              {(img.figureNumber || img.caption) && (
+                <CardContent className="p-3">
+                  <p className="text-xs text-muted-foreground line-clamp-2">
+                    {img.figureNumber && <span className="font-semibold text-foreground">{img.figureNumber} — </span>}
+                    {img.caption}
+                  </p>
+                </CardContent>
+              )}
+            </Card>
+          ))}
+        </div>
 
-        {doc.sections.map((section) => (
-          <section key={section.id} id={section.id} className="scroll-mt-24">
-            <h2 className="text-2xl font-bold mb-4 pb-2 border-b">{section.title}</h2>
-            <DefectGuideRenderer blocks={section.blocks} />
-          </section>
-        ))}
-
-        <Separator />
-
-        <section id="references">
-          <h2 className="text-2xl font-bold mb-4">References</h2>
-          <Card>
-            <CardContent className="pt-6">
-              <ul className="space-y-2 text-sm">
-                {doc.references.map((r) => (
-                  <li key={r.id} className="flex gap-3">
-                    <span className="font-mono text-primary shrink-0">[{r.id}]</span>
-                    <span className="text-foreground/90">{r.text}</span>
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        </section>
+        {/* Lightbox */}
+        <Dialog open={!!lightboxImg} onOpenChange={() => setLightboxImg(null)}>
+          <DialogContent className="max-w-[95vw] max-h-[95vh] p-2 sm:p-4">
+            {lightboxImg && (
+              <div className="flex flex-col items-center gap-3">
+                <img
+                  src={lightboxImg.src}
+                  alt={lightboxImg.alt}
+                  className="max-w-full max-h-[80vh] object-contain"
+                />
+                {lightboxImg.caption && (
+                  <p className="text-sm text-muted-foreground text-center max-w-2xl">
+                    {lightboxImg.figureNumber && <span className="font-semibold text-foreground">{lightboxImg.figureNumber} — </span>}
+                    {lightboxImg.caption}
+                  </p>
+                )}
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     );
   }
 
+  // List view — topic folders
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Knowledge Documents</h1>
         <p className="text-muted-foreground">
-          Process guides, material guides, and machine documentation
+          Printable infographic references for process fundamentals
         </p>
       </div>
 
-      {knowledgeDocs.length > 1 && (
-        <div className="relative max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search docs, topics, tags..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="pl-9"
-          />
-        </div>
-      )}
-
       <div className="grid gap-3">
-        {filtered.map((d) => (
-          <Link key={d.slug} to={`/knowledge/docs/${d.slug}`}>
-            <Card className="hover:border-primary transition-colors cursor-pointer">
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1.5 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <Badge variant="secondary" className="text-xs">{d.category}</Badge>
-                    </div>
-                    <CardTitle className="flex items-center gap-2">
-                      <FileText className="h-5 w-5 text-primary shrink-0" />
-                      {d.title}
-                    </CardTitle>
-                    <CardDescription className="line-clamp-2">{d.summary}</CardDescription>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0 mt-1" />
+        {docsWithImages.map(({ doc, images }) => (
+          <Card
+            key={doc.slug}
+            className="hover:border-primary transition-colors cursor-pointer"
+            onClick={() => setOpenDocSlug(doc.slug)}
+          >
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <ImageIcon className="h-6 w-6 text-primary" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2 mb-1">
+                  <Badge variant="secondary" className="text-xs">{doc.category}</Badge>
                 </div>
-              </CardHeader>
-              <CardContent className="pt-0">
-                <div className="flex flex-wrap gap-1.5">
-                  {d.tags.slice(0, 6).map((t) => (
-                    <Badge key={t} variant="outline" className="text-xs">{t}</Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
+                <h3 className="font-semibold">{doc.title}</h3>
+                <p className="text-xs text-muted-foreground">
+                  {images.length} infographic{images.length !== 1 ? 's' : ''}
+                </p>
+              </div>
+              <ChevronRight className="h-5 w-5 text-muted-foreground shrink-0" />
+            </CardContent>
+          </Card>
         ))}
 
-        {filtered.length === 0 && (
+        {docsWithImages.length === 0 && (
           <Card>
             <CardContent className="py-12 text-center text-muted-foreground">
-              No knowledge documents match your search.
+              No infographics available yet.
             </CardContent>
           </Card>
         )}
