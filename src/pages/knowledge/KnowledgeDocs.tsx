@@ -1,9 +1,10 @@
 import { useMemo, useState, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-import { FileText, Printer, ArrowLeft, ChevronRight, Image as ImageIcon, ZoomIn } from 'lucide-react';
+import { FileText, Printer, ArrowLeft, ChevronRight, Image as ImageIcon, ZoomIn, Wrench } from 'lucide-react';
 import { knowledgeDocs } from '@/data/knowledgeDocs';
 
 interface ExtractedImage {
