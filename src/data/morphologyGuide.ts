@@ -23,6 +23,7 @@ export const morphologyGuide: DefectGuide = {
     'stack mold',
     'frozen-in stress',
   ],
+  references: [],
   sections: [
     {
       id: 'press-settings',
