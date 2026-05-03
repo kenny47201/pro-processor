@@ -12,7 +12,7 @@ export default function Knowledge() {
       description: 'Process guides, material guides, and machine documentation',
       icon: <FileText className="h-6 w-6" />,
       link: '/knowledge/docs',
-      count: 0,
+      count: knowledgeDocs.length,
       color: 'text-blue-500',
     },
     {
