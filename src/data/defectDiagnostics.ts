@@ -489,6 +489,207 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
       'Add or relocate gates so welds fall in non-critical zones.',
     ],
   }),
+
+  'black-specks': build({
+    defect: 'Black Specks',
+    intro: 'Systematic triage: identify speck type, locate source, then correct.',
+    inspect: [
+      'Classify speck: sharp edges (contamination) vs. smudged/tailed (carbonization) vs. shiny flake (metallic wear).',
+      'Surface vs. embedded — surface specks suggest mold/environment; embedded suggest barrel/runner.',
+      'Consistent location vs. random — consistent = nozzle/hot runner; random = barrel/feed.',
+    ],
+    measure: [
+      'Measure actual melt temperature with purge-shot pyrometer.',
+      'Check barrel utilization (shot weight / barrel capacity) — target 20–80%.',
+      'Verify screw recovery time for consistency.',
+    ],
+    calculators: [
+      { toolId: 'shear-rate', text: 'Check if gate shear rate exceeds material limit.', label: 'Shear Rate Calculator', description: 'High shear generates frictional heat and degradation.' },
+      { toolId: 'cooling-time', text: 'Verify cooling time is not excessive (long residence).', label: 'Cooling Time Calculator', description: 'Excessive cycle time increases residence and degradation risk.' },
+    ],
+    settings: [
+      'Verify barrel temperatures match material TDS.',
+      'Check residence time — right-size barrel if < 20% utilization.',
+      'Review purge procedure and frequency.',
+      'Inspect hot runner zone temperatures for drift.',
+    ],
+  }),
+
+  'boss-flash': build({
+    defect: 'Boss Flash',
+    intro: 'Determine if flash is mechanical (tooling) or thermal (hot runner) in origin.',
+    inspect: [
+      'Identify flash location: parting line, core pin shut-off, or gate area.',
+      'Check if flash occurs on all cavities or specific cavities only.',
+      'Blue-check (witness mark) parting line and shut-off surfaces.',
+    ],
+    measure: [
+      'Measure core pin diameter and compare to specification.',
+      'Check clamp tonnage vs. projected area requirement.',
+      'Run pressure-only test (no pack) to determine flash phase.',
+    ],
+    calculators: [
+      { toolId: 'tonnage', text: 'Verify clamp tonnage is sufficient for projected area.', label: 'Tonnage Calculator', description: 'Insufficient clamp force allows mold separation.' },
+      { toolId: 'pressure-loss', text: 'Check cavity pressure at boss location.', label: 'Pressure Loss Calculator', description: 'Local over-pressure at boss drives flash.' },
+    ],
+    settings: [
+      'Reduce pack/hold pressure incrementally.',
+      'Optimize V→P switchover to prevent over-packing.',
+      'Lower injection speed near end of fill.',
+      'Check hot runner valve pin timing (if applicable).',
+    ],
+  }),
+
+  'fish-eye': build({
+    defect: 'Fish Eye',
+    intro: 'Determine if fish eyes are material-origin (P-Gel) or process-origin (E-Gel).',
+    inspect: [
+      'Classify: circular crater (unmelted) vs. dark spot (degraded) vs. gel-like inclusion.',
+      'Check if present in every shot (systematic) or intermittent (contamination).',
+      'Inspect purge for unmelted pellets or gel particles.',
+    ],
+    measure: [
+      'Measure actual melt temperature at purge.',
+      'Check barrel utilization — oversized barrel increases E-Gel risk.',
+      'Verify back pressure and screw speed settings.',
+    ],
+    calculators: [
+      { toolId: 'shear-rate', text: 'Check if gate shear is sufficient for plasticization.', label: 'Shear Rate Calculator', description: 'Insufficient shear may leave material unmelted.' },
+      { toolId: 'viscosity-curve', text: 'Verify melt homogeneity across speed range.', label: 'Viscosity Curve Study', description: 'Non-uniform viscosity indicates poor plasticization.' },
+    ],
+    settings: [
+      'Increase barrel temperature profile for complete plasticization.',
+      'Increase back pressure for better melt homogeneity.',
+      'Increase screw speed to add shear heating energy.',
+      'Verify regrind ratio and particle size uniformity.',
+    ],
+  }),
+
+  'gloss-variation': build({
+    defect: 'Gloss Variation',
+    intro: 'Identify whether gloss issue is thermal (mold temp), flow-related, or material-driven.',
+    inspect: [
+      'Map gloss variation pattern: uniform dull, transition line, patchy, or streaky.',
+      'Check if variation correlates with cooling line layout.',
+      'Compare affected vs. unaffected cavities (multi-cavity tools).',
+    ],
+    measure: [
+      'Measure gloss with gloss meter at 60° angle (ASTM D2457).',
+      'Map mold surface temperature with IR thermometer across part.',
+      'Run short-shot study to identify flow hesitation zones.',
+    ],
+    calculators: [
+      { toolId: 'cooling-time', text: 'Optimize cooling for uniform heat extraction.', label: 'Cooling Time Calculator', description: 'Non-uniform cooling creates differential gloss.' },
+      { toolId: 'shear-rate', text: 'Check gate shear — excessive shear degrades surface.', label: 'Shear Rate Calculator', description: 'High shear at gate creates dull or streaky zones.' },
+    ],
+    settings: [
+      'Increase mold temperature — most impactful single factor.',
+      'Increase injection speed to keep flow front hot.',
+      'Increase melt temperature within material window.',
+      'Verify cooling circuit flow rates are balanced.',
+    ],
+  }),
+
+  'internal-burns': build({
+    defect: 'Internal Burns',
+    intro: 'Classify burn mechanism: adiabatic compression, shear heating, or residence time degradation.',
+    inspect: [
+      'Locate burns: end-of-fill (diesel effect), near gate (shear), or random (residence time).',
+      'Distinguish internal burns (embedded) from surface burns (edge discoloration).',
+      'Check for trapped gas evidence: witness marks at vents, short-shot air pockets.',
+    ],
+    measure: [
+      'Measure vent depths — target 0.012–0.038 mm depending on part size.',
+      'Measure actual melt temperature at purge.',
+      'Check barrel utilization — target 25–75%.',
+    ],
+    calculators: [
+      { toolId: 'vent-depth', text: 'Size vents to prevent adiabatic compression burns.', label: 'Vent Depth Calculator', description: 'Undersized vents trap gas and cause diesel effect.' },
+      { toolId: 'shear-rate', text: 'Check if gate shear is causing thermal degradation.', label: 'Shear Rate Calculator', description: 'High shear at gates generates localized superheating.' },
+    ],
+    settings: [
+      'Reduce injection velocity — especially near end of fill.',
+      'Lower barrel temperatures within material window.',
+      'Right-size barrel for 25–75% utilization.',
+      'Implement multi-stage injection profile.',
+    ],
+  }),
+
+  'wall-thickness': build({
+    defect: 'Non-Uniform Wall Thickness',
+    intro: 'Determine if the root cause is design-driven (geometry) or process-compensable.',
+    inspect: [
+      'Identify defect type: sink marks, warpage, short shot, or weld lines.',
+      'Check if defect correlates with thickness transitions in the part geometry.',
+      'Run short-shot study to observe fill pattern and hesitation zones.',
+    ],
+    measure: [
+      'Measure actual wall thickness with calipers or ultrasonic gauge.',
+      'Check thickness ratio: adjacent walls should be ≥ 40–60% of nominal.',
+      'Verify rib thickness ≤ 0.6 × adjacent wall thickness.',
+    ],
+    calculators: [
+      { toolId: 'cooling-time', text: 'Calculate differential cooling time for thick vs. thin sections.', label: 'Cooling Time Calculator', description: 'Thick sections cool much slower, driving internal stresses.' },
+      { toolId: 'gate-freeze', text: 'Determine if gate freezes before thick section is packed.', label: 'Gate Freeze Study', description: 'Early gate freeze prevents packing of thick sections.' },
+      { toolId: 'tonnage', text: 'Verify clamp force for projected area at max injection pressure.', label: 'Tonnage Calculator', description: 'NUWT parts may require higher packing pressure.' },
+    ],
+    settings: [
+      'Increase hold pressure and time to pack thick sections.',
+      'Implement differential cooling — more cooling in thick areas.',
+      'Use multi-stage injection to balance fill across varying thickness.',
+      'Gate into the thickest section for best packing path.',
+    ],
+  }),
+
+  'orange-peel': build({
+    defect: 'Orange Peel',
+    intro: 'Identify whether texture is from thermal deficit, flow instability, or mold surface.',
+    inspect: [
+      'Check if texture is uniform or localized (near gate, thick sections, end-of-fill).',
+      'Inspect mold surface polish level — damaged or worn polish mimics orange peel.',
+      'Compare texture on first shots vs. steady-state production.',
+    ],
+    measure: [
+      'Measure mold surface temperature at affected zones.',
+      'Measure actual melt temperature at purge.',
+      'Check DOI (Distinctness of Image) with wave-scan meter if available.',
+    ],
+    calculators: [
+      { toolId: 'cooling-time', text: 'Verify cooling is not causing premature skin solidification.', label: 'Cooling Time Calculator', description: 'Over-cooling freezes the skin before it can replicate the mold.' },
+      { toolId: 'shear-rate', text: 'Check if shear rate exceeds melt fracture limit.', label: 'Shear Rate Calculator', description: 'Excessive shear causes viscoelastic surface instability.' },
+    ],
+    settings: [
+      'Increase mold temperature — most impactful adjustment.',
+      'Increase melt temperature within material spec.',
+      'Use multi-step injection profile: slow → fast → controlled deceleration.',
+      'Increase back pressure for better melt homogeneity.',
+    ],
+  }),
+
+  'static-dust': build({
+    defect: 'Static Dust Attraction',
+    intro: 'Measure charge level, identify charge source, then select mitigation strategy.',
+    inspect: [
+      'Identify contamination pattern: dendritic (high-charge), uniform haze (ambient dust), or embedded specks.',
+      'Check if contamination occurs at demolding, during transfer, or in storage.',
+      'Inspect production environment: humidity, air filtration, nearby dust sources.',
+    ],
+    measure: [
+      'Measure surface potential with electrostatic field meter — > 5 kV = high risk.',
+      'Check charge decay half-life with charged plate monitor — > 2 sec = inadequate.',
+      'Measure ambient humidity — < 30% RH amplifies static 5–10×.',
+    ],
+    calculators: [
+      { toolId: 'cooling-time', text: 'Faster cooling = higher charge; verify thermal balance.', label: 'Cooling Time Calculator', description: 'Rapid cooling increases temperature gradient and charge generation.' },
+      { toolId: 'cycle-time', text: 'Minimize unnecessary cycle steps that generate charge.', label: 'Cycle Time Estimator', description: 'Optimize handling steps to reduce triboelectric exposure.' },
+    ],
+    settings: [
+      'Reduce ejection speed to minimize triboelectric charge.',
+      'Maintain ambient humidity at 40–60% RH.',
+      'Install ionizing bars at mold face, robot arm, and collection bin.',
+      'Verify anti-static additive level in material (if applicable).',
+    ],
+  }),
 };
 
 export const getDefectDiagnostics = (slug: string): DefectDiagnostics | undefined =>
