@@ -5,7 +5,7 @@ import partsStickingFlowchart from '@/assets/parts-sticking-flowchart.jpg';
 
 export const partsStickingGuide: DefectGuide = {
   slug: 'parts-sticking',
-  title: 'Parts Sticking / Mold Adhesion',
+  title: 'Parts Sticking',
   summary:
     'Part fails to release from the mold during ejection due to excessive friction, vacuum, insufficient draft, over-packing, or surface adhesion. Causes cycle interruption, part damage, mold damage, and inconsistent production.',
   category: 'Ejection & Release',
@@ -78,7 +78,7 @@ export const partsStickingGuide: DefectGuide = {
           src: partsStickingIshikawa,
           alt: 'Ishikawa fishbone diagram showing root causes of part sticking organized by Mold, Method, Material, Machine, and Manual/HR categories',
           figureNumber: 'Figure 2',
-          caption: 'Ishikawa root cause analysis — Part Sticking / Mold Adhesion. Five contributing families: Mold, Method, Material, Machine, and Manual/HR-Specific factors.',
+          caption: 'Ishikawa root cause analysis — Part Sticking. Five contributing families: Mold, Method, Material, Machine, and Manual/HR-Specific factors.',
           lookFor: {
             title: 'Systematic cause identification',
             tone: 'warning',
