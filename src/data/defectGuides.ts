@@ -16,7 +16,6 @@ import { internalBurnsGuide } from './internalBurnsGuide';
 import { wallThicknessGuide } from './wallThicknessGuide';
 import { orangePeelGuide } from './orangePeelGuide';
 import { staticDustGuide } from './staticDustGuide';
-import { partsStickingGuide } from './partsStickingGuide';
 
 export interface DefectGuideSection {
   id: string;
@@ -83,7 +82,8 @@ export interface DefectGuide {
   references: { id: string; text: string }[];
 }
 
-const bubblesBlistersGuide: DefectGuide = {
+export const defectGuides: DefectGuide[] = [
+  {
     slug: 'bubbles-blisters',
     title: 'Bubbles & Blisters',
     summary:
@@ -588,40 +588,22 @@ const bubblesBlistersGuide: DefectGuide = {
       { id: 'R17', text: 'Moldex3D foam/gas-assisted module documentation.' },
       { id: 'R18', text: 'Industry blister cross-section interpretation references.' },
     ],
-  };
-
-// Helper to look up guides from the additionalDefectGuides array by slug
-const additionalBySlug = Object.fromEntries(
-  additionalDefectGuides.map((g) => [g.slug, g]),
-) as Record<string, DefectGuide>;
-
-export const defectGuides: DefectGuide[] = [
-  blackSpecksGuide,
-  bossFlashGuide,
-  bubblesBlistersGuide,
-  additionalBySlug['burn-marks'],
+  },
+  ...additionalDefectGuides,
   coldSlugMarksGuide,
   delaminationGuide,
-  additionalBySlug['discoloration'],
+  warpageGuide,
+  voidsGuide,
+  shrinkageGuide,
+  weldLinesGuide,
+  blackSpecksGuide,
+  bossFlashGuide,
   fishEyeGuide,
-  additionalBySlug['flash'],
-  additionalBySlug['flow-lines'],
-  additionalBySlug['gate-blush'],
   glossVariationGuide,
   internalBurnsGuide,
-  additionalBySlug['jetting'],
-  additionalBySlug['meld-line-separation'],
-  orangePeelGuide,
-  partsStickingGuide,
-  additionalBySlug['short-shot'],
-  shrinkageGuide,
-  additionalBySlug['sink-marks'],
-  additionalBySlug['splay'],
-  staticDustGuide,
-  voidsGuide,
   wallThicknessGuide,
-  warpageGuide,
-  weldLinesGuide,
+  orangePeelGuide,
+  staticDustGuide,
 ];
 
 import { defectDiagnostics } from './defectDiagnostics';
