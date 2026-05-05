@@ -85,7 +85,6 @@ export interface DefectGuide {
 
 const bubblesBlistersGuide: DefectGuide = {
     slug: 'bubbles-blisters',
-    slug: 'bubbles-blisters',
     title: 'Bubbles & Blisters',
     summary:
       'Gas-filled internal pockets (bubbles) and raised surface domes (blisters) caused by moisture, trapped gas, degradation, or unfed shrinkage.',
