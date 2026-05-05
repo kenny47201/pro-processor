@@ -9,7 +9,6 @@ import { voidsGuide } from './voidsGuide';
 import { shrinkageGuide } from './shrinkageGuide';
 import { weldLinesGuide } from './weldLinesGuide';
 
-
 export interface DefectGuideSection {
   id: string;
   title: string;
@@ -589,7 +588,6 @@ export const defectGuides: DefectGuide[] = [
   voidsGuide,
   shrinkageGuide,
   weldLinesGuide,
-  
 ];
 
 import { defectDiagnostics } from './defectDiagnostics';
