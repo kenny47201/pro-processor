@@ -28,6 +28,13 @@ export const internalBurnsGuide: DefectGuide = {
           text:
             'Surface burns are localized discolorations at edges or final fill areas caused by adiabatic compression of trapped air against the mold wall — overwhelmingly pointing to venting deficiency. Internal burns suggest issues with the polymer\'s thermal history or systemic contamination.',
         },
+        {
+          type: 'image',
+          src: internalBurnsDieselEffect,
+          alt: 'Three-stage diagram showing the diesel effect: advancing melt front trapping air, adiabatic compression heating, and ignition causing polymer degradation and burn marks',
+          figureNumber: 'Figure 1',
+          caption: 'The Diesel Effect (adiabatic compression): Stage 1 — advancing melt front traps air pocket at end of fill. Stage 2 — rapid compression heats trapped gas. Stage 3 — temperature exceeds polymer degradation threshold (300–500°C), causing ignition and permanent burn marks. Proper venting prevents gas entrapment.',
+        },
         { type: 'heading', level: 3, text: '1.2 Burning mechanisms' },
         {
           type: 'table',
@@ -124,6 +131,13 @@ export const internalBurnsGuide: DefectGuide = {
             'Vent ≥30% of part perimeter at final fill locations.',
             'Add vent pins or porous steel inserts in blind pockets.',
           ],
+        },
+        {
+          type: 'image',
+          src: internalBurnsVentingDesign,
+          alt: 'Mold vent design specifications showing vent depth 0.012-0.038mm, land length 3-6mm, evacuation channel, and recommended placement covering 30% of part perimeter',
+          figureNumber: 'Figure 2',
+          caption: 'Vent design specifications for burn prevention: Vent depth 0.012–0.025 mm for small parts, 0.025–0.038 mm for larger parts. Land length 3–6 mm before opening to evacuation channel. Target ≥30% of part perimeter vented at final fill locations.',
         },
         { type: 'heading', level: 3, text: '4.2 Process adjustments' },
         {

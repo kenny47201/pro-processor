@@ -28,6 +28,13 @@ export const staticDustGuide: DefectGuide = {
             'Mechanical peeling of parts from mold faces or robotic end-of-arm tooling.',
           ],
         },
+        {
+          type: 'image',
+          src: staticDustTriboelectric,
+          alt: 'Diagram showing triboelectric charge buildup on a molded part during ejection, dust particle attraction to charged surface, and ionizer bar solution for neutralizing charge',
+          figureNumber: 'Figure 1',
+          caption: 'Triboelectric charging mechanism: During ejection, rapid contact-separation between the polymer part and steel mold generates surface charges up to 10–20 kV. Charged surfaces attract ambient dust particles. An ionizer bar positioned at the mold face neutralizes charge immediately upon ejection.',
+        },
         { type: 'heading', level: 3, text: '1.2 Defect manifestations' },
         {
           type: 'table',
