@@ -7,10 +7,11 @@ import { morphologyGuide } from '@/data/morphologyGuide';
 import { multiStageGuide } from '@/data/multiStageGuide';
 import { nucleationGuide } from '@/data/nucleationGuide';
 import { witnessMarksGuide } from '@/data/witnessMarksGuide';
+import { volumetricShrinkageGuide } from '@/data/volumetricShrinkageGuide';
 import { cn } from '@/lib/utils';
 import type { KnowledgeGuide } from '@/data/fountainFlowGuide';
 
-const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide, multiStageGuide, nucleationGuide, witnessMarksGuide];
+const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide, multiStageGuide, nucleationGuide, witnessMarksGuide, volumetricShrinkageGuide];
 
 export default function KnowledgeDocs() {
   const [activeGuide, setActiveGuide] = useState(guides[0]);
