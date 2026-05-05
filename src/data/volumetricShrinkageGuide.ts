@@ -6,7 +6,7 @@ import shrinkagePressSettings from '@/assets/shrinkage-press-settings.png';
 import shrinkageRunnerComparison from '@/assets/shrinkage-runner-comparison.png';
 import shrinkagePreparation from '@/assets/shrinkage-preparation.png';
 
-export const shrinkageGuide: KnowledgeGuide = {
+export const volumetricShrinkageGuide: KnowledgeGuide = {
   slug: 'volumetric-contraction-shrinkage',
   title: 'Volumetric Contraction / Shrinkage',
   summary:
