@@ -634,15 +634,27 @@ function pickDiagnosticsSectionIndex(guide: DefectGuide): number {
 
 // Auto-inject Diagnose checklist + Related Process Tools at the top of the
 // most relevant section of every guide that has a registered diagnostics entry.
+// Guard against duplicate injection on HMR re-evaluation by checking if blocks
+// of these types already exist in the guide.
 for (const guide of defectGuides) {
   if (SKIP_AUTO_INJECT.has(guide.slug)) continue;
   const diag = defectDiagnostics[guide.slug];
   if (!diag) continue;
+
+  // Check if this guide already has these block types (from a prior evaluation)
+  const allBlocks = guide.sections.flatMap((s) => s.blocks);
+  const hasChecklist = allBlocks.some((b) => b.type === 'diagnoseChecklist');
+  const hasLinks = allBlocks.some((b) => b.type === 'calculatorLinks');
+  if (hasChecklist && hasLinks) continue;
+
   const sectionIdx = pickDiagnosticsSectionIndex(guide);
   const section = guide.sections[sectionIdx];
   if (!section) continue;
-  // Prepend so users see the actionable checklist before the prose.
-  section.blocks = [diag.checklist, diag.links, ...section.blocks];
+
+  const toInject: GuideBlock[] = [];
+  if (!hasChecklist) toInject.push(diag.checklist);
+  if (!hasLinks) toInject.push(diag.links);
+  section.blocks = [...toInject, ...section.blocks];
 }
 
 export const getDefectGuide = (slug: string) =>
