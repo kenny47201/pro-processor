@@ -5,7 +5,7 @@ import partsStickingFlowchart from '@/assets/parts-sticking-flowchart.jpg';
 
 export const partsStickingGuide: DefectGuide = {
   slug: 'parts-sticking',
-  title: 'Parts Sticking / Mold Adhesion',
+  title: 'Parts Sticking',
   summary:
     'Part fails to release from the mold during ejection due to excessive friction, vacuum, insufficient draft, over-packing, or surface adhesion. Causes cycle interruption, part damage, mold damage, and inconsistent production.',
   category: 'Ejection & Release',
