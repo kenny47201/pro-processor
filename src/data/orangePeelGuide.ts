@@ -1,5 +1,4 @@
 import type { DefectGuide } from './defectGuides';
-import orangePeelFountainFlow from '@/assets/orange-peel-fountain-flow.jpg';
 
 export const orangePeelGuide: DefectGuide = {
   slug: 'orange-peel',
@@ -18,13 +17,6 @@ export const orangePeelGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'The orange peel defect is a surface imperfection characterized by an irregular, bumpy, or wrinkled texture that visually resembles the skin of a citrus fruit. This texture results in a loss of gloss or poor Distinctness of Image (DOI), severely impacting Class A surfaces. It is classified as a surface waviness defect, occupying the longer wavelength end of the surface structure spectrum.',
-        },
-        {
-          type: 'image',
-          src: orangePeelFountainFlow,
-          alt: 'Side-by-side comparison of proper fountain flow with smooth surface replication versus disturbed flow with premature skin solidification causing orange peel texture',
-          figureNumber: 'Figure 1',
-          caption: 'Fountain flow and orange peel formation: Proper flow (left) — hot melt contacts mold wall under pressure, faithfully replicating the smooth surface. Disturbed flow (right) — premature skin solidification creates wrinkled, bumpy texture as the frozen outer layer cannot conform to the cavity wall.',
         },
         { type: 'heading', level: 3, text: '1.1 Fountain flow instability mechanism' },
         {
