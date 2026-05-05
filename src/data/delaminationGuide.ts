@@ -45,6 +45,13 @@ export const delaminationGuide: DefectGuide = {
             'Delamination is the separation of a molded part into discrete layers — typically a thin "skin" that peels, flakes, or scales away from the underlying core. Unlike splay or flow lines (which are surface-only artifacts of shear or moisture), true delamination represents a real loss of cohesion between adjacent material layers. The interface between layers has little or no molecular entanglement, so the layers behave as physically separate sheets bonded only by friction or weak van der Waals forces.',
         },
         {
+          type: 'image',
+          src: delaminationCrossSection,
+          alt: 'Cross-section of a delaminated part showing solidified skin separating from core material at a non-bonded interface, with tape test method and molecular chain entanglement diagram',
+          figureNumber: 'Figure 1',
+          caption: 'Delamination cross-section: The solidified skin separates from the core at a non-bonded interface where polymer chains have insufficient entanglement. The tape test (inset) is the definitive field diagnostic — if a layer lifts with adhesive tape, it is delamination, not splay or flow lines.',
+        },
+        {
           type: 'callout',
           tone: 'warning',
           title: 'Visual & tactile signature',
