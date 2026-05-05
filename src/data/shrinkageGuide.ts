@@ -1,254 +1,398 @@
-import type { DefectGuide } from './defectGuides';
-import shrinkageTimeline from '@/assets/shrinkage-timeline-chart.jpg';
-import shrinkageMaterialBands from '@/assets/shrinkage-material-bands.jpg';
-import shrinkageColdVsHotRunner from '@/assets/shrinkage-cold-vs-hot-runner.jpg';
-import shrinkageFlowchart from '@/assets/shrinkage-troubleshooting-flowchart.png';
+import type { KnowledgeGuide } from './fountainFlowGuide';
 
-export const shrinkageGuide: DefectGuide = {
-  slug: 'shrinkage',
-  title: 'Shrinkage',
+import shrinkageOverview from '@/assets/shrinkage-overview.png';
+import shrinkageCycleSequence from '@/assets/shrinkage-cycle-sequence.png';
+import shrinkagePressSettings from '@/assets/shrinkage-press-settings.png';
+import shrinkageRunnerComparison from '@/assets/shrinkage-runner-comparison.png';
+import shrinkagePreparation from '@/assets/shrinkage-preparation.png';
+
+export const shrinkageGuide: KnowledgeGuide = {
+  slug: 'volumetric-contraction-shrinkage',
+  title: 'Volumetric Contraction / Shrinkage',
   summary:
-    'Reduction in linear dimension between mold cavity and molded part after processing. Includes immediate moulding shrinkage, post-moulding shrinkage, and anisotropic shrinkage between flow and transverse directions. Drives dimensional drift, sinks, voids, and warp.',
-  category: 'Dimensional',
-  severity: 'high',
-  tags: [
-    'shrinkage', 'dimensional', 'pvT', 'pack/hold', 'gate freeze',
-    'anisotropy', 'fiber orientation', 'cooling', 'hot runner', 'cold runner',
-  ],
+    'A comprehensive guide to volumetric contraction and shrinkage in injection molding — what it is, how it develops through the cycle, press settings, runner-system differences, and preparation/troubleshooting.',
   sections: [
+    /* ------------------------------------------------------------------ */
+    /*  SECTION 1 — What It Is, Why It Happens, Where It Shows Up          */
+    /* ------------------------------------------------------------------ */
     {
       id: 'overview',
-      title: '1. Definition & Overview',
+      title: '1. What It Is & Where It Shows Up',
       blocks: [
-        {
-          type: 'paragraph',
-          text:
-            'Shrinkage in injection molding is the dimensional contraction that occurs as the polymer changes from melt to solid and continues to relax after ejection. Technically, it is the difference between the mold cavity dimension and the molded part dimension at a specified time and conditioning state, usually reported as a percentage in the flow direction and normal to flow.',
-        },
         {
           type: 'callout',
           tone: 'info',
-          title: 'Standards',
-          text:
-            'ASTM D955 measures shrinkage from mold dimensions under specified conditions and 24 h / 48 h readings. ISO 294-4 determines moulding and post-moulding shrinkage on standard test specimens and explicitly recognizes directional dependence relative to melt flow.',
+          title: 'Definition',
+          text: 'Volumetric contraction/shrinkage is the reduction in polymer volume as the melt cools from melt temperature to ejection and then to room temperature. It is normal and unavoidable, but must be controlled and made uniform.',
         },
         {
-          type: 'image',
-          src: shrinkageTimeline,
-          alt: 'Moulding and post-moulding shrinkage timeline chart',
-          figureNumber: 'Figure 1',
-          caption: 'Shrinkage develops during filling/packing/cooling and continues after ejection as residual stress relaxes and the polymer approaches equilibrium.',
-          lookFor: {
-            title: 'What to look for on the timeline',
-            tone: 'info',
-            items: [
-              'Steep drop during packing — indicates whether hold pressure is feeding the cavity or losing seal at the gate.',
-              'Slope between demould and 24 h — large continued shrinkage points to residual stress or insufficient cooling time.',
-              'Divergence between flow and cross-flow directions — anisotropy from fiber orientation; expect the larger value parallel to flow for unfilled resins, perpendicular for fiber-filled.',
-              'Late drift past 48 h — moisture conditioning of hygroscopic resins (PA, PC) rather than true shrinkage.',
-            ],
-          },
+          type: 'callout',
+          tone: 'warning',
+          title: 'Key Idea',
+          text: 'Shrinkage is normal. Non-uniform shrinkage is the problem.',
         },
-        { type: 'heading', level: 3, text: '1.2 How shrinkage manifests' },
+        { type: 'heading', level: 2, text: '1.1 When It Occurs' },
         {
           type: 'list',
           items: [
-            'Visually: dimensional undersize, hole-to-hole mismatch, bow/warp when shrinkage is non-uniform, sink marks where local mass shrinks but is not fed, assembly interference outside tolerance.',
-            'Structurally: density gradients, frozen-in orientation, residual stress, anisotropic contraction in filled resins, local volumetric deficits in thick sections that progress into voids or sinks.',
-            'Metrologically: a part can pass at demould and fail at 24 h or 48 h. For hygroscopic materials, post-mold moisture uptake further complicates the dimensional trend.',
+            'During cooling after fill',
+            'During pack/hold while the gate is still open',
+            'After gate freeze',
+            'During ejection cooling',
+            'Sometimes after molding as the part reaches room temperature',
           ],
         },
+        { type: 'heading', level: 2, text: '1.2 Why It Happens' },
+        {
+          type: 'list',
+          items: [
+            'Cooling causes density increase.',
+            'Semi-crystalline polymers usually shrink more than amorphous.',
+            'Pressure loss and poor packing allow more local contraction.',
+          ],
+        },
+        { type: 'heading', level: 2, text: '1.3 Where Its Effects Are Seen' },
+        {
+          type: 'list',
+          items: [
+            'Dimensions smaller than steel',
+            'Sink marks over thick sections, ribs, bosses',
+            'Internal voids',
+            'Warpage/distortion',
+            'Ovality',
+            'Mismatch between cavities',
+            'Gate-to-end variation',
+          ],
+        },
+        { type: 'heading', level: 2, text: '1.4 In a Perfect World' },
+        {
+          type: 'paragraph',
+          text: 'Uniform, predictable, repeatable shrinkage in all directions with stable dimensions and minimal sink/warpage.',
+        },
+        { type: 'heading', level: 2, text: '1.5 Quick Visual Symptoms' },
         {
           type: 'table',
-          caption: 'Typical linear shrinkage by material family',
-          columns: ['Material', 'Shrinkage Range (%)', 'Notes'],
+          caption: 'Common Shrinkage-Related Defects',
+          columns: ['Symptom', 'Description'],
           rows: [
-            ['PC/ABS', '0.5 – 0.7', 'Amorphous, good dimensional stability'],
-            ['ABS', '0.5 – 0.7', 'Sensitive to hold pressure and gate freeze'],
-            ['PC', '0.6 – 0.8', 'Stress-sensitive; control melt temp & residence'],
-            ['PBT GF30', '0.2 – 0.4', 'Lower in flow, higher anisotropy'],
-            ['PA6', '0.8 – 1.5', 'Hygroscopic; condition before measuring'],
-            ['PP', '1.0 – 2.5', 'Crystalline, high global shrink'],
-            ['HDPE', '1.5 – 4.0', 'Highest crystalline shrink — major sink risk'],
+            ['Sink', 'Dimple or depression over thick sections, ribs or bosses.'],
+            ['Void', 'Internal gaps from incomplete packing or high shrinkage.'],
+            ['Warp', 'Part bends or twists as it cools.'],
+            ['Undersize part', 'Overall dimensions are smaller than steel.'],
+            ['Cavity-to-cavity variation', 'Parts from different cavities are not the same size.'],
           ],
         },
-        {
-          type: 'image',
-          src: shrinkageMaterialBands,
-          alt: 'Typical material shrinkage bands by polymer family',
-          figureNumber: 'Figure 2',
-          caption: 'Illustrative linear moulding shrinkage bands by material family. Actual values depend on grade, filler level, test method, gate direction, packing, cooling, and time of measurement.',
-        },
+        { type: 'image', src: shrinkageOverview, alt: 'Volumetric Contraction / Shrinkage — Overview infographic' },
       ],
     },
+    /* ------------------------------------------------------------------ */
+    /*  SECTION 2 — How Shrinkage Develops Through the Cycle               */
+    /* ------------------------------------------------------------------ */
     {
-      id: 'root-causes',
-      title: '2. Root Causes',
+      id: 'cycle-sequence',
+      title: '2. How It Develops Through the Cycle',
       blocks: [
-        { type: 'heading', level: 3, text: '2.1 Material factors' },
-        {
-          type: 'paragraph',
-          text:
-            'pvT behavior is the primary material-level driver. As pressure and temperature fall, specific volume changes; the integral of that change is the part\'s volumetric shrinkage. Crystalline materials shrink more than amorphous. Glass fiber reduces in-flow shrinkage and creates anisotropy that translates into differential shrinkage and warp. Mineral fillers usually lower total shrinkage and improve dimensional stability.',
-        },
+        { type: 'heading', level: 2, text: '2.1 Cycle Sequence' },
         {
           type: 'table',
-          caption: 'Material family shrinkage profile',
-          columns: ['Family', 'Behavior', 'Risk Profile', 'Process Note'],
+          caption: 'Five Stages of Shrinkage Development',
+          columns: ['Stage', 'Phase', 'What Happens'],
           rows: [
-            ['PP / PE', 'Higher crystalline contraction', 'High global shrink, high sink risk in thick sections', 'Needs robust packing; mold temp affects crystallinity'],
-            ['ABS', 'Lower amorphous contraction', 'Moderate, good dimensional stability', 'Sensitive to hold pressure & gate freeze'],
-            ['PC', 'Low–moderate amorphous', 'Lower shrink; stress sensitivity dominates', 'Control melt temp & residence to avoid degradation'],
-            ['PA (unfilled)', 'Moderate–high + moisture effects', 'Time-dependent dimensional drift', 'Drying & post-mold conditioning critical'],
-            ['GF-filled grades', 'Lower in-flow, higher anisotropy', 'Directional dimensional drift', 'Orientation control & balanced flow critical'],
+            ['1', 'Fill', 'Melt fills the cavity from the gate. Air is displaced ahead of the flow.'],
+            ['2', 'Pack / Hold', 'Gate remains open. Pressure is applied to push in more material and offset cooling shrinkage.'],
+            ['3', 'Gate Freeze', 'Gate solidifies (freezes). Cavity is sealed and can no longer be fed. Shrinkage continues from cooling.'],
+            ['4', 'Cooling', 'Part cools toward room temperature. Material contracts. Dimensions stabilize gradually.'],
+            ['5', 'Ejection / Room Temp', 'Part is ejected and continues to stabilize at room temperature. Final dimensions are smaller than cavity.'],
           ],
         },
-        { type: 'heading', level: 3, text: '2.2 Process parameters' },
-        {
-          type: 'paragraph',
-          text:
-            'Pack pressure, hold time, melt temperature, and mold temperature are the primary process levers. Insufficient pack or premature gate freeze locks in additional shrinkage. Higher mold temperature in crystalline materials may increase final shrinkage but reduces residual stress. Multi-stage injection (velocity-controlled fill + intentional pack profile) gives better repeatability than single-stage pressure.',
-        },
-        { type: 'heading', level: 3, text: '2.3 Gate design, size, and location' },
-        {
-          type: 'list',
-          items: [
-            'Gate size governs pressure drop and gate freeze time. Undersized gates make the machine look "fully packed" while the cavity has already been isolated from the pressure source.',
-            'Gate location governs which features feed last. Thick sections far from the gate are classic shrinkage and sink locations.',
-            'Hot-runner valve gates can dramatically improve dimensional control if they stay open long enough for shrinkage flow. A valve gate that closes early behaves like a premature freeze.',
-          ],
-        },
-        { type: 'heading', level: 3, text: '2.4 Cold runner vs hot runner' },
+        { type: 'heading', level: 2, text: '2.2 What Pressure Does' },
         {
           type: 'table',
-          caption: 'Relative shrinkage-control implications',
-          columns: ['Category', 'Cold Runner', 'Hot Runner'],
+          caption: 'Cavity Pressure Effects',
+          columns: ['Condition', 'Effect'],
           rows: [
-            ['Runner heat loss', 'High', 'Low'],
-            ['Gate freeze risk', 'High (limits pack window)', 'Low (controllable)'],
-            ['Pack pressure transmission', 'Reduced', 'Maintained'],
-            ['Cavity-to-cavity repeatability', 'Geometric balance only', 'Per-zone control'],
-            ['Failure modes', 'Cold slug, runner imbalance, undersized gate', 'Tip drift, manifold imbalance, valve timing'],
+            ['Higher cavity pressure (while gate is open)', 'More material added to offset cooling shrinkage. Lower specific volume inside the part. → Less shrinkage.'],
+            ['Lower pressure or short hold', 'Less material added. Higher specific volume inside the part. → More local shrinkage.'],
           ],
         },
+        { type: 'heading', level: 2, text: '2.3 How Defects Form' },
         {
-          type: 'image',
-          src: shrinkageColdVsHotRunner,
-          alt: 'Cold runner vs hot runner shrinkage-control implications bar chart',
-          figureNumber: 'Figure 3',
-          caption: 'Relative severity / capability comparison (0–10 scale): cold runners carry higher heat loss and gate-freeze risk; hot runners deliver better pack transmission and dimensional repeatability when balanced.',
+          type: 'table',
+          caption: 'Packing Level vs Defect',
+          columns: ['Condition', 'Result'],
+          rows: [
+            ['Well packed = Uniform shrinkage', 'Even packing offsets cooling. Part shrinks uniformly. No sink.'],
+            ['Under-packed = Sink', 'Top surface is not supported. More contraction at surface causes a sink mark.'],
+            ['Severe under-packing = Internal void', 'Insufficient material in molten core. Shrinkage creates an internal void or porosity.'],
+          ],
         },
-        { type: 'heading', level: 3, text: '2.5 Mold design & geometry' },
+        { type: 'heading', level: 2, text: '2.4 Material Behavior' },
         {
-          type: 'paragraph',
-          text:
-            'Wall thickness variation drives local cooling-rate differences. Thick intersections continue to contract after thin skins are dimensionally fixed — the physics behind shrinkage gradients, sink marks, and voids. Runner and gate flaws alter pressure history; non-geometrically-balanced multi-cavity layouts produce uneven cavity pressure and uneven shrinkage. Venting is usually secondary for shrinkage but becomes primary when trapped air resists late feed.',
-        },
-        { type: 'heading', level: 3, text: '2.6 Machine factors' },
-        {
-          type: 'paragraph',
-          text:
-            'Screw and check-ring wear allow inconsistent shot transfer and unstable pack — directly translating to size variation. Back pressure affects melt homogeneity. Insufficient clamp causes parting-line opening or flash, altering effective cavity volume and apparent shrinkage.',
-        },
-      ],
-    },
-    {
-      id: 'diagnostics',
-      title: '3. Diagnostic Techniques',
-      blocks: [
-        {
-          type: 'paragraph',
-          text:
-            'Always pair visual inspection with dimensional metrology and a timestamp: at demould, 1 h, 24 h, and 48 h where practical. CMM or optical scanning should be aligned to functional datums, not cosmetic surfaces. Measure both flow and cross-flow directions where anisotropy is expected.',
-        },
-        {
-          type: 'list',
-          items: [
-            'Microscopy and microtome sectioning — correlate local sink/void regions with wall-thickness intersections or fiber orientation layers.',
-            'Cavity pressure transducers — quantify actual pack transmission and gate freeze.',
-            'Gate-seal study by part weight — increase hold time in steps until weight stops changing.',
-            'Moldflow / Moldex3D shrinkage and warp simulation seeded with measured pvT and actual process inputs.',
+          type: 'table',
+          caption: 'Semi-Crystalline vs Amorphous',
+          columns: ['Type', 'Behavior'],
+          rows: [
+            ['Semi-crystalline (e.g., PP)', 'Molecules form crystals as they cool. Tighter packing pulls chains closer together. Usually higher shrinkage.'],
+            ['Amorphous (e.g., PC, ABS)', 'No crystallization; molecules stay more random. Lower density change. Usually lower shrinkage.'],
           ],
         },
         {
           type: 'callout',
           tone: 'info',
-          title: 'Field note',
-          text:
-            'When a part gets shorter as material viscosity rises, you do not automatically have a mold problem — you may have a packing-window problem. First prove the gate is still open long enough to feed shrinkage.',
+          title: 'Pressure vs. Specific Volume Concept',
+          text: 'High pressure = lower specific volume = less shrinkage. As pressure increases, specific volume decreases.',
         },
+        {
+          type: 'callout',
+          tone: 'warning',
+          title: 'Key Takeaway',
+          text: 'Shrinkage begins as soon as the melt cools. Good packing controls it only until the gate freezes.',
+        },
+        { type: 'image', src: shrinkageCycleSequence, alt: 'How shrinkage develops through the molding cycle — infographic' },
       ],
     },
+    /* ------------------------------------------------------------------ */
+    /*  SECTION 3 — Press Settings                                         */
+    /* ------------------------------------------------------------------ */
     {
-      id: 'prevention',
-      title: '4. Preventive Measures',
+      id: 'press-settings',
+      title: '3. Press Settings',
       blocks: [
+        { type: 'heading', level: 2, text: '3.1 Settings Matrix' },
+        {
+          type: 'table',
+          caption: 'How Each Setting Affects Shrinkage',
+          columns: ['Setting', 'If Increased', 'If Decreased', 'Typical Effect on Shrinkage', 'Watch-Outs'],
+          rows: [
+            ['Melt temperature', 'Lower viscosity, better fill', 'Higher viscosity, risk of short shot', 'Often increases shrinkage risk if density loss and longer cooling dominate', 'Thermal degradation, gas, burn marks, longer cooling'],
+            ['Mold temperature', 'Better flow, less frozen layer', 'Higher flow resistance, more shear heating variation', 'Usually increases shrinkage (semi-crystalline); may reduce it (amorphous)', 'Cycle time ↑, part warp, ejection issues'],
+            ['Injection speed', 'Faster fill, higher shear heat', 'Slower fill, possible weld lines', 'Small effect; too high can increase shrinkage via more heat and orientation', 'Jetting, burn, flashing at the gate'],
+            ['V/P transfer position', 'More packed volume', 'Less packed volume', 'Later transfer reduces shrinkage and sink', 'Flash, overpack, high clamp load'],
+            ['Pack pressure', 'Higher cavity pressure', 'Lower cavity pressure', 'Higher pressure reduces shrinkage and sink', 'Flash, stress, distortion, excessive clamp force'],
+            ['Hold time', 'More time to pack the part', 'Less time to pack the part', 'Reduces shrinkage until gate seal; extra time gives no benefit', 'Longer cycle, flash if excessive'],
+            ['Gate seal time', 'Keeps gate open longer', 'Gate freezes earlier', 'Later gate seal reduces shrinkage and sink', 'Flash, drool, overpacking'],
+            ['Cooling time', 'More time to cool in mold', 'Ejects hotter, less time to cool', 'More cooling reduces post-mold shrinkage and warp', 'Longer cycle; check part removal temperature'],
+            ['Cushion consistency', 'More stable cushion volume', 'Variable cushion, less control', 'More consistent pack & shrinkage results', 'Too large cushion can trap air'],
+            ['Shot size', 'More material in shot', 'Less material in shot', 'Slight improvement (stability), not a fix for shrinkage', 'Overfills runner, increases cycle time and material use'],
+            ['Back pressure', 'Better melt homogeneity', 'Less mixing, possible voids', 'Small effect; improves part-to-part consistency', 'Too high increases heat and wear'],
+            ['Screw recovery consistency', 'More consistent melt and shot', 'Variable shot size and cushion', 'More consistent density and shrinkage', 'Check for slip, backflow variations'],
+            ['Cooling-water balance', 'More uniform mold temperatures', 'Hot/cold spots in mold', 'Better balance reduces warp and uneven shrinkage', 'Flow restrictions, air pockets, scale buildup'],
+          ],
+        },
+        { type: 'heading', level: 2, text: '3.2 Settings with the Biggest Leverage' },
         {
           type: 'list',
           items: [
-            'Separate fill, pack, and hold conceptually. Establish a viscosity-robust fill, then set hold time based on actual gate-freeze evidence rather than assumption.',
-            'For cold runners, protect the pack window: limit runner pressure loss, avoid undersized gates, ensure gate stays open long enough to feed contraction.',
-            'For hot runners, use individual zone control and verify thermal balance — do not assume the manifold is inherently balanced.',
-            'Keep wall thickness uniform where tolerances are tight. If thick sections are unavoidable, gate them directly or give them a reliable feed path.',
-            'Balance multi-cavity layouts geometrically AND thermally. Equal steel does not guarantee equal shrinkage.',
-            'Design cooling for uniform steel temperature and predictable heat removal — conformal cooling often reduces shrinkage spread better than brute-force pressure increases.',
+            'Pack pressure',
+            'Hold time until gate seal',
+            'Transfer position',
+            'Melt temperature',
+            'Mold temperature',
+            'Cooling uniformity',
           ],
         },
-      ],
-    },
-    {
-      id: 'corrective',
-      title: '5. Corrective Actions',
-      blocks: [
+        { type: 'heading', level: 2, text: '3.3 Packing Scenarios' },
         {
           type: 'table',
-          caption: 'Symptom → corrective action',
-          columns: ['Symptom', 'First Action', 'If No Improvement'],
+          caption: 'Too Little Pack vs Balanced vs Too Much Pack',
+          columns: ['Scenario', 'Result'],
           rows: [
-            ['Global undersize, stable shot-to-shot', 'Steel-safe mold compensation; recut steel to add stock', 'Review material lot & shrinkage spec'],
-            ['Global undersize, unstable shot-to-shot', 'Stabilize cushion, melt temp, viscosity', 'Replace check ring; verify barrel temps'],
-            ['Local sink in thick section', 'Increase pack pressure & time; raise mold temp on the side', 'Redesign rib/boss; gate closer to thick area'],
-            ['Anisotropic distortion in GF parts', 'Slow injection to reduce fiber orientation', 'Relocate gate to align fibers with load direction'],
-            ['Drift between 24 h and 48 h', 'Anneal/condition parts before final measurement', 'Switch to lower-shrink grade or add filler'],
+            ['Too little pack', 'Sink mark or internal voids from insufficient pressure or hold.'],
+            ['Balanced pack and cooling', 'Uniform density, minimal sink, low residual stress, stable dimensions.'],
+            ['Too much pack', 'Flash, overpack, high stress, distortion and ejection issues.'],
           ],
         },
-      ],
-    },
-    {
-      id: 'troubleshooting',
-      title: '6. Troubleshooting Flowchart',
-      blocks: [
+        { type: 'heading', level: 2, text: '3.4 Quick Rules' },
         {
-          type: 'image',
-          src: shrinkageFlowchart,
-          alt: 'Shrinkage troubleshooting flowchart',
-          figureNumber: 'Figure 4',
-          caption: 'Decision tree: classify global undersize vs local sink/void, then branch by stability and geometry.',
-          lookFor: {
-            title: 'How to walk this flowchart',
-            tone: 'info',
-            items: [
-              'Start at the symptom branch — global undersize vs localized sink — they have different root causes.',
-              'Confirm shot-to-shot stability before changing the mold; an unstable process masks geometry issues.',
-              'For thick-section sinks, jump straight to pack pressure / hold time and gate freeze before runner geometry.',
-              'For warped-but-in-spec parts, branch to anisotropy and differential cooling rather than overall shrink rate.',
-            ],
-          },
+          type: 'list',
+          items: [
+            'Increase hold only until gate seal.',
+            'Do not chase shrinkage with one setting only.',
+            'Verify cavity balance and cooling balance.',
+            'Measure hot-to-cold stabilization time before releasing parts.',
+          ],
         },
+        {
+          type: 'callout',
+          tone: 'info',
+          title: 'How to Use This Chart',
+          text: 'Adjust one setting at a time within safe limits. Observe part dimensions, sink, voids and warp. Confirm improvements with measurements. Lock in changes and document the result.',
+        },
+        { type: 'image', src: shrinkagePressSettings, alt: 'Press settings that affect shrinkage — infographic' },
       ],
     },
-  ],
-  references: [
-    { id: 'R1', text: 'ASTM D955 — Standard Test Method of Measuring Shrinkage from Mold Dimensions of Thermoplastics.' },
-    { id: 'R2', text: 'ISO 294-4 — Plastics: Injection moulding of test specimens — Determination of moulding and post-moulding shrinkage.' },
-    { id: 'R3', text: 'BASF — Processing Injection Moulding (Elastollan); Ultrason® Injection Molding Brochure.' },
-    { id: 'R4', text: 'BASF — Injection-Molding Problems in Engineering Thermoplastics.' },
-    { id: 'R5', text: 'RJG — Tolerances, Shrinkage, and Process Strategies; Cavity Pressure technical articles.' },
-    { id: 'R6', text: 'Autodesk Moldflow Help — Shrinkage prediction method for 3D models.' },
-    { id: 'R7', text: 'Moldex3D — Achieve Plastic Part Dimension Accuracy through 3D Volume Shrinkage Compensation.' },
-    { id: 'R8', text: 'Husky — Hot Runners Play a Key Role in Optimizing System Balance.' },
-    { id: 'R9', text: 'Mold-Masters — The Importance of Precise Hot Runner Temperature Control.' },
-    { id: 'R10', text: 'Zhao et al. — Recent progress in minimizing the warpage and shrinkage of injection moulded parts (open-access review, 2022).' },
-    { id: 'R11', text: 'ASME Journal of Manufacturing Science and Engineering — In-Situ Shrinkage Sensor for Injection Molding.' },
+    /* ------------------------------------------------------------------ */
+    /*  SECTION 4 — Runner Comparison                                      */
+    /* ------------------------------------------------------------------ */
+    {
+      id: 'runner-comparison',
+      title: '4. Cold Runner vs Hot Runner vs Stack Molds',
+      blocks: [
+        { type: 'heading', level: 2, text: '4.1 Comparison Matrix' },
+        {
+          type: 'table',
+          caption: 'Runner System Comparison for Shrinkage',
+          columns: ['Comparison Area', 'Cold Runner', 'Hot Runner', 'Stack Mold'],
+          rows: [
+            ['Material delivery path', 'Sprue → runner → gates → cavities. Runner solidifies each cycle.', 'Sprue → heated manifold → hot tips → gates → cavities. Melt stays hot to the gate.', 'Sprue → distribution system → upper cavities (PL1) → lower cavities (PL2). Two mold levels must fill.'],
+            ['Temperature control challenge', 'Runner and sprue cooling must be consistent. Cooling differences change freeze time and available pack time.', 'Manifold and tip temperatures must be stable and balanced across all drops. Tip temperature strongly affects gate quality and packing.', 'Two mold levels must be uniformly temperature-controlled. Plate and core balance, clamp, and parallelism significantly affect results.'],
+            ['Cavity balance sensitivity', 'Moderate. Runner/cavity balance and sprue/runner cooling affect consistency, but generally more forgiving.', 'High. Small temperature or flow imbalances at the tips can change cavity fill, pack, and shrinkage.', 'Very high. Flow splits between levels and within each level. Balance differences amplify shrinkage variation.'],
+            ['Typical shrinkage behavior', 'More thermal variation shot-to-shot possible due to runner cooling. Shrinkage can vary with runner freeze time.', 'More consistent when balanced and stable. Thermal balance across tips and cavities is critical for uniform shrinkage.', 'Shrinkage uniformity depends on both levels. Level-to-level thermal differences cause mismatch and distortion risk.'],
+            ['Cavity-to-cavity variation risk', 'Moderate. Influenced by runner balance, gate location, and cooling.', 'High if tip temperatures or flow settings are not balanced. Small changes can cause large variation.', 'Very high if level balance or mold parallelism is off. Risk of cavity-to-cavity and level-to-level mismatch.'],
+            ['Gate freeze behavior', 'Easier to understand — runner freezes first, then gates. Freeze time can be controlled with cooling.', 'Gate freeze depends on tip temperature and heat loss. Small temp shifts change freeze time and packing window.', 'Upper level gate freeze affects melt available to lower level. Differences in freeze between levels are common.'],
+            ['Common shrinkage-related defects', 'Sink from runner imbalance, differential shrink across part, warpage from uneven cooling.', 'Gate vestige / stringing, inconsistent sink or short shots, warpage from thermal imbalance.', 'Sink and mismatch between levels, warpage / twist / step, flash from non-parallel plates.'],
+            ['Processing focus', 'Control runner and sprue cooling. Maintain consistent cycle time and runner freeze time. Minimize shot-to-shot thermal variation.', 'Dial and maintain manifold & tip temperatures. Balance flow across tips. Monitor gate quality and packing consistency.', 'Balance both levels and all cavities. Ensure clamp force and platen parallelism. Monitor level fill, pack, and mold temperatures.'],
+          ],
+        },
+        { type: 'heading', level: 2, text: '4.2 What Stays the Same Across All Three' },
+        {
+          type: 'list',
+          items: [
+            'Shrinkage is driven by material, pressure history, thermal history, and part geometry.',
+            'Uniform cooling and consistent packing are critical for minimizing shrinkage variation.',
+            'Non-uniform shrinkage leads to sinks, voids, warpage, and dimensional variation.',
+            'Good process control reduces variation, improves quality, and lowers scrap.',
+          ],
+        },
+        { type: 'heading', level: 2, text: '4.3 Processing Priorities by Runner Type' },
+        { type: 'heading', level: 3, text: 'Cold Runner' },
+        {
+          type: 'list',
+          items: [
+            'Set and stabilize mold temperature (runner & cavities). Keep cycle time consistent.',
+            'Balance runner lengths and gate sizes where possible.',
+            'Monitor runner freeze time and pack/hold time.',
+            'Inspect runners for buildup and cooling passage health.',
+            'Reduce shot-to-shot thermal variation.',
+          ],
+        },
+        { type: 'heading', level: 3, text: 'Hot Runner' },
+        {
+          type: 'list',
+          items: [
+            'Stabilize manifold and tip temperatures.',
+            'Balance flow across all tips (pressure & volume).',
+            'Verify gate quality — look for vestige/stringing.',
+            'Monitor pack/hold for each cavity.',
+            'Document and lock in settings. Watch for drift.',
+          ],
+        },
+        { type: 'heading', level: 3, text: 'Stack Mold' },
+        {
+          type: 'list',
+          items: [
+            'Balance both levels (flow, pack, and cooling).',
+            'Ensure platen parallelism and clamp consistency.',
+            'Verify distribution system is not restricting flow.',
+            'Monitor level fill and gate freeze differences.',
+            'Use consistent cycle time and temperatures.',
+          ],
+        },
+        { type: 'image', src: shrinkageRunnerComparison, alt: 'Cold runner vs hot runner vs stack molds — Shrinkage comparison infographic' },
+      ],
+    },
+    /* ------------------------------------------------------------------ */
+    /*  SECTION 5 — Preparation & Troubleshooting                          */
+    /* ------------------------------------------------------------------ */
+    {
+      id: 'preparation',
+      title: '5. Preparation & Troubleshooting',
+      blocks: [
+        { type: 'heading', level: 2, text: '5.1 Before You Mold' },
+        { type: 'heading', level: 3, text: 'Part Design' },
+        {
+          type: 'list',
+          items: ['Keep wall thickness uniform', 'Avoid heavy sections', 'Design ribs/bosses correctly'],
+        },
+        { type: 'heading', level: 3, text: 'Mold Design / Readiness' },
+        {
+          type: 'list',
+          items: [
+            'Balanced runners/manifold',
+            'Effective venting',
+            'Proper gate size/location',
+            'Uniform cooling circuits',
+            'Clean water lines',
+            'Thermolator/chiller stability',
+          ],
+        },
+        { type: 'heading', level: 3, text: 'Material Readiness' },
+        {
+          type: 'list',
+          items: ['Correct resin', 'Moisture control where required', 'Consistent lot', 'Proper color/additive mix'],
+        },
+        { type: 'heading', level: 3, text: 'Machine Readiness' },
+        {
+          type: 'list',
+          items: [
+            'Repeatable shot size',
+            'Stable cushion',
+            'Functional check ring',
+            'Calibrated pressures',
+            'Consistent recovery',
+          ],
+        },
+        { type: 'heading', level: 3, text: 'Measurement Plan' },
+        {
+          type: 'list',
+          items: [
+            'Define which dimensions to monitor',
+            'How long parts must stabilize before final dimensional check',
+          ],
+        },
+        { type: 'heading', level: 2, text: '5.2 Troubleshooting Map — Observe the Symptom' },
+        {
+          type: 'table',
+          caption: 'Symptom-Based Troubleshooting Actions',
+          columns: ['Action', 'Sink', 'Void', 'Warpage', 'Undersize Dimensions', 'Cavity-to-Cavity Variation'],
+          rows: [
+            ['Row 1', 'Increase pack pressure', 'Increase pack pressure', 'Check cooling balance', 'Increase pack pressure', 'Check cavity balance'],
+            ['Row 2', 'Increase hold time', 'Increase hold time', 'Increase hold time', 'Increase hold time', 'Check runner/manifold balance'],
+            ['Row 3', 'Check gate freeze', 'Reduce melt temp', 'Verify mold temperature', 'Check gate freeze', 'Verify cooling uniformity'],
+            ['Row 4', 'Check melt temperature', 'Check gate freeze', 'Check part design', 'Verify mold temperature', 'Check gate consistency'],
+            ['Row 5', 'Verify mold temperature', 'Improve venting', 'Reduce melt temp', 'Check part design', 'Check machine consistency'],
+            ['Row 6', 'Check part design', 'Check part design', 'Improve part support', 'Check measurement method', 'Check part design'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'info',
+          title: 'Workflow',
+          text: 'Make adjustments → Verify results → Standardize.',
+        },
+        { type: 'heading', level: 2, text: '5.3 Perfect-World Shrinkage' },
+        {
+          type: 'table',
+          caption: 'Controlled / Ideal vs Poorly Controlled',
+          columns: ['Controlled / Ideal', 'Poorly Controlled'],
+          rows: [
+            ['Flat and dimensionally stable', 'Visible sink marks'],
+            ['Minimal sink (within spec)', 'Warpage / distortion'],
+            ['Dimensions within tolerance', 'Dimensions out of tolerance'],
+            ['Low variation (tight spread)', 'High variation (wide spread)'],
+            ['Cavity-to-cavity consistency', 'Cavity-to-cavity mismatch'],
+          ],
+        },
+        { type: 'heading', level: 2, text: '5.4 Master Processor Mindset' },
+        {
+          type: 'list',
+          items: [
+            'Shrinkage is expected.',
+            'Uniformity beats brute force.',
+            'Pack until gate seal.',
+            'Cool evenly.',
+            'Measure consistently.',
+            'Look for trends, not single parts.',
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'warning',
+          title: 'Goal',
+          text: 'Stable dimensions, minimal sink, minimal warp, repeatable parts shot after shot.',
+        },
+        { type: 'image', src: shrinkagePreparation, alt: 'Preparation before molding, troubleshooting, and the ideal result — infographic' },
+      ],
+    },
   ],
 };
