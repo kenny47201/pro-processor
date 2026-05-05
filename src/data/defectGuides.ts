@@ -8,6 +8,14 @@ import { warpageGuide } from './warpageGuide';
 import { voidsGuide } from './voidsGuide';
 import { shrinkageGuide } from './shrinkageGuide';
 import { weldLinesGuide } from './weldLinesGuide';
+import { blackSpecksGuide } from './blackSpecksGuide';
+import { bossFlashGuide } from './bossFlashGuide';
+import { fishEyeGuide } from './fishEyeGuide';
+import { glossVariationGuide } from './glossVariationGuide';
+import { internalBurnsGuide } from './internalBurnsGuide';
+import { wallThicknessGuide } from './wallThicknessGuide';
+import { orangePeelGuide } from './orangePeelGuide';
+import { staticDustGuide } from './staticDustGuide';
 
 export interface DefectGuideSection {
   id: string;
