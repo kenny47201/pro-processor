@@ -1,4 +1,6 @@
 import type { DefectGuide } from './defectGuides';
+import weldLinesFormation from '@/assets/weld-lines-formation.jpg';
+import weldLinesSequentialGating from '@/assets/weld-lines-sequential-gating.jpg';
 
 export const weldLinesGuide: DefectGuide = {
   slug: 'weld-lines',
@@ -27,6 +29,13 @@ export const weldLinesGuide: DefectGuide = {
           title: 'Weld vs meld — why it matters',
           text:
             'Weld lines (≥ ~135° meeting angle) tend to be stronger because chains have more time to interdiffuse. Meld lines (< ~135°) and "cold welds" — where flow fronts have already cooled significantly — produce the weakest joints and the most visible cosmetic notches. Strength loss across a poor weld can exceed 50% of the bulk material strength.',
+        },
+        {
+          type: 'image',
+          src: weldLinesFormation,
+          alt: 'Top view of mold cavity showing flow splitting around a core pin and reconverging to form a weld line, with meeting angle diagram comparing strong vs weak welds',
+          figureNumber: 'Figure 1',
+          caption: 'Weld line formation: Flow from the gate splits around a core pin (obstacle) and reconverges on the downstream side. The meeting angle determines weld strength — angles ≥135° produce stronger welds with better chain interdiffusion; angles <135° create weak meld lines.',
         },
         { type: 'heading', level: 3, text: '1.2 Visual & structural manifestation' },
         {
@@ -84,6 +93,13 @@ export const weldLinesGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'On hot-runner tools with multiple drops, sequential (cascade) valve gating is the most effective tool to either eliminate a weld line or move it to a non-critical location. Opening valves in sequence forces a single moving flow front rather than two converging fronts.',
+        },
+        {
+          type: 'image',
+          src: weldLinesSequentialGating,
+          alt: 'Three-stage diagram showing sequential valve gating technique: Gate 1 opens first, Gate 2 opens as flow front passes creating a single moving front instead of two converging fronts, eliminating the weld line',
+          figureNumber: 'Figure 2',
+          caption: 'Sequential valve gating to eliminate weld lines: Stage 1 — Gate 1 opens, flow fills from one direction. Stage 2 — Gate 2 opens as the flow front passes, creating a single moving front instead of two converging fronts. Result — no weld line forms. Compare with conventional multi-gate (bottom) which produces a weld at the convergence point.',
         },
         { type: 'heading', level: 3, text: '2.4 Venting & geometry' },
         {

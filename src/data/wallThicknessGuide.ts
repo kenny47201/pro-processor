@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import wallThicknessDifferentialCooling from '@/assets/wall-thickness-differential-cooling.jpg';
 
 export const wallThicknessGuide: DefectGuide = {
   slug: 'wall-thickness',
@@ -24,6 +25,13 @@ export const wallThicknessGuide: DefectGuide = {
           title: 'Fundamental principle',
           text:
             'The root of all NUWT-related defects is differential cooling. Thicker sections retain thermal energy longer, delaying solidification and volumetric shrinkage compared to adjacent thinner sections. This time lag generates profound, unbalanced internal stresses.',
+        },
+        {
+          type: 'image',
+          src: wallThicknessDifferentialCooling,
+          alt: 'Cross-section showing non-uniform wall thickness effects: thick sections with delayed cooling causing sink marks and voids, versus thin sections with premature solidification, plus the 0.6T rib design rule',
+          figureNumber: 'Figure 1',
+          caption: 'Differential cooling in non-uniform walls: Thick sections retain thermal energy longer, creating sink marks on the surface and internal voids. The 0.6T rule — rib/boss thickness ≤ 60% of adjacent wall — minimizes differential cooling and associated defects.',
         },
         { type: 'heading', level: 3, text: '1.1 Primary defects induced by NUWT' },
         {

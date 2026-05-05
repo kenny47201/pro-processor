@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import fishEyeGelClassification from '@/assets/fish-eye-gel-classification.jpg';
 
 export const fishEyeGuide: DefectGuide = {
   slug: 'fish-eye',
@@ -17,6 +18,13 @@ export const fishEyeGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'A fish eye is a surface blemish resulting from unmelted or insufficiently plasticized material being carried forward with the molten polymer stream into the mold cavity. Upon solidification, this non-homogenized particle manifests as an inclusion. Visually, fish eyes resemble small, localized, circular craters or gel-like spots, especially noticeable in transparent films or thin-walled components.',
+        },
+        {
+          type: 'image',
+          src: fishEyeGelClassification,
+          alt: 'Side-by-side comparison of P-Gel (polymerization gel from raw material) and E-Gel (extrusion/process gel from thermal degradation) showing internal structure differences',
+          figureNumber: 'Figure 1',
+          caption: 'Gel classification: P-Gel (left) originates from high molecular weight inclusions in the raw material. E-Gel (right) forms during processing from thermal cross-linking due to excessive residence time or localized overheating. Distinguishing between the two determines whether the fix is material-side or process-side.',
         },
         { type: 'heading', level: 3, text: '1.1 Gel classification' },
         {
