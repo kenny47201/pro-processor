@@ -78,7 +78,7 @@ export const partsStickingGuide: DefectGuide = {
           src: partsStickingIshikawa,
           alt: 'Ishikawa fishbone diagram showing root causes of part sticking organized by Mold, Method, Material, Machine, and Manual/HR categories',
           figureNumber: 'Figure 2',
-          caption: 'Ishikawa root cause analysis — Part Sticking / Mold Adhesion. Five contributing families: Mold, Method, Material, Machine, and Manual/HR-Specific factors.',
+          caption: 'Ishikawa root cause analysis — Part Sticking. Five contributing families: Mold, Method, Material, Machine, and Manual/HR-Specific factors.',
           lookFor: {
             title: 'Systematic cause identification',
             tone: 'warning',
