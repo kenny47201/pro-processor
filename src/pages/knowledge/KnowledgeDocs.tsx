@@ -6,10 +6,11 @@ import { gateFreezeGuide } from '@/data/gateFreezeGuide';
 import { morphologyGuide } from '@/data/morphologyGuide';
 import { multiStageGuide } from '@/data/multiStageGuide';
 import { nucleationGuide } from '@/data/nucleationGuide';
+import { witnessMarksGuide } from '@/data/witnessMarksGuide';
 import { cn } from '@/lib/utils';
 import type { KnowledgeGuide } from '@/data/fountainFlowGuide';
 
-const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide, multiStageGuide, nucleationGuide];
+const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide, multiStageGuide, nucleationGuide, witnessMarksGuide];
 
 export default function KnowledgeDocs() {
   const [activeGuide, setActiveGuide] = useState(guides[0]);
