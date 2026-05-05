@@ -1,4 +1,6 @@
 import type { DefectGuide } from './defectGuides';
+import bossFlashCrossSection from '@/assets/boss-flash-cross-section.jpg';
+import bossFlashDesignRules from '@/assets/boss-flash-design-rules.jpg';
 
 export const bossFlashGuide: DefectGuide = {
   slug: 'boss-flash',

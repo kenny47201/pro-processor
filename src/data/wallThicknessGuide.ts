@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import wallThicknessDifferentialCooling from '@/assets/wall-thickness-differential-cooling.jpg';
 
 export const wallThicknessGuide: DefectGuide = {
   slug: 'wall-thickness',

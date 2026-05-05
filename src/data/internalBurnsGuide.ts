@@ -1,4 +1,6 @@
 import type { DefectGuide } from './defectGuides';
+import internalBurnsDieselEffect from '@/assets/internal-burns-diesel-effect.jpg';
+import internalBurnsVentingDesign from '@/assets/internal-burns-venting-design.jpg';
 
 export const internalBurnsGuide: DefectGuide = {
   slug: 'internal-burns',

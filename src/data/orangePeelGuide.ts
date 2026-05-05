@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import orangePeelFountainFlow from '@/assets/orange-peel-fountain-flow.jpg';
 
 export const orangePeelGuide: DefectGuide = {
   slug: 'orange-peel',

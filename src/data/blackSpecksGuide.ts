@@ -1,4 +1,6 @@
 import type { DefectGuide } from './defectGuides';
+import blackSpecksBarrelDiagram from '@/assets/black-specks-barrel-diagram.jpg';
+import blackSpecksFlowchart from '@/assets/black-specks-flowchart.jpg';
 
 export const blackSpecksGuide: DefectGuide = {
   slug: 'black-specks',

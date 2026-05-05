@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import staticDustTriboelectric from '@/assets/static-dust-triboelectric.jpg';
 
 export const staticDustGuide: DefectGuide = {
   slug: 'static-dust',

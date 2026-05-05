@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import glossVariationMechanism from '@/assets/gloss-variation-mechanism.jpg';
 
 export const glossVariationGuide: DefectGuide = {
   slug: 'gloss-variation',

@@ -1,4 +1,6 @@
 import type { DefectGuide } from './defectGuides';
+import weldLinesFormation from '@/assets/weld-lines-formation.jpg';
+import weldLinesSequentialGating from '@/assets/weld-lines-sequential-gating.jpg';
 
 export const weldLinesGuide: DefectGuide = {
   slug: 'weld-lines',

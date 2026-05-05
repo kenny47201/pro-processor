@@ -1,4 +1,5 @@
 import type { DefectGuide } from './defectGuides';
+import fishEyeGelClassification from '@/assets/fish-eye-gel-classification.jpg';
 
 export const fishEyeGuide: DefectGuide = {
   slug: 'fish-eye',
