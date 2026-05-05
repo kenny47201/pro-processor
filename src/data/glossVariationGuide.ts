@@ -1,5 +1,4 @@
 import type { DefectGuide } from './defectGuides';
-import glossVariationMechanism from '@/assets/gloss-variation-mechanism.jpg';
 
 export const glossVariationGuide: DefectGuide = {
   slug: 'gloss-variation',
@@ -26,13 +25,6 @@ export const glossVariationGuide: DefectGuide = {
             'Mold surface replication — high cavity pressure forces the melt skin into intimate contact with the polished mold wall, transferring micro-topography.',
             'Polymer shrinkage & viscoelastic stiffening — as the polymer cools, volumetric shrinkage introduces microscopic surface irregularities that scatter light.',
           ],
-        },
-        {
-          type: 'image',
-          src: glossVariationMechanism,
-          alt: 'Cross-section diagram showing gloss variation mechanism with high-gloss zone where hot melt replicates mold surface versus low-gloss zone where premature solidification prevents replication, separated by a Gloss Transition Line',
-          figureNumber: 'Figure 1',
-          caption: 'Gloss variation mechanism: In the high-gloss zone (left), hot melt under high pressure intimately contacts the polished mold wall, faithfully replicating its micro-topography. In the low-gloss zone (right), premature solidification prevents surface replication. The Gloss Transition Line (GTD) marks the boundary.',
         },
         { type: 'heading', level: 3, text: '1.2 Gloss Transition Defect (GTD)' },
         {

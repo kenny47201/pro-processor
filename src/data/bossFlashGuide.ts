@@ -1,6 +1,4 @@
 import type { DefectGuide } from './defectGuides';
-import bossFlashCrossSection from '@/assets/boss-flash-cross-section.jpg';
-import bossFlashDesignRules from '@/assets/boss-flash-design-rules.jpg';
 
 export const bossFlashGuide: DefectGuide = {
   slug: 'boss-flash',
@@ -19,13 +17,6 @@ export const bossFlashGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'A boss is a localized, typically cylindrical protrusion on a molded part designed for strength, alignment, or mechanical fastening. Boss flash is a specific type of flash localized at the interface where the core pin — which forms the interior diameter of the boss — seals against the main cavity steel. This location constitutes a specialized, high-stress shut-off area.',
-        },
-        {
-          type: 'image',
-          src: bossFlashCrossSection,
-          alt: 'Cross-section of a boss with core pin showing flash formation at the shut-off interface between core pin and cavity steel',
-          figureNumber: 'Figure 1',
-          caption: 'Boss flash formation: Cross-section showing the core pin / cavity steel shut-off interface where flash forms when internal melt pressure exceeds the localized mechanical resistance of the seal. Flash appears as a thin film at the base or tip of the boss interior.',
         },
         { type: 'heading', level: 3, text: '1.1 Functional & aesthetic consequences' },
         {
@@ -151,13 +142,6 @@ export const bossFlashGuide: DefectGuide = {
             'Replace worn core pins — verify diameter and concentricity.',
             'Add support pillars under boss areas to reduce plate deflection.',
           ],
-        },
-        {
-          type: 'image',
-          src: bossFlashDesignRules,
-          alt: 'Comparison of incorrect solid boss design versus correct cored-out hollow boss design showing the 0.6T wall thickness rule and proper draft angle',
-          figureNumber: 'Figure 2',
-          caption: 'Boss DfM design rules: INCORRECT — solid boss with wall equal to adjacent wall causes flash and sink marks. CORRECT — cored-out hollow boss with wall ≤ 60% of adjacent wall (0.6T rule), minimum 0.5° draft per side for reliable shut-off.',
         },
         { type: 'heading', level: 3, text: '4.4 DfM guidelines for bosses' },
         {
