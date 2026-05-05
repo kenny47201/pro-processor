@@ -131,13 +131,6 @@ export const shrinkageGuide: DefectGuide = {
             ['Failure modes', 'Cold slug, runner imbalance, undersized gate', 'Tip drift, manifold imbalance, valve timing'],
           ],
         },
-        {
-          type: 'image',
-          src: shrinkageColdVsHotRunner,
-          alt: 'Cold runner vs hot runner shrinkage-control implications bar chart',
-          figureNumber: 'Figure 3',
-          caption: 'Relative severity / capability comparison (0–10 scale): cold runners carry higher heat loss and gate-freeze risk; hot runners deliver better pack transmission and dimensional repeatability when balanced.',
-        },
         { type: 'heading', level: 3, text: '2.5 Mold design & geometry' },
         {
           type: 'paragraph',
@@ -222,7 +215,7 @@ export const shrinkageGuide: DefectGuide = {
           type: 'image',
           src: shrinkageFlowchart,
           alt: 'Shrinkage troubleshooting flowchart',
-          figureNumber: 'Figure 4',
+          figureNumber: 'Figure 2',
           caption: 'Decision tree: classify global undersize vs local sink/void, then branch by stability and geometry.',
           lookFor: {
             title: 'How to walk this flowchart',
