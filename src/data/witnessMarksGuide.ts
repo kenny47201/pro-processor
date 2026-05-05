@@ -161,7 +161,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
           text: 'Witness marks exist in all mold systems, but their source, severity, and process response change with runner style, gating method, and mold architecture.',
         },
         { type: 'heading', level: 3, text: '3.1 Cold Runner Molds' },
-        { type: 'heading', level: 4, text: 'A — Common Witness Mark Sources' },
+        { type: 'heading', level: 3, text: 'A — Common Witness Mark Sources' },
         {
           type: 'list',
           items: [
@@ -172,7 +172,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Ejector marks',
           ],
         },
-        { type: 'heading', level: 4, text: 'B — What They Typically Look Like on the Part' },
+        { type: 'heading', level: 3, text: 'B — What They Typically Look Like on the Part' },
         {
           type: 'list',
           items: [
@@ -182,12 +182,12 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Faint circular or pin-point impressions from ejectors',
           ],
         },
-        { type: 'heading', level: 4, text: 'C — Press Settings / Process Levers That Matter Most' },
+        { type: 'heading', level: 3, text: 'C — Press Settings / Process Levers That Matter Most' },
         {
           type: 'list',
           items: ['Gate freeze', 'Runner balance', 'Gate trim', 'Mold alignment', 'Cooling uniformity'],
         },
-        { type: 'heading', level: 4, text: 'D — Typical Troubleshooting Focus' },
+        { type: 'heading', level: 3, text: 'D — Typical Troubleshooting Focus' },
         {
           type: 'list',
           items: [
@@ -198,14 +198,13 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Review cooling uniformity and flow',
           ],
         },
-        { type: 'heading', level: 4, text: 'E — Main Processing Difference' },
+        { type: 'heading', level: 3, text: 'E — Main Processing Difference' },
         {
           type: 'paragraph',
           text: 'Emphasis on gate freeze, runner balance, gate trim, mold alignment, and cooling uniformity.',
         },
-        { type: 'divider' },
         { type: 'heading', level: 3, text: '3.2 Hot Runner Molds' },
-        { type: 'heading', level: 4, text: 'A — Common Witness Mark Sources' },
+        { type: 'heading', level: 3, text: 'A — Common Witness Mark Sources' },
         {
           type: 'list',
           items: [
@@ -217,7 +216,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Parting line and ejector marks still possible',
           ],
         },
-        { type: 'heading', level: 4, text: 'B — What They Typically Look Like on the Part' },
+        { type: 'heading', level: 3, text: 'B — What They Typically Look Like on the Part' },
         {
           type: 'list',
           items: [
@@ -228,7 +227,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Ejector pin impressions',
           ],
         },
-        { type: 'heading', level: 4, text: 'C — Press Settings / Process Levers That Matter Most' },
+        { type: 'heading', level: 3, text: 'C — Press Settings / Process Levers That Matter Most' },
         {
           type: 'list',
           items: [
@@ -239,7 +238,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Fill-to-pack consistency',
           ],
         },
-        { type: 'heading', level: 4, text: 'D — Typical Troubleshooting Focus' },
+        { type: 'heading', level: 3, text: 'D — Typical Troubleshooting Focus' },
         {
           type: 'list',
           items: [
@@ -250,14 +249,13 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Check nozzle alignment and wear',
           ],
         },
-        { type: 'heading', level: 4, text: 'E — Main Processing Difference' },
+        { type: 'heading', level: 3, text: 'E — Main Processing Difference' },
         {
           type: 'paragraph',
           text: 'Emphasis on hot tip temperature, manifold balance, gate freeze, decompression, and fill-to-pack consistency.',
         },
-        { type: 'divider' },
         { type: 'heading', level: 3, text: '3.3 Stack Molds' },
-        { type: 'heading', level: 4, text: 'A — Common Witness Mark Sources' },
+        { type: 'heading', level: 3, text: 'A — Common Witness Mark Sources' },
         {
           type: 'list',
           items: [
@@ -268,7 +266,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Parting line and ejector marks may be more sensitive',
           ],
         },
-        { type: 'heading', level: 4, text: 'B — What They Typically Look Like on the Part' },
+        { type: 'heading', level: 3, text: 'B — What They Typically Look Like on the Part' },
         {
           type: 'list',
           items: [
@@ -278,7 +276,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Ejector marks may vary by level',
           ],
         },
-        { type: 'heading', level: 4, text: 'C — Press Settings / Process Levers That Matter Most' },
+        { type: 'heading', level: 3, text: 'C — Press Settings / Process Levers That Matter Most' },
         {
           type: 'list',
           items: [
@@ -289,7 +287,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Runner / hot runner balance between levels',
           ],
         },
-        { type: 'heading', level: 4, text: 'D — Typical Troubleshooting Focus' },
+        { type: 'heading', level: 3, text: 'D — Typical Troubleshooting Focus' },
         {
           type: 'list',
           items: [
@@ -300,12 +298,11 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Inspect alignment and support',
           ],
         },
-        { type: 'heading', level: 4, text: 'E — Main Processing Difference' },
+        { type: 'heading', level: 3, text: 'E — Main Processing Difference' },
         {
           type: 'paragraph',
           text: 'Emphasis on fill balance front-to-back, clamp distribution, parallelism, synchronized cooling, and runner/hot runner balance between levels.',
         },
-        { type: 'divider' },
         { type: 'heading', level: 3, text: '3.4 Similarities Across All Three' },
         {
           type: 'orderedList',
