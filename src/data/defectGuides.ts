@@ -84,7 +84,7 @@ export interface DefectGuide {
 }
 
 const bubblesBlistersGuide: DefectGuide = {
-  {
+    slug: 'bubbles-blisters',
     slug: 'bubbles-blisters',
     title: 'Bubbles & Blisters',
     summary:
