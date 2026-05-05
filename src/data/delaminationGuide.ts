@@ -1,6 +1,4 @@
 import type { DefectGuide } from './defectGuides';
-import delaminationCrossSection from '@/assets/delamination-cross-section.jpg';
-import delaminationFlowchart from '@/assets/delamination-flowchart.jpg';
 
 const refs = [
   { id: 'R1', text: 'Bozzelli, J. Scientific Molding — Contamination, Incompatibility, and Layered Defects.' },
@@ -43,13 +41,6 @@ export const delaminationGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'Delamination is the separation of a molded part into discrete layers — typically a thin "skin" that peels, flakes, or scales away from the underlying core. Unlike splay or flow lines (which are surface-only artifacts of shear or moisture), true delamination represents a real loss of cohesion between adjacent material layers. The interface between layers has little or no molecular entanglement, so the layers behave as physically separate sheets bonded only by friction or weak van der Waals forces.',
-        },
-        {
-          type: 'image',
-          src: delaminationCrossSection,
-          alt: 'Cross-section of a delaminated part showing solidified skin separating from core material at a non-bonded interface, with tape test method and molecular chain entanglement diagram',
-          figureNumber: 'Figure 1',
-          caption: 'Delamination cross-section: The solidified skin separates from the core at a non-bonded interface where polymer chains have insufficient entanglement. The tape test (inset) is the definitive field diagnostic — if a layer lifts with adhesive tape, it is delamination, not splay or flow lines.',
         },
         {
           type: 'callout',
@@ -189,13 +180,6 @@ export const delaminationGuide: DefectGuide = {
           title: 'Diagnostic decision rule',
           text:
             'If the defect appears immediately after a material change, color change, or regrind addition → contamination/incompatibility. If it appeared gradually as machine ran longer → screw/HRTC wear or moisture. If it appeared after a process change → shear or cold-skin from the new parameters.',
-        },
-        {
-          type: 'image',
-          src: delaminationFlowchart,
-          alt: 'Delamination diagnostic flowchart showing decision tree from tape test confirmation through contamination path versus gradual onset path for material incompatibility, moisture, and machine wear',
-          figureNumber: 'Figure 2',
-          caption: 'Diagnostic decision tree: Confirm with tape test → triage by onset pattern (recent change vs gradual). Recent change → contamination/incompatibility path. Gradual onset → moisture, screw wear, or HRTC drift path.',
         },
       ],
     },

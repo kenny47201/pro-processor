@@ -1,6 +1,4 @@
 import type { DefectGuide } from './defectGuides';
-import blackSpecksBarrelDiagram from '@/assets/black-specks-barrel-diagram.jpg';
-import blackSpecksFlowchart from '@/assets/black-specks-flowchart.jpg';
 
 export const blackSpecksGuide: DefectGuide = {
   slug: 'black-specks',
@@ -42,13 +40,6 @@ export const blackSpecksGuide: DefectGuide = {
           type: 'paragraph',
           text:
             'Structurally, black specks can compromise mechanical performance — especially in high-stress applications — by acting as stress concentrators and crack initiation sites.',
-        },
-        {
-          type: 'image',
-          src: blackSpecksBarrelDiagram,
-          alt: 'Injection molding barrel and screw cross-section showing black speck formation zones including dead spots, worn check ring, and carbonization areas',
-          figureNumber: 'Figure 1',
-          caption: 'Barrel and screw anatomy highlighting primary black speck formation zones: dead spots where material stagnates and carbonizes, worn check rings that allow backflow and extended residence time, and barrel surface pitting that traps and degrades resin.',
         },
       ],
     },
@@ -133,13 +124,6 @@ export const blackSpecksGuide: DefectGuide = {
             'Surface specks → often mold-related (dust, grease)',
             'Embedded specks → barrel, screw, or hot runner origin',
           ],
-        },
-        {
-          type: 'image',
-          src: blackSpecksFlowchart,
-          alt: 'Black speck diagnostic flowchart showing decision tree from detection through classification of external contamination vs carbonized residue vs metallic wear',
-          figureNumber: 'Figure 2',
-          caption: 'Diagnostic decision tree for black speck classification. Start by examining speck morphology — sharp edges indicate external contamination; smudged or tailed specks indicate in-process carbonization. Surface vs. embedded location narrows the source to mold, barrel, or feed system.',
         },
         { type: 'heading', level: 3, text: '3.2 Diagnostic flow' },
         {
