@@ -3,10 +3,11 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { DefectGuideRenderer } from '@/components/knowledge/DefectGuideRenderer';
 import { fountainFlowGuide } from '@/data/fountainFlowGuide';
 import { gateFreezeGuide } from '@/data/gateFreezeGuide';
+import { morphologyGuide } from '@/data/morphologyGuide';
 import { cn } from '@/lib/utils';
 import type { KnowledgeGuide } from '@/data/fountainFlowGuide';
 
-const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide];
+const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide];
 
 export default function KnowledgeDocs() {
   const [activeGuide, setActiveGuide] = useState(guides[0]);
