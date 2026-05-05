@@ -1,4 +1,6 @@
 import type { DefectGuide } from './defectGuides';
+import delaminationCrossSection from '@/assets/delamination-cross-section.jpg';
+import delaminationFlowchart from '@/assets/delamination-flowchart.jpg';
 
 const refs = [
   { id: 'R1', text: 'Bozzelli, J. Scientific Molding — Contamination, Incompatibility, and Layered Defects.' },
