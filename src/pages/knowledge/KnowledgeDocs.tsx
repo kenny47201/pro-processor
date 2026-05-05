@@ -4,10 +4,11 @@ import { DefectGuideRenderer } from '@/components/knowledge/DefectGuideRenderer'
 import { fountainFlowGuide } from '@/data/fountainFlowGuide';
 import { gateFreezeGuide } from '@/data/gateFreezeGuide';
 import { morphologyGuide } from '@/data/morphologyGuide';
+import { multiStageGuide } from '@/data/multiStageGuide';
 import { cn } from '@/lib/utils';
 import type { KnowledgeGuide } from '@/data/fountainFlowGuide';
 
-const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide];
+const guides: KnowledgeGuide[] = [fountainFlowGuide, gateFreezeGuide, morphologyGuide, multiStageGuide];
 
 export default function KnowledgeDocs() {
   const [activeGuide, setActiveGuide] = useState(guides[0]);
