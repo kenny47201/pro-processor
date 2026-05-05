@@ -83,7 +83,7 @@ export interface DefectGuide {
   references: { id: string; text: string }[];
 }
 
-export const defectGuides: DefectGuide[] = [
+const bubblesBlistersGuide: DefectGuide = {
   {
     slug: 'bubbles-blisters',
     title: 'Bubbles & Blisters',
