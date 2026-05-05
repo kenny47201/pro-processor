@@ -605,6 +605,7 @@ export const defectGuides: DefectGuide[] = [
   wallThicknessGuide,
   orangePeelGuide,
   staticDustGuide,
+  partsStickingGuide,
 ];
 
 import { defectDiagnostics } from './defectDiagnostics';
