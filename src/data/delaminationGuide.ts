@@ -190,6 +190,13 @@ export const delaminationGuide: DefectGuide = {
           text:
             'If the defect appears immediately after a material change, color change, or regrind addition → contamination/incompatibility. If it appeared gradually as machine ran longer → screw/HRTC wear or moisture. If it appeared after a process change → shear or cold-skin from the new parameters.',
         },
+        {
+          type: 'image',
+          src: delaminationFlowchart,
+          alt: 'Delamination diagnostic flowchart showing decision tree from tape test confirmation through contamination path versus gradual onset path for material incompatibility, moisture, and machine wear',
+          figureNumber: 'Figure 2',
+          caption: 'Diagnostic decision tree: Confirm with tape test → triage by onset pattern (recent change vs gradual). Recent change → contamination/incompatibility path. Gradual onset → moisture, screw wear, or HRTC drift path.',
+        },
       ],
     },
     {
