@@ -5,6 +5,7 @@ import { multiStageGuide } from './multiStageGuide';
 import { nucleationGuide } from './nucleationGuide';
 import { witnessMarksGuide } from './witnessMarksGuide';
 import { volumetricShrinkageGuide } from './volumetricShrinkageGuide';
+import { crystallinityGuide } from './crystallinityGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
 export const knowledgeGuides: KnowledgeGuide[] = [
@@ -15,4 +16,5 @@ export const knowledgeGuides: KnowledgeGuide[] = [
   nucleationGuide,
   witnessMarksGuide,
   volumetricShrinkageGuide,
+  crystallinityGuide,
 ];
