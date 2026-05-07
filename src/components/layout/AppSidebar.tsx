@@ -12,7 +12,7 @@ import {
   LogOut,
   ChevronDown,
   Calculator,
-  Bot,
+  
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useTenant } from '@/contexts/TenantContext';
@@ -57,7 +57,7 @@ export function AppSidebar() {
     { title: 'Documents', url: '/knowledge/docs', icon: FileText },
     { title: 'Defect Guides', url: '/knowledge/defects', icon: AlertTriangle },
     { title: 'Fix Records', url: '/knowledge/fixes', icon: Wrench },
-    { title: 'Defect AI', url: '/knowledge/defect-ai', icon: Bot },
+    
   ];
 
   const processToolsItems = [
