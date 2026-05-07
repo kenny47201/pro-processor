@@ -20,7 +20,7 @@ import KnowledgeFixNew from "./pages/knowledge/KnowledgeFixNew";
 import KnowledgeFixDetail from "./pages/knowledge/KnowledgeFixDetail";
 import KnowledgeFixVerify from "./pages/knowledge/KnowledgeFixVerify";
 import KnowledgeFixCommit from "./pages/knowledge/KnowledgeFixCommit";
-import DefectAIChat from "./pages/knowledge/DefectAIChat";
+
 
 // Process Tools
 import ProcessTools from "./pages/process/ProcessTools";
@@ -68,7 +68,7 @@ const App = () => (
             <Route path="/knowledge/fixes/:id" element={<AppLayout><KnowledgeFixDetail /></AppLayout>} />
             <Route path="/knowledge/fixes/:id/verify" element={<AppLayout><KnowledgeFixVerify /></AppLayout>} />
             <Route path="/knowledge/fixes/:id/commit" element={<AppLayout><KnowledgeFixCommit /></AppLayout>} />
-            <Route path="/knowledge/defect-ai" element={<AppLayout><DefectAIChat /></AppLayout>} />
+            
             
             {/* Process Tools */}
             <Route path="/process-tools" element={<AppLayout><ProcessTools /></AppLayout>} />
