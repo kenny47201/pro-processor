@@ -203,7 +203,7 @@ export function useUpdateShiftTaskItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, task_list_id, ...updates }: { id: string; task_list_id: string; status?: 'pending' | 'in_progress' | 'done' | 'skipped'; notes?: string; completed_by?: string; completed_at?: string }) => {
+    mutationFn: async ({ id, task_list_id, ...updates }: { id: string; task_list_id: string; status?: 'pending' | 'in_progress' | 'done' | 'skipped'; notes?: string; completed_by?: string; completed_at?: string; assigned_to_id?: string | null }) => {
       const { error } = await supabase
         .from('shift_task_items')
         .update(updates)
