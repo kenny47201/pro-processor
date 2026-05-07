@@ -100,6 +100,54 @@ export type Database = {
           },
         ]
       }
+      shift_task_activity_log: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          new_value: string | null
+          old_value: string | null
+          task_item_id: string | null
+          task_list_id: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          task_item_id?: string | null
+          task_list_id: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          task_item_id?: string | null
+          task_list_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shift_task_activity_log_task_item_id_fkey"
+            columns: ["task_item_id"]
+            isOneToOne: false
+            referencedRelation: "shift_task_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "shift_task_activity_log_task_list_id_fkey"
+            columns: ["task_list_id"]
+            isOneToOne: false
+            referencedRelation: "shift_task_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       shift_task_items: {
         Row: {
           assigned_to_id: string | null

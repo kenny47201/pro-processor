@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2, CheckCircle2, Circle, Clock, SkipForward, Loader2, User } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, CheckCircle2, Circle, Clock, SkipForward, Loader2, User, History } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -16,8 +16,10 @@ import {
   useUpdateShiftTaskItem,
   useDeleteShiftTaskItem,
   useTenantProfiles,
+  useShiftTaskActivityLog,
+  useLogShiftTaskActivity,
 } from '@/hooks/useShiftTasks';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 
 const statusIcon: Record<string, React.ReactNode> = {
   pending: <Circle className="h-4 w-4 text-muted-foreground" />,
@@ -52,10 +54,12 @@ export default function ShiftTaskDetail() {
   const { data: list, isLoading: listLoading } = useShiftTaskList(id);
   const { data: items, isLoading: itemsLoading } = useShiftTaskItems(id);
   const { data: profiles } = useTenantProfiles();
+  const { data: activityLog } = useShiftTaskActivityLog(id);
   const updateList = useUpdateShiftTaskList();
   const addItem = useAddShiftTaskItem();
   const updateItem = useUpdateShiftTaskItem();
   const deleteItem = useDeleteShiftTaskItem();
+  const logActivity = useLogShiftTaskActivity();
 
   const [newText, setNewText] = useState('');
   const [newPriority, setNewPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
@@ -67,6 +71,11 @@ export default function ShiftTaskDetail() {
     if (!userId || !profiles) return null;
     const p = profiles.find(pr => pr.user_id === userId);
     return p?.screen_name || p?.display_name || null;
+  };
+
+  const getItemText = (itemId: string | null) => {
+    if (!itemId || !items) return null;
+    return items.find(i => i.id === itemId)?.text || null;
   };
 
   if (isLoading) {
@@ -96,6 +105,18 @@ export default function ShiftTaskDetail() {
   const totalCount = items?.length || 0;
   const progress = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0;
 
+  const logAndUpdate = async (action: string, oldVal: string, newVal: string, itemId?: string) => {
+    if (!currentUser || !id) return;
+    logActivity.mutate({
+      task_list_id: id,
+      task_item_id: itemId,
+      user_id: currentUser.id,
+      action,
+      old_value: oldVal,
+      new_value: newVal,
+    });
+  };
+
   const cycleItemStatus = async (item: typeof items extends (infer T)[] | undefined ? T : never) => {
     if (!currentUser) return;
     const nextStatus: Record<string, 'in_progress' | 'done' | 'pending'> = {
@@ -111,6 +132,7 @@ export default function ShiftTaskDetail() {
       completed_by: newStatus === 'done' ? currentUser.id : undefined,
       completed_at: newStatus === 'done' ? new Date().toISOString() : undefined,
     });
+    logAndUpdate('status_change', item.status, newStatus, item.id);
   };
 
   const skipItem = async (item: typeof items extends (infer T)[] | undefined ? T : never) => {
@@ -119,14 +141,18 @@ export default function ShiftTaskDetail() {
       task_list_id: item.task_list_id,
       status: 'skipped',
     });
+    logAndUpdate('status_change', item.status, 'skipped', item.id);
   };
 
   const handleAssign = async (item: typeof items extends (infer T)[] | undefined ? T : never, userId: string) => {
+    const oldName = getProfileName(item.assigned_to_id) || 'Unassigned';
+    const newName = userId === 'unassigned' ? 'Unassigned' : (getProfileName(userId) || userId);
     await updateItem.mutateAsync({
       id: item.id,
       task_list_id: item.task_list_id,
       assigned_to_id: userId === 'unassigned' ? null : userId,
     });
+    logAndUpdate('assignment_change', oldName, newName, item.id);
   };
 
   const handleAddItem = async () => {
@@ -138,6 +164,7 @@ export default function ShiftTaskDetail() {
       assigned_to_id: newAssignee !== 'unassigned' ? newAssignee : undefined,
       sort_order: totalCount,
     });
+    logAndUpdate('item_added', '', newText.trim());
     setNewText('');
     setNewPriority('normal');
     setNewAssignee('unassigned');
@@ -145,14 +172,37 @@ export default function ShiftTaskDetail() {
 
   const handleCompleteList = () => {
     updateList.mutate({ id: list.id, status: 'completed' });
+    logAndUpdate('list_status_change', list.status, 'completed');
   };
 
   const handleCancelList = () => {
     updateList.mutate({ id: list.id, status: 'cancelled' });
+    logAndUpdate('list_status_change', list.status, 'cancelled');
   };
 
   const handleReactivateList = () => {
     updateList.mutate({ id: list.id, status: 'active' });
+    logAndUpdate('list_status_change', list.status, 'active');
+  };
+
+  const formatAction = (entry: typeof activityLog extends (infer T)[] | undefined ? T : never) => {
+    const who = getProfileName(entry.user_id) || 'Someone';
+    switch (entry.action) {
+      case 'status_change': {
+        const taskName = getItemText(entry.task_item_id) || 'a task';
+        return <><strong>{who}</strong> changed <em>"{taskName}"</em> from <Badge variant="outline" className="text-xs mx-1">{entry.old_value}</Badge> to <Badge variant="outline" className="text-xs mx-1">{entry.new_value}</Badge></>;
+      }
+      case 'assignment_change': {
+        const taskName = getItemText(entry.task_item_id) || 'a task';
+        return <><strong>{who}</strong> reassigned <em>"{taskName}"</em> from {entry.old_value} → {entry.new_value}</>;
+      }
+      case 'list_status_change':
+        return <><strong>{who}</strong> changed list status from <Badge variant="outline" className="text-xs mx-1">{entry.old_value}</Badge> to <Badge variant="outline" className="text-xs mx-1">{entry.new_value}</Badge></>;
+      case 'item_added':
+        return <><strong>{who}</strong> added task <em>"{entry.new_value}"</em></>;
+      default:
+        return <><strong>{who}</strong> performed {entry.action}</>;
+    }
   };
 
   return (
@@ -227,7 +277,6 @@ export default function ShiftTaskDetail() {
                     <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
                       {item.priority}
                     </Badge>
-                    {/* Assignee selector for active lists */}
                     {list.status === 'active' && canCreateShiftTasks && (
                       <Select
                         value={item.assigned_to_id || 'unassigned'}
@@ -269,7 +318,6 @@ export default function ShiftTaskDetail() {
             <p className="text-sm text-muted-foreground text-center py-6">No tasks added yet.</p>
           )}
 
-          {/* Add item inline */}
           {list.status === 'active' && canCreateShiftTasks && (
             <>
               <Separator className="my-4" />
@@ -323,6 +371,34 @@ export default function ShiftTaskDetail() {
           )}
         </div>
       )}
+
+      {/* Activity Log */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2">
+            <History className="h-4 w-4" /> Activity Log
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {activityLog && activityLog.length > 0 ? (
+            <div className="space-y-3">
+              {activityLog.map((entry) => (
+                <div key={entry.id} className="flex items-start gap-3 text-sm">
+                  <div className="h-2 w-2 rounded-full bg-muted-foreground mt-1.5 shrink-0" />
+                  <div className="flex-1">
+                    <div>{formatAction(entry)}</div>
+                    <span className="text-xs text-muted-foreground">
+                      {formatDistanceToNow(new Date(entry.created_at), { addSuffix: true })}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center py-6">No activity recorded yet.</p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
