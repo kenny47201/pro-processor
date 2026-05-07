@@ -12,7 +12,7 @@ import {
   LogOut,
   ChevronDown,
   Calculator,
-  
+  Shield,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useTenant } from '@/contexts/TenantContext';
@@ -73,6 +73,7 @@ export function AppSidebar() {
   const adminItems = [
     { title: 'Users', url: '/users', icon: Users },
     { title: 'Settings', url: '/settings', icon: Settings },
+    { title: 'Nav Report', url: '/nav-report', icon: Shield },
   ];
 
   const superAdminItems = [
