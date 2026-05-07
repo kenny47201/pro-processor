@@ -100,6 +100,104 @@ export type Database = {
           },
         ]
       }
+      shift_task_items: {
+        Row: {
+          assigned_to_id: string | null
+          assigned_to_type: string | null
+          completed_at: string | null
+          completed_by: string | null
+          created_at: string
+          id: string
+          notes: string | null
+          priority: Database["public"]["Enums"]["task_priority"]
+          sort_order: number
+          status: Database["public"]["Enums"]["task_item_status"]
+          task_list_id: string
+          text: string
+          updated_at: string
+        }
+        Insert: {
+          assigned_to_id?: string | null
+          assigned_to_type?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          priority?: Database["public"]["Enums"]["task_priority"]
+          sort_order?: number
+          status?: Database["public"]["Enums"]["task_item_status"]
+          task_list_id: string
+          text: string
+          updated_at?: string
+        }
+        Update: {
+          assigned_to_id?: string | null
+          assigned_to_type?: string | null
+          completed_at?: string | null
+          completed_by?: string | null
+          created_at?: string
+          id?: string
+          notes?: string | null
+          priority?: Database["public"]["Enums"]["task_priority"]
+          sort_order?: number
+          status?: Database["public"]["Enums"]["task_item_status"]
+          task_list_id?: string
+          text?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shift_task_items_task_list_id_fkey"
+            columns: ["task_list_id"]
+            isOneToOne: false
+            referencedRelation: "shift_task_lists"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      shift_task_lists: {
+        Row: {
+          created_at: string
+          created_by: string
+          date: string
+          facility_id: string | null
+          id: string
+          notes: string | null
+          shift: string
+          status: Database["public"]["Enums"]["shift_task_list_status"]
+          tenant_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          date?: string
+          facility_id?: string | null
+          id?: string
+          notes?: string | null
+          shift?: string
+          status?: Database["public"]["Enums"]["shift_task_list_status"]
+          tenant_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          date?: string
+          facility_id?: string | null
+          id?: string
+          notes?: string | null
+          shift?: string
+          status?: Database["public"]["Enums"]["shift_task_list_status"]
+          tenant_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       tenants: {
         Row: {
           created_at: string
@@ -164,6 +262,9 @@ export type Database = {
         | "manager"
         | "admin"
         | "super_admin"
+      shift_task_list_status: "active" | "completed" | "cancelled"
+      task_item_status: "pending" | "in_progress" | "done" | "skipped"
+      task_priority: "normal" | "high" | "urgent"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -300,6 +401,9 @@ export const Constants = {
         "admin",
         "super_admin",
       ],
+      shift_task_list_status: ["active", "completed", "cancelled"],
+      task_item_status: ["pending", "in_progress", "done", "skipped"],
+      task_priority: ["normal", "high", "urgent"],
     },
   },
 } as const
