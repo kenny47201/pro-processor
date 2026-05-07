@@ -234,3 +234,21 @@ export function useDeleteShiftTaskItem() {
     },
   });
 }
+
+export function useTenantProfiles() {
+  const { currentTenant } = useTenant();
+
+  return useQuery({
+    queryKey: ['tenant-profiles', currentTenant?.id],
+    queryFn: async () => {
+      if (!currentTenant) return [];
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('user_id, display_name, screen_name')
+        .eq('tenant_id', currentTenant.id);
+      if (error) throw error;
+      return (data || []) as { user_id: string; display_name: string | null; screen_name: string | null }[];
+    },
+    enabled: !!currentTenant,
+  });
+}
