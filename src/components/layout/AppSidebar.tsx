@@ -12,7 +12,7 @@ import {
   LogOut,
   ChevronDown,
   Calculator,
-  
+  Shield,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useTenant } from '@/contexts/TenantContext';

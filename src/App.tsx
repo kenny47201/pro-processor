@@ -19,6 +19,7 @@ import KnowledgeFixes from "./pages/knowledge/KnowledgeFixes";
 import KnowledgeFixNew from "./pages/knowledge/KnowledgeFixNew";
 import KnowledgeFixDetail from "./pages/knowledge/KnowledgeFixDetail";
 import KnowledgeFixVerify from "./pages/knowledge/KnowledgeFixVerify";
+import NavReport from "./pages/admin/NavReport";
 import KnowledgeFixCommit from "./pages/knowledge/KnowledgeFixCommit";
 
 
@@ -87,6 +88,7 @@ const App = () => (
             {/* Admin Routes */}
             <Route path="/users" element={<AppLayout><Users /></AppLayout>} />
             <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
+            <Route path="/nav-report" element={<AppLayout><NavReport /></AppLayout>} />
             
             {/* Super Admin Routes */}
             <Route path="/tenants" element={<AppLayout><Tenants /></AppLayout>} />
