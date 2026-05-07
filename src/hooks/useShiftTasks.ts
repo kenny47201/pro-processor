@@ -203,7 +203,7 @@ export function useUpdateShiftTaskItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, task_list_id, ...updates }: { id: string; task_list_id: string; status?: 'pending' | 'in_progress' | 'done' | 'skipped'; notes?: string; completed_by?: string; completed_at?: string }) => {
+    mutationFn: async ({ id, task_list_id, ...updates }: { id: string; task_list_id: string; status?: 'pending' | 'in_progress' | 'done' | 'skipped'; notes?: string; completed_by?: string; completed_at?: string; assigned_to_id?: string | null }) => {
       const { error } = await supabase
         .from('shift_task_items')
         .update(updates)
@@ -232,5 +232,23 @@ export function useDeleteShiftTaskItem() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['shift-task-items', data.task_list_id] });
     },
+  });
+}
+
+export function useTenantProfiles() {
+  const { currentTenant } = useTenant();
+
+  return useQuery({
+    queryKey: ['tenant-profiles', currentTenant?.id],
+    queryFn: async () => {
+      if (!currentTenant) return [];
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('user_id, display_name, screen_name')
+        .eq('tenant_id', currentTenant.id);
+      if (error) throw error;
+      return (data || []) as { user_id: string; display_name: string | null; screen_name: string | null }[];
+    },
+    enabled: !!currentTenant,
   });
 }

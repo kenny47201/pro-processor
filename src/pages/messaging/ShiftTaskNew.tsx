@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,12 +9,13 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useTenant } from '@/contexts/TenantContext';
-import { useCreateShiftTaskList, useAddShiftTaskItem } from '@/hooks/useShiftTasks';
+import { useCreateShiftTaskList, useAddShiftTaskItem, useTenantProfiles } from '@/hooks/useShiftTasks';
 import { format } from 'date-fns';
 
 interface DraftItem {
   text: string;
   priority: 'normal' | 'high' | 'urgent';
+  assigned_to_id?: string;
 }
 
 const priorityColor: Record<string, string> = {
@@ -28,6 +29,7 @@ export default function ShiftTaskNew() {
   const { currentUser, currentTenant, currentFacility } = useTenant();
   const createList = useCreateShiftTaskList();
   const addItem = useAddShiftTaskItem();
+  const { data: profiles } = useTenantProfiles();
 
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
@@ -36,13 +38,25 @@ export default function ShiftTaskNew() {
   const [items, setItems] = useState<DraftItem[]>([]);
   const [newItemText, setNewItemText] = useState('');
   const [newItemPriority, setNewItemPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
+  const [newItemAssignee, setNewItemAssignee] = useState<string>('unassigned');
   const [submitting, setSubmitting] = useState(false);
+
+  const getProfileName = (userId?: string) => {
+    if (!userId || !profiles) return null;
+    const p = profiles.find(pr => pr.user_id === userId);
+    return p?.screen_name || p?.display_name || null;
+  };
 
   const addDraftItem = () => {
     if (!newItemText.trim()) return;
-    setItems([...items, { text: newItemText.trim(), priority: newItemPriority }]);
+    setItems([...items, {
+      text: newItemText.trim(),
+      priority: newItemPriority,
+      assigned_to_id: newItemAssignee !== 'unassigned' ? newItemAssignee : undefined,
+    }]);
     setNewItemText('');
     setNewItemPriority('normal');
+    setNewItemAssignee('unassigned');
   };
 
   const removeDraftItem = (i: number) => {
@@ -63,12 +77,12 @@ export default function ShiftTaskNew() {
         created_by: currentUser.id,
       });
 
-      // Add items sequentially
       for (let i = 0; i < items.length; i++) {
         await addItem.mutateAsync({
           task_list_id: list.id,
           text: items[i].text,
           priority: items[i].priority,
+          assigned_to_id: items[i].assigned_to_id,
           sort_order: i,
         });
       }
@@ -128,28 +142,39 @@ export default function ShiftTaskNew() {
         <CardContent className="space-y-4">
           {items.length > 0 && (
             <div className="divide-y divide-border rounded-md border">
-              {items.map((item, i) => (
-                <div key={i} className="flex items-center gap-3 p-3">
-                  <span className="text-sm font-mono text-muted-foreground w-6 text-right">{i + 1}.</span>
-                  <span className="flex-1 text-sm">{item.text}</span>
-                  <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
-                    {item.priority}
-                  </Badge>
-                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => removeDraftItem(i)}>
-                    <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                  </Button>
-                </div>
-              ))}
+              {items.map((item, i) => {
+                const assigneeName = getProfileName(item.assigned_to_id);
+                return (
+                  <div key={i} className="flex items-center gap-3 p-3">
+                    <span className="text-sm font-mono text-muted-foreground w-6 text-right">{i + 1}.</span>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-sm">{item.text}</span>
+                      {assigneeName && (
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <User className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">{assigneeName}</span>
+                        </div>
+                      )}
+                    </div>
+                    <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
+                      {item.priority}
+                    </Badge>
+                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => removeDraftItem(i)}>
+                      <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                    </Button>
+                  </div>
+                );
+              })}
             </div>
           )}
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
             <Input
               placeholder="Add a task item..."
               value={newItemText}
               onChange={(e) => setNewItemText(e.target.value)}
               onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addDraftItem(); } }}
-              className="flex-1"
+              className="flex-1 min-w-[200px]"
             />
             <Select value={newItemPriority} onValueChange={(v) => setNewItemPriority(v as 'normal' | 'high' | 'urgent')}>
               <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
@@ -157,6 +182,17 @@ export default function ShiftTaskNew() {
                 <SelectItem value="normal">Normal</SelectItem>
                 <SelectItem value="high">High</SelectItem>
                 <SelectItem value="urgent">Urgent</SelectItem>
+              </SelectContent>
+            </Select>
+            <Select value={newItemAssignee} onValueChange={setNewItemAssignee}>
+              <SelectTrigger className="w-32"><SelectValue placeholder="Assign to" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="unassigned">Unassigned</SelectItem>
+                {profiles?.map((p) => (
+                  <SelectItem key={p.user_id} value={p.user_id}>
+                    {p.screen_name || p.display_name || 'Unknown'}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <Button variant="outline" size="icon" onClick={addDraftItem} disabled={!newItemText.trim()}>

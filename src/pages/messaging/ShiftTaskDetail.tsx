@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2, CheckCircle2, Circle, Clock, SkipForward, Loader2 } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, CheckCircle2, Circle, Clock, SkipForward, Loader2, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -15,6 +15,7 @@ import {
   useAddShiftTaskItem,
   useUpdateShiftTaskItem,
   useDeleteShiftTaskItem,
+  useTenantProfiles,
 } from '@/hooks/useShiftTasks';
 import { format } from 'date-fns';
 
@@ -50,6 +51,7 @@ export default function ShiftTaskDetail() {
 
   const { data: list, isLoading: listLoading } = useShiftTaskList(id);
   const { data: items, isLoading: itemsLoading } = useShiftTaskItems(id);
+  const { data: profiles } = useTenantProfiles();
   const updateList = useUpdateShiftTaskList();
   const addItem = useAddShiftTaskItem();
   const updateItem = useUpdateShiftTaskItem();
@@ -57,8 +59,15 @@ export default function ShiftTaskDetail() {
 
   const [newText, setNewText] = useState('');
   const [newPriority, setNewPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
+  const [newAssignee, setNewAssignee] = useState<string>('unassigned');
 
   const isLoading = listLoading || itemsLoading;
+
+  const getProfileName = (userId: string | null) => {
+    if (!userId || !profiles) return null;
+    const p = profiles.find(pr => pr.user_id === userId);
+    return p?.screen_name || p?.display_name || null;
+  };
 
   if (isLoading) {
     return (
@@ -112,16 +121,26 @@ export default function ShiftTaskDetail() {
     });
   };
 
+  const handleAssign = async (item: typeof items extends (infer T)[] | undefined ? T : never, userId: string) => {
+    await updateItem.mutateAsync({
+      id: item.id,
+      task_list_id: item.task_list_id,
+      assigned_to_id: userId === 'unassigned' ? null : userId,
+    });
+  };
+
   const handleAddItem = async () => {
     if (!newText.trim() || !id) return;
     await addItem.mutateAsync({
       task_list_id: id,
       text: newText.trim(),
       priority: newPriority,
+      assigned_to_id: newAssignee !== 'unassigned' ? newAssignee : undefined,
       sort_order: totalCount,
     });
     setNewText('');
     setNewPriority('normal');
+    setNewAssignee('unassigned');
   };
 
   const handleCompleteList = () => {
@@ -183,38 +202,68 @@ export default function ShiftTaskDetail() {
         <CardContent>
           {items && items.length > 0 ? (
             <div className="divide-y divide-border">
-              {items.map((item) => (
-                <div key={item.id} className="flex items-center gap-3 py-3">
-                  <button
-                    onClick={() => cycleItemStatus(item)}
-                    className="shrink-0 hover:scale-110 transition-transform"
-                    title={`Status: ${item.status} — click to cycle`}
-                  >
-                    {statusIcon[item.status]}
-                  </button>
-                  <span className={`flex-1 text-sm ${item.status === 'done' ? 'line-through text-muted-foreground' : item.status === 'skipped' ? 'line-through text-muted-foreground/50' : ''}`}>
-                    {item.text}
-                  </span>
-                  <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
-                    {item.priority}
-                  </Badge>
-                  {item.status !== 'skipped' && item.status !== 'done' && (
-                    <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => skipItem(item)} title="Skip">
-                      <SkipForward className="h-3.5 w-3.5 text-muted-foreground" />
-                    </Button>
-                  )}
-                  {canCreateShiftTasks && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-7 w-7"
-                      onClick={() => deleteItem.mutate({ id: item.id, task_list_id: item.task_list_id })}
+              {items.map((item) => {
+                const assigneeName = getProfileName(item.assigned_to_id);
+                return (
+                  <div key={item.id} className="flex items-center gap-3 py-3">
+                    <button
+                      onClick={() => cycleItemStatus(item)}
+                      className="shrink-0 hover:scale-110 transition-transform"
+                      title={`Status: ${item.status} — click to cycle`}
                     >
-                      <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
-                    </Button>
-                  )}
-                </div>
-              ))}
+                      {statusIcon[item.status]}
+                    </button>
+                    <div className="flex-1 min-w-0">
+                      <span className={`text-sm ${item.status === 'done' ? 'line-through text-muted-foreground' : item.status === 'skipped' ? 'line-through text-muted-foreground/50' : ''}`}>
+                        {item.text}
+                      </span>
+                      {assigneeName && (
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <User className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">{assigneeName}</span>
+                        </div>
+                      )}
+                    </div>
+                    <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
+                      {item.priority}
+                    </Badge>
+                    {/* Assignee selector for active lists */}
+                    {list.status === 'active' && canCreateShiftTasks && (
+                      <Select
+                        value={item.assigned_to_id || 'unassigned'}
+                        onValueChange={(v) => handleAssign(item, v)}
+                      >
+                        <SelectTrigger className="w-32 h-7 text-xs">
+                          <SelectValue placeholder="Assign" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="unassigned">Unassigned</SelectItem>
+                          {profiles?.map((p) => (
+                            <SelectItem key={p.user_id} value={p.user_id}>
+                              {p.screen_name || p.display_name || 'Unknown'}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                    {item.status !== 'skipped' && item.status !== 'done' && (
+                      <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => skipItem(item)} title="Skip">
+                        <SkipForward className="h-3.5 w-3.5 text-muted-foreground" />
+                      </Button>
+                    )}
+                    {canCreateShiftTasks && (
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-7 w-7"
+                        onClick={() => deleteItem.mutate({ id: item.id, task_list_id: item.task_list_id })}
+                      >
+                        <Trash2 className="h-3.5 w-3.5 text-muted-foreground" />
+                      </Button>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           ) : (
             <p className="text-sm text-muted-foreground text-center py-6">No tasks added yet.</p>
@@ -224,13 +273,13 @@ export default function ShiftTaskDetail() {
           {list.status === 'active' && canCreateShiftTasks && (
             <>
               <Separator className="my-4" />
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-wrap">
                 <Input
                   placeholder="Add a task..."
                   value={newText}
                   onChange={(e) => setNewText(e.target.value)}
                   onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddItem(); } }}
-                  className="flex-1"
+                  className="flex-1 min-w-[200px]"
                 />
                 <Select value={newPriority} onValueChange={(v) => setNewPriority(v as 'normal' | 'high' | 'urgent')}>
                   <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
@@ -238,6 +287,17 @@ export default function ShiftTaskDetail() {
                     <SelectItem value="normal">Normal</SelectItem>
                     <SelectItem value="high">High</SelectItem>
                     <SelectItem value="urgent">Urgent</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Select value={newAssignee} onValueChange={setNewAssignee}>
+                  <SelectTrigger className="w-32"><SelectValue placeholder="Assign to" /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="unassigned">Unassigned</SelectItem>
+                    {profiles?.map((p) => (
+                      <SelectItem key={p.user_id} value={p.user_id}>
+                        {p.screen_name || p.display_name || 'Unknown'}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <Button variant="outline" size="icon" onClick={handleAddItem} disabled={!newText.trim()}>
