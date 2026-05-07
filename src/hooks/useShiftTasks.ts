@@ -252,3 +252,74 @@ export function useTenantProfiles() {
     enabled: !!currentTenant,
   });
 }
+
+export type ShiftTaskActivityLog = {
+  id: string;
+  task_list_id: string;
+  task_item_id: string | null;
+  user_id: string;
+  action: string;
+  old_value: string | null;
+  new_value: string | null;
+  created_at: string;
+};
+
+export function useShiftTaskActivityLog(listId: string | undefined) {
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
+    queryKey: ['shift-task-activity-log', listId],
+    queryFn: async () => {
+      if (!listId) return [];
+      const { data, error } = await supabase
+        .from('shift_task_activity_log')
+        .select('*')
+        .eq('task_list_id', listId)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      return (data || []) as ShiftTaskActivityLog[];
+    },
+    enabled: !!listId,
+  });
+
+  useEffect(() => {
+    if (!listId) return;
+    const channel = supabase
+      .channel(`shift-task-activity-${listId}`)
+      .on('postgres_changes', {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'shift_task_activity_log',
+        filter: `task_list_id=eq.${listId}`,
+      }, () => {
+        queryClient.invalidateQueries({ queryKey: ['shift-task-activity-log', listId] });
+      })
+      .subscribe();
+    return () => { supabase.removeChannel(channel); };
+  }, [listId, queryClient]);
+
+  return query;
+}
+
+export function useLogShiftTaskActivity() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input: { task_list_id: string; task_item_id?: string; user_id: string; action: string; old_value?: string; new_value?: string }) => {
+      const { error } = await supabase
+        .from('shift_task_activity_log')
+        .insert({
+          task_list_id: input.task_list_id,
+          task_item_id: input.task_item_id || null,
+          user_id: input.user_id,
+          action: input.action,
+          old_value: input.old_value || null,
+          new_value: input.new_value || null,
+        });
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['shift-task-activity-log'] });
+    },
+  });
+}
