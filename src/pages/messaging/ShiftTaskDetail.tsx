@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Plus, Trash2, CheckCircle2, Circle, Clock, SkipForward, Loader2, User, History } from 'lucide-react';
+import { ArrowLeft, Plus, Trash2, CheckCircle2, Circle, Clock, SkipForward, Loader2, User, History, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -131,6 +131,8 @@ export default function ShiftTaskDetail() {
       status: newStatus,
       completed_by: newStatus === 'done' ? currentUser.id : undefined,
       completed_at: newStatus === 'done' ? new Date().toISOString() : undefined,
+      verified_by: newStatus === 'done' ? undefined : null,
+      verified_at: newStatus === 'done' ? undefined : null,
     });
     logAndUpdate('status_change', item.status, newStatus, item.id);
   };
@@ -185,6 +187,17 @@ export default function ShiftTaskDetail() {
     logAndUpdate('list_status_change', list.status, 'active');
   };
 
+  const handleVerify = async (item: typeof items extends (infer T)[] | undefined ? T : never) => {
+    if (!currentUser || !id) return;
+    await updateItem.mutateAsync({
+      id: item.id,
+      task_list_id: item.task_list_id,
+      verified_by: currentUser.id,
+      verified_at: new Date().toISOString(),
+    });
+    logAndUpdate('task_verified', '', getProfileName(currentUser.id) || currentUser.name, item.id);
+  };
+
   const formatAction = (entry: typeof activityLog extends (infer T)[] | undefined ? T : never) => {
     const who = getProfileName(entry.user_id) || 'Someone';
     switch (entry.action) {
@@ -200,6 +213,10 @@ export default function ShiftTaskDetail() {
         return <><strong>{who}</strong> changed list status from <Badge variant="outline" className="text-xs mx-1">{entry.old_value}</Badge> to <Badge variant="outline" className="text-xs mx-1">{entry.new_value}</Badge></>;
       case 'item_added':
         return <><strong>{who}</strong> added task <em>"{entry.new_value}"</em></>;
+      case 'task_verified': {
+        const taskName = getItemText(entry.task_item_id) || 'a task';
+        return <><strong>{who}</strong> verified completion of <em>"{taskName}"</em></>;
+      }
       default:
         return <><strong>{who}</strong> performed {entry.action}</>;
     }
@@ -273,6 +290,17 @@ export default function ShiftTaskDetail() {
                           <span className="text-xs text-muted-foreground">{assigneeName}</span>
                         </div>
                       )}
+                      {item.status === 'done' && item.verified_by && (
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <ShieldCheck className="h-3 w-3 text-success" />
+                          <span className="text-xs text-success">Verified by {getProfileName(item.verified_by) || 'Unknown'}</span>
+                        </div>
+                      )}
+                      {item.status === 'done' && !item.verified_by && (
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <span className="text-xs text-warning">Awaiting verification</span>
+                        </div>
+                      )}
                     </div>
                     <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
                       {item.priority}
@@ -294,6 +322,11 @@ export default function ShiftTaskDetail() {
                           ))}
                         </SelectContent>
                       </Select>
+                    )}
+                    {item.status === 'done' && !item.verified_by && canCreateShiftTasks && (
+                      <Button variant="outline" size="sm" className="h-7 text-xs gap-1" onClick={() => handleVerify(item)} title="Verify completion">
+                        <ShieldCheck className="h-3.5 w-3.5" /> Verify
+                      </Button>
                     )}
                     {item.status !== 'skipped' && item.status !== 'done' && canCreateShiftTasks && (
                       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => skipItem(item)} title="Skip">

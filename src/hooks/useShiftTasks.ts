@@ -31,6 +31,8 @@ export type ShiftTaskItem = {
   assigned_to_id: string | null;
   completed_by: string | null;
   completed_at: string | null;
+  verified_by: string | null;
+  verified_at: string | null;
   notes: string | null;
   sort_order: number;
   created_at: string;
@@ -203,7 +205,7 @@ export function useUpdateShiftTaskItem() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ id, task_list_id, ...updates }: { id: string; task_list_id: string; status?: 'pending' | 'in_progress' | 'done' | 'skipped'; notes?: string; completed_by?: string; completed_at?: string; assigned_to_id?: string | null }) => {
+    mutationFn: async ({ id, task_list_id, ...updates }: { id: string; task_list_id: string; status?: 'pending' | 'in_progress' | 'done' | 'skipped'; notes?: string; completed_by?: string; completed_at?: string; assigned_to_id?: string | null; verified_by?: string | null; verified_at?: string | null }) => {
       const { error } = await supabase
         .from('shift_task_items')
         .update(updates)
