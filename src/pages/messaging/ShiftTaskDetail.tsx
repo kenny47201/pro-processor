@@ -321,6 +321,11 @@ export default function ShiftTaskDetail() {
                         </SelectContent>
                       </Select>
                     )}
+                    {item.status === 'done' && !item.verified_by && canCreateShiftTasks && (
+                      <Button variant="outline" size="sm" className="h-7 text-xs gap-1" onClick={() => handleVerify(item)} title="Verify completion">
+                        <ShieldCheck className="h-3.5 w-3.5" /> Verify
+                      </Button>
+                    )}
                     {item.status !== 'skipped' && item.status !== 'done' && canCreateShiftTasks && (
                       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => skipItem(item)} title="Skip">
                         <SkipForward className="h-3.5 w-3.5 text-muted-foreground" />
