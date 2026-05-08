@@ -288,6 +288,17 @@ export default function ShiftTaskDetail() {
                           <span className="text-xs text-muted-foreground">{assigneeName}</span>
                         </div>
                       )}
+                      {item.status === 'done' && item.verified_by && (
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <ShieldCheck className="h-3 w-3 text-success" />
+                          <span className="text-xs text-success">Verified by {getProfileName(item.verified_by) || 'Unknown'}</span>
+                        </div>
+                      )}
+                      {item.status === 'done' && !item.verified_by && (
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <span className="text-xs text-warning">Awaiting verification</span>
+                        </div>
+                      )}
                     </div>
                     <Badge variant="outline" className={`text-xs ${priorityColor[item.priority]}`}>
                       {item.priority}
