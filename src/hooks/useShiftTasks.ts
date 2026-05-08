@@ -31,6 +31,8 @@ export type ShiftTaskItem = {
   assigned_to_id: string | null;
   completed_by: string | null;
   completed_at: string | null;
+  verified_by: string | null;
+  verified_at: string | null;
   notes: string | null;
   sort_order: number;
   created_at: string;
