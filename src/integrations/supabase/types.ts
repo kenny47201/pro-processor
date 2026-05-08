@@ -163,6 +163,8 @@ export type Database = {
           task_list_id: string
           text: string
           updated_at: string
+          verified_at: string | null
+          verified_by: string | null
         }
         Insert: {
           assigned_to_id?: string | null
@@ -178,6 +180,8 @@ export type Database = {
           task_list_id: string
           text: string
           updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Update: {
           assigned_to_id?: string | null
@@ -193,6 +197,8 @@ export type Database = {
           task_list_id?: string
           text?: string
           updated_at?: string
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: [
           {
