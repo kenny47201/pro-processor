@@ -131,6 +131,8 @@ export default function ShiftTaskDetail() {
       status: newStatus,
       completed_by: newStatus === 'done' ? currentUser.id : undefined,
       completed_at: newStatus === 'done' ? new Date().toISOString() : undefined,
+      verified_by: newStatus === 'done' ? undefined : null,
+      verified_at: newStatus === 'done' ? undefined : null,
     });
     logAndUpdate('status_change', item.status, newStatus, item.id);
   };
