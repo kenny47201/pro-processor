@@ -185,6 +185,17 @@ export default function ShiftTaskDetail() {
     logAndUpdate('list_status_change', list.status, 'active');
   };
 
+  const handleVerify = async (item: typeof items extends (infer T)[] | undefined ? T : never) => {
+    if (!currentUser || !id) return;
+    await updateItem.mutateAsync({
+      id: item.id,
+      task_list_id: item.task_list_id,
+      verified_by: currentUser.id,
+      verified_at: new Date().toISOString(),
+    });
+    logAndUpdate('task_verified', '', getProfileName(currentUser.id) || currentUser.name, item.id);
+  };
+
   const formatAction = (entry: typeof activityLog extends (infer T)[] | undefined ? T : never) => {
     const who = getProfileName(entry.user_id) || 'Someone';
     switch (entry.action) {
@@ -200,6 +211,10 @@ export default function ShiftTaskDetail() {
         return <><strong>{who}</strong> changed list status from <Badge variant="outline" className="text-xs mx-1">{entry.old_value}</Badge> to <Badge variant="outline" className="text-xs mx-1">{entry.new_value}</Badge></>;
       case 'item_added':
         return <><strong>{who}</strong> added task <em>"{entry.new_value}"</em></>;
+      case 'task_verified': {
+        const taskName = getItemText(entry.task_item_id) || 'a task';
+        return <><strong>{who}</strong> verified completion of <em>"{taskName}"</em></>;
+      }
       default:
         return <><strong>{who}</strong> performed {entry.action}</>;
     }
