@@ -295,7 +295,7 @@ export default function ShiftTaskDetail() {
                         </SelectContent>
                       </Select>
                     )}
-                    {item.status !== 'skipped' && item.status !== 'done' && (
+                    {item.status !== 'skipped' && item.status !== 'done' && canCreateShiftTasks && (
                       <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => skipItem(item)} title="Skip">
                         <SkipForward className="h-3.5 w-3.5 text-muted-foreground" />
                       </Button>
