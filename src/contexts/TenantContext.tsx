@@ -126,7 +126,11 @@ export function TenantProvider({ children }: { children: ReactNode }) {
         facilityId: profile?.facility_id || undefined,
       });
     } catch (error) {
-      console.error('Error loading user data:', error);
+      if (import.meta.env.DEV) {
+        console.error('Error loading user data:', error);
+      } else {
+        console.error('Failed to load user data');
+      }
     }
   }, []);
 
