@@ -87,12 +87,12 @@ const App = () => (
             <Route path="/issues/:id" element={<AppLayout><IssueDetail /></AppLayout>} />
             
             {/* Admin Routes */}
-            <Route path="/users" element={<AppLayout><Users /></AppLayout>} />
-            <Route path="/settings" element={<AppLayout><Settings /></AppLayout>} />
-            <Route path="/nav-report" element={<AppLayout><NavReport /></AppLayout>} />
+            <Route path="/users" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><Users /></RoleGuard></AppLayout>} />
+            <Route path="/settings" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><Settings /></RoleGuard></AppLayout>} />
+            <Route path="/nav-report" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><NavReport /></RoleGuard></AppLayout>} />
             
             {/* Super Admin Routes */}
-            <Route path="/tenants" element={<AppLayout><Tenants /></AppLayout>} />
+            <Route path="/tenants" element={<AppLayout><RoleGuard allowedRoles={['super_admin']}><Tenants /></RoleGuard></AppLayout>} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
