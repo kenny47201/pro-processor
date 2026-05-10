@@ -108,35 +108,35 @@ export function PressureLossCalculator() {
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label className="text-xs">Flow Rate (cc/s)</Label>
+            <Label className="text-sm">Flow Rate (cc/s)</Label>
             <Input type="number" value={flowRate} onChange={e => setFlowRate(e.target.value)} className="h-8 text-sm" />
           </div>
           <div>
-            <Label className="text-xs">Melt Viscosity (Pa·s)</Label>
+            <Label className="text-sm">Melt Viscosity (Pa·s)</Label>
             <Input type="number" value={viscosity} onChange={e => setViscosity(e.target.value)} className="h-8 text-sm" />
           </div>
         </div>
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label className="text-xs font-semibold">Runner Segments</Label>
-            <Button variant="ghost" size="sm" onClick={addSegment} className="h-6 text-xs gap-1">
+            <Label className="text-sm font-semibold">Runner Segments</Label>
+            <Button variant="ghost" size="sm" onClick={addSegment} className="h-6 text-sm gap-1">
               <Plus className="h-3 w-3" /> Add
             </Button>
           </div>
           {segments.map(seg => (
             <div key={seg.id} className="grid grid-cols-[1fr_0.6fr_0.6fr_auto] gap-2 items-end">
               <div>
-                <Label className="text-[10px] text-muted-foreground">Name</Label>
-                <Input value={seg.name} onChange={e => updateSegment(seg.id, 'name', e.target.value)} className="h-7 text-xs" />
+                <Label className="text-sm text-muted-foreground">Name</Label>
+                <Input value={seg.name} onChange={e => updateSegment(seg.id, 'name', e.target.value)} className="h-7 text-sm" />
               </div>
               <div>
-                <Label className="text-[10px] text-muted-foreground">L (mm)</Label>
-                <Input type="number" value={seg.length} onChange={e => updateSegment(seg.id, 'length', e.target.value)} className="h-7 text-xs" />
+                <Label className="text-sm text-muted-foreground">L (mm)</Label>
+                <Input type="number" value={seg.length} onChange={e => updateSegment(seg.id, 'length', e.target.value)} className="h-7 text-sm" />
               </div>
               <div>
-                <Label className="text-[10px] text-muted-foreground">Ø (mm)</Label>
-                <Input type="number" value={seg.diameter} onChange={e => updateSegment(seg.id, 'diameter', e.target.value)} className="h-7 text-xs" />
+                <Label className="text-sm text-muted-foreground">Ø (mm)</Label>
+                <Input type="number" value={seg.diameter} onChange={e => updateSegment(seg.id, 'diameter', e.target.value)} className="h-7 text-sm" />
               </div>
               <Button variant="ghost" size="sm" onClick={() => removeSegment(seg.id)} className="h-7 w-7 p-0" disabled={segments.length <= 1}>
                 <Trash2 className="h-3 w-3 text-destructive" />

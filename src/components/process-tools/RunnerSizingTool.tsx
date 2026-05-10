@@ -126,7 +126,7 @@ export function RunnerSizingTool() {
       </CardHeader>
       <CardContent className="space-y-4">
         <div>
-          <Label className="text-xs">Material</Label>
+          <Label className="text-sm">Material</Label>
           <Select value={material} onValueChange={setMaterial}>
             <SelectTrigger className="h-8 text-sm">
               <SelectValue />
@@ -141,25 +141,25 @@ export function RunnerSizingTool() {
 
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label className="text-xs">Part Weight (g)</Label>
+            <Label className="text-sm">Part Weight (g)</Label>
             <Input type="number" value={partWeight} onChange={e => setPartWeight(e.target.value)} className="h-8 text-sm" />
           </div>
           <div>
-            <Label className="text-xs">Wall Thickness (mm)</Label>
+            <Label className="text-sm">Wall Thickness (mm)</Label>
             <Input type="number" value={wallThickness} onChange={e => setWallThickness(e.target.value)} className="h-8 text-sm" />
           </div>
           <div>
-            <Label className="text-xs">Cavities</Label>
+            <Label className="text-sm">Cavities</Label>
             <Input type="number" value={cavities} onChange={e => setCavities(e.target.value)} className="h-8 text-sm" />
           </div>
           <div>
-            <Label className="text-xs">Runner Length (mm)</Label>
+            <Label className="text-sm">Runner Length (mm)</Label>
             <Input type="number" value={runnerLength} onChange={e => setRunnerLength(e.target.value)} className="h-8 text-sm" />
           </div>
         </div>
 
         <div>
-          <Label className="text-xs">Volumetric Flow Rate (cc/s)</Label>
+          <Label className="text-sm">Volumetric Flow Rate (cc/s)</Label>
           <Input type="number" value={flowRate} onChange={e => setFlowRate(e.target.value)} className="h-8 text-sm" />
         </div>
 

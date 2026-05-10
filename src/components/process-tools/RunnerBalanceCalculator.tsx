@@ -159,7 +159,7 @@ export function RunnerBalanceCalculator() {
         </div>
 
         <div className="max-h-64 overflow-y-auto space-y-2 pr-1">
-          <div className="grid grid-cols-[1fr_80px_80px_80px_80px_32px] gap-1 text-xs font-medium text-muted-foreground px-1">
+          <div className="grid grid-cols-[1fr_80px_80px_80px_80px_32px] gap-1 text-sm font-medium text-muted-foreground px-1">
             <span>Cavity</span>
             <span>Length (in)</span>
             <span>Dia (in)</span>
