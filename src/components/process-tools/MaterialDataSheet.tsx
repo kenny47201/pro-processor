@@ -403,9 +403,9 @@ function ResinDetail({ resin, onBack }: { resin: ResinData; onBack: () => void }
 function ParamCard({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
     <div className="rounded-md border bg-card p-3">
-      <p className="text-xs text-muted-foreground">{label}</p>
+      <p className="text-sm text-muted-foreground">{label}</p>
       <p className="text-sm font-semibold mt-0.5">{value}</p>
-      {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
+      {sub && <p className="text-sm text-muted-foreground">{sub}</p>}
     </div>
   );
 }
