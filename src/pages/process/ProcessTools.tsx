@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { TonnageCalculator } from '@/components/process-tools/TonnageCalculator';
 import { ShotVolumeCalculator } from '@/components/process-tools/ShotVolumeCalculator';
 import { ThroughputCalculator } from '@/components/process-tools/ThroughputCalculator';
+import { CaseProductionCalculator } from '@/components/process-tools/CaseProductionCalculator';
 import { CavityVariationStudy } from '@/components/process-tools/CavityVariationStudy';
 import { ShearRateCalculator } from '@/components/process-tools/ShearRateCalculator';
 import { RunnerScrapYieldCalculator } from '@/components/process-tools/RunnerScrapYieldCalculator';
@@ -43,6 +44,7 @@ const TOOL_REGISTRY: Record<string, ToolDef[]> = {
     { id: 'shot-volume', label: 'Shot Volume', tab: 'setup', Component: ShotVolumeCalculator },
     { id: 'melt-density', label: 'Melt Density', tab: 'setup', Component: MeltDensityCalculator },
     { id: 'throughput', label: 'Throughput', tab: 'setup', Component: ThroughputCalculator },
+    { id: 'case-production', label: 'Case Production & Startup Scrap', tab: 'setup', Component: CaseProductionCalculator },
     { id: 'runner-scrap', label: 'Runner Scrap Yield', tab: 'setup', Component: RunnerScrapYieldCalculator },
     { id: 'cavity-variation', label: 'Cavity Variation', tab: 'setup', Component: CavityVariationStudy },
     { id: 'shear-rate', label: 'Shear Rate', tab: 'setup', Component: ShearRateCalculator },
@@ -207,7 +209,7 @@ export default function ProcessTools() {
               <span className="w-1 h-5 bg-primary rounded-full"></span>
               Throughput & Production
             </h2>
-            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => ['throughput', 'runner-scrap'].includes(t.id)))}
+            {renderToolGrid(TOOL_REGISTRY.setup.filter((t) => ['throughput', 'case-production', 'runner-scrap'].includes(t.id)))}
           </section>
 
           <section>
