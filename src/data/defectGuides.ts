@@ -644,17 +644,21 @@ for (const guide of defectGuides) {
   // Check if this guide already has these block types (from a prior evaluation)
   const allBlocks = guide.sections.flatMap((s) => s.blocks);
   const hasChecklist = allBlocks.some((b) => b.type === 'diagnoseChecklist');
-  const hasLinks = allBlocks.some((b) => b.type === 'calculatorLinks');
-  if (hasChecklist && hasLinks) continue;
+
+  // Strip any previously-injected standalone "Related Process Tools" panel —
+  // calculator links are now consolidated inside the Diagnose Checklist's
+  // "Quantify with calculators" group (one section, not two).
+  for (const s of guide.sections) {
+    s.blocks = s.blocks.filter((b) => b.type !== 'calculatorLinks');
+  }
+
+  if (hasChecklist) continue;
 
   const sectionIdx = pickDiagnosticsSectionIndex(guide);
   const section = guide.sections[sectionIdx];
   if (!section) continue;
 
-  const toInject: GuideBlock[] = [];
-  if (!hasChecklist) toInject.push(diag.checklist);
-  if (!hasLinks) toInject.push(diag.links);
-  section.blocks = [...toInject, ...section.blocks];
+  section.blocks = [diag.checklist, ...section.blocks];
 }
 
 export const getDefectGuide = (slug: string) =>
