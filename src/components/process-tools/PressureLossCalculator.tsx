@@ -91,11 +91,10 @@ export function PressureLossCalculator() {
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Calculator className="h-4 w-4 text-primary" />
+            <CardTitle className="flex items-center gap-2">
               Pressure Loss Calculator
             </CardTitle>
-            <CardDescription className="text-xs mt-1">
+            <CardDescription>
               Hagen-Poiseuille pressure drop across runner segments
             </CardDescription>
           </div>

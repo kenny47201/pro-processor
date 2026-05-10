@@ -239,7 +239,7 @@ export function MaterialDataSheet() {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle className="text-lg">Material Data Sheet Reference</CardTitle>
+            <CardTitle>Material Data Sheet Reference</CardTitle>
           </div>
           <ExportBtn />
         </div>

@@ -130,7 +130,7 @@ export function RunnerBalanceCalculator() {
     <Card ref={cardRef}>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-base flex items-center gap-2">
+          <CardTitle className="flex items-center gap-2">
             Runner Balance Calculator
           </CardTitle>
           <ExportBtn />

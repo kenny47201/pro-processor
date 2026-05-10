@@ -110,11 +110,10 @@ export function RunnerSizingTool() {
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Ruler className="h-4 w-4 text-primary" />
+            <CardTitle className="flex items-center gap-2">
               Runner Sizing Tool
             </CardTitle>
-            <CardDescription className="text-xs mt-1">
+            <CardDescription>
               Recommend runner diameter based on material, part, and flow requirements
             </CardDescription>
           </div>
