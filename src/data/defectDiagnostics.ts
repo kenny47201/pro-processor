@@ -690,6 +690,39 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
       'Verify anti-static additive level in material (if applicable).',
     ],
   }),
+
+  'gels': build({
+    defect: 'Gels',
+    intro: 'Classify the gel (physical unmelt vs. chemical cross-link), then localize the source: material, barrel, or runner.',
+    inspect: [
+      'Classify under magnification: translucent lens (unmelt / high-MW) vs. opaque dark speck (carbonized cross-link) vs. raised pip vs. hazy streak.',
+      'Hot stage test: melts on reheat = physical entanglement; stays solid = chemical cross-link.',
+      'Consistent location every shot → hot runner dead spot or nozzle tip; random distribution → barrel, feed, or contamination.',
+      'Inspect purge: clear gels in cold purge = unmelt; black/charred fragments in hot purge = manifold stagnation.',
+    ],
+    measure: [
+      'Measure actual melt temperature with a purge-shot pyrometer — verify it matches set point.',
+      'Measure resin moisture with a moisture analyzer (do not trust dryer setpoint), especially for PC, PA, PET, PBT.',
+      'Compare virgin vs. molded MFR (ISO 1133) — > 20 % shift indicates degradation.',
+      'Thermal-image the hot runner manifold — all zones within ±2 °C of set point.',
+      'Calculate barrel utilization (shot weight / barrel capacity); target 20–80 %.',
+    ],
+    calculators: [
+      { toolId: 'shear-rate', text: 'Check gate shear rate against the material shear limit.', label: 'Shear Rate Calculator', description: 'Excessive shear at the gate causes viscous dissipation and shear-induced gels.' },
+      { toolId: 'viscosity-curve', text: 'Run a viscosity curve to find the stable injection-speed plateau.', label: 'Viscosity Curve Study', description: 'Identifies the speed range where melt is most homogeneous and least likely to gel.' },
+      { toolId: 'cooling-time', text: 'Verify cycle time is not inflating residence time beyond the resin\'s thermal budget.', label: 'Cooling Time Calculator', description: 'Long cycles compound thermal history and drive cross-linking.' },
+      { toolId: 'pressure-loss', text: 'Check pressure drop through gates and runners — high drop = high shear.', label: 'Pressure Loss Calculator', description: 'Localizes high-shear restrictions that generate gel-forming shear heat.' },
+      { toolId: 'material-data', text: 'Confirm processing window, drying spec, and thermal stability for the resin.', label: 'Material Data Sheet Reference', description: 'Validates set points against the resin manufacturer\'s thermal budget.' },
+    ],
+    settings: [
+      'Lower barrel temperatures 10 °C if at the high end of the TDS window.',
+      'Implement multi-stage injection profile: slow through the gate, fast through the body.',
+      'Verify back pressure — too low = unmelts, too high = degradation in heat-sensitive resins.',
+      'In hot runners, hold manifold 5–10 °C below barrel when fill pressure allows.',
+      'Reduce or qualify regrind ratio; verify dryer dewpoint and exposure time.',
+      'For shift changes / stoppages, bank ABS, POM, PVC down or purge with PP — never heat-soak.',
+    ],
+  }),
 };
 
 export const getDefectDiagnostics = (slug: string): DefectDiagnostics | undefined =>
