@@ -16,6 +16,7 @@ import { internalBurnsGuide } from './internalBurnsGuide';
 import { wallThicknessGuide } from './wallThicknessGuide';
 import { orangePeelGuide } from './orangePeelGuide';
 import { staticDustGuide } from './staticDustGuide';
+import { gelsGuide } from './gelsGuide';
 
 export interface DefectGuideSection {
   id: string;
@@ -604,6 +605,7 @@ export const defectGuides: DefectGuide[] = [
   wallThicknessGuide,
   orangePeelGuide,
   staticDustGuide,
+  gelsGuide,
 ];
 
 import { defectDiagnostics } from './defectDiagnostics';
