@@ -19,6 +19,7 @@ const shiftBadge: Record<string, string> = {
   Swing: 'bg-blue-500/10 text-blue-500 border-blue-500/30',
   Night: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/30',
 };
+const defaultShiftBadge = 'bg-primary/10 text-primary border-primary/30';
 
 export default function ShiftTasks() {
   const navigate = useNavigate();
