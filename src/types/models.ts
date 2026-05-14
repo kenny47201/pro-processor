@@ -318,7 +318,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   tooling_specialist: ['/', '/knowledge', '/process-tools', '/shift-tasks', '/conversations', '/issues'],
   supervisor: ['/', '/knowledge', '/process-tools', '/shift-tasks', '/conversations', '/issues'],
   manager: ['/', '/knowledge', '/process-tools', '/shift-tasks', '/conversations', '/issues', '/users', '/settings'],
-  admin: ['/', '/knowledge', '/process-tools', '/shift-tasks', '/conversations', '/issues', '/users', '/settings'],
+  admin: ['/', '/knowledge', '/process-tools', '/shift-tasks', '/conversations', '/issues', '/users', '/settings', '/tenants'],
   super_admin: ['/', '/knowledge', '/process-tools', '/shift-tasks', '/conversations', '/issues', '/users', '/settings', '/tenants'],
 };
 
