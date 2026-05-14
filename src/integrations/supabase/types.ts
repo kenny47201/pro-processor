@@ -55,6 +55,7 @@ export type Database = {
           id: string
           screen_name: string | null
           shift: string | null
+          status: Database["public"]["Enums"]["profile_status"]
           tenant_id: string | null
           updated_at: string
           user_id: string
@@ -67,6 +68,7 @@ export type Database = {
           id?: string
           screen_name?: string | null
           shift?: string | null
+          status?: Database["public"]["Enums"]["profile_status"]
           tenant_id?: string | null
           updated_at?: string
           user_id: string
@@ -79,6 +81,7 @@ export type Database = {
           id?: string
           screen_name?: string | null
           shift?: string | null
+          status?: Database["public"]["Enums"]["profile_status"]
           tenant_id?: string | null
           updated_at?: string
           user_id?: string
@@ -320,6 +323,7 @@ export type Database = {
         | "manager"
         | "admin"
         | "super_admin"
+      profile_status: "pending" | "active" | "inactive"
       shift_task_list_status: "active" | "completed" | "cancelled"
       task_item_status: "pending" | "in_progress" | "done" | "skipped"
       task_priority: "normal" | "high" | "urgent"
@@ -459,6 +463,7 @@ export const Constants = {
         "admin",
         "super_admin",
       ],
+      profile_status: ["pending", "active", "inactive"],
       shift_task_list_status: ["active", "completed", "cancelled"],
       task_item_status: ["pending", "in_progress", "done", "skipped"],
       task_priority: ["normal", "high", "urgent"],
