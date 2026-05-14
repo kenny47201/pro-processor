@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { useTenant } from '@/contexts/TenantContext';
 import { useCreateShiftTaskList, useAddShiftTaskItem, useTenantProfiles } from '@/hooks/useShiftTasks';
+import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
 interface DraftItem {
