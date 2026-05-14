@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User, Eye, EyeOff } from 'lucide-react';
+import { Lock, User, Eye, EyeOff, Mail } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
 import { ROLE_LABELS, ROLE_ICONS, UserRole } from '@/types/models';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { supabase } from '@/integrations/supabase/client';
 import logoBadge from '@/assets/logo-badge.png';
 import processorIcon from '@/assets/processor-login-icon.png';
 import toolingIcon from '@/assets/tooling-login-icon.png';
@@ -50,6 +51,10 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupName, setSignupName] = useState('');
+  const [signupNotice, setSignupNotice] = useState('');
 
   // Redirect if already authenticated
   if (isAuthenticated) {
@@ -81,6 +86,40 @@ export default function Login() {
     setScreenName('');
     setPassword('');
     setError('');
+    setMode('signin');
+    setSignupEmail('');
+    setSignupName('');
+    setSignupNotice('');
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setSignupNotice('');
+    setIsSubmitting(true);
+    try {
+      const screen = screenName.trim();
+      if (!screen) { setError('Screen name required'); setIsSubmitting(false); return; }
+      const internalEmail = `${screen.toLowerCase().replace(/\s+/g, '_')}@proprocessor.app`;
+      const { error: signErr } = await supabase.auth.signUp({
+        email: signupEmail || internalEmail,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+          data: { display_name: signupName || screen, screen_name: screen },
+        },
+      });
+      if (signErr) { setError(signErr.message); return; }
+      // Make sure we don't auto-login a pending account
+      await supabase.auth.signOut();
+      setSignupNotice("Account created. An admin must approve it before you can sign in.");
+      setMode('signin');
+      setPassword('');
+    } catch {
+      setError('An unexpected error occurred');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -137,11 +176,14 @@ export default function Login() {
                   <span className="text-2xl">{ROLE_ICONS[selectedRole]}</span>
                 )}
               </div>
-              <CardTitle className="text-lg">{ROLE_LABELS[selectedRole]} Login</CardTitle>
+              <CardTitle className="text-lg">{ROLE_LABELS[selectedRole]} {mode === 'signup' ? 'Sign Up' : 'Login'}</CardTitle>
               <CardDescription>{roleDescriptions[selectedRole]}</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
+              {signupNotice && (
+                <p className="mb-3 text-sm text-emerald-500 text-center">{signupNotice}</p>
+              )}
+              <form onSubmit={mode === 'signup' ? handleSignup : handleLogin} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="screenName">Screen Name</Label>
                   <div className="relative">
@@ -158,6 +200,35 @@ export default function Login() {
                   </div>
                 </div>
 
+                {mode === 'signup' && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="signupName">Full Name (optional)</Label>
+                      <Input
+                        id="signupName"
+                        type="text"
+                        placeholder="John Smith"
+                        value={signupName}
+                        onChange={(e) => setSignupName(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signupEmail">Email (optional, for password recovery)</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signupEmail"
+                          type="email"
+                          placeholder="you@company.com"
+                          value={signupEmail}
+                          onChange={(e) => setSignupEmail(e.target.value)}
+                          className="pl-9"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
                   <div className="relative">
@@ -165,11 +236,12 @@ export default function Login() {
                     <Input
                       id="password"
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="Enter your password"
+                      placeholder={mode === 'signup' ? 'Choose a password (6+ chars)' : 'Enter your password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="pl-9 pr-9"
                       required
+                      minLength={mode === 'signup' ? 6 : undefined}
                     />
                     <button
                       type="button"
@@ -186,7 +258,19 @@ export default function Login() {
                 )}
 
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? 'Signing in...' : 'Sign In'}
+                  {isSubmitting
+                    ? (mode === 'signup' ? 'Creating account...' : 'Signing in...')
+                    : (mode === 'signup' ? 'Request Account' : 'Sign In')}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => { setMode(mode === 'signup' ? 'signin' : 'signup'); setError(''); setSignupNotice(''); }}
+                >
+                  {mode === 'signup' ? 'Already have an account? Sign in' : "New here? Request an account"}
                 </Button>
 
                 <Button
