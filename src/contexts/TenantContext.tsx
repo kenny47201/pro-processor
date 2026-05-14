@@ -27,7 +27,10 @@ interface Tenant {
   id: string;
   name: string;
   slug: string;
+  shifts: string[];
 }
+
+export const DEFAULT_SHIFTS = ['Day', 'Swing', 'Night'];
 
 interface Facility {
   id: string;
