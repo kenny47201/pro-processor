@@ -19,6 +19,7 @@ const shiftBadge: Record<string, string> = {
   Swing: 'bg-blue-500/10 text-blue-500 border-blue-500/30',
   Night: 'bg-indigo-500/10 text-indigo-500 border-indigo-500/30',
 };
+const defaultShiftBadge = 'bg-primary/10 text-primary border-primary/30';
 
 export default function ShiftTasks() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export default function ShiftTasks() {
           </h1>
           <p className="text-muted-foreground">Manage shift task lists and assignments</p>
         </div>
-        {canCreateShiftTasks && (
+        {canCreateShiftTasks && lists && lists.length > 0 && (
           <Button onClick={() => navigate('/shift-tasks/new')} className="gap-2">
             <Plus className="h-4 w-4" />
             New Task List
@@ -69,7 +70,7 @@ export default function ShiftTasks() {
                       <Badge variant="outline" className={statusStyles[list.status]}>
                         {list.status.charAt(0).toUpperCase() + list.status.slice(1)}
                       </Badge>
-                      <Badge variant="outline" className={shiftBadge[list.shift] || ''}>
+                      <Badge variant="outline" className={shiftBadge[list.shift] || defaultShiftBadge}>
                         {list.shift} Shift
                       </Badge>
                     </div>

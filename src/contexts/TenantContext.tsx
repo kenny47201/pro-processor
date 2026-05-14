@@ -27,7 +27,10 @@ interface Tenant {
   id: string;
   name: string;
   slug: string;
+  shifts: string[];
 }
+
+export const DEFAULT_SHIFTS = ['Day', 'Swing', 'Night'];
 
 interface Facility {
   id: string;
@@ -98,10 +101,13 @@ export function TenantProvider({ children }: { children: ReactNode }) {
 
       // Fetch tenants
       const { data: tenants } = await supabase.from('tenants').select('*');
-      setAvailableTenants(tenants || []);
+      const normalized: Tenant[] = (tenants || []).map((t: { id: string; name: string; slug: string; shifts?: string[] | null }) => ({
+        id: t.id, name: t.name, slug: t.slug, shifts: t.shifts && t.shifts.length ? t.shifts : DEFAULT_SHIFTS,
+      }));
+      setAvailableTenants(normalized);
 
       // Set current tenant
-      const userTenant = tenants?.find(t => t.id === profile?.tenant_id) || tenants?.[0] || null;
+      const userTenant = normalized.find(t => t.id === profile?.tenant_id) || normalized[0] || null;
       setCurrentTenant(userTenant);
 
       // Fetch facilities for tenant

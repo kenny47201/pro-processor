@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { useTenant } from '@/contexts/TenantContext';
 import { useCreateShiftTaskList, useAddShiftTaskItem, useTenantProfiles } from '@/hooks/useShiftTasks';
+import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
 
 interface DraftItem {
@@ -27,14 +28,17 @@ const priorityColor: Record<string, string> = {
 export default function ShiftTaskNew() {
   const navigate = useNavigate();
   const { currentUser, currentTenant, currentFacility } = useTenant();
+  const { toast } = useToast();
   const createList = useCreateShiftTaskList();
   const addItem = useAddShiftTaskItem();
   const { data: profiles } = useTenantProfiles();
 
+  const shiftOptions = currentTenant?.shifts && currentTenant.shifts.length ? currentTenant.shifts : ['Day', 'Swing', 'Night'];
+
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
-  const [shift, setShift] = useState<string>('Day');
+  const [shift, setShift] = useState<string>(shiftOptions[0]);
   const [items, setItems] = useState<DraftItem[]>([]);
   const [newItemText, setNewItemText] = useState('');
   const [newItemPriority, setNewItemPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
@@ -64,7 +68,17 @@ export default function ShiftTaskNew() {
   };
 
   const handleSubmit = async () => {
-    if (!title.trim() || !currentUser || !currentTenant) return;
+    if (!title.trim()) return;
+    if (!currentUser || !currentTenant) {
+      toast({
+        title: 'Cannot create task list',
+        description: !currentTenant
+          ? 'No organization is set up yet. Ask an admin to create one in Tenant Management.'
+          : 'You must be signed in to create a task list.',
+        variant: 'destructive',
+      });
+      return;
+    }
     setSubmitting(true);
     try {
       const list = await createList.mutateAsync({
@@ -120,9 +134,9 @@ export default function ShiftTaskNew() {
               <Select value={shift} onValueChange={setShift}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Day">Day</SelectItem>
-                  <SelectItem value="Swing">Swing</SelectItem>
-                  <SelectItem value="Night">Night</SelectItem>
+                  {shiftOptions.map((s) => (
+                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>

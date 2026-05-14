@@ -1,0 +1,1 @@
+ALTER TABLE public.tenants ADD COLUMN IF NOT EXISTS shifts text[] NOT NULL DEFAULT ARRAY['Day','Swing','Night'];
