@@ -35,7 +35,7 @@ export default function ShiftTasks() {
           </h1>
           <p className="text-muted-foreground">Manage shift task lists and assignments</p>
         </div>
-        {canCreateShiftTasks && (
+        {canCreateShiftTasks && lists && lists.length > 0 && (
           <Button onClick={() => navigate('/shift-tasks/new')} className="gap-2">
             <Plus className="h-4 w-4" />
             New Task List
