@@ -70,7 +70,7 @@ export default function ShiftTasks() {
                       <Badge variant="outline" className={statusStyles[list.status]}>
                         {list.status.charAt(0).toUpperCase() + list.status.slice(1)}
                       </Badge>
-                      <Badge variant="outline" className={shiftBadge[list.shift] || ''}>
+                      <Badge variant="outline" className={shiftBadge[list.shift] || defaultShiftBadge}>
                         {list.shift} Shift
                       </Badge>
                     </div>
