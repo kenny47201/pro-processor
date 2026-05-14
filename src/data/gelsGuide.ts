@@ -1,4 +1,7 @@
 import type { DefectGuide } from './defectGuides';
+import gelFisheyeImg from '@/assets/defects/gel-fisheye.jpg';
+import gelBlackSpecksImg from '@/assets/defects/gel-black-specks.jpg';
+import gelPipsImg from '@/assets/defects/gel-pips.jpg';
 
 export const gelsGuide: DefectGuide = {
   slug: 'gels',
@@ -60,6 +63,63 @@ export const gelsGuide: DefectGuide = {
             ['Surface pips / seeds', 'Localized raised bumps on opaque parts', 'Unmelted particles or cross-links', 'Profilometry / visual under raking light'],
             ['Discolored streaks', 'Hazy yellow/brown flow lines', 'Thermo-oxidative aging', 'Colorimetry'],
           ],
+        },
+        { type: 'heading', level: 3, text: '1.3 Visual reference gallery' },
+        {
+          type: 'paragraph',
+          text:
+            'Use the following reference images to visually match what you see on the part to the most likely gel class. Confirm with the diagnostic methods listed in §1.2.',
+        },
+        {
+          type: 'image',
+          src: gelFisheyeImg,
+          alt: 'Macro view of a fish-eye gel inclusion in a clear plastic part',
+          figureNumber: 'Fig. 1.3a',
+          caption: 'Fish-eye gel — translucent lens-shaped inclusion with a denser glassy core and faint halo, typical of unmelted high-MW seeds in clear resins (PC, PMMA, PS).',
+          lookFor: {
+            tone: 'info',
+            title: 'What to look for',
+            items: [
+              'Lens or "eye" shape with a denser optical core',
+              'Surrounding halo or stress field visible under polarized light',
+              'Most visible in clear or lightly tinted resins',
+              'Often disappears when shear/temperature is raised → physical (reversible) gel',
+            ],
+          },
+        },
+        {
+          type: 'image',
+          src: gelBlackSpecksImg,
+          alt: 'Macro view of black-speck gel contamination on a light plastic surface',
+          figureNumber: 'Fig. 1.3b',
+          caption: 'Black-speck gels — carbonized, brittle inclusions from thermo-oxidative degradation. Often originate from dead spots in the hot runner manifold or screw flights.',
+          lookFor: {
+            tone: 'warning',
+            title: 'What to look for',
+            items: [
+              'Dark brown to black specks, sometimes with a degradation halo',
+              'Brittle and friable when probed (versus hard mineral contamination)',
+              'Frequency rises after color/material changeovers or long dwell',
+              'Confirm carbonization with FTIR or SEM/EDX',
+            ],
+          },
+        },
+        {
+          type: 'image',
+          src: gelPipsImg,
+          alt: 'Macro view of pip and unmelt gel defects raised on a plastic surface',
+          figureNumber: 'Fig. 1.3c',
+          caption: 'Pips / unmelts — small raised opaque nodules of unmelted polymer, sometimes with comet-like flow tails. Common in PP, HDPE, and reprocessed resins with broad MW distribution.',
+          lookFor: {
+            tone: 'info',
+            title: 'What to look for',
+            items: [
+              'Raised bumps detectable under raking light or by fingertip',
+              'Comet/teardrop tail pointing in the flow direction',
+              'Opaque white core in otherwise translucent resin',
+              'Increase back pressure or screw recovery time to verify it is an unmelt',
+            ],
+          },
         },
         {
           type: 'callout',
