@@ -134,9 +134,9 @@ export default function ShiftTaskNew() {
               <Select value={shift} onValueChange={setShift}>
                 <SelectTrigger><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Day">Day</SelectItem>
-                  <SelectItem value="Swing">Swing</SelectItem>
-                  <SelectItem value="Night">Night</SelectItem>
+                  {shiftOptions.map((s) => (
+                    <SelectItem key={s} value={s}>{s}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
