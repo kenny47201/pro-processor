@@ -175,8 +175,24 @@ export function TenantProvider({ children }: { children: ReactNode }) {
   const login = useCallback(async (screenName: string, password: string) => {
     // Convert screen name to internal email format for Supabase auth
     const email = `${screenName.toLowerCase().replace(/\s+/g, '_')}@proprocessor.app`;
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) return { error: error.message };
+    // Check account status — block pending/inactive
+    if (data.user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('status')
+        .eq('user_id', data.user.id)
+        .maybeSingle();
+      if (profile?.status === 'pending') {
+        await supabase.auth.signOut();
+        return { error: 'Your account is awaiting admin approval.' };
+      }
+      if (profile?.status === 'inactive') {
+        await supabase.auth.signOut();
+        return { error: 'This account has been deactivated. Contact your admin.' };
+      }
+    }
     return {};
   }, []);
 
