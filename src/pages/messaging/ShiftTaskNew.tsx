@@ -28,14 +28,17 @@ const priorityColor: Record<string, string> = {
 export default function ShiftTaskNew() {
   const navigate = useNavigate();
   const { currentUser, currentTenant, currentFacility } = useTenant();
+  const { toast } = useToast();
   const createList = useCreateShiftTaskList();
   const addItem = useAddShiftTaskItem();
   const { data: profiles } = useTenantProfiles();
 
+  const shiftOptions = currentTenant?.shifts && currentTenant.shifts.length ? currentTenant.shifts : ['Day', 'Swing', 'Night'];
+
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
-  const [shift, setShift] = useState<string>('Day');
+  const [shift, setShift] = useState<string>(shiftOptions[0]);
   const [items, setItems] = useState<DraftItem[]>([]);
   const [newItemText, setNewItemText] = useState('');
   const [newItemPriority, setNewItemPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
