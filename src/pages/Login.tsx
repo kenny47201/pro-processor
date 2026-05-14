@@ -176,11 +176,14 @@ export default function Login() {
                   <span className="text-2xl">{ROLE_ICONS[selectedRole]}</span>
                 )}
               </div>
-              <CardTitle className="text-lg">{ROLE_LABELS[selectedRole]} Login</CardTitle>
+              <CardTitle className="text-lg">{ROLE_LABELS[selectedRole]} {mode === 'signup' ? 'Sign Up' : 'Login'}</CardTitle>
               <CardDescription>{roleDescriptions[selectedRole]}</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleLogin} className="space-y-4">
+              {signupNotice && (
+                <p className="mb-3 text-sm text-emerald-500 text-center">{signupNotice}</p>
+              )}
+              <form onSubmit={mode === 'signup' ? handleSignup : handleLogin} className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="screenName">Screen Name</Label>
                   <div className="relative">
@@ -197,6 +200,35 @@ export default function Login() {
                   </div>
                 </div>
 
+                {mode === 'signup' && (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="signupName">Full Name (optional)</Label>
+                      <Input
+                        id="signupName"
+                        type="text"
+                        placeholder="John Smith"
+                        value={signupName}
+                        onChange={(e) => setSignupName(e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="signupEmail">Email (optional, for password recovery)</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="signupEmail"
+                          type="email"
+                          placeholder="you@company.com"
+                          value={signupEmail}
+                          onChange={(e) => setSignupEmail(e.target.value)}
+                          className="pl-9"
+                        />
+                      </div>
+                    </div>
+                  </>
+                )}
+
                 <div className="space-y-2">
                   <Label htmlFor="password">Password</Label>
                   <div className="relative">
@@ -204,11 +236,12 @@ export default function Login() {
                     <Input
                       id="password"
                       type={showPassword ? 'text' : 'password'}
-                      placeholder="Enter your password"
+                      placeholder={mode === 'signup' ? 'Choose a password (6+ chars)' : 'Enter your password'}
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className="pl-9 pr-9"
                       required
+                      minLength={mode === 'signup' ? 6 : undefined}
                     />
                     <button
                       type="button"
@@ -225,7 +258,19 @@ export default function Login() {
                 )}
 
                 <Button type="submit" className="w-full" disabled={isSubmitting}>
-                  {isSubmitting ? 'Signing in...' : 'Sign In'}
+                  {isSubmitting
+                    ? (mode === 'signup' ? 'Creating account...' : 'Signing in...')
+                    : (mode === 'signup' ? 'Request Account' : 'Sign In')}
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="w-full"
+                  onClick={() => { setMode(mode === 'signup' ? 'signin' : 'signup'); setError(''); setSignupNotice(''); }}
+                >
+                  {mode === 'signup' ? 'Already have an account? Sign in' : "New here? Request an account"}
                 </Button>
 
                 <Button
