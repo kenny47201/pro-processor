@@ -68,7 +68,17 @@ export default function ShiftTaskNew() {
   };
 
   const handleSubmit = async () => {
-    if (!title.trim() || !currentUser || !currentTenant) return;
+    if (!title.trim()) return;
+    if (!currentUser || !currentTenant) {
+      toast({
+        title: 'Cannot create task list',
+        description: !currentTenant
+          ? 'No organization is set up yet. Ask an admin to create one in Tenant Management.'
+          : 'You must be signed in to create a task list.',
+        variant: 'destructive',
+      });
+      return;
+    }
     setSubmitting(true);
     try {
       const list = await createList.mutateAsync({
