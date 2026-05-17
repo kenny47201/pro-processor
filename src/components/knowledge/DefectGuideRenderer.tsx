@@ -17,6 +17,7 @@ import {
 import { Link } from 'react-router-dom';
 import type { GuideBlock } from '@/data/defectGuides';
 import { cn } from '@/lib/utils';
+import { ZoomableImage } from '@/components/ui/zoomable-image';
 
 const groupKindConfig = {
   inspect: { icon: Eye, label: 'Inspect', accent: 'text-primary' },
