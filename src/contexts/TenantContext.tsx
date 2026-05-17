@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect, useRef, ReactNode } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { 
   UserRole, 
@@ -21,6 +21,7 @@ interface Profile {
   screen_name: string | null;
   avatar_url: string | null;
   shift: string | null;
+  status?: 'pending' | 'active' | 'inactive' | null;
 }
 
 interface Tenant {
@@ -73,6 +74,7 @@ interface TenantContextType {
 const TenantContext = createContext<TenantContextType | undefined>(undefined);
 
 export function TenantProvider({ children }: { children: ReactNode }) {
+  const loadRequestId = useRef(0);
   const [authUser, setAuthUser] = useState<SupabaseUser | null>(null);
   const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
   const [currentTenant, setCurrentTenant] = useState<Tenant | null>(null);
@@ -81,8 +83,17 @@ export function TenantProvider({ children }: { children: ReactNode }) {
   const [availableFacilities, setAvailableFacilities] = useState<Facility[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const clearUserData = useCallback(() => {
+    setAuthUser(null);
+    setCurrentUser(null);
+    setCurrentTenant(null);
+    setCurrentFacility(null);
+    setAvailableTenants([]);
+    setAvailableFacilities([]);
+  }, []);
+
   // Load user profile and related data
-  const loadUserData = useCallback(async (user: SupabaseUser) => {
+  const loadUserData = useCallback(async (user: SupabaseUser, requestId: number) => {
     try {
       // Fetch profile
       const { data: profile } = await supabase
@@ -90,6 +101,12 @@ export function TenantProvider({ children }: { children: ReactNode }) {
         .select('*')
         .eq('user_id', user.id)
         .single();
+
+      if (profile?.status === 'pending' || profile?.status === 'inactive') {
+        await supabase.auth.signOut();
+        if (requestId === loadRequestId.current) clearUserData();
+        return;
+      }
 
       // Fetch user roles
       const { data: roles } = await supabase
@@ -104,6 +121,7 @@ export function TenantProvider({ children }: { children: ReactNode }) {
       const normalized: Tenant[] = (tenants || []).map((t: { id: string; name: string; slug: string; shifts?: string[] | null }) => ({
         id: t.id, name: t.name, slug: t.slug, shifts: t.shifts && t.shifts.length ? t.shifts : DEFAULT_SHIFTS,
       }));
+      if (requestId !== loadRequestId.current) return;
       setAvailableTenants(normalized);
 
       // Set current tenant
@@ -116,11 +134,14 @@ export function TenantProvider({ children }: { children: ReactNode }) {
           .from('facilities')
           .select('*')
           .eq('tenant_id', userTenant.id);
+        if (requestId !== loadRequestId.current) return;
         setAvailableFacilities(facilities || []);
 
         const userFacility = facilities?.find(f => f.id === profile?.facility_id) || facilities?.[0] || null;
         setCurrentFacility(userFacility);
       }
+
+      if (requestId !== loadRequestId.current) return;
 
       setCurrentUser({
         id: user.id,
@@ -132,45 +153,62 @@ export function TenantProvider({ children }: { children: ReactNode }) {
         facilityId: profile?.facility_id || undefined,
       });
     } catch (error) {
+      if (requestId === loadRequestId.current) clearUserData();
       if (import.meta.env.DEV) {
         console.error('Error loading user data:', error);
       } else {
         console.error('Failed to load user data');
       }
     }
-  }, []);
+  }, [clearUserData]);
 
   // Auth state listener
   useEffect(() => {
+    let isMounted = true;
+
+    const startUserLoad = (user: SupabaseUser) => {
+      const requestId = ++loadRequestId.current;
+      setAuthUser(user);
+      setIsLoading(true);
+      setTimeout(() => {
+        loadUserData(user, requestId).finally(() => {
+          if (isMounted && requestId === loadRequestId.current) {
+            setIsLoading(false);
+          }
+        });
+      }, 0);
+    };
+
+    const finishSignedOut = () => {
+      ++loadRequestId.current;
+      clearUserData();
+      setIsLoading(false);
+    };
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (_event, session) => {
         if (session?.user) {
-          setAuthUser(session.user);
-          // Use setTimeout to avoid Supabase auth deadlock
-          setTimeout(() => loadUserData(session.user), 0);
+          startUserLoad(session.user);
         } else {
-          setAuthUser(null);
-          setCurrentUser(null);
-          setCurrentTenant(null);
-          setCurrentFacility(null);
-          setAvailableTenants([]);
-          setAvailableFacilities([]);
+          finishSignedOut();
         }
-        setIsLoading(false);
       }
     );
 
     // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        setAuthUser(session.user);
-        loadUserData(session.user);
+        startUserLoad(session.user);
+      } else {
+        finishSignedOut();
       }
-      setIsLoading(false);
     });
 
-    return () => subscription.unsubscribe();
-  }, [loadUserData]);
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, [clearUserData, loadUserData]);
 
   const login = useCallback(async (screenName: string, password: string) => {
     // Convert screen name to internal email format for Supabase auth
