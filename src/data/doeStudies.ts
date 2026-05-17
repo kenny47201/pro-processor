@@ -32,6 +32,18 @@ import decompression03 from '@/assets/doe/decompression-03-cold-vs-hot.png';
 import decompression04 from '@/assets/doe/decompression-04-procedure.png';
 import decompression05 from '@/assets/doe/decompression-05-responses.png';
 import decompression06 from '@/assets/doe/decompression-06-troubleshooting.png';
+import holdPressure01 from '@/assets/doe/hold-pressure-01-definition.png';
+import holdPressure02 from '@/assets/doe/hold-pressure-02-drivers.png';
+import holdPressure03 from '@/assets/doe/hold-pressure-03-cold-vs-hot.png';
+import holdPressure04 from '@/assets/doe/hold-pressure-04-procedure.png';
+import holdPressure05 from '@/assets/doe/hold-pressure-05-responses.png';
+import holdPressure06 from '@/assets/doe/hold-pressure-06-troubleshooting.png';
+import hotRunnerBalance01 from '@/assets/doe/hot-runner-balance-01-definition.png';
+import hotRunnerBalance02 from '@/assets/doe/hot-runner-balance-02-outcome.png';
+import hotRunnerBalance03 from '@/assets/doe/hot-runner-balance-03-cold-vs-hot.png';
+import hotRunnerBalance04 from '@/assets/doe/hot-runner-balance-04-procedure.png';
+import hotRunnerBalance05 from '@/assets/doe/hot-runner-balance-05-responses.png';
+import hotRunnerBalance06 from '@/assets/doe/hot-runner-balance-06-troubleshooting.png';
 
 export type DoeSection = {
   id: string;
@@ -704,6 +716,154 @@ export const doeStudies: DoeStudy[] = [
           'Nozzle drool often indicates insufficient post-decompression, but low nozzle temperature, shut-off problems, and hot-runner issues can mimic the same symptom. Prove root cause before increasing pullback aggressively.',
           'Splay, blisters, or drifting cushion often point to excessive pullback or check-ring instability. First-shot shortness can indicate too much pre-decompression or loss of available melt at the start of fill.',
           'Best practice is conservative: confirm positive shut-off, adjust in small steps, verify the first shot after each change, and lock the minimum effective setting into the setup sheet once confirmed.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'hold-pressure-curve-study',
+    title: 'Hold Pressure Curve Study',
+    shortTitle: 'Hold Pressure Curve',
+    summary:
+      'Run a controlled second-stage pressure study to identify the center of the hold-pressure operating window where part weight, dimensions, cavity pressure response, and cosmetic quality remain robust without over-packing the mold.',
+    linkedToolId: 'gate-freeze',
+    linkedToolLabel: 'Gate Freeze Worksheet',
+    downloads: [
+      { label: 'Technical Reference (PDF)', href: '/doe/hold-pressure-curve-technical-reference.pdf' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Core Concept',
+        image: holdPressure01,
+        body: [
+          'A hold pressure curve study is a controlled DOE that varies second-stage pressure and sometimes hold time after velocity-to-pressure transfer to show how the process compensates polymer shrinkage while the gate is still transmitting pressure.',
+          'The study helps connect machine pressure, cavity pressure, part weight, and dimensional response instead of treating pack/hold as a single guessed setting.',
+          'The goal is not a single magic number. The real output is a defensible operating window with enough margin for normal day-to-day variation.',
+        ],
+      },
+      {
+        id: 'drivers',
+        title: 'Why Run the Study',
+        image: holdPressure02,
+        body: [
+          'Processors use this study to reduce sink, voids, dimensional drift, and inconsistent gate appearance while proving how much hold pressure is actually useful before it starts adding risk instead of value.',
+          'It is also a strong diagnostic tool for distinguishing under-pack from issues like poor transfer position, unstable check-ring behavior, venting problems, or temperature drift.',
+          'When paired with weight or cavity-pressure data, it becomes much easier to justify a robust setup sheet instead of relying on tribal knowledge.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner Interpretation',
+        image: holdPressure03,
+        body: [
+          'Cold-runner molds often show a clearer part-weight plateau because the gate physically freezes. Once that freeze-off point is reached, more hold pressure usually adds little or no material to the part.',
+          'Hot-runner and valve-gated molds behave differently. The manifold stays molten, so the classic plateau can be delayed, reduced, or misleading. Interpretation must lean more heavily on part quality, dimensions, cavity pressure, and process stability.',
+          'Do not assume a hot-runner result can be read the same way as a cold-runner result. Validate the physics of the specific mold before locking settings.',
+        ],
+      },
+      {
+        id: 'procedure',
+        title: 'Study Procedure',
+        image: holdPressure04,
+        body: [
+          'Stabilize the baseline first: dry material, verify shot size and cushion repeatability, confirm transfer position, verify mold and melt temperatures, and make sure the machine can actually deliver the commanded second-stage pressure.',
+          'Step hold pressure through planned levels while keeping all other variables fixed. At each level, run enough shots to reach steady behavior, then record weight, dimensions, appearance, and if available, cavity pressure response.',
+          'Plot the response and look for the lowest pressure range that produces stable, acceptable parts without continuing material gain, flash, or evidence of over-packing.',
+        ],
+      },
+      {
+        id: 'responses',
+        title: 'Responses & Working Window',
+        image: holdPressure05,
+        body: [
+          'Part weight usually rises rapidly in the under-pack region, then flattens into a working window where additional pressure gives little benefit. That flatter region is typically where robust operation lives.',
+          'Inside the window, verify more than weight alone: dimensions, gate condition, flash tendency, ejection, residual stress risk, and cycle-time impact all matter.',
+          'Best practice is to run near the center of the validated window rather than on the edge, so normal viscosity and thermal variation do not push the process out of control.',
+        ],
+      },
+      {
+        id: 'troubleshooting',
+        title: 'Troubleshooting & Safe Adjustments',
+        image: holdPressure06,
+        body: [
+          'Sinks and voids often point to insufficient hold pressure, insufficient hold time, early gate freeze, or low melt temperature. Flash and molded-in stress often point the other direction: too much pressure, too much time, weak venting, or insufficient clamp margin.',
+          'If part weight is inconsistent, first prove machine repeatability, check-ring condition, and material consistency before assuming the pressure target is wrong.',
+          'Adjust conservatively, one factor at a time, and keep the validated result inside machine, mold, hot-runner, and material limits.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'hot-runner-balance-temp-doe',
+    title: 'Hot Runner Balance / Temperature DOE',
+    shortTitle: 'Hot Runner Balance',
+    summary:
+      'Run a cavity-by-cavity thermal DOE on the hot runner to separate true balance opportunity from tooling, heater, thermocouple, valve-gate, shear, or process-instability issues before approving zone offsets for production.',
+    linkedToolId: 'gate-freeze',
+    linkedToolLabel: 'Gate Freeze Worksheet',
+    downloads: [
+      { label: 'Technical Reference (PDF)', href: '/doe/hot-runner-balance-temp-doe-technical-reference.pdf' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & DOE Architecture',
+        image: hotRunnerBalance01,
+        body: [
+          'A hot runner balance / temperature DOE is a structured experiment that changes selected manifold, branch, nozzle, or tip temperatures while holding the machine process, material condition, and cooling baseline fixed.',
+          'Its purpose is to quantify cavity-by-cavity response so the team can distinguish thermal tuning opportunity from geometry error, heater or thermocouple failure, valve timing offset, shear imbalance, or general process instability.',
+          'The deliverable is not just a new setpoint list. It is a validated balance map, a response model, and a confirmation run that proves the chosen profile is both effective and safe.',
+        ],
+      },
+      {
+        id: 'outcome',
+        title: 'What Good Improvement Looks Like',
+        image: hotRunnerBalance02,
+        body: [
+          'A successful DOE reduces cavity-to-cavity spread in short-shot or packed part weight without forcing the material outside its processing window or creating new dimensional and cosmetic problems.',
+          'The strongest results show improvement in multiple signals at once: cavity weights, fill-front progression, pressure response, gate appearance, and full-cycle part quality.',
+          'If a profile only makes the short shot look better but harms packed-part dimensions, warp, or degradation risk, it is not a real improvement.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Why Hot Runner Behavior Is Different',
+        image: hotRunnerBalance03,
+        body: [
+          'Cold runners freeze every cycle, so runner geometry and shot-to-shot thermal reset dominate balance behavior. Hot runners stay molten, which adds controllable temperature zones but also introduces heater, thermocouple, residence-time, and valve-gate dependencies.',
+          'That adjustability is powerful, but it can also hide root-cause tooling problems if temperature offsets are used as compensation instead of diagnosis.',
+          'Use temperature offsets only after proving the process baseline, material condition, and hardware condition are sound enough to trust the DOE.',
+        ],
+      },
+      {
+        id: 'procedure',
+        title: 'Recommended DOE Procedure',
+        image: hotRunnerBalance04,
+        body: [
+          'Verify prerequisites first: stable material drying, stable shot size and cushion, stable melt and mold temperatures, repeatable fill control, and no unresolved alarms or maintenance issues in the hot runner system.',
+          'Start with a flat-temperature baseline and build a cavity balance map using short shots or other cavity-identifiable measurements. Then vary the selected temperature factors in controlled steps and record each cavity response.',
+          'Finish with a confirmation run using the proposed profile under full-cycle conditions so the team proves that the balance gain survives real production pressure, pack, cooling, and ejection conditions.',
+        ],
+      },
+      {
+        id: 'responses',
+        title: 'Responses to Track',
+        image: hotRunnerBalance05,
+        body: [
+          'Track cavity fill percentage, cavity or part weight, cavity pressure where available, dimensions, warp, gate appearance, and any evidence of flash, burn, or cosmetic shift between cavities.',
+          'Stable actual zone temperatures, stable cushion, and stable recovery are also required. If those drift, the DOE results are contaminated regardless of how clean the chart looks.',
+          'Use cavity-identifiable data whenever possible so the team can rank the response of each drop instead of averaging the problem away.',
+        ],
+      },
+      {
+        id: 'troubleshooting',
+        title: 'Common Imbalance Causes & Actions',
+        image: hotRunnerBalance06,
+        body: [
+          'Imbalance is not always a temperature problem. Heater or thermocouple faults, tip damage, valve timing mismatch, shear-induced pressure loss differences, or manifold blockage can all mimic a temperature-response issue.',
+          'When the DOE shows unstable or extreme required offsets, escalate to tooling, hot-runner maintenance, or machine review instead of normalizing a fragile compensation strategy.',
+          'Use conservative, validated offsets only inside the resin and hot-runner operating limits, and document the final profile with a reaction plan for alarms or drift.',
         ],
       },
     ],
