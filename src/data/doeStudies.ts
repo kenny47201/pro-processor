@@ -97,4 +97,114 @@ export const doeStudies: DoeStudy[] = [
       },
     ],
   },
+  {
+    id: 'shot-size-cushion-study',
+    title: 'Shot Size / Cushion Study',
+    shortTitle: 'Shot Size & Cushion',
+    summary:
+      'Establish the screw recovery position, transfer (V→P) point, and residual melt cushion needed to fill the mold in a repeatable, pressure-transmitting, non-bottomed-out condition.',
+    linkedToolId: 'shot-volume',
+    linkedToolLabel: 'Shot Volume Calculator',
+    downloads: [
+      { label: 'Technical Reference (PDF)', href: '/doe/shot-size-cushion-study-guide.pdf' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Deliverables',
+        body: [
+          'A shot size / cushion study is a controlled molding experiment that establishes the screw recovery position, transfer position, and residual melt cushion required to fill the mold in a repeatable, pressure-transmitting, non-bottomed-out condition.',
+          'Deliverables are not just "a shot size number." They are: a validated fill-only volume, a transfer point near the intended fill percentage (typically 95–98% of molded volume before pack), a final cushion control band, repeatable fill time, repeatable peak pressure, and evidence that pack/hold pressure can be transmitted to the cavity without running out of melt in front of the screw.',
+          'For a reciprocating screw, injected volume ≈ (π × screw diameter² / 4) × screw travel — engineering estimate only. Real injected mass also depends on melt density, compressibility, check-ring leakage, decompression, and hydraulic response.',
+        ],
+      },
+      {
+        id: 'what-it-is-not',
+        title: 'What the Study Is NOT',
+        body: [
+          'Not "increase shot until the part looks full" — that hides defects under pack pressure.',
+          'Not a relative-viscosity curve — that test evaluates fill-rate sensitivity, not fill volume or V→P.',
+          'Not a gate seal study — gate seal evaluates hold time and part-weight stabilization after fill/pack are already rational.',
+          'Not a universal cushion rule — the same cushion distance can represent very different melt volumes across screw diameters. Rules like 3–6 mm or 5–10% of shot stroke are startup boundaries only, not substitutes for data.',
+        ],
+      },
+      {
+        id: 'why-run-it',
+        title: 'When & Why to Run It',
+        body: [
+          'Run the study whenever you must separate fill, pack, and hold behavior: new mold startup, mold transfer between presses, short shots or drifting cushion, flash after a speed increase, medical/automotive validation, or a material-lot/regrind change.',
+          'Especially valuable when the same defect could be caused by multiple subsystems — material viscosity, gate restriction, non-return valve leakage, blocked vents, hot-runner imbalance, water-flow instability, or excessive clamp force.',
+        ],
+      },
+      {
+        id: 'measurements',
+        title: 'Required Measurements',
+        body: [
+          'Record per shot: screw position at start of injection (with decompression status), transfer position (in the controller’s own units), final cushion (cycle trace, not just HMI snapshot — capture minimum cushion and stabilized cushion), fill time (process response, not just speed setting), peak pressure (plastic/nozzle/cavity preferred; hydraulic acceptable with intensification ratio noted), and part weight (cavity-separated when possible).',
+          'Also log water flow + inlet/outlet temps and hot-runner actual zone temps, valve timing, and output % — setpoints alone are not adequate proof of thermal balance.',
+        ],
+      },
+      {
+        id: 'material-process',
+        title: 'Material & Process Drivers',
+        body: [
+          'Material: viscosity/MFR, melt temp, mold temp, moisture, fillers, regrind %, color concentrate — each shifts pressure demand and cushion behavior. Tie the study to a fill rate selected from a viscosity curve, not a generic speed %.',
+          'Process: injection speed, pressure limit, transfer position, hold pressure, hold time, melt temp, and mold temp all interact. A pressure-limited fill-only study is invalid for transfer and viscosity conclusions.',
+          'Polymer notes — PP: semi-crystalline, sensitive to cooling; ABS: cosmetic-sensitive, dry it; PC: high viscosity, narrow degradation window — excess cushion increases residence damage; PA/nylon: hygroscopic; TPE/TPV: compressible, validate supplier-recommended cushion on the tool.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner',
+        body: [
+          'Cold runner: every cycle injects part + sprue + runners + gates. Cushion and shot-size are sensitive to runner weight, cold-slug behavior, sprue/nozzle sealing, runner balance, and regrind practice. Short-shot progression is visually informative.',
+          'Hot runner: manifold melt is not ejected each shot, but manifold compressibility, valve timing, tip condition, shear history, and controller stability strongly influence apparent cushion, pressure profile, cavity balance, and fill repeatability. Tip freeze, valve-pin sticking, or heater/T-C failure can mimic material shortage.',
+        ],
+      },
+      {
+        id: 'gate-design',
+        title: 'Gate Design Effects',
+        body: [
+          'Gate geometry exposes the difference between "the machine moved plastic" and "the cavity received plastic." Small or poorly located gates → high shear heat, high pressure drop, unbalanced fill, blush, premature freeze-off, unstable cushion. Oversized gates → vestige, long gate-seal time, stringing, drool, and trim issues.',
+        ],
+      },
+      {
+        id: 'machine-aux',
+        title: 'Machine & Auxiliary Conditions',
+        body: [
+          'Validate before trusting study data: non-return valve seating, screw-position calibration and zero, hydraulic/electric response time, pressure-transducer calibration, nozzle seating, clamp force, water flow per circuit, dryer dew point + residence, and hot-runner controller alarms.',
+          'A drifting cushion may be real check-ring leakage, or it may be water/thermal instability, dryer drift, or controller alarms. Diagnose before changing process settings.',
+        ],
+      },
+      {
+        id: 'interpretation',
+        title: 'Interpreting Results',
+        body: [
+          'Interpret pressure and cushion together. A flat cushion with rising peak pressure suggests viscosity rise or gate/vent restriction. A falling cushion with stable pressure suggests check-ring leakage. Pressure spike at end-of-fill suggests transfer too late or venting/overpack.',
+          'Confirm with part weight, cavity-by-cavity balance, short-shot appearance, and dimensions — not machine numbers alone.',
+        ],
+      },
+      {
+        id: 'sop',
+        title: 'Shop-Floor SOP & Acceptance',
+        body: [
+          'Preflight: thermal soak, water flows verified, hot-runner zones at actual setpoint with no alarms, material dryness confirmed, regrind locked, screw-position calibration verified, pressure limit set high enough to maintain velocity control.',
+          'Run: viscosity curve first → select fill speed → run fill-only shots stepping shot size → identify 95–98% short-shot transfer → set cushion band → verify repeatability across ≥30 shots → check cavity-to-cavity weight balance → confirm process window.',
+          'Accept when: minimum cushion stays above zero through worst normal material/temperature variation, fill time and peak pressure are repeatable, weight and dimensions meet spec, and no pressure-limited shots occur.',
+        ],
+      },
+      {
+        id: 'pitfalls',
+        title: 'Common Pitfalls',
+        body: [
+          'Confusing this study with a viscosity curve or gate-seal study.',
+          'Applying a generic cushion rule across different screw diameters.',
+          'Running pressure-limited shots and treating them as valid fill-only data.',
+          'Trusting HMI cushion snapshot instead of the cycle trace (minimum cushion may be much lower).',
+          'Ignoring hot-runner thermal soak time before collecting data.',
+          'Mixing regrind percentages mid-study, or changing more than one variable at a time.',
+        ],
+      },
+    ],
+  },
 ];
