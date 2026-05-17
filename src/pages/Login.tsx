@@ -57,10 +57,11 @@ export default function Login() {
   const [signupNotice, setSignupNotice] = useState('');
 
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    navigate(getDefaultRoute());
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(getDefaultRoute(), { replace: true });
+    }
+  }, [isAuthenticated, navigate, getDefaultRoute]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
