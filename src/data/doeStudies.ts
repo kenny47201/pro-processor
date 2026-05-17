@@ -299,4 +299,164 @@ export const doeStudies: DoeStudy[] = [
       },
     ],
   },
+  {
+    id: 'melt-temperature-verification',
+    title: 'Melt Temperature Verification DOE',
+    shortTitle: 'Melt Temp Verification',
+    summary:
+      'Quantify the actual polymer melt temperature delivered by the machine (not the setpoint) and map how barrel zones, shear, residence time, and runner system drive it. Builds the transfer function: actual melt = f(setpoints, shear, residence, runner).',
+    linkedToolId: 'material-data',
+    linkedToolLabel: 'Material Data Sheet',
+    downloads: [
+      { label: 'Technical Guide (PDF)', href: '/doe/melt-temperature-verification-guide.pdf' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Critical Distinction',
+        body: [
+          'A melt-temperature verification DOE is a controlled experiment that measures the actual polymer melt temperature delivered by the injection unit under defined production conditions — not the barrel setpoint. It maps machine setpoints and process variables to measured melt temperature and product-response variables, then converts that into a robust process window, setup standard, and reaction plan.',
+          'Critical distinction: a melt-temperature DOE asks "what actual melt temperature is being delivered, and what drives it?" A viscosity curve asks "at a known thermal state, what fill rate is least sensitive to viscosity variation?" They are connected, but combining them casually produces false conclusions.',
+          'Run when a mold is being qualified, transferred, revalidated, repaired, converted between cold and hot runner, challenged by lot-to-lot resin changes, or suffering defects pointing toward viscosity, degradation, melt imbalance, or uncontrolled thermal history.',
+        ],
+      },
+      {
+        id: 'root-causes',
+        title: 'Root-Cause Model — Why Verify, Not Assume',
+        body: [
+          'Setpoint ≠ delivered melt. Cold-runner purge readings, hot-runner tip-to-tip thermal spread, probe delay, purge cooling, skin formation, and technique all distort the result.',
+          'Material drivers: MFR/viscosity, moisture, regrind percentage, color/additive package, lot-to-lot variation, thermal history.',
+          'Machine drivers: screw design, L/D, compression ratio, check ring condition, barrel wear, back pressure, screw rpm, decompression, residence time, shot-size-to-barrel ratio.',
+          'Mold/runner drivers: cold runner mass, sprue restriction, hot-runner manifold zone balance, tip/drop temperatures, gate type (valve vs thermal), gate freeze-off behavior.',
+          'Auxiliary drivers: dryer condition, hopper feed-throat cooling, hot-runner controller stability, robot/sprue-picker cycle timing.',
+        ],
+      },
+      {
+        id: 'measurement',
+        title: 'Measurement Technique Controls the Result',
+        body: [
+          'Probe selection: needle thermocouple vs IR vs in-cavity sensor — each has bias. Document the device, calibration date, and dwell time.',
+          'Purge protocol: define purge volume, purge duration, and measurement delay. Record the time from purge to first reading and standardize across all runs.',
+          'Cold runner: take actual purge melt at the nozzle after a controlled air-shot or onto an insulated surface; avoid skin-only readings.',
+          'Hot runner: measure at the machine/nozzle and document tip-to-tip thermal spread; one bad zone biases the entire study.',
+          'Repeat readings: minimum 3–5 per condition; record min/max/mean and discard the first shot after any setpoint change.',
+        ],
+      },
+      {
+        id: 'doe-architecture',
+        title: 'DOE Architecture',
+        body: [
+          'Factors typically screened: barrel front/nozzle setpoint, screw rpm, back pressure, residence time (via shot-size ratio), and hot-runner manifold/tip setpoint where applicable.',
+          'Responses: actual melt temperature, fill time, transfer pressure, peak injection pressure, cavity-pressure integral, part weight, dimensions, short-shot pattern, visual defects, weld-line severity.',
+          'Hold all non-test variables stable: resin lot, dryer condition, mold temperature, water flow, cycle time, regrind percentage, decompression, and ambient conditions.',
+          'Output is a transfer function — actual melt = f(setpoints, shear, residence, runner system) — that lets the team predict actual melt from controllable inputs.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner Rules',
+        body: [
+          'Cold runner: confirm sprue bushing/nozzle match, clean nozzle tip, sprue puller function, and absence of cold-slug obstruction. Runner mass and cold slugs dominate apparent melt variation.',
+          'Hot runner: verify every zone (manifold, drops, tips, gates) is stable and within tolerance before sampling. Tip-to-tip spread is the single biggest source of false readings.',
+          'Cold runner regrind is a moving material factor — control percentage, grinder screen, fines, dust, and heat history.',
+          'Never use a viscosity curve taken at one actual melt temperature to justify a process running at another actual melt temperature without verification.',
+        ],
+      },
+      {
+        id: 'corrective-actions',
+        title: 'Preventive & Corrective Actions',
+        body: [
+          'Do not compensate for a worn screw or leaking check ring by increasing temperature until the mechanical root cause has been assessed.',
+          'Control regrind percentage, grinder screen, fines, dust, contamination, and heat history at every changeover.',
+          'When actual melt drifts: check dryer outlet temperature/dewpoint, hopper feed-throat cooling, barrel-zone PID tuning, and screw recovery consistency.',
+          'When hot-runner tip-to-tip spread exceeds tolerance: verify thermocouple integrity, controller output, manifold heater function, and balance via short-shot or zone-disable testing.',
+          'Document the final setpoint window, actual-melt window, and reaction plan. Add to the setup sheet and control plan.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'short-shot-fill-balance',
+    title: 'Short-Shot Fill Balance DOE',
+    shortTitle: 'Fill Balance',
+    summary:
+      'Intentionally produce incomplete, pack-free parts at a fixed fill rate to evaluate how evenly the mold distributes melt before pack/hold can mask imbalance. In multi-cavity tools the primary response is cavity-to-cavity balance; in single-cavity tools it is flow-front symmetry.',
+    linkedToolId: 'cavity-variation',
+    linkedToolLabel: 'Cavity Variation Study',
+    downloads: [
+      { label: 'Technical Manual (DOCX)', href: '/doe/short-shot-fill-balance-manual.docx' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Operational Distinction',
+        body: [
+          'A short-shot fill balance DOE is a controlled experiment in which the processor intentionally produces incomplete, pack-free parts at a fixed and validated fill rate, then compares the degree of fill by cavity, by flow path, and by melt-front progression to determine whether the mold, material, machine, and process distribute molten polymer uniformly before pack/hold begins.',
+          'Operational distinction: a production short shot is a defect. A DOE short shot is an intentionally created diagnostic part — the difference is process control.',
+          'Run after the mold is already capable of making a stable fill-only part. Pack and hold are removed or reduced to machine minimum so second-stage pressure cannot hide the true first-stage fill pattern.',
+          'Reduce shot size or transfer position until the most-filled cavity is approximately 60–80% full. Collect multiple labeled short shots so cavity ID, shot-to-shot repeatability, and pattern repeatability can be assessed.',
+        ],
+      },
+      {
+        id: 'doe-sequence',
+        title: 'Recommended DOE Sequence',
+        body: [
+          '1) Prerequisites — material, drying, mold temperature, water, machine health verified.',
+          '2) Melt-temperature verification — confirm actual delivered melt.',
+          '3) Viscosity curve DOE — select a robust fill-rate window.',
+          '4) Fill-only baseline — pack off, target ~95–98% fill.',
+          '5) Short-shot fill balance — leading cavity ~60–80% full.',
+          '6) Corrective action — process / vent / hot runner / gate / cooling / part design.',
+          'Control principle: isolate first-stage filling before pack/hold can mask imbalance.',
+        ],
+      },
+      {
+        id: 'measurements',
+        title: 'What the DOE Measures',
+        body: [
+          'Cavity-to-cavity short-shot weight — weigh each cavity or runner/part group at the same reduced shot condition. Quantifies balance objectively.',
+          'Percent fill by cavity — by volume, image analysis, CAD volume comparison, or consistent weighing.',
+          'Melt-front location — photograph each part side-by-side by cavity ID with fixed lighting and scale. Reveals hesitation, racetrack, weld lines, trapped air, and flow-path bias.',
+          'Injection pressure curve — machine trace, nozzle pressure, or in-mold pressure. Indicates freeze-off, pressure limitation, viscosity drift, and whether the machine is still velocity-controlled.',
+          'Screw position stability — record at transfer, cushion, and hold with pack off. Ensures the machine is not creeping forward during the zero-pack phase.',
+          'Cavity pressure arrival and integral — in-mold sensor when installed. Higher-fidelity indicator of melt arrival, peak, and packing potential.',
+        ],
+      },
+      {
+        id: 'root-causes',
+        title: 'Root Causes of Imbalance',
+        body: [
+          'Runner and gate design flaws: unbalanced layout, shear-induced viscosity imbalance (Beaumont effect), gate-size variation, restrictive sprue bushing.',
+          'Mold-side: venting differences, cooling imbalance between cavities, leader pin/parting line wear causing flash bias, inserts running at different temperatures.',
+          'Hot runner: zone temperature drift, partially blocked tip, valve-gate timing skew, manifold leak, drool/stringing.',
+          'Process: drifting melt temperature, inconsistent cushion, drifting fill target, regrind variation, machine velocity profile changes.',
+          'Material: lot-to-lot MFR variation, moisture, regrind percentage, color/additive package shifts.',
+        ],
+      },
+      {
+        id: 'corrective-actions',
+        title: 'Corrective Actions & Decision Tree',
+        body: [
+          'Process first: confirm stable melt temperature, viscosity-curve window, fill-only baseline, and cushion before changing the tool.',
+          'Hot-runner: balance manifold/tip setpoints, verify valve-gate timing, inspect tips for wear/blockage, manage residence time.',
+          'Venting: add or service vents on the lagging cavities; trapped air mimics imbalance.',
+          'Gate/runner: consider gate-steel modification, runner re-sizing, or melt-rotation inserts (MeltFlipper-style) to address shear-induced imbalance.',
+          'Cooling: equalize cavity temperatures via independent loop control; differential cooling shifts viscosity cavity-to-cavity.',
+          'Last-resort redesign: gate relocation, runner re-cut, or part-design changes if the imbalance is geometric and cannot be processed out.',
+        ],
+      },
+      {
+        id: 'pitfalls',
+        title: 'Common Pitfalls That Invalidate the Study',
+        body: [
+          'Leaving pack/hold on — second-stage pressure masks first-stage imbalance.',
+          'Inconsistent shot size or transfer position between sampled shots.',
+          'Mixing shots from different cycles, cushions, or melt conditions.',
+          'Subjective percent-fill estimates without weights or photos.',
+          'Skipping the fill-only baseline — you cannot evaluate balance from a packed part.',
+          'Confusing a shot-size/cushion study with a fill-balance study; they answer different questions.',
+        ],
+      },
+    ],
+  },
 ];
