@@ -213,4 +213,90 @@ export const doeStudies: DoeStudy[] = [
       },
     ],
   },
+  {
+    id: 'viscosity-curve-study',
+    title: 'Viscosity Curve Study',
+    shortTitle: 'Viscosity Curve',
+    summary:
+      'Plot relative viscosity vs. relative shear rate using progressive short-shot speeds to identify the stable processing window — the foundation of a scientific molding process.',
+    linkedToolId: 'viscosity-curve',
+    linkedToolLabel: 'Viscosity Curve Study',
+    downloads: [
+      { label: 'Training Manual (PDF)', href: '/doe/viscosity-curve-study-guide.pdf' },
+      { label: 'Training Manual (DOCX)', href: '/doe/viscosity-curve-study-guide.docx' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition, Purpose & Interpretation',
+        image: viscosity01,
+        body: [
+          'A viscosity curve plots how apparent (or relative) viscosity changes as plastic flow rate or shear rate changes during controlled short-shot tests. Polymers are shear-thinning — higher shear rate usually lowers apparent viscosity.',
+          'The plateau on the curve identifies the preferred processing window: a broad, stable zone that balances fast fill with low risk of shear heating, degradation, or burning.',
+          'Outcomes: establish a robust fill-speed window, reveal viscosity sensitivity to speed, reduce lot-to-lot surprises, support process transfer, and improve consistency in hot- and cold-runner molds.',
+        ],
+      },
+      {
+        id: 'shifts',
+        title: 'What Shifts the Curve',
+        image: viscosity02,
+        body: [
+          'Material factors: resin family, molecular weight, MFR, additives, fillers, regrind, moisture, lot-to-lot variation, and thermal history.',
+          'Process parameters: injection speed/fill time, peak pressure, melt and mold temperature, cushion, transfer position, cooling time, and decompression.',
+          'Mold design: gate size and location, runner balance, wall thickness variation, venting, and air traps.',
+          'Machine & auxiliary: screw design, check ring, barrel wear, nozzle condition, back pressure, clamp tonnage, chiller, thermolator, hot-runner controller, robot, and dryer.',
+          'False-shift warnings: moisture, drifting melt temperature, inconsistent cushion, changing fill target, sticky/leaking check ring, unstable hot-runner zones, poor venting.',
+        ],
+      },
+      {
+        id: 'polymers',
+        title: 'Polymer Behavior — PP vs ABS vs PC',
+        image: viscosity03,
+        body: [
+          'All three polymers are shear-thinning, but the magnitude and window differ. PC has the highest viscosity, ABS is intermediate, PP flows most easily.',
+          'PP: broad processing window, less pressure-sensitive, easier to fill thin sections. Watch over-speeding (flashing) and melt fracture at very high shear.',
+          'ABS: moderate window, run mid-speeds, watch pressure rise at the high end. Sensitive to moisture and thermal oxidation.',
+          'PC: narrow window, higher pressure-sensitivity especially in thin walls, needs higher melt temperature, and requires drying discipline.',
+          'Additives & fillers: glass fiber and mineral fillers increase viscosity; lubricants/flow promoters decrease it; regrind is variable.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner',
+        image: viscosity04,
+        body: [
+          'Cold runner studies include additional pressure loss through sprue and runners before the gate — results are more sensitive to geometry and cold material.',
+          'Hot runner studies are more influenced by manifold temperature, tip condition, and melt residence time — results are more sensitive to heat management and dwell.',
+          'Cold runner pitfalls: unbalanced runners, restrictive sprue bushing, cold slug entering the cavity, inconsistent cushion from runner volume changes.',
+          'Hot runner pitfalls: wandering zone temperature, partially blocked tip, gate vestige/stringing, stagnant material and degradation.',
+          'Valve-gated vs thermal-gated tips behave differently — account for shut-off, drool, vestige, and freeze-off characteristics.',
+        ],
+      },
+      {
+        id: 'how-to-run',
+        title: 'Step-by-Step DOE Flowchart',
+        image: viscosity05,
+        body: [
+          '1) Define part and mold to test. 2) Verify machine health. 3) Verify resin and drying. 4) Stabilize melt and mold temperatures. 5) Set a repeatable short-shot target and turn OFF pack/hold.',
+          '6) Start at a slow fill speed. 7) Raise speed in small controlled increments (5–15%). 8) Collect peak pressure, fill time, and cushion at each point.',
+          '9) Plot relative viscosity vs. relative shear rate. 10) Identify the preferred processing window (stable plateau). 11) Validate with 3–5 repeat shots. 12) Document the final speed window and plan next studies.',
+          'Common pitfalls that invalidate the study: changing more than one variable, using different fill targets, running full parts instead of short shots, drifting melt temperature, ignored moisture, unstable manifold zones, check-ring leakage, worn non-return valve, robot/sprue picker interrupting cycle.',
+          'What usually comes next: transfer study → pack/hold study → gate seal study → cooling study → process window confirmation.',
+        ],
+      },
+      {
+        id: 'using-results',
+        title: 'Using the Results — Optimization & Corrective Actions',
+        image: viscosity06,
+        body: [
+          'Too slow: short shots, weld lines, hesitation marks, low gloss, inconsistent filling. Too fast: flash, burn marks, jetting, excessive shear heating, residual stress. Preferred window: complete fill, lower stable injection pressure, wide robust operating window.',
+          'Process decisions: select injection speed/fill time in the stable window, set transfer position, plan pack/hold study, confirm gate seal, reduce lot-to-lot sensitivity, and match fill time/pressures/transfer position when transferring between presses.',
+          'Cold runner actions: review gate/runner restriction, optimize gate size/location, manage runner cooling, check cold-slug control, watch for gate blush or hesitation.',
+          'Hot runner actions: tune manifold/tip temperatures, inspect tips for blockage/wear, manage residence time, reduce drool/stringing, evaluate valve-gate timing.',
+          'Production corrective actions: short shots → raise speed in window, raise melt/mold temp, check venting. Flash → reduce speed, verify clamp, check transfer/pack. Burn marks → reduce speed, lower melt temp, increase venting. Flow hesitation → raise speed (still in window), raise temp, check gate/runner. Gloss variation → adjust speed to center of window, stabilize temps. Gate vestige → adjust hold time, optimize gate size or freeze, adjust transfer.',
+          'The viscosity curve does not replace engineering judgment — optics, insert molding, and highly cosmetic parts may require additional caution and part-specific testing.',
+        ],
+      },
+    ],
+  },
 ];
