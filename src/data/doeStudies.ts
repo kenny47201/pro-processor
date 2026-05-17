@@ -112,7 +112,8 @@ export const doeStudies: DoeStudy[] = [
     linkedToolId: 'shot-volume',
     linkedToolLabel: 'Shot Volume Calculator',
     downloads: [
-      { label: 'Technical Reference (PDF)', href: '/doe/shot-size-cushion-study-guide.pdf' },
+      { label: 'Quick-Start Guide (PDF)', href: '/doe/shot-size-cushion-study-guide.pdf' },
+      { label: 'Full Technical Reference (PDF)', href: '/doe/shot-size-cushion-study-technical-reference.pdf' },
     ],
     sections: [
       {
