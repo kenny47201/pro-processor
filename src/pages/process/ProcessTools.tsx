@@ -29,7 +29,8 @@ import { MaterialDataSheet } from '@/components/process-tools/MaterialDataSheet'
 import { PinnedToolsBar, PinnedToolItem } from '@/components/process-tools/PinnedToolsBar';
 import { PinnableToolWrapper } from '@/components/process-tools/PinnableToolWrapper';
 import { usePinnedTools } from '@/hooks/usePinnedTools';
-import { Wrench, Scale, Gauge, Thermometer } from 'lucide-react';
+import { DoeStudyViewer } from '@/components/process-tools/DoeStudyViewer';
+import { Wrench, Scale, Gauge, Thermometer, FlaskConical } from 'lucide-react';
 
 type ToolDef = {
   id: string;
@@ -163,7 +164,7 @@ export default function ProcessTools() {
       />
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid grid-cols-4 w-full max-w-2xl">
+        <TabsList className="grid grid-cols-5 w-full max-w-3xl">
           <TabsTrigger value="setup" className="flex items-center gap-1.5">
             <Scale className="h-4 w-4" />
             <span className="hidden sm:inline">Setup & Sizing</span>
@@ -183,6 +184,11 @@ export default function ProcessTools() {
             <Wrench className="h-4 w-4" />
             <span className="hidden sm:inline">Utilities</span>
             <span className="sm:hidden">Utils</span>
+          </TabsTrigger>
+          <TabsTrigger value="doe" className="flex items-center gap-1.5">
+            <FlaskConical className="h-4 w-4" />
+            <span className="hidden sm:inline">DOEs</span>
+            <span className="sm:hidden">DOE</span>
           </TabsTrigger>
         </TabsList>
 
@@ -308,6 +314,11 @@ export default function ProcessTools() {
             </h2>
             {renderToolGrid(TOOL_REGISTRY.utilities.filter((t) => ['cycle-time', 'energy-cost'].includes(t.id)))}
           </section>
+        </TabsContent>
+
+        {/* ===== DOEs ===== */}
+        <TabsContent value="doe" className="mt-6">
+          <DoeStudyViewer onOpenTool={focusTool} />
         </TabsContent>
       </Tabs>
     </div>
