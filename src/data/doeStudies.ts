@@ -32,6 +32,18 @@ import decompression03 from '@/assets/doe/decompression-03-cold-vs-hot.png';
 import decompression04 from '@/assets/doe/decompression-04-procedure.png';
 import decompression05 from '@/assets/doe/decompression-05-responses.png';
 import decompression06 from '@/assets/doe/decompression-06-troubleshooting.png';
+import holdPressure01 from '@/assets/doe/hold-pressure-01-definition.png';
+import holdPressure02 from '@/assets/doe/hold-pressure-02-drivers.png';
+import holdPressure03 from '@/assets/doe/hold-pressure-03-cold-vs-hot.png';
+import holdPressure04 from '@/assets/doe/hold-pressure-04-procedure.png';
+import holdPressure05 from '@/assets/doe/hold-pressure-05-responses.png';
+import holdPressure06 from '@/assets/doe/hold-pressure-06-troubleshooting.png';
+import hotRunnerBalance01 from '@/assets/doe/hot-runner-balance-01-definition.png';
+import hotRunnerBalance02 from '@/assets/doe/hot-runner-balance-02-outcome.png';
+import hotRunnerBalance03 from '@/assets/doe/hot-runner-balance-03-cold-vs-hot.png';
+import hotRunnerBalance04 from '@/assets/doe/hot-runner-balance-04-procedure.png';
+import hotRunnerBalance05 from '@/assets/doe/hot-runner-balance-05-responses.png';
+import hotRunnerBalance06 from '@/assets/doe/hot-runner-balance-06-troubleshooting.png';
 
 export type DoeSection = {
   id: string;
