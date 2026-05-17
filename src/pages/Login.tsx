@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Lock, User, Eye, EyeOff, Mail } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
@@ -57,10 +57,11 @@ export default function Login() {
   const [signupNotice, setSignupNotice] = useState('');
 
   // Redirect if already authenticated
-  if (isAuthenticated) {
-    navigate(getDefaultRoute());
-    return null;
-  }
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(getDefaultRoute(), { replace: true });
+    }
+  }, [isAuthenticated, navigate, getDefaultRoute]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
