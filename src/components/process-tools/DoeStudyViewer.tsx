@@ -4,9 +4,10 @@ import { ArrowLeft, Calculator, Download, FlaskConical, ChevronRight } from 'luc
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { doeStudies, type DoeStudy } from '@/data/doeStudies';
 import { cn } from '@/lib/utils';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 
 interface Props {
   /** Optional: jump straight to a calculator within ProcessTools. */
@@ -17,7 +18,7 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
   const navigate = useNavigate();
   const [active, setActive] = useState<DoeStudy | null>(null);
   const [activeSection, setActiveSection] = useState('');
-  const [lightbox, setLightbox] = useState<string | null>(null);
+  
 
   const handleOpenStudy = (study: DoeStudy) => {
     setActive(study);
@@ -146,18 +147,19 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
           </CardHeader>
           <CardContent className="space-y-4">
             {current.image && (
-              <button
-                type="button"
-                onClick={() => setLightbox(current.image!)}
-                className="block w-full rounded-md overflow-hidden border border-border bg-card hover:border-primary/60 transition-colors"
-              >
-                <img
-                  src={current.image}
-                  alt={current.title}
-                  className="w-full h-auto"
-                  loading="lazy"
-                />
-              </button>
+              <div className="block w-full rounded-md overflow-hidden border border-border bg-card">
+                <Zoom
+                  zoomMargin={16}
+                  classDialog="doe-zoom-dialog"
+                >
+                  <img
+                    src={current.image}
+                    alt={current.title}
+                    className="w-full h-auto cursor-zoom-in"
+                    loading="lazy"
+                  />
+                </Zoom>
+              </div>
             )}
             {current.body?.map((p, i) => (
               <p key={i} className="text-sm text-muted-foreground leading-relaxed">
@@ -167,12 +169,6 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
           </CardContent>
         </Card>
       )}
-
-      <Dialog open={!!lightbox} onOpenChange={() => setLightbox(null)}>
-        <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] p-2 overflow-auto">
-          {lightbox && <img src={lightbox} alt="" className="w-full h-auto rounded" />}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
