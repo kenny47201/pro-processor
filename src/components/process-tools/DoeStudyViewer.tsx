@@ -18,7 +18,7 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
   const navigate = useNavigate();
   const [active, setActive] = useState<DoeStudy | null>(null);
   const [activeSection, setActiveSection] = useState('');
-  const [lightbox, setLightbox] = useState<string | null>(null);
+  
 
   const handleOpenStudy = (study: DoeStudy) => {
     setActive(study);
