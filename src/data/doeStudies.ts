@@ -20,6 +20,18 @@ import gateSeal03 from '@/assets/doe/gate-seal-03-cold-vs-hot.png';
 import gateSeal04 from '@/assets/doe/gate-seal-04-what-changes.png';
 import gateSeal05 from '@/assets/doe/gate-seal-05-troubleshooting.png';
 import gateSeal06 from '@/assets/doe/gate-seal-06-procedure.png';
+import bpRpm01 from '@/assets/doe/bp-rpm-01-definition.png';
+import bpRpm02 from '@/assets/doe/bp-rpm-02-matrix.png';
+import bpRpm03 from '@/assets/doe/bp-rpm-03-cold-vs-hot.png';
+import bpRpm04 from '@/assets/doe/bp-rpm-04-procedure.png';
+import bpRpm05 from '@/assets/doe/bp-rpm-05-responses.png';
+import bpRpm06 from '@/assets/doe/bp-rpm-06-troubleshooting.png';
+import decompression01 from '@/assets/doe/decompression-01-definition.png';
+import decompression02 from '@/assets/doe/decompression-02-tradeoff.png';
+import decompression03 from '@/assets/doe/decompression-03-cold-vs-hot.png';
+import decompression04 from '@/assets/doe/decompression-04-procedure.png';
+import decompression05 from '@/assets/doe/decompression-05-responses.png';
+import decompression06 from '@/assets/doe/decompression-06-troubleshooting.png';
 
 export type DoeSection = {
   id: string;
