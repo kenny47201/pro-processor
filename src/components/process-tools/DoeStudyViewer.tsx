@@ -146,18 +146,9 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
           </CardHeader>
           <CardContent className="space-y-4">
             {current.image && (
-              <button
-                type="button"
-                onClick={() => setLightbox(current.image!)}
-                className="block w-full rounded-md overflow-hidden border border-border bg-card hover:border-primary/60 transition-colors"
-              >
-                <img
-                  src={current.image}
-                  alt={current.title}
-                  className="w-full h-auto cursor-zoom-in"
-                  loading="lazy"
-                />
-              </button>
+              <div className="rounded-md overflow-hidden border border-border bg-card">
+                <ZoomableImage src={current.image} alt={current.title} />
+              </div>
             )}
             {current.body?.map((p, i) => (
               <p key={i} className="text-sm text-muted-foreground leading-relaxed">
@@ -167,57 +158,6 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
           </CardContent>
         </Card>
       )}
-
-      <Dialog open={!!lightbox} onOpenChange={(o) => !o && setLightbox(null)}>
-        <DialogContent className="max-w-[100vw] w-screen h-[100dvh] sm:h-[95vh] sm:max-w-6xl sm:w-[95vw] p-0 overflow-hidden bg-background/95 border-border">
-          {lightbox && (
-            <TransformWrapper
-              initialScale={1}
-              minScale={1}
-              maxScale={8}
-              centerOnInit
-              wheel={{ step: 0.2 }}
-              doubleClick={{ mode: 'toggle', step: 2 }}
-              pinch={{ step: 5 }}
-            >
-              {({ zoomIn, zoomOut, resetTransform }) => (
-                <div className="relative w-full h-full">
-                  <TransformComponent
-                    wrapperClass="!w-full !h-full"
-                    contentClass="!w-full !h-full flex items-center justify-center"
-                  >
-                    <img
-                      src={lightbox}
-                      alt=""
-                      className="max-w-full max-h-full object-contain select-none"
-                      draggable={false}
-                    />
-                  </TransformComponent>
-                  <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1 rounded-full border border-border bg-background/90 backdrop-blur px-2 py-1 shadow-lg">
-                    <Button size="icon" variant="ghost" className="h-9 w-9" onClick={() => zoomOut()}>
-                      <ZoomOut className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-9 w-9" onClick={() => resetTransform()}>
-                      <Maximize2 className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-9 w-9" onClick={() => zoomIn()}>
-                      <ZoomIn className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="absolute top-2 right-2 h-9 w-9 rounded-full bg-background/80 backdrop-blur border border-border"
-                    onClick={() => setLightbox(null)}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
-              )}
-            </TransformWrapper>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
