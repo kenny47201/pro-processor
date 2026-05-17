@@ -259,11 +259,9 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
             return (
               <figure key={i} className="my-5 space-y-3">
                 <div className="rounded-md border bg-muted/20 overflow-hidden">
-                  <img
+                  <ZoomableImage
                     src={block.src}
                     alt={block.alt}
-                    loading="lazy"
-                    className="w-full h-auto block"
                   />
                 </div>
                 {(block.figureNumber || block.caption) && (
