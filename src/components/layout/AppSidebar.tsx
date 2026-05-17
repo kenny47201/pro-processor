@@ -41,10 +41,14 @@ import { Button } from '@/components/ui/button';
 import { ROLE_LABELS } from '@/types/models';
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, isMobile, setOpenMobile } = useSidebar();
   const collapsed = state === 'collapsed';
   const { currentUser, hasPermission, logout } = useTenant();
   const navigate = useNavigate();
+
+  const handleNavClick = () => {
+    if (isMobile) setOpenMobile(false);
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -88,6 +92,7 @@ export function AppSidebar() {
         <SidebarMenuButton asChild>
           <NavLink 
             to={item.url} 
+            onClick={handleNavClick}
             className="flex items-center gap-3 px-3 py-2 rounded-md text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground transition-colors"
             activeClassName="bg-primary/20 text-primary font-medium"
           >
