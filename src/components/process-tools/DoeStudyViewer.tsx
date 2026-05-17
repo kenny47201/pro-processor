@@ -147,18 +147,19 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
           </CardHeader>
           <CardContent className="space-y-4">
             {current.image && (
-              <button
-                type="button"
-                onClick={() => setLightbox(current.image!)}
-                className="block w-full rounded-md overflow-hidden border border-border bg-card hover:border-primary/60 transition-colors"
-              >
-                <img
-                  src={current.image}
-                  alt={current.title}
-                  className="w-full h-auto"
-                  loading="lazy"
-                />
-              </button>
+              <div className="block w-full rounded-md overflow-hidden border border-border bg-card">
+                <Zoom
+                  zoomMargin={16}
+                  classDialog="doe-zoom-dialog"
+                >
+                  <img
+                    src={current.image}
+                    alt={current.title}
+                    className="w-full h-auto cursor-zoom-in"
+                    loading="lazy"
+                  />
+                </Zoom>
+              </div>
             )}
             {current.body?.map((p, i) => (
               <p key={i} className="text-sm text-muted-foreground leading-relaxed">
@@ -168,12 +169,6 @@ export function DoeStudyViewer({ onOpenTool }: Props) {
           </CardContent>
         </Card>
       )}
-
-      <Dialog open={!!lightbox} onOpenChange={() => setLightbox(null)}>
-        <DialogContent className="max-w-6xl w-[95vw] max-h-[95vh] p-2 overflow-auto">
-          {lightbox && <img src={lightbox} alt="" className="w-full h-auto rounded" />}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
