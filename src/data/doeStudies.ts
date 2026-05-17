@@ -8,6 +8,12 @@ import pressureLoss03 from '@/assets/doe/pressure-loss-03-cold-vs-hot.png';
 import pressureLoss04 from '@/assets/doe/pressure-loss-04-how-to-run.png';
 import pressureLoss05 from '@/assets/doe/pressure-loss-05-interpreting.png';
 import pressureLoss06 from '@/assets/doe/pressure-loss-06-troubleshooting.png';
+import viscosity01 from '@/assets/doe/viscosity-curve-01-definition.png';
+import viscosity02 from '@/assets/doe/viscosity-curve-02-shifts.png';
+import viscosity03 from '@/assets/doe/viscosity-curve-03-polymers.png';
+import viscosity04 from '@/assets/doe/viscosity-curve-04-cold-vs-hot.png';
+import viscosity05 from '@/assets/doe/viscosity-curve-05-flowchart.png';
+import viscosity06 from '@/assets/doe/viscosity-curve-06-using-results.png';
 
 export type DoeSection = {
   id: string;
