@@ -14,6 +14,12 @@ import viscosity03 from '@/assets/doe/viscosity-curve-03-polymers.png';
 import viscosity04 from '@/assets/doe/viscosity-curve-04-cold-vs-hot.png';
 import viscosity05 from '@/assets/doe/viscosity-curve-05-flowchart.png';
 import viscosity06 from '@/assets/doe/viscosity-curve-06-using-results.png';
+import gateSeal01 from '@/assets/doe/gate-seal-01-definition.png';
+import gateSeal02 from '@/assets/doe/gate-seal-02-how-to-run.png';
+import gateSeal03 from '@/assets/doe/gate-seal-03-cold-vs-hot.png';
+import gateSeal04 from '@/assets/doe/gate-seal-04-what-changes.png';
+import gateSeal05 from '@/assets/doe/gate-seal-05-troubleshooting.png';
+import gateSeal06 from '@/assets/doe/gate-seal-06-procedure.png';
 
 export type DoeSection = {
   id: string;
@@ -456,6 +462,87 @@ export const doeStudies: DoeStudy[] = [
           'Subjective percent-fill estimates without weights or photos.',
           'Skipping the fill-only baseline — you cannot evaluate balance from a packed part.',
           'Confusing a shot-size/cushion study with a fill-balance study; they answer different questions.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'gate-seal-study',
+    title: 'Gate Seal Study',
+    shortTitle: 'Gate Seal',
+    summary:
+      'Determine the minimum pack/hold time after which additional hold time no longer increases part weight — the point at which the gate has frozen and pressure can no longer feed the cavity.',
+    linkedToolId: 'gate-freeze',
+    linkedToolLabel: 'Gate Freeze Worksheet',
+    downloads: [
+      { label: 'Technical Reference (PDF)', href: '/doe/gate-seal-study-guide.pdf' },
+      { label: 'Editable Manual (DOCX)', href: '/doe/gate-seal-study-guide.docx' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Why Run It',
+        image: gateSeal01,
+        body: [
+          'A gate seal study is a process DOE that finds the earliest hold time at which average part weight stops increasing, because the gate has frozen and additional hold pressure can no longer feed the cavity.',
+          'Outputs: gate seal time, recommended hold-time window, weight stability, and a measure of process robustness.',
+          'Use it to optimize hold time, prevent sinks/voids/underpack, reduce dimensional variation, avoid wasted cycle time, and prevent false optimization based on cosmetic checks alone.',
+        ],
+      },
+      {
+        id: 'how-to-run',
+        title: 'How to Run & Interpret',
+        image: gateSeal02,
+        body: [
+          'Objective: find the earliest hold time at which average part weight no longer increases.',
+          'Procedure: stabilize the process; hold melt temp, mold temp, shot size/cushion, transfer position, hold pressure, and cooling time constant; vary only hold time in planned increments; discard stabilization shots; collect repeats; weigh on a calibrated scale (0.01 g or better); plot average weight vs. hold time.',
+          'Read the curve in four zones: underpacked → transition → plateau (weight stability) → wasted hold time beyond seal. The gate seal time is the earliest point on the plateau.',
+          'Watch for false plateaus from unstable cushion, temperature drift, mixed cavities, insufficient repeats, poor scale resolution, or moisture/material inconsistency.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner Molds',
+        image: gateSeal03,
+        body: [
+          'Cold runner: pressure is lost through sprue and runner before the gate; runner size, balance, and cooling all affect packing. Freeze occurs at the gate and within the cold runner. Watch for runner freeze, cold slugs, or unbalanced runners simulating an early seal.',
+          'Hot runner: melt stays molten in the manifold and drop; freeze occurs mainly at the gate or thermal tip. Tip temperature stability dominates seal time; drool, stringing, or tip imbalance can simulate a late seal or hide cavity imbalance.',
+          'Practical takeaway: in cold runner molds, study runner/gate pressure losses and cavity balance together; in hot runner molds, study gate behavior alongside manifold and tip temperature control.',
+        ],
+      },
+      {
+        id: 'what-changes',
+        title: 'What Changes Gate Seal Time',
+        image: gateSeal04,
+        body: [
+          'Material: viscosity, melt temp, crystallization behavior, fillers, moisture, regrind consistency. Lower viscosity / hotter melt lengthens seal time; higher viscosity / cooler melt shortens it.',
+          'Process: injection speed profile, transfer position, hold pressure, cooling time, mold temperature — and the only variable in the study itself, hold-time increments.',
+          'Mold design: gate type, diameter, land length, runner size/balance, wall thickness near the gate, venting, air traps and flow hesitations.',
+          'Machine: screw wear, check-ring leakage, shot-size repeatability, cushion stability, pressure response, clamp force. Poor repeatability makes the study unreliable.',
+          'Auxiliary: chillers, mold-temp controllers, hot-runner controllers, dryers, robots/sprue pickers. Unstable temperatures or handling can change measured seal time.',
+        ],
+      },
+      {
+        id: 'troubleshooting',
+        title: 'Troubleshooting Results',
+        image: gateSeal05,
+        body: [
+          'Hold time too short: low weight, sinks, voids, short pack, dimensional shrinkage near thick areas, cavity-to-cavity inconsistency. Action: increase hold time, verify hold pressure, check that the gate is not freezing too early, review gate size and mold temp.',
+          'Hold time longer than needed: wasted cycle time, little/no weight increase past plateau, possible overpack or flash. Action: reduce hold time toward the plateau and verify quality still passes.',
+          'False determination: scattered weight data, drifting plateau, unstable cushion, hot-runner temp drift, moisture variation, inaccurate scale. Action: stabilize the process, separate cavities, calibrate the scale, verify temperature control, purge/dry material, repeat the study.',
+          'Verify the conclusion: repeat the study, confirm the average-weight plateau, confirm dimensions, inspect for sinks/voids, review cavity pressure if available, and document the chosen hold time and rationale.',
+        ],
+      },
+      {
+        id: 'procedure',
+        title: 'Standard Procedure & Decision Flow',
+        image: gateSeal06,
+        body: [
+          'Verify prerequisites: dried/verified material, stable melt and mold temps, stable hot-runner temps (if used), consistent cooling water, calibrated scale, stable shot size/cushion, stable transfer position, consistent part handling, safe machine state.',
+          'Run flow: stabilize → select hold-time plan → run each setting → collect repeats → weigh and record → plot average weight vs hold time → check for plateau.',
+          'If data unstable: check check-ring leakage, screw wear, cushion variation, temperature drift, scale accuracy, cavity separation, hot-tip imbalance, runner imbalance, moisture, and auxiliary temperature control.',
+          'If plateau reached: identify earliest plateau, choose a recommended hold time at or just beyond it, confirm with quality checks, and release with documented setup sheet and DOE record.',
+          'Goal: determine the shortest effective hold time that still fully packs the part and maintains part quality.',
         ],
       },
     ],
