@@ -4,9 +4,10 @@ import { ArrowLeft, Calculator, Download, FlaskConical, ChevronRight } from 'luc
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { doeStudies, type DoeStudy } from '@/data/doeStudies';
 import { cn } from '@/lib/utils';
+import Zoom from 'react-medium-image-zoom';
+import 'react-medium-image-zoom/dist/styles.css';
 
 interface Props {
   /** Optional: jump straight to a calculator within ProcessTools. */
