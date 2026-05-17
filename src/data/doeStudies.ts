@@ -20,6 +20,18 @@ import gateSeal03 from '@/assets/doe/gate-seal-03-cold-vs-hot.png';
 import gateSeal04 from '@/assets/doe/gate-seal-04-what-changes.png';
 import gateSeal05 from '@/assets/doe/gate-seal-05-troubleshooting.png';
 import gateSeal06 from '@/assets/doe/gate-seal-06-procedure.png';
+import bpRpm01 from '@/assets/doe/bp-rpm-01-definition.png';
+import bpRpm02 from '@/assets/doe/bp-rpm-02-matrix.png';
+import bpRpm03 from '@/assets/doe/bp-rpm-03-cold-vs-hot.png';
+import bpRpm04 from '@/assets/doe/bp-rpm-04-procedure.png';
+import bpRpm05 from '@/assets/doe/bp-rpm-05-responses.png';
+import bpRpm06 from '@/assets/doe/bp-rpm-06-troubleshooting.png';
+import decompression01 from '@/assets/doe/decompression-01-definition.png';
+import decompression02 from '@/assets/doe/decompression-02-tradeoff.png';
+import decompression03 from '@/assets/doe/decompression-03-cold-vs-hot.png';
+import decompression04 from '@/assets/doe/decompression-04-procedure.png';
+import decompression05 from '@/assets/doe/decompression-05-responses.png';
+import decompression06 from '@/assets/doe/decompression-06-troubleshooting.png';
 
 export type DoeSection = {
   id: string;
@@ -543,6 +555,155 @@ export const doeStudies: DoeStudy[] = [
           'If data unstable: check check-ring leakage, screw wear, cushion variation, temperature drift, scale accuracy, cavity separation, hot-tip imbalance, runner imbalance, moisture, and auxiliary temperature control.',
           'If plateau reached: identify earliest plateau, choose a recommended hold time at or just beyond it, confirm with quality checks, and release with documented setup sheet and DOE record.',
           'Goal: determine the shortest effective hold time that still fully packs the part and maintains part quality.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'back-pressure-rpm-matrix',
+    title: 'Back-Pressure / Screw-RPM Matrix',
+    shortTitle: 'BP / RPM Matrix',
+    summary:
+      'Run a structured two-factor DOE on back pressure and screw RPM to identify the lowest-shear melt-preparation window that still gives stable recovery, acceptable melt quality, and repeatable part quality.',
+    linkedToolId: 'material-data',
+    linkedToolLabel: 'Material Data Sheet',
+    downloads: [
+      { label: 'Technical Reference (PDF)', href: '/doe/back-pressure-rpm-matrix-guide.pdf' },
+      { label: 'Technical Reference (DOCX)', href: '/doe/back-pressure-rpm-matrix-guide.docx' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Core Mechanism',
+        image: bpRpm01,
+        body: [
+          'A back-pressure / screw-RPM matrix is a controlled factorial study that varies plasticizing back pressure and screw rotational speed while holding material condition, barrel profile, mold temperature, and molding conditions constant.',
+          'Purpose: find the lowest back pressure and lowest screw surface speed that still provide repeatable recovery, homogeneous melt, acceptable melt temperature, acceptable dispersion, and stable shot-to-shot behavior.',
+          'This is a melt-preparation DOE, not a viscosity curve. It qualifies the plasticizing window before injection so downstream studies are not corrupted by unstable melt preparation.',
+        ],
+      },
+      {
+        id: 'matrix',
+        title: 'Outcome Matrix & Operating Window',
+        image: bpRpm02,
+        body: [
+          'Low BP + low RPM risks poor mixing, unmelts, and color dispersion issues. High BP + high RPM raises shear heat, degradation risk, recovery load, and drool risk.',
+          'The practical target is the conservative window: the minimum BP and RPM combination that still gives stable recovery, stable weight/cushion, acceptable melt quality, and recovery completion within cooling time.',
+          'Document the selected window with objective responses, not operator preference alone.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner Considerations',
+        image: bpRpm03,
+        body: [
+          'Cold runner tools add sprue/runner pressure loss, runner freeze behavior, and regrind feedback. They are often more sensitive to shear in small cold channels and to apparent viscosity shifts caused by plasticizing changes.',
+          'Hot runners remove runner scrap from the shot, but add manifold thermal balance, tip stability, residence-time, and dead-spot variables. Interpret BP/RPM results differently because the hot system stays molten between cycles.',
+          'Never transfer a window from cold runner to hot runner, or vice versa, without revalidation.',
+        ],
+      },
+      {
+        id: 'procedure',
+        title: 'Recommended DOE Procedure',
+        image: bpRpm04,
+        body: [
+          'Freeze the baseline first: dry material, stabilize barrel/nozzle/mold temps, verify check-ring repeatability, and lock all non-test variables before changing BP or RPM.',
+          'Choose defined BP and RPM levels, preferably comparing screw surface speed instead of raw RPM when different screw diameters are involved. Run the planned matrix in randomized order if practical.',
+          'At each cell, reach steady state before recording results. Use a consistent sample size and collect enough repeats to judge range, not just averages.',
+        ],
+      },
+      {
+        id: 'responses',
+        title: 'Responses to Measure',
+        image: bpRpm05,
+        body: [
+          'Primary responses typically include recovery time, recovery-time range, shot weight/range, cushion stability, melt temperature, screw torque/load, pressure at transfer, part weight, and visible quality indicators.',
+          'If fillers, colorants, or sensitive resins are involved, also inspect for fiber attrition, color streaking, splay, odor, or discoloration because these are often early signs of excessive shear or poor melt preparation.',
+          'Use the same measurement technique at every cell. Poor measurement discipline can create a false “best” window.',
+        ],
+      },
+      {
+        id: 'troubleshooting',
+        title: 'Troubleshooting & Corrective Actions',
+        image: bpRpm06,
+        body: [
+          'Slow recovery often points to excessive back pressure, while splay or silver streaks can indicate excessive screw speed, shear heat, or moisture issues that the DOE is exposing.',
+          'Color streaks or poor mixing often indicate too little plasticizing energy; drifting cushion can indicate check-ring wear or broader machine repeatability issues rather than a true BP/RPM optimum problem.',
+          'Make one change at a time, reduce shear before adding heat, and document the final window together with machine/material limits and reaction plans.',
+        ],
+      },
+    ],
+  },
+  {
+    id: 'decompression-doe',
+    title: 'Decompression DOE',
+    shortTitle: 'Decompression',
+    summary:
+      'Vary decompression amount, speed, and timing to find the minimum effective setting that relieves residual melt pressure without introducing air, splay, cushion instability, or false degradation symptoms.',
+    linkedToolId: 'gate-freeze',
+    linkedToolLabel: 'Gate Freeze Worksheet',
+    downloads: [
+      { label: 'Technical Manual (PDF)', href: '/doe/decompression-doe-manual.pdf' },
+    ],
+    sections: [
+      {
+        id: 'definition',
+        title: 'Definition & Timing',
+        image: decompression01,
+        body: [
+          'Decompression, suck-back, or pull-back is the backward movement of the screw after recovery or before injection to relieve residual melt pressure at the nozzle or runner entrance.',
+          'A decompression DOE studies amount, speed, and timing to find the smallest setting that stops drool and stringing without destabilizing the shot or drawing air into the melt stream.',
+          'Separate this from a residence/degradation study: decompression can create symptoms that resemble degradation, but it does not quantify material damage by itself.',
+        ],
+      },
+      {
+        id: 'tradeoff',
+        title: 'The Minimum-Effective Tradeoff',
+        image: decompression02,
+        body: [
+          'Too little decompression leaves pressure in the system, leading to nozzle drool, gate stringing, cold slugs, and inconsistent first-shot behavior.',
+          'Too much decompression can draw air into the melt, destabilize the check ring, reduce shot repeatability, and create splay, blisters, or misleading “degradation” symptoms.',
+          'The target is a window, not a single magic number: use the minimum effective decompression that solves pressure-relief symptoms while preserving repeatability.',
+        ],
+      },
+      {
+        id: 'cold-vs-hot',
+        title: 'Cold Runner vs Hot Runner Behavior',
+        image: decompression03,
+        body: [
+          'Cold runner decompression behavior is dominated by the nozzle, sprue, runner, cold slug, and first-shot fill. Pressure is relieved into a system that freezes every cycle.',
+          'Hot runner decompression interacts with manifold balance, hot-tip stability, valve timing, residence time, and stagnant pockets because the system stays molten and pressurized between cycles.',
+          'Settings that work in a cold runner can be completely wrong in a hot runner. Validate them separately for each mold family and runner system.',
+        ],
+      },
+      {
+        id: 'procedure',
+        title: 'DOE Procedure',
+        image: decompression04,
+        body: [
+          'Start by stabilizing the baseline: dry resin, stable temperatures, verified shot size/cushion, and no obvious mechanical leakage. If baseline stability is poor, the DOE is not valid.',
+          'Define the factors deliberately: post-decompression amount, decompression speed, and whether pre-decompression is used. Build a screening matrix and run each condition with a consistent shot count and observation method.',
+          'Keep all non-test variables fixed. Randomize run order when possible and record every setting change so the selected window is auditable and transferable.',
+        ],
+      },
+      {
+        id: 'responses',
+        title: 'Responses to Measure',
+        image: decompression05,
+        body: [
+          'Track drool length, first-shot fill quality, cushion and weight repeatability, splay or silver streaks, gate stringing/vestige, and machine or cavity pressure-curve behavior.',
+          'Use fixed lighting, fixed part orientation, and a documented severity scale for visual ratings so the study does not devolve into opinion.',
+          'A good setting improves pressure relief and gate/nozzle behavior while keeping part weight and cushion tight shot-to-shot.',
+        ],
+      },
+      {
+        id: 'troubleshooting',
+        title: 'Troubleshooting & Safe Adjustments',
+        image: decompression06,
+        body: [
+          'Nozzle drool often indicates insufficient post-decompression, but low nozzle temperature, shut-off problems, and hot-runner issues can mimic the same symptom. Prove root cause before increasing pullback aggressively.',
+          'Splay, blisters, or drifting cushion often point to excessive pullback or check-ring instability. First-shot shortness can indicate too much pre-decompression or loss of available melt at the start of fill.',
+          'Best practice is conservative: confirm positive shut-off, adjust in small steps, verify the first shot after each change, and lock the minimum effective setting into the setup sheet once confirmed.',
         ],
       },
     ],
