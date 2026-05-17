@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Calculator, Download, FlaskConical, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Calculator, Download, FlaskConical, ChevronRight, ZoomIn, ZoomOut, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { doeStudies, type DoeStudy } from '@/data/doeStudies';
 import { cn } from '@/lib/utils';
-import Zoom from 'react-medium-image-zoom';
-import 'react-medium-image-zoom/dist/styles.css';
+import { TransformWrapper, TransformComponent } from 'react-zoom-pan-pinch';
 
 interface Props {
   /** Optional: jump straight to a calculator within ProcessTools. */
