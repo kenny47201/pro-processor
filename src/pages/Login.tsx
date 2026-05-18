@@ -83,40 +83,6 @@ export default function Login() {
     setScreenName('');
     setPassword('');
     setError('');
-    setMode('signin');
-    setSignupEmail('');
-    setSignupName('');
-    setSignupNotice('');
-  };
-
-  const handleSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSignupNotice('');
-    setIsSubmitting(true);
-    try {
-      const screen = screenName.trim();
-      if (!screen) { setError('Screen name required'); setIsSubmitting(false); return; }
-      const internalEmail = `${screen.toLowerCase().replace(/\s+/g, '_')}@proprocessor.app`;
-      const { error: signErr } = await supabase.auth.signUp({
-        email: signupEmail || internalEmail,
-        password,
-        options: {
-          emailRedirectTo: `${window.location.origin}/`,
-          data: { display_name: signupName || screen, screen_name: screen },
-        },
-      });
-      if (signErr) { setError(signErr.message); return; }
-      // Make sure we don't auto-login a pending account
-      await supabase.auth.signOut();
-      setSignupNotice("Account created. An admin must approve it before you can sign in.");
-      setMode('signin');
-      setPassword('');
-    } catch {
-      setError('An unexpected error occurred');
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
