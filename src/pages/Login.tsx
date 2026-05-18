@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Lock, User, Eye, EyeOff, Mail } from 'lucide-react';
+import { Lock, User, Eye, EyeOff } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
 import { ROLE_LABELS, ROLE_ICONS, UserRole } from '@/types/models';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { supabase } from '@/integrations/supabase/client';
 import logoBadge from '@/assets/logo-badge.png';
 import processorIcon from '@/assets/processor-login-icon.png';
 import toolingIcon from '@/assets/tooling-login-icon.png';
