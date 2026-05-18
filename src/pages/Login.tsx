@@ -51,10 +51,6 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [mode, setMode] = useState<'signin' | 'signup'>('signin');
-  const [signupEmail, setSignupEmail] = useState('');
-  const [signupName, setSignupName] = useState('');
-  const [signupNotice, setSignupNotice] = useState('');
 
   // Redirect if already authenticated
   useEffect(() => {
