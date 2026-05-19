@@ -14,6 +14,106 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversation_messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_participants: {
+        Row: {
+          conversation_id: string
+          id: string
+          joined_at: string
+          user_id: string
+        }
+        Insert: {
+          conversation_id: string
+          id?: string
+          joined_at?: string
+          user_id: string
+        }
+        Update: {
+          conversation_id?: string
+          id?: string
+          joined_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_participants_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          created_at: string
+          created_by: string
+          facility_id: string | null
+          id: string
+          last_message_at: string
+          status: Database["public"]["Enums"]["conversation_status"]
+          tenant_id: string
+          title: string
+          updated_at: string
+          visibility: Database["public"]["Enums"]["conversation_visibility"]
+        }
+        Insert: {
+          created_at?: string
+          created_by: string
+          facility_id?: string | null
+          id?: string
+          last_message_at?: string
+          status?: Database["public"]["Enums"]["conversation_status"]
+          tenant_id: string
+          title: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["conversation_visibility"]
+        }
+        Update: {
+          created_at?: string
+          created_by?: string
+          facility_id?: string | null
+          id?: string
+          last_message_at?: string
+          status?: Database["public"]["Enums"]["conversation_status"]
+          tenant_id?: string
+          title?: string
+          updated_at?: string
+          visibility?: Database["public"]["Enums"]["conversation_visibility"]
+        }
+        Relationships: []
+      }
       facilities: {
         Row: {
           created_at: string
@@ -305,12 +405,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      can_access_conversation: {
+        Args: { _conv: string; _user: string }
+        Returns: boolean
+      }
       get_user_tenant_id: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
+        Returns: boolean
+      }
+      is_conversation_participant: {
+        Args: { _conv: string; _user: string }
         Returns: boolean
       }
     }
@@ -323,6 +431,8 @@ export type Database = {
         | "manager"
         | "admin"
         | "super_admin"
+      conversation_status: "active" | "archived"
+      conversation_visibility: "open" | "private"
       profile_status: "pending" | "active" | "inactive"
       shift_task_list_status: "active" | "completed" | "cancelled"
       task_item_status: "pending" | "in_progress" | "done" | "skipped"
@@ -463,6 +573,8 @@ export const Constants = {
         "admin",
         "super_admin",
       ],
+      conversation_status: ["active", "archived"],
+      conversation_visibility: ["open", "private"],
       profile_status: ["pending", "active", "inactive"],
       shift_task_list_status: ["active", "completed", "cancelled"],
       task_item_status: ["pending", "in_progress", "done", "skipped"],
