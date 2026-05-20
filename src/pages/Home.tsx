@@ -5,15 +5,46 @@ import {
   BookOpen,
   Clock,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useTenant } from '@/contexts/TenantContext';
 import { ROLE_LABELS } from '@/types/models';
+import { supabase } from '@/integrations/supabase/client';
 
 export default function Home() {
   const navigate = useNavigate();
   const { currentUser, currentTenant } = useTenant();
+  const [counts, setCounts] = useState({ shiftTasks: 0, conversations: 0 });
+
+  useEffect(() => {
+    if (!currentUser) return;
+    let cancelled = false;
+    const load = async () => {
+      const [tasks, convs] = await Promise.all([
+        supabase.from('shift_task_lists').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+        supabase.from('conversations').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+      ]);
+      if (cancelled) return;
+      setCounts({
+        shiftTasks: tasks.count ?? 0,
+        conversations: convs.count ?? 0,
+      });
+    };
+    load();
+
+    const channel = supabase
+      .channel('home-counts')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'shift_task_lists' }, load)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'conversations' }, load)
+      .subscribe();
+
+    return () => {
+      cancelled = true;
+      supabase.removeChannel(channel);
+    };
+  }, [currentUser]);
 
   if (!currentUser) return null;
 
@@ -21,16 +52,16 @@ export default function Home() {
     {
       icon: <CheckSquare className="h-5 w-5" />,
       label: "Shift Tasks",
-      value: 0,
-      subtext: "No tasks yet",
+      value: counts.shiftTasks,
+      subtext: counts.shiftTasks === 0 ? "No tasks yet" : "Active lists",
       route: "/shift-tasks",
       color: "text-blue-500",
     },
     {
       icon: <MessageSquare className="h-5 w-5" />,
       label: "Conversations",
-      value: 0,
-      subtext: "No conversations yet",
+      value: counts.conversations,
+      subtext: counts.conversations === 0 ? "No conversations yet" : "Active threads",
       route: "/conversations",
       color: "text-emerald-500",
     },
