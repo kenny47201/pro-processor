@@ -8,13 +8,21 @@ import { volumetricShrinkageGuide } from './volumetricShrinkageGuide';
 import { crystallinityGuide } from './crystallinityGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
-export const knowledgeGuides: KnowledgeGuide[] = [
-  fountainFlowGuide,
-  gateFreezeGuide,
-  morphologyGuide,
-  multiStageGuide,
-  nucleationGuide,
-  witnessMarksGuide,
-  volumetricShrinkageGuide,
-  crystallinityGuide,
+export type KnowledgeDepartment = 'Processing' | 'Maintenance' | 'Tool Room';
+
+export interface DepartmentalKnowledgeGuide extends KnowledgeGuide {
+  department: KnowledgeDepartment;
+}
+
+export const knowledgeGuides: DepartmentalKnowledgeGuide[] = [
+  { ...fountainFlowGuide, department: 'Processing' },
+  { ...gateFreezeGuide, department: 'Processing' },
+  { ...morphologyGuide, department: 'Processing' },
+  { ...multiStageGuide, department: 'Processing' },
+  { ...nucleationGuide, department: 'Processing' },
+  { ...witnessMarksGuide, department: 'Processing' },
+  { ...volumetricShrinkageGuide, department: 'Processing' },
+  { ...crystallinityGuide, department: 'Processing' },
 ];
+
+export const KNOWLEDGE_DEPARTMENTS: KnowledgeDepartment[] = ['Processing', 'Maintenance', 'Tool Room'];
