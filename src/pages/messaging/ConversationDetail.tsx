@@ -213,8 +213,10 @@ export default function ConversationDetail() {
                       {mine && (
                         <button
                           type="button"
-                          onClick={() => handleDeleteMessage(m.id)}
-                          className="absolute -left-7 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
+                          onClick={() => {
+                            if (confirm('Delete this message?')) handleDeleteMessage(m.id);
+                          }}
+                          className="absolute -left-8 top-1/2 -translate-y-1/2 p-1 rounded-md bg-background/80 border border-border text-muted-foreground hover:text-destructive hover:bg-background"
                           aria-label="Delete message"
                         >
                           <Trash2 className="h-3.5 w-3.5" />
