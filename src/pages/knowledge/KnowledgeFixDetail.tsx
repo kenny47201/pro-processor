@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Wrench, CheckCircle2, ShieldCheck, FileEdit, Trash2 } from 'lucide-react';
+import { ArrowLeft, Wrench, CheckCircle2, ShieldCheck, FileEdit, Trash2, FlaskConical, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
@@ -13,9 +15,10 @@ import {
 import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 
 type FixStatus = 'draft' | 'committed' | 'verified';
+type TrialOutcome = 'pass' | 'fail';
 
 interface ParamChange { param: string; before: string; after: string; units: string }
 
@@ -43,11 +46,27 @@ interface FixRecord {
   verification_notes: string | null;
   created_at: string;
   updated_at: string;
+  consecutive_passes: number;
+  total_passes: number;
+  total_fails: number;
+  required_passes: number;
+}
+
+interface TrialRow {
+  id: string;
+  fix_id: string;
+  logged_by: string;
+  outcome: TrialOutcome;
+  notes: string | null;
+  press: string | null;
+  tool: string | null;
+  shot_count: number | null;
+  created_at: string;
 }
 
 const STATUS_META: Record<FixStatus, { label: string; icon: typeof FileEdit; variant: 'secondary' | 'default' | 'outline' }> = {
   draft: { label: 'Draft', icon: FileEdit, variant: 'secondary' },
-  committed: { label: 'Committed', icon: CheckCircle2, variant: 'default' },
+  committed: { label: 'In Trial', icon: FlaskConical, variant: 'default' },
   verified: { label: 'Verified', icon: ShieldCheck, variant: 'outline' },
 };
 
@@ -56,17 +75,29 @@ export default function KnowledgeFixDetail() {
   const { id } = useParams<{ id: string }>();
   const { currentUser, canCommitFixes, canVerifyFixes } = useTenant();
   const [rec, setRec] = useState<FixRecord | null>(null);
+  const [trials, setTrials] = useState<TrialRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [verifyNotes, setVerifyNotes] = useState('');
   const [busy, setBusy] = useState(false);
+
+  // Trial form state
+  const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
+  const [tNotes, setTNotes] = useState('');
+  const [tPress, setTPress] = useState('');
+  const [tTool, setTTool] = useState('');
+  const [tShots, setTShots] = useState('');
 
   useEffect(() => {
     if (!id) return;
     let active = true;
     const load = async () => {
-      const { data } = await supabase.from('knowledge_fixes').select('*').eq('id', id).maybeSingle();
+      const [{ data: fix }, { data: tr }] = await Promise.all([
+        supabase.from('knowledge_fixes').select('*').eq('id', id).maybeSingle(),
+        supabase.from('fix_trials').select('*').eq('fix_id', id).order('created_at', { ascending: false }),
+      ]);
       if (active) {
-        setRec(data as unknown as FixRecord);
+        setRec(fix as unknown as FixRecord);
+        setTrials((tr ?? []) as TrialRow[]);
         setLoading(false);
       }
     };
@@ -74,6 +105,7 @@ export default function KnowledgeFixDetail() {
     const channel = supabase
       .channel(`fix-${id}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'knowledge_fixes', filter: `id=eq.${id}` }, load)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'fix_trials', filter: `fix_id=eq.${id}` }, load)
       .subscribe();
     return () => { active = false; supabase.removeChannel(channel); };
   }, [id]);
@@ -87,11 +119,15 @@ export default function KnowledgeFixDetail() {
       .eq('id', rec.id);
     setBusy(false);
     if (error) { toast.error(error.message); return; }
-    toast.success('Fix committed');
+    toast.success('Fix released for trial');
   };
 
   const verify = async () => {
     if (!rec || !currentUser) return;
+    if (rec.consecutive_passes < rec.required_passes) {
+      toast.error(`Needs ${rec.required_passes} consecutive passing trials before verification.`);
+      return;
+    }
     setBusy(true);
     const { error } = await supabase
       .from('knowledge_fixes')
@@ -104,7 +140,34 @@ export default function KnowledgeFixDetail() {
       .eq('id', rec.id);
     setBusy(false);
     if (error) { toast.error(error.message); return; }
-    toast.success('Fix verified');
+    toast.success('Fix verified & committed to knowledge base');
+  };
+
+  const logTrial = async () => {
+    if (!rec || !currentUser) return;
+    setBusy(true);
+    const { error } = await supabase.from('fix_trials').insert({
+      fix_id: rec.id,
+      tenant_id: rec.tenant_id,
+      logged_by: currentUser.id,
+      outcome: tOutcome,
+      notes: tNotes.trim() || null,
+      press: tPress.trim() || null,
+      tool: tTool.trim() || null,
+      shot_count: tShots ? Number(tShots) : null,
+    });
+    setBusy(false);
+    if (error) { toast.error(error.message); return; }
+    setTNotes(''); setTPress(''); setTTool(''); setTShots(''); setTOutcome('pass');
+    toast.success(tOutcome === 'pass' ? 'Pass logged' : 'Fail logged — counter reset');
+  };
+
+  const deleteTrial = async (trialId: string) => {
+    // Note: deleting a trial does NOT revert the counter (trigger only fires on insert).
+    // This is intentional — trial history is auditable; remove only erroneous entries.
+    const { error } = await supabase.from('fix_trials').delete().eq('id', trialId);
+    if (error) { toast.error(error.message); return; }
+    toast.success('Trial entry removed (counters unchanged)');
   };
 
   const remove = async () => {
@@ -149,6 +212,10 @@ export default function KnowledgeFixDetail() {
     rec.color && { k: 'Color', v: rec.color },
     rec.additive && { k: 'Additive', v: rec.additive },
   ].filter(Boolean) as { k: string; v: string }[];
+
+  const progressPct = Math.min(100, (rec.consecutive_passes / Math.max(rec.required_passes, 1)) * 100);
+  const readyToVerify = rec.consecutive_passes >= rec.required_passes;
+  const inTrial = rec.status === 'committed';
 
   return (
     <div className="space-y-6">
@@ -223,7 +290,7 @@ export default function KnowledgeFixDetail() {
 
           <div className="grid gap-2 text-xs text-muted-foreground sm:grid-cols-3 border-t pt-4">
             <div>Created {format(new Date(rec.created_at), 'PP p')}</div>
-            {rec.committed_at && <div>Committed {format(new Date(rec.committed_at), 'PP p')}</div>}
+            {rec.committed_at && <div>Released to trial {format(new Date(rec.committed_at), 'PP p')}</div>}
             {rec.verified_at && <div>Verified {format(new Date(rec.verified_at), 'PP p')}</div>}
           </div>
 
@@ -236,13 +303,140 @@ export default function KnowledgeFixDetail() {
         </CardContent>
       </Card>
 
+      {/* Trial Progress + Logging */}
+      {(inTrial || rec.status === 'verified') && (
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between gap-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <FlaskConical className="h-4 w-4 text-primary" /> Trial Progress
+              </CardTitle>
+              <div className="text-sm font-mono">
+                <span className={readyToVerify ? 'text-success' : 'text-foreground'}>
+                  {rec.consecutive_passes}
+                </span>
+                <span className="text-muted-foreground"> / {rec.required_passes} consecutive passes</span>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Progress value={progressPct} className="h-2" />
+            <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
+              <span>Total passes: <span className="text-foreground font-medium">{rec.total_passes}</span></span>
+              <span>Total fails: <span className="text-foreground font-medium">{rec.total_fails}</span></span>
+              {!readyToVerify && inTrial && (
+                <span className="text-warning">
+                  {rec.required_passes - rec.consecutive_passes} more pass{rec.required_passes - rec.consecutive_passes === 1 ? '' : 'es'} needed for verification
+                </span>
+              )}
+              {readyToVerify && inTrial && (
+                <span className="text-success font-medium">Threshold met — ready for verification</span>
+              )}
+            </div>
+
+            {inTrial && (
+              <div className="rounded-md border bg-muted/20 p-3 space-y-3">
+                <div className="text-sm font-semibold">Log a trial run</div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="sm:col-span-2 flex gap-2">
+                    <Button
+                      type="button"
+                      variant={tOutcome === 'pass' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setTOutcome('pass')}
+                      className="gap-1"
+                    >
+                      <CheckCircle2 className="h-3.5 w-3.5" /> Pass
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={tOutcome === 'fail' ? 'destructive' : 'outline'}
+                      size="sm"
+                      onClick={() => setTOutcome('fail')}
+                      className="gap-1"
+                    >
+                      <X className="h-3.5 w-3.5" /> Fail
+                    </Button>
+                    {tOutcome === 'fail' && (
+                      <span className="text-xs text-warning self-center ml-2">
+                        ⚠ Logging a fail will reset consecutive passes to 0
+                      </span>
+                    )}
+                  </div>
+                  <div>
+                    <Label htmlFor="t-press" className="text-xs">Press</Label>
+                    <Input id="t-press" value={tPress} onChange={(e) => setTPress(e.target.value)} placeholder="e.g. Press 4" />
+                  </div>
+                  <div>
+                    <Label htmlFor="t-tool" className="text-xs">Tool</Label>
+                    <Input id="t-tool" value={tTool} onChange={(e) => setTTool(e.target.value)} placeholder="e.g. Mold A-12" />
+                  </div>
+                  <div>
+                    <Label htmlFor="t-shots" className="text-xs">Shot count</Label>
+                    <Input id="t-shots" type="number" min={0} value={tShots} onChange={(e) => setTShots(e.target.value)} placeholder="e.g. 250" />
+                  </div>
+                  <div className="sm:col-span-2">
+                    <Label htmlFor="t-notes" className="text-xs">Observations</Label>
+                    <Textarea id="t-notes" rows={2} value={tNotes} onChange={(e) => setTNotes(e.target.value)} placeholder="What did you see?" />
+                  </div>
+                </div>
+                <Button onClick={logTrial} disabled={busy} size="sm" className="gap-2">
+                  <FlaskConical className="h-4 w-4" /> Log trial
+                </Button>
+              </div>
+            )}
+
+            {trials.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-2">
+                  Trial history ({trials.length})
+                </div>
+                <div className="space-y-1.5 max-h-72 overflow-y-auto">
+                  {trials.map((t) => (
+                    <div key={t.id} className="flex items-start gap-2 rounded-md border p-2 text-sm">
+                      <Badge
+                        variant={t.outcome === 'pass' ? 'default' : 'destructive'}
+                        className="gap-1 shrink-0"
+                      >
+                        {t.outcome === 'pass' ? <CheckCircle2 className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        {t.outcome.toUpperCase()}
+                      </Badge>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
+                          <span>{formatDistanceToNow(new Date(t.created_at), { addSuffix: true })}</span>
+                          {t.press && <span>· Press: <span className="text-foreground">{t.press}</span></span>}
+                          {t.tool && <span>· Tool: <span className="text-foreground">{t.tool}</span></span>}
+                          {t.shot_count != null && <span>· Shots: <span className="text-foreground">{t.shot_count}</span></span>}
+                        </div>
+                        {t.notes && <div className="mt-1 whitespace-pre-wrap">{t.notes}</div>}
+                      </div>
+                      {(t.logged_by === currentUser?.id) && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 w-7 p-0 text-muted-foreground hover:text-destructive"
+                          onClick={() => deleteTrial(t.id)}
+                          title="Remove entry (does not change counters)"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
       <Card>
         <CardHeader><CardTitle className="text-base">Actions</CardTitle></CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-wrap gap-2">
             {rec.status === 'draft' && canCommitFixes && (
               <Button onClick={commit} disabled={busy} className="gap-2">
-                <CheckCircle2 className="h-4 w-4" /> Commit fix
+                <FlaskConical className="h-4 w-4" /> Release to trial
               </Button>
             )}
             {rec.status === 'committed' && canVerifyFixes && (
@@ -255,8 +449,16 @@ export default function KnowledgeFixDetail() {
                   onChange={(e) => setVerifyNotes(e.target.value)}
                   placeholder="How was this verified?"
                 />
-                <Button onClick={verify} disabled={busy} className="gap-2">
-                  <ShieldCheck className="h-4 w-4" /> Verify fix
+                <Button
+                  onClick={verify}
+                  disabled={busy || !readyToVerify}
+                  className="gap-2"
+                  title={readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`}
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  {readyToVerify
+                    ? 'Verify & commit to knowledge base'
+                    : `Verify (${rec.consecutive_passes}/${rec.required_passes} trials)`}
                 </Button>
               </div>
             )}
@@ -273,7 +475,7 @@ export default function KnowledgeFixDetail() {
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogTitle>Delete this fix record?</AlertDialogTitle>
-                  <AlertDialogDescription>This cannot be undone.</AlertDialogDescription>
+                  <AlertDialogDescription>This cannot be undone. All trial history will also be deleted.</AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>

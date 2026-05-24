@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Search, Wrench, CheckCircle2, FileEdit, ShieldCheck } from 'lucide-react';
+import { Plus, Search, Wrench, FileEdit, ShieldCheck, FlaskConical } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
 import { EmptyState } from '@/components/EmptyState';
 import { supabase } from '@/integrations/supabase/client';
@@ -26,11 +26,13 @@ interface FixRow {
   fix_summary: string | null;
   created_at: string;
   updated_at: string;
+  consecutive_passes: number;
+  required_passes: number;
 }
 
 const STATUS_META: Record<FixStatus, { label: string; icon: typeof FileEdit; variant: 'secondary' | 'default' | 'outline' }> = {
   draft: { label: 'Draft', icon: FileEdit, variant: 'secondary' },
-  committed: { label: 'Committed', icon: CheckCircle2, variant: 'default' },
+  committed: { label: 'In Trial', icon: FlaskConical, variant: 'default' },
   verified: { label: 'Verified', icon: ShieldCheck, variant: 'outline' },
 };
 
@@ -49,7 +51,7 @@ export default function KnowledgeFixes() {
       setLoading(true);
       const { data } = await supabase
         .from('knowledge_fixes')
-        .select('id,title,status,defect,tool,press,material,color,additive,fix_summary,created_at,updated_at')
+        .select('id,title,status,defect,tool,press,material,color,additive,fix_summary,created_at,updated_at,consecutive_passes,required_passes')
         .order('updated_at', { ascending: false });
       if (active) {
         setRows((data ?? []) as FixRow[]);
@@ -108,7 +110,7 @@ export default function KnowledgeFixes() {
           <TabsList>
             <TabsTrigger value="all">All ({counts.all})</TabsTrigger>
             <TabsTrigger value="draft">Draft ({counts.draft})</TabsTrigger>
-            <TabsTrigger value="committed">Committed ({counts.committed})</TabsTrigger>
+            <TabsTrigger value="committed">In Trial ({counts.committed})</TabsTrigger>
             <TabsTrigger value="verified">Verified ({counts.verified})</TabsTrigger>
           </TabsList>
         </Tabs>
@@ -181,6 +183,11 @@ export default function KnowledgeFixes() {
                         <Icon className="h-3 w-3" />
                         {meta.label}
                       </Badge>
+                      {r.status === 'committed' && (
+                        <span className="text-xs font-mono text-muted-foreground">
+                          {r.consecutive_passes}/{r.required_passes} trials
+                        </span>
+                      )}
                       <span className="text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(r.updated_at), { addSuffix: true })}
                       </span>
