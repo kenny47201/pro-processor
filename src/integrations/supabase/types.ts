@@ -146,6 +146,53 @@ export type Database = {
           },
         ]
       }
+      fix_trials: {
+        Row: {
+          created_at: string
+          fix_id: string
+          id: string
+          logged_by: string
+          notes: string | null
+          outcome: Database["public"]["Enums"]["fix_trial_outcome"]
+          press: string | null
+          shot_count: number | null
+          tenant_id: string
+          tool: string | null
+        }
+        Insert: {
+          created_at?: string
+          fix_id: string
+          id?: string
+          logged_by: string
+          notes?: string | null
+          outcome: Database["public"]["Enums"]["fix_trial_outcome"]
+          press?: string | null
+          shot_count?: number | null
+          tenant_id: string
+          tool?: string | null
+        }
+        Update: {
+          created_at?: string
+          fix_id?: string
+          id?: string
+          logged_by?: string
+          notes?: string | null
+          outcome?: Database["public"]["Enums"]["fix_trial_outcome"]
+          press?: string | null
+          shot_count?: number | null
+          tenant_id?: string
+          tool?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fix_trials_fix_id_fkey"
+            columns: ["fix_id"]
+            isOneToOne: false
+            referencedRelation: "knowledge_fixes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       issue_events: {
         Row: {
           action: Database["public"]["Enums"]["issue_event_action"]
@@ -320,6 +367,7 @@ export type Database = {
           color: string | null
           committed_at: string | null
           committed_by: string | null
+          consecutive_passes: number
           created_at: string
           created_by: string
           defect: string | null
@@ -330,6 +378,7 @@ export type Database = {
           parameter_changes: Json
           press: string | null
           problem: string
+          required_passes: number
           root_cause: string
           solution: string
           status: Database["public"]["Enums"]["fix_record_status"]
@@ -337,6 +386,8 @@ export type Database = {
           tenant_id: string
           title: string
           tool: string | null
+          total_fails: number
+          total_passes: number
           updated_at: string
           verification_notes: string | null
           verified_at: string | null
@@ -347,6 +398,7 @@ export type Database = {
           color?: string | null
           committed_at?: string | null
           committed_by?: string | null
+          consecutive_passes?: number
           created_at?: string
           created_by: string
           defect?: string | null
@@ -357,6 +409,7 @@ export type Database = {
           parameter_changes?: Json
           press?: string | null
           problem?: string
+          required_passes?: number
           root_cause?: string
           solution?: string
           status?: Database["public"]["Enums"]["fix_record_status"]
@@ -364,6 +417,8 @@ export type Database = {
           tenant_id: string
           title: string
           tool?: string | null
+          total_fails?: number
+          total_passes?: number
           updated_at?: string
           verification_notes?: string | null
           verified_at?: string | null
@@ -374,6 +429,7 @@ export type Database = {
           color?: string | null
           committed_at?: string | null
           committed_by?: string | null
+          consecutive_passes?: number
           created_at?: string
           created_by?: string
           defect?: string | null
@@ -384,6 +440,7 @@ export type Database = {
           parameter_changes?: Json
           press?: string | null
           problem?: string
+          required_passes?: number
           root_cause?: string
           solution?: string
           status?: Database["public"]["Enums"]["fix_record_status"]
@@ -391,6 +448,8 @@ export type Database = {
           tenant_id?: string
           title?: string
           tool?: string | null
+          total_fails?: number
+          total_passes?: number
           updated_at?: string
           verification_notes?: string | null
           verified_at?: string | null
@@ -708,6 +767,7 @@ export type Database = {
       conversation_status: "active" | "archived"
       conversation_visibility: "open" | "private"
       fix_record_status: "draft" | "committed" | "verified"
+      fix_trial_outcome: "pass" | "fail"
       issue_category: "process" | "maintenance" | "tooling" | "quality"
       issue_event_action:
         | "created"
@@ -865,6 +925,7 @@ export const Constants = {
       conversation_status: ["active", "archived"],
       conversation_visibility: ["open", "private"],
       fix_record_status: ["draft", "committed", "verified"],
+      fix_trial_outcome: ["pass", "fail"],
       issue_category: ["process", "maintenance", "tooling", "quality"],
       issue_event_action: [
         "created",
