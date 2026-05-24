@@ -42,6 +42,7 @@ import IssueNew from "./pages/messaging/IssueNew";
 import Users from "./pages/admin/Users";
 import Settings from "./pages/admin/Settings";
 import Tenants from "./pages/admin/Tenants";
+import TenantDetail from "./pages/admin/TenantDetail";
 
 const queryClient = new QueryClient();
 
@@ -93,6 +94,7 @@ const App = () => (
             
             {/* Super Admin Routes */}
             <Route path="/tenants" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><Tenants /></RoleGuard></AppLayout>} />
+            <Route path="/tenants/:id" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><TenantDetail /></RoleGuard></AppLayout>} />
             
             {/* Catch-all */}
             <Route path="*" element={<NotFound />} />
