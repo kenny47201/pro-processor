@@ -67,16 +67,22 @@ export default function Tenants() {
 
   const createTenant = async () => {
     if (!newName.trim() || !newSlug.trim()) return;
+    const shifts = newShifts.split(',').map(s => s.trim()).filter(Boolean);
+    if (shifts.length === 0) {
+      toast({ title: 'Shift structure required', description: 'Define at least one shift designation before creating the organization.', variant: 'destructive' });
+      return;
+    }
     const { error } = await supabase.from('tenants').insert({
       name: newName.trim(),
       slug: newSlug.trim().toLowerCase().replace(/\s+/g, '-'),
+      shifts,
     });
     if (error) {
       toast({ title: 'Create failed', description: error.message, variant: 'destructive' });
       return;
     }
     toast({ title: 'Organization created' });
-    setNewName(''); setNewSlug(''); setCreating(false);
+    setNewName(''); setNewSlug(''); setNewShifts(''); setCreating(false);
     load();
   };
 
