@@ -17,8 +17,7 @@ interface ParamChange {
   units: string;
 }
 
-const CATEGORY_FIELDS: { key: 'defect' | 'tool' | 'press' | 'material' | 'color' | 'additive'; label: string; placeholder: string }[] = [
-  { key: 'defect', label: 'Defect', placeholder: 'e.g. Short shot, Flash, Sink' },
+const CATEGORY_FIELDS: { key: 'tool' | 'press' | 'material' | 'color' | 'additive'; label: string; placeholder: string }[] = [
   { key: 'tool', label: 'Tool / Mold', placeholder: 'Tool ID or mold name' },
   { key: 'press', label: 'Press', placeholder: 'Machine name or asset tag' },
   { key: 'material', label: 'Material', placeholder: 'e.g. PP HOM, ABS, PC/ABS' },
@@ -61,7 +60,7 @@ export default function KnowledgeFixNew() {
       created_by: currentUser.id,
       title: title.trim(),
       fix_summary: fixSummary.trim() || null,
-      defect: cats.defect?.trim() || null,
+      defect: null,
       tool: cats.tool?.trim() || null,
       press: cats.press?.trim() || null,
       material: cats.material?.trim() || null,
