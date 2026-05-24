@@ -232,7 +232,32 @@ export default function IssueDetail() {
               <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" /> Due by
               </label>
-              <p className="text-sm">{issue.due_by ? format(new Date(issue.due_by), 'MMM d, yyyy') : '—'}</p>
+              {canSignOffIssues ? (
+                <Input
+                  type="date"
+                  value={issue.due_by ? new Date(issue.due_by).toISOString().slice(0, 10) : ''}
+                  onChange={async (e) => {
+                    if (!currentUser) return;
+                    const v = e.target.value;
+                    const next = v ? new Date(v).toISOString() : null;
+                    try {
+                      await updateIssue.mutateAsync({
+                        id: issue.id,
+                        patch: { due_by: next },
+                        event: {
+                          actor_id: currentUser.id,
+                          action: 'status_change',
+                          notes: `Due by set to ${v || 'none'}`,
+                        },
+                      });
+                    } catch (err) {
+                      toast({ title: 'Update failed', description: (err as Error).message, variant: 'destructive' });
+                    }
+                  }}
+                />
+              ) : (
+                <p className="text-sm">{issue.due_by ? format(new Date(issue.due_by), 'MMM d, yyyy') : '—'}</p>
+              )}
             </div>
           </div>
 
