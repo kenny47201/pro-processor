@@ -25,7 +25,7 @@ export default function IssueNew() {
   const [priority, setPriority] = useState<IssuePriority>('medium');
   const [tool, setTool] = useState('');
   const [press, setPress] = useState('');
-  const [dueBy, setDueBy] = useState('');
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
