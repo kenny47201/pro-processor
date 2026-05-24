@@ -60,7 +60,7 @@ export default function KnowledgeFixNew() {
       created_by: currentUser.id,
       title: title.trim(),
       fix_summary: fixSummary.trim() || null,
-      defect: cats.defect?.trim() || null,
+      defect: null,
       tool: cats.tool?.trim() || null,
       press: cats.press?.trim() || null,
       material: cats.material?.trim() || null,
