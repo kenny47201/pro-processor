@@ -35,6 +35,7 @@ export default function Tenants() {
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState('');
   const [newSlug, setNewSlug] = useState('');
+  const [newShifts, setNewShifts] = useState('');
 
   const load = async () => {
     setLoading(true);
@@ -66,16 +67,22 @@ export default function Tenants() {
 
   const createTenant = async () => {
     if (!newName.trim() || !newSlug.trim()) return;
+    const shifts = newShifts.split(',').map(s => s.trim()).filter(Boolean);
+    if (shifts.length === 0) {
+      toast({ title: 'Shift structure required', description: 'Define at least one shift designation before creating the organization.', variant: 'destructive' });
+      return;
+    }
     const { error } = await supabase.from('tenants').insert({
       name: newName.trim(),
       slug: newSlug.trim().toLowerCase().replace(/\s+/g, '-'),
+      shifts,
     });
     if (error) {
       toast({ title: 'Create failed', description: error.message, variant: 'destructive' });
       return;
     }
     toast({ title: 'Organization created' });
-    setNewName(''); setNewSlug(''); setCreating(false);
+    setNewName(''); setNewSlug(''); setNewShifts(''); setCreating(false);
     load();
   };
 
@@ -110,9 +117,31 @@ export default function Tenants() {
                 <Input value={newSlug} onChange={e => setNewSlug(e.target.value)} placeholder="acme-plastics" />
               </div>
             </div>
+            <div className="space-y-2">
+              <Label>Shift Structure <span className="text-destructive">*</span></Label>
+              <Input
+                value={newShifts}
+                onChange={e => setNewShifts(e.target.value)}
+                placeholder="Day, Swing, Night"
+              />
+              <p className="text-xs text-muted-foreground">Comma-separated list of shift names. Pick a preset or type your own.</p>
+              <div className="flex flex-wrap gap-2">
+                {PRESETS.map(p => (
+                  <Button
+                    key={p.label}
+                    type="button"
+                    variant={newShifts === p.shifts.join(', ') ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setNewShifts(p.shifts.join(', '))}
+                  >
+                    {p.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
             <div className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={() => { setCreating(false); setNewName(''); setNewSlug(''); }}>Cancel</Button>
-              <Button onClick={createTenant} disabled={!newName.trim() || !newSlug.trim()}>Create</Button>
+              <Button variant="ghost" onClick={() => { setCreating(false); setNewName(''); setNewSlug(''); setNewShifts(''); }}>Cancel</Button>
+              <Button onClick={createTenant} disabled={!newName.trim() || !newSlug.trim() || !newShifts.trim()}>Create</Button>
             </div>
           </CardContent>
         </Card>
