@@ -71,8 +71,8 @@ export default function Home() {
     {
       icon: <Wrench className="h-5 w-5" />,
       label: "Open Issues",
-      value: 0,
-      subtext: "No issues",
+      value: counts.openIssues,
+      subtext: counts.openIssues === 0 ? "No issues" : "Active issues",
       route: "/issues",
       color: "text-orange-500",
     },
