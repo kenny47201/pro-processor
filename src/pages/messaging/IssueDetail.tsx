@@ -44,6 +44,30 @@ const PRIORITY_STYLES: Record<IssuePriority, string> = {
 
 interface ProfileLite { user_id: string; display_name: string | null; screen_name: string | null; }
 
+const WORKFLOW: IssueStatus[] = ['open', 'in_progress', 'needs_verification', 'closed'];
+
+/**
+ * Allowed status transitions and the role tiers permitted to make them.
+ * tiers: 'edit'  = reporter, owner, or supervisor+ (canEdit)
+ *        'manager' = manager / admin / super_admin (canSignOffIssues)
+ */
+const TRANSITIONS: Record<IssueStatus, Array<{ to: IssueStatus; tier: 'edit' | 'manager'; label: string }>> = {
+  open: [
+    { to: 'in_progress', tier: 'edit', label: 'Start work' },
+  ],
+  in_progress: [
+    { to: 'needs_verification', tier: 'edit', label: 'Submit for verification' },
+    { to: 'open', tier: 'manager', label: 'Revert to open' },
+  ],
+  needs_verification: [
+    { to: 'closed', tier: 'manager', label: 'Approve & close' },
+    { to: 'in_progress', tier: 'manager', label: 'Send back (needs work)' },
+  ],
+  closed: [
+    { to: 'open', tier: 'manager', label: 'Reopen' },
+  ],
+};
+
 export default function IssueDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
