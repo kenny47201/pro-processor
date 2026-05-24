@@ -183,6 +183,11 @@ export default function KnowledgeFixes() {
                         <Icon className="h-3 w-3" />
                         {meta.label}
                       </Badge>
+                      {r.status === 'committed' && (
+                        <span className="text-xs font-mono text-muted-foreground">
+                          {r.consecutive_passes}/{r.required_passes} trials
+                        </span>
+                      )}
                       <span className="text-xs text-muted-foreground">
                         {formatDistanceToNow(new Date(r.updated_at), { addSuffix: true })}
                       </span>
