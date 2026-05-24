@@ -77,7 +77,7 @@ export default function KnowledgeFixNew() {
     };
     const { data, error } = await supabase
       .from('knowledge_fixes')
-      .insert(payload)
+      .insert([payload])
       .select('id')
       .single();
     setSaving(false);
