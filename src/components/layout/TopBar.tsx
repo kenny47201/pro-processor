@@ -1,4 +1,5 @@
-import { Building2, ChevronDown } from 'lucide-react';
+import { Building2, ChevronDown, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useTenant } from '@/contexts/TenantContext';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +26,12 @@ export function TopBar() {
   return (
     <div className="flex-1 flex items-center justify-between">
       <div className="flex items-center gap-3">
+        <Button asChild variant="ghost" size="sm" className="gap-2" title="Home">
+          <Link to="/">
+            <Home className="h-4 w-4" />
+            <span className="hidden sm:inline">Home</span>
+          </Link>
+        </Button>
         {/* Tenant/Facility indicator */}
         {currentTenant && (
           <div className="flex items-center gap-2">
