@@ -233,31 +233,45 @@ export default function IssueDetail() {
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5" /> Due by
+                <CalendarIcon className="h-3.5 w-3.5" /> Due by
               </label>
               {canSignOffIssues ? (
-                <Input
-                  type="date"
-                  value={issue.due_by ? new Date(issue.due_by).toISOString().slice(0, 10) : ''}
-                  onChange={async (e) => {
-                    if (!currentUser) return;
-                    const v = e.target.value;
-                    const next = v ? new Date(v).toISOString() : null;
-                    try {
-                      await updateIssue.mutateAsync({
-                        id: issue.id,
-                        patch: { due_by: next },
-                        event: {
-                          actor_id: currentUser.id,
-                          action: 'status_change',
-                          notes: `Due by set to ${v || 'none'}`,
-                        },
-                      });
-                    } catch (err) {
-                      toast({ title: 'Update failed', description: (err as Error).message, variant: 'destructive' });
-                    }
-                  }}
-                />
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={`w-full justify-start text-left font-normal ${!issue.due_by ? 'text-muted-foreground' : ''}`}
+                    >
+                      <CalendarIcon className="mr-2 h-4 w-4" />
+                      {issue.due_by ? format(new Date(issue.due_by), 'PPP') : 'Pick a date'}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={issue.due_by ? new Date(issue.due_by) : undefined}
+                      onSelect={async (date) => {
+                        if (!currentUser) return;
+                        const next = date ? date.toISOString() : null;
+                        try {
+                          await updateIssue.mutateAsync({
+                            id: issue.id,
+                            patch: { due_by: next },
+                            event: {
+                              actor_id: currentUser.id,
+                              action: 'status_change',
+                              notes: `Due by set to ${date ? format(date, 'PPP') : 'none'}`,
+                            },
+                          });
+                        } catch (err) {
+                          toast({ title: 'Update failed', description: (err as Error).message, variant: 'destructive' });
+                        }
+                      }}
+                      initialFocus
+                      className="p-3 pointer-events-auto"
+                    />
+                  </PopoverContent>
+                </Popover>
               ) : (
                 <p className="text-sm">{issue.due_by ? format(new Date(issue.due_by), 'MMM d, yyyy') : '—'}</p>
               )}
