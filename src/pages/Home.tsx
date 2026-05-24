@@ -16,20 +16,22 @@ import { supabase } from '@/integrations/supabase/client';
 export default function Home() {
   const navigate = useNavigate();
   const { currentUser, currentTenant } = useTenant();
-  const [counts, setCounts] = useState({ shiftTasks: 0, conversations: 0 });
+  const [counts, setCounts] = useState({ shiftTasks: 0, conversations: 0, openIssues: 0 });
 
   useEffect(() => {
     if (!currentUser) return;
     let cancelled = false;
     const load = async () => {
-      const [tasks, convs] = await Promise.all([
+      const [tasks, convs, issues] = await Promise.all([
         supabase.from('shift_task_lists').select('id', { count: 'exact', head: true }).eq('status', 'active'),
         supabase.from('conversations').select('id', { count: 'exact', head: true }).eq('status', 'active'),
+        supabase.from('issues').select('id', { count: 'exact', head: true }).neq('status', 'closed'),
       ]);
       if (cancelled) return;
       setCounts({
         shiftTasks: tasks.count ?? 0,
         conversations: convs.count ?? 0,
+        openIssues: issues.count ?? 0,
       });
     };
     load();
@@ -38,6 +40,7 @@ export default function Home() {
       .channel('home-counts')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'shift_task_lists' }, load)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'conversations' }, load)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'issues' }, load)
       .subscribe();
 
     return () => {
@@ -68,8 +71,8 @@ export default function Home() {
     {
       icon: <Wrench className="h-5 w-5" />,
       label: "Open Issues",
-      value: 0,
-      subtext: "No issues",
+      value: counts.openIssues,
+      subtext: counts.openIssues === 0 ? "No issues" : "Active issues",
       route: "/issues",
       color: "text-orange-500",
     },
