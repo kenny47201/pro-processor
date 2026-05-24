@@ -195,6 +195,22 @@ export default function TenantDetail() {
                   <Input value={tenant.slug} disabled />
                 </div>
               </div>
+
+              <div className="pt-2">
+                <Label className="text-xs uppercase tracking-wide text-muted-foreground">Company Address</Label>
+              </div>
+              <div className="space-y-2">
+                <Input value={editAddr.line1} onChange={e => setEditAddr({ ...editAddr, line1: e.target.value })} placeholder="Street address" disabled={!isAdmin} />
+                <Input value={editAddr.line2} onChange={e => setEditAddr({ ...editAddr, line2: e.target.value })} placeholder="Suite, unit, building (optional)" disabled={!isAdmin} />
+                <div className="grid grid-cols-2 gap-2">
+                  <Input value={editAddr.city} onChange={e => setEditAddr({ ...editAddr, city: e.target.value })} placeholder="City" disabled={!isAdmin} />
+                  <Input value={editAddr.state} onChange={e => setEditAddr({ ...editAddr, state: e.target.value })} placeholder="State / Region" disabled={!isAdmin} />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Input value={editAddr.postal} onChange={e => setEditAddr({ ...editAddr, postal: e.target.value })} placeholder="Postal code" disabled={!isAdmin} />
+                  <Input value={editAddr.country} onChange={e => setEditAddr({ ...editAddr, country: e.target.value })} placeholder="Country" disabled={!isAdmin} />
+                </div>
+              </div>
               {isAdmin && (
                 <div className="flex justify-end">
                   <Button onClick={saveDetails} disabled={savingDetails} className="gap-1">
