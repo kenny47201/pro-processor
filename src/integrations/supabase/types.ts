@@ -146,6 +146,174 @@ export type Database = {
           },
         ]
       }
+      issue_events: {
+        Row: {
+          action: Database["public"]["Enums"]["issue_event_action"]
+          actor_id: string
+          created_at: string
+          id: string
+          issue_id: string
+          metadata: Json | null
+          notes: string | null
+        }
+        Insert: {
+          action: Database["public"]["Enums"]["issue_event_action"]
+          actor_id: string
+          created_at?: string
+          id?: string
+          issue_id: string
+          metadata?: Json | null
+          notes?: string | null
+        }
+        Update: {
+          action?: Database["public"]["Enums"]["issue_event_action"]
+          actor_id?: string
+          created_at?: string
+          id?: string
+          issue_id?: string
+          metadata?: Json | null
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_events_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      issue_signoffs: {
+        Row: {
+          created_at: string
+          decision: Database["public"]["Enums"]["signoff_decision"]
+          id: string
+          issue_id: string
+          manager_id: string
+          notes: string | null
+        }
+        Insert: {
+          created_at?: string
+          decision: Database["public"]["Enums"]["signoff_decision"]
+          id?: string
+          issue_id: string
+          manager_id: string
+          notes?: string | null
+        }
+        Update: {
+          created_at?: string
+          decision?: Database["public"]["Enums"]["signoff_decision"]
+          id?: string
+          issue_id?: string
+          manager_id?: string
+          notes?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_signoffs_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      issue_watchers: {
+        Row: {
+          created_at: string
+          id: string
+          issue_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          issue_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          issue_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_watchers_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      issues: {
+        Row: {
+          asset_id: string | null
+          category: Database["public"]["Enums"]["issue_category"]
+          closed_at: string | null
+          closed_by: string | null
+          created_at: string
+          created_by: string
+          description: string
+          due_by: string | null
+          facility_id: string | null
+          id: string
+          linked_conversation_id: string | null
+          material_id: string | null
+          mold_id: string | null
+          owner_id: string | null
+          priority: Database["public"]["Enums"]["issue_priority"]
+          status: Database["public"]["Enums"]["issue_status"]
+          tenant_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          asset_id?: string | null
+          category?: Database["public"]["Enums"]["issue_category"]
+          closed_at?: string | null
+          closed_by?: string | null
+          created_at?: string
+          created_by: string
+          description?: string
+          due_by?: string | null
+          facility_id?: string | null
+          id?: string
+          linked_conversation_id?: string | null
+          material_id?: string | null
+          mold_id?: string | null
+          owner_id?: string | null
+          priority?: Database["public"]["Enums"]["issue_priority"]
+          status?: Database["public"]["Enums"]["issue_status"]
+          tenant_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          asset_id?: string | null
+          category?: Database["public"]["Enums"]["issue_category"]
+          closed_at?: string | null
+          closed_by?: string | null
+          created_at?: string
+          created_by?: string
+          description?: string
+          due_by?: string | null
+          facility_id?: string | null
+          id?: string
+          linked_conversation_id?: string | null
+          material_id?: string | null
+          mold_id?: string | null
+          owner_id?: string | null
+          priority?: Database["public"]["Enums"]["issue_priority"]
+          status?: Database["public"]["Enums"]["issue_status"]
+          tenant_id?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -409,6 +577,10 @@ export type Database = {
         Args: { _conv: string; _user: string }
         Returns: boolean
       }
+      can_access_issue: {
+        Args: { _issue: string; _user: string }
+        Returns: boolean
+      }
       get_user_tenant_id: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
@@ -433,8 +605,22 @@ export type Database = {
         | "super_admin"
       conversation_status: "active" | "archived"
       conversation_visibility: "open" | "private"
+      issue_category: "process" | "maintenance" | "tooling" | "quality"
+      issue_event_action:
+        | "created"
+        | "assigned"
+        | "status_change"
+        | "priority_change"
+        | "comment"
+        | "fix_added"
+        | "escalated"
+        | "watcher_added"
+        | "watcher_removed"
+      issue_priority: "low" | "medium" | "high" | "critical"
+      issue_status: "open" | "in_progress" | "needs_verification" | "closed"
       profile_status: "pending" | "active" | "inactive"
       shift_task_list_status: "active" | "completed" | "cancelled"
+      signoff_decision: "approved" | "rejected" | "needs_work"
       task_item_status: "pending" | "in_progress" | "done" | "skipped"
       task_priority: "normal" | "high" | "urgent"
     }
@@ -575,8 +761,23 @@ export const Constants = {
       ],
       conversation_status: ["active", "archived"],
       conversation_visibility: ["open", "private"],
+      issue_category: ["process", "maintenance", "tooling", "quality"],
+      issue_event_action: [
+        "created",
+        "assigned",
+        "status_change",
+        "priority_change",
+        "comment",
+        "fix_added",
+        "escalated",
+        "watcher_added",
+        "watcher_removed",
+      ],
+      issue_priority: ["low", "medium", "high", "critical"],
+      issue_status: ["open", "in_progress", "needs_verification", "closed"],
       profile_status: ["pending", "active", "inactive"],
       shift_task_list_status: ["active", "completed", "cancelled"],
+      signoff_decision: ["approved", "rejected", "needs_work"],
       task_item_status: ["pending", "in_progress", "done", "skipped"],
       task_priority: ["normal", "high", "urgent"],
     },
