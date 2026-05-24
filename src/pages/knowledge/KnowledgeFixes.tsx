@@ -51,7 +51,7 @@ export default function KnowledgeFixes() {
       setLoading(true);
       const { data } = await supabase
         .from('knowledge_fixes')
-        .select('id,title,status,defect,tool,press,material,color,additive,fix_summary,created_at,updated_at')
+        .select('id,title,status,defect,tool,press,material,color,additive,fix_summary,created_at,updated_at,consecutive_passes,required_passes')
         .order('updated_at', { ascending: false });
       if (active) {
         setRows((data ?? []) as FixRow[]);
