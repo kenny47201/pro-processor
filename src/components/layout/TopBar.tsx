@@ -1,4 +1,5 @@
-import { Building2, ChevronDown } from 'lucide-react';
+import { Building2, ChevronDown, Home } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useTenant } from '@/contexts/TenantContext';
 import { Button } from '@/components/ui/button';
 import {
