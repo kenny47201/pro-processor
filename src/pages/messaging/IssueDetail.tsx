@@ -44,6 +44,30 @@ const PRIORITY_STYLES: Record<IssuePriority, string> = {
 
 interface ProfileLite { user_id: string; display_name: string | null; screen_name: string | null; }
 
+const WORKFLOW: IssueStatus[] = ['open', 'in_progress', 'needs_verification', 'closed'];
+
+/**
+ * Allowed status transitions and the role tiers permitted to make them.
+ * tiers: 'edit'  = reporter, owner, or supervisor+ (canEdit)
+ *        'manager' = manager / admin / super_admin (canSignOffIssues)
+ */
+const TRANSITIONS: Record<IssueStatus, Array<{ to: IssueStatus; tier: 'edit' | 'manager'; label: string }>> = {
+  open: [
+    { to: 'in_progress', tier: 'edit', label: 'Start work' },
+  ],
+  in_progress: [
+    { to: 'needs_verification', tier: 'edit', label: 'Submit for verification' },
+    { to: 'open', tier: 'manager', label: 'Revert to open' },
+  ],
+  needs_verification: [
+    { to: 'closed', tier: 'manager', label: 'Approve & close' },
+    { to: 'in_progress', tier: 'manager', label: 'Send back (needs work)' },
+  ],
+  closed: [
+    { to: 'open', tier: 'manager', label: 'Reopen' },
+  ],
+};
+
 export default function IssueDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
@@ -84,8 +108,17 @@ export default function IssueDetail() {
 
   const handleStatusChange = async (next: IssueStatus) => {
     if (!issue || !currentUser) return;
-    if (next === 'closed' && !canSignOffIssues) {
-      toast({ title: 'Only managers can close issues', variant: 'destructive' });
+    const allowed = TRANSITIONS[issue.status].find(t => t.to === next);
+    if (!allowed) {
+      toast({ title: 'Invalid transition', description: `Cannot move from ${STATUS_LABELS[issue.status]} to ${STATUS_LABELS[next]}.`, variant: 'destructive' });
+      return;
+    }
+    if (allowed.tier === 'manager' && !canSignOffIssues) {
+      toast({ title: 'Manager approval required', description: 'Only managers and admins can perform this transition.', variant: 'destructive' });
+      return;
+    }
+    if (allowed.tier === 'edit' && !canEdit) {
+      toast({ title: 'Not permitted', description: 'Only the reporter, assignee, or a supervisor can do this.', variant: 'destructive' });
       return;
     }
     try {
@@ -94,6 +127,7 @@ export default function IssueDetail() {
         patch: {
           status: next,
           ...(next === 'closed' ? { closed_at: new Date().toISOString(), closed_by: currentUser.id } : {}),
+          ...(issue.status === 'closed' && next !== 'closed' ? { closed_at: null, closed_by: null } : {}),
         },
         event: {
           actor_id: currentUser.id,
@@ -203,22 +237,70 @@ export default function IssueDetail() {
             <p className="whitespace-pre-wrap text-sm">{issue.description}</p>
           )}
           <Separator />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                <AlertCircle className="h-3.5 w-3.5" /> Status
-              </label>
-              <Select value={issue.status} onValueChange={v => handleStatusChange(v as IssueStatus)} disabled={!canEdit}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  {(Object.keys(STATUS_LABELS) as IssueStatus[]).map(s => (
-                    <SelectItem key={s} value={s} disabled={s === 'closed' && !canSignOffIssues}>
+          <div className="space-y-3">
+            <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
+              <AlertCircle className="h-3.5 w-3.5" /> Workflow
+            </label>
+            {/* Stepper visualization */}
+            <div className="flex items-center gap-0 overflow-x-auto pb-1">
+              {WORKFLOW.map((s, idx) => {
+                const currentIdx = WORKFLOW.indexOf(issue.status);
+                const isCurrent = s === issue.status;
+                const isPast = idx < currentIdx;
+                return (
+                  <div key={s} className="flex items-center shrink-0">
+                    <div className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                      isCurrent ? STATUS_STYLES[s] + ' ring-2 ring-offset-1 ring-offset-background ring-current'
+                      : isPast ? 'bg-success/10 text-success border-success/30'
+                      : 'bg-muted/40 text-muted-foreground border-border'
+                    }`}>
+                      <span className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] ${
+                        isCurrent ? 'bg-current/20' : isPast ? 'bg-success/20' : 'bg-muted'
+                      }`}>
+                        {isPast ? '✓' : idx + 1}
+                      </span>
                       {STATUS_LABELS[s]}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                    </div>
+                    {idx < WORKFLOW.length - 1 && (
+                      <div className={`h-px w-6 sm:w-10 ${idx < currentIdx ? 'bg-success/50' : 'bg-border'}`} />
+                    )}
+                  </div>
+                );
+              })}
             </div>
+            {/* Transition actions */}
+            <div className="flex flex-wrap gap-2">
+              {TRANSITIONS[issue.status].map(t => {
+                const blocked = (t.tier === 'manager' && !canSignOffIssues) || (t.tier === 'edit' && !canEdit);
+                const isClose = t.to === 'closed';
+                const isBackward = WORKFLOW.indexOf(t.to) < WORKFLOW.indexOf(issue.status);
+                return (
+                  <Button
+                    key={t.to}
+                    size="sm"
+                    variant={isClose ? 'success' : isBackward ? 'outline' : 'default'}
+                    disabled={blocked || updateIssue.isPending}
+                    onClick={() => handleStatusChange(t.to)}
+                    title={blocked ? (t.tier === 'manager' ? 'Manager only' : 'Not permitted') : ''}
+                    className="gap-1.5"
+                  >
+                    {isClose && <CheckCircle2 className="h-3.5 w-3.5" />}
+                    {t.label}
+                    {t.tier === 'manager' && (
+                      <Badge variant="outline" className="ml-1 h-4 border-current/30 bg-current/10 px-1 text-[9px] font-semibold uppercase">
+                        Mgr
+                      </Badge>
+                    )}
+                  </Button>
+                );
+              })}
+              {TRANSITIONS[issue.status].length === 0 && (
+                <p className="text-xs text-muted-foreground italic">No transitions available.</p>
+              )}
+            </div>
+          </div>
+          <Separator />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-muted-foreground">Priority</label>
               <Select value={issue.priority} onValueChange={v => handlePriorityChange(v as IssuePriority)} disabled={!canEdit}>
