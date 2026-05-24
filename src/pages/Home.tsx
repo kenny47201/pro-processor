@@ -16,22 +16,24 @@ import { supabase } from '@/integrations/supabase/client';
 export default function Home() {
   const navigate = useNavigate();
   const { currentUser, currentTenant } = useTenant();
-  const [counts, setCounts] = useState({ shiftTasks: 0, conversations: 0, openIssues: 0 });
+  const [counts, setCounts] = useState({ shiftTasks: 0, conversations: 0, openIssues: 0, fixes: 0 });
 
   useEffect(() => {
     if (!currentUser) return;
     let cancelled = false;
     const load = async () => {
-      const [tasks, convs, issues] = await Promise.all([
+      const [tasks, convs, issues, fixes] = await Promise.all([
         supabase.from('shift_task_lists').select('id', { count: 'exact', head: true }).eq('status', 'active'),
         supabase.from('conversations').select('id', { count: 'exact', head: true }).eq('status', 'active'),
         supabase.from('issues').select('id', { count: 'exact', head: true }).neq('status', 'closed'),
+        supabase.from('knowledge_fixes').select('id', { count: 'exact', head: true }),
       ]);
       if (cancelled) return;
       setCounts({
         shiftTasks: tasks.count ?? 0,
         conversations: convs.count ?? 0,
         openIssues: issues.count ?? 0,
+        fixes: fixes.count ?? 0,
       });
     };
     load();
@@ -41,6 +43,7 @@ export default function Home() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'shift_task_lists' }, load)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'conversations' }, load)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'issues' }, load)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'knowledge_fixes' }, load)
       .subscribe();
 
     return () => {
@@ -79,8 +82,8 @@ export default function Home() {
     {
       icon: <BookOpen className="h-5 w-5" />,
       label: "Fix Records",
-      value: 0,
-      subtext: "No fixes pending",
+      value: counts.fixes,
+      subtext: counts.fixes === 0 ? "No fixes yet" : "Total records",
       route: "/knowledge/fixes",
       color: "text-purple-500",
     },
