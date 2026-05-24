@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,9 +12,6 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useTenant } from '@/contexts/TenantContext';
 import { useCreateIssue, type IssueCategory, type IssuePriority } from '@/hooks/useIssues';
-import { supabase } from '@/integrations/supabase/client';
-
-interface ProfileOption { user_id: string; display_name: string | null; screen_name: string | null; }
 
 export default function IssueNew() {
   const navigate = useNavigate();
@@ -26,13 +23,9 @@ export default function IssueNew() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState<IssueCategory>('process');
   const [priority, setPriority] = useState<IssuePriority>('medium');
-  const [ownerId, setOwnerId] = useState<string>('unassigned');
   const [tool, setTool] = useState('');
   const [press, setPress] = useState('');
   const [dueBy, setDueBy] = useState('');
-
-  // people lookup removed — owner assignment handled later by supervisors
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,18 +37,24 @@ export default function IssueNew() {
       toast({ title: 'Title required', description: 'Use at least 3 characters.', variant: 'destructive' });
       return;
     }
+    const header = [
+      press.trim() && `Press: ${press.trim()}`,
+      tool.trim() && `Tool: ${tool.trim()}`,
+    ].filter(Boolean).join(' • ');
+    const fullDesc = (header ? `${header}\n\n` : '') + description.trim();
     try {
       const issue = await createIssue.mutateAsync({
         tenant_id: currentUser.tenantId,
         facility_id: currentUser.facilityId ?? null,
         created_by: currentUser.id,
         title: title.trim().slice(0, 200),
-        description: description.trim().slice(0, 5000),
+        description: fullDesc.slice(0, 5000),
         category,
         priority,
-        owner_id: ownerId === 'unassigned' ? null : ownerId,
+        owner_id: null,
         due_by: dueBy ? new Date(dueBy).toISOString() : null,
       });
+
       toast({ title: 'Issue reported' });
       navigate(`/issues/${issue.id}`);
     } catch (err) {
