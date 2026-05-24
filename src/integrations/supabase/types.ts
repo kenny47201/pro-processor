@@ -525,27 +525,45 @@ export type Database = {
       }
       tenants: {
         Row: {
+          address_line1: string | null
+          address_line2: string | null
+          city: string | null
+          country: string | null
           created_at: string
           id: string
           name: string
+          postal_code: string | null
           shifts: string[]
           slug: string
+          state: string | null
           updated_at: string
         }
         Insert: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
           id?: string
           name: string
+          postal_code?: string | null
           shifts?: string[]
           slug: string
+          state?: string | null
           updated_at?: string
         }
         Update: {
+          address_line1?: string | null
+          address_line2?: string | null
+          city?: string | null
+          country?: string | null
           created_at?: string
           id?: string
           name?: string
+          postal_code?: string | null
           shifts?: string[]
           slug?: string
+          state?: string | null
           updated_at?: string
         }
         Relationships: []
