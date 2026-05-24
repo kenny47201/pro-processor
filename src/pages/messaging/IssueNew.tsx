@@ -109,19 +109,14 @@ export default function IssueNew() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Assign owner</Label>
-                <Select value={ownerId} onValueChange={setOwnerId}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="unassigned">Unassigned</SelectItem>
-                    {people.map(p => (
-                      <SelectItem key={p.user_id} value={p.user_id}>
-                        {p.display_name || p.screen_name || 'User'}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <Label htmlFor="press">Press</Label>
+                <Input id="press" value={press} onChange={e => setPress(e.target.value)} maxLength={100} placeholder="e.g. Press 4" />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="tool">Tool</Label>
+                <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
+              </div>
+
               <div className="space-y-2">
                 <Label htmlFor="due">Due by</Label>
                 <Input id="due" type="date" value={dueBy} onChange={e => setDueBy(e.target.value)} />
