@@ -33,7 +33,9 @@ export default function ShiftTaskNew() {
   const addItem = useAddShiftTaskItem();
   const { data: profiles } = useTenantProfiles();
 
-  const shiftOptions = currentTenant?.shifts && currentTenant.shifts.length ? currentTenant.shifts : ['Day', 'Swing', 'Night'];
+  const defaultShiftOptions = ['Day', 'Swing', 'Night', '1st', '2nd', '3rd', 'A', 'B', 'C', 'D'];
+  const tenantShifts = currentTenant?.shifts && currentTenant.shifts.length ? currentTenant.shifts : [];
+  const shiftOptions = Array.from(new Set([...tenantShifts, ...defaultShiftOptions]));
 
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
