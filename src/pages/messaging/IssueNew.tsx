@@ -18,6 +18,8 @@ export default function IssueNew() {
   const { toast } = useToast();
   const { currentUser } = useTenant();
   const createIssue = useCreateIssue();
+  const canSetPriority = !!currentUser && ['supervisor', 'manager', 'admin', 'super_admin'].includes(currentUser.role);
+
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -78,13 +80,23 @@ export default function IssueNew() {
               <Label htmlFor="title">Title *</Label>
               <Input id="title" value={title} onChange={e => setTitle(e.target.value)} maxLength={200} required placeholder="Brief summary of the issue" />
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="press">Press</Label>
+                <Input id="press" value={press} onChange={e => setPress(e.target.value)} maxLength={100} placeholder="e.g. Press 4" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="tool">Tool</Label>
+                <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
+              </div>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="description">Description</Label>
               <Textarea id="description" value={description} onChange={e => setDescription(e.target.value)} maxLength={5000} rows={5} placeholder="What's happening? Symptoms, context, what's been tried..." />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Category</Label>
+                <Label>Department</Label>
                 <Select value={category} onValueChange={v => setCategory(v as IssueCategory)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -95,27 +107,22 @@ export default function IssueNew() {
                   </SelectContent>
                 </Select>
               </div>
-              <div className="space-y-2">
-                <Label>Priority</Label>
-                <Select value={priority} onValueChange={v => setPriority(v as IssuePriority)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="low">Low</SelectItem>
-                    <SelectItem value="medium">Medium</SelectItem>
-                    <SelectItem value="high">High</SelectItem>
-                    <SelectItem value="critical">Critical</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="press">Press</Label>
-                <Input id="press" value={press} onChange={e => setPress(e.target.value)} maxLength={100} placeholder="e.g. Press 4" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="tool">Tool</Label>
-                <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
-              </div>
+              {canSetPriority && (
+                <div className="space-y-2">
+                  <Label>Priority</Label>
+                  <Select value={priority} onValueChange={v => setPriority(v as IssuePriority)}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="low">Low</SelectItem>
+                      <SelectItem value="medium">Medium</SelectItem>
+                      <SelectItem value="high">High</SelectItem>
+                      <SelectItem value="critical">Critical</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
             </div>
+
             <div className="flex gap-2 pt-2">
               <Button type="submit" disabled={createIssue.isPending}>
                 {createIssue.isPending && <Loader2 className="h-4 w-4 animate-spin" />}
