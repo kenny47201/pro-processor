@@ -108,8 +108,17 @@ export default function IssueDetail() {
 
   const handleStatusChange = async (next: IssueStatus) => {
     if (!issue || !currentUser) return;
-    if (next === 'closed' && !canSignOffIssues) {
-      toast({ title: 'Only managers can close issues', variant: 'destructive' });
+    const allowed = TRANSITIONS[issue.status].find(t => t.to === next);
+    if (!allowed) {
+      toast({ title: 'Invalid transition', description: `Cannot move from ${STATUS_LABELS[issue.status]} to ${STATUS_LABELS[next]}.`, variant: 'destructive' });
+      return;
+    }
+    if (allowed.tier === 'manager' && !canSignOffIssues) {
+      toast({ title: 'Manager approval required', description: 'Only managers and admins can perform this transition.', variant: 'destructive' });
+      return;
+    }
+    if (allowed.tier === 'edit' && !canEdit) {
+      toast({ title: 'Not permitted', description: 'Only the reporter, assignee, or a supervisor can do this.', variant: 'destructive' });
       return;
     }
     try {
@@ -118,6 +127,7 @@ export default function IssueDetail() {
         patch: {
           status: next,
           ...(next === 'closed' ? { closed_at: new Date().toISOString(), closed_by: currentUser.id } : {}),
+          ...(issue.status === 'closed' && next !== 'closed' ? { closed_at: null, closed_by: null } : {}),
         },
         event: {
           actor_id: currentUser.id,
