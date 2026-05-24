@@ -230,20 +230,6 @@ export default function IssueDetail() {
             </div>
             <div className="space-y-1.5">
               <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
-                <UserIcon className="h-3.5 w-3.5" /> Owner
-              </label>
-              <Select value={issue.owner_id ?? 'unassigned'} onValueChange={handleAssign} disabled={!canEdit}>
-                <SelectTrigger><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="unassigned">Unassigned</SelectItem>
-                  {peopleList.map(p => (
-                    <SelectItem key={p.user_id} value={p.user_id}>{p.display_name || p.screen_name || 'User'}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
                 <Calendar className="h-3.5 w-3.5" /> Due by
               </label>
               <p className="text-sm">{issue.due_by ? format(new Date(issue.due_by), 'MMM d, yyyy') : '—'}</p>
