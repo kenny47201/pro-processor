@@ -18,6 +18,8 @@ export default function IssueNew() {
   const { toast } = useToast();
   const { currentUser } = useTenant();
   const createIssue = useCreateIssue();
+  const canSetPriority = !!currentUser && ['supervisor', 'manager', 'admin', 'super_admin'].includes(currentUser.role);
+
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
