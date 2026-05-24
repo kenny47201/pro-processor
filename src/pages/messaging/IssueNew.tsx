@@ -115,11 +115,6 @@ export default function IssueNew() {
                 <Label htmlFor="tool">Tool</Label>
                 <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
               </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="due">Due by</Label>
-                <Input id="due" type="date" value={dueBy} onChange={e => setDueBy(e.target.value)} />
-              </div>
             </div>
             <div className="flex gap-2 pt-2">
               <Button type="submit" disabled={createIssue.isPending}>
