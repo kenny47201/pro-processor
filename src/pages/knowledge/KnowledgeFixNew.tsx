@@ -70,7 +70,7 @@ export default function KnowledgeFixNew() {
       problem: problem.trim(),
       root_cause: rootCause.trim(),
       solution: solution.trim(),
-      parameter_changes: cleanParams,
+      parameter_changes: cleanParams as unknown as never,
       status,
       committed_by: status === 'committed' ? currentUser.id : null,
       committed_at: status === 'committed' ? new Date().toISOString() : null,
