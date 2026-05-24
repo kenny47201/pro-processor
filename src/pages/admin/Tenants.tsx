@@ -117,9 +117,31 @@ export default function Tenants() {
                 <Input value={newSlug} onChange={e => setNewSlug(e.target.value)} placeholder="acme-plastics" />
               </div>
             </div>
+            <div className="space-y-2">
+              <Label>Shift Structure <span className="text-destructive">*</span></Label>
+              <Input
+                value={newShifts}
+                onChange={e => setNewShifts(e.target.value)}
+                placeholder="Day, Swing, Night"
+              />
+              <p className="text-xs text-muted-foreground">Comma-separated list of shift names. Pick a preset or type your own.</p>
+              <div className="flex flex-wrap gap-2">
+                {PRESETS.map(p => (
+                  <Button
+                    key={p.label}
+                    type="button"
+                    variant={newShifts === p.shifts.join(', ') ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setNewShifts(p.shifts.join(', '))}
+                  >
+                    {p.label}
+                  </Button>
+                ))}
+              </div>
+            </div>
             <div className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={() => { setCreating(false); setNewName(''); setNewSlug(''); }}>Cancel</Button>
-              <Button onClick={createTenant} disabled={!newName.trim() || !newSlug.trim()}>Create</Button>
+              <Button variant="ghost" onClick={() => { setCreating(false); setNewName(''); setNewSlug(''); setNewShifts(''); }}>Cancel</Button>
+              <Button onClick={createTenant} disabled={!newName.trim() || !newSlug.trim() || !newShifts.trim()}>Create</Button>
             </div>
           </CardContent>
         </Card>
