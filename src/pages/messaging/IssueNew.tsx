@@ -52,7 +52,7 @@ export default function IssueNew() {
         category,
         priority,
         owner_id: null,
-        due_by: dueBy ? new Date(dueBy).toISOString() : null,
+        due_by: null,
       });
 
       toast({ title: 'Issue reported' });
