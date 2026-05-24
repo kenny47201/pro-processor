@@ -314,6 +314,90 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_fixes: {
+        Row: {
+          additive: string | null
+          color: string | null
+          committed_at: string | null
+          committed_by: string | null
+          created_at: string
+          created_by: string
+          defect: string | null
+          facility_id: string | null
+          fix_summary: string | null
+          id: string
+          material: string | null
+          parameter_changes: Json
+          press: string | null
+          problem: string
+          root_cause: string
+          solution: string
+          status: Database["public"]["Enums"]["fix_record_status"]
+          tags: string[]
+          tenant_id: string
+          title: string
+          tool: string | null
+          updated_at: string
+          verification_notes: string | null
+          verified_at: string | null
+          verified_by: string | null
+        }
+        Insert: {
+          additive?: string | null
+          color?: string | null
+          committed_at?: string | null
+          committed_by?: string | null
+          created_at?: string
+          created_by: string
+          defect?: string | null
+          facility_id?: string | null
+          fix_summary?: string | null
+          id?: string
+          material?: string | null
+          parameter_changes?: Json
+          press?: string | null
+          problem?: string
+          root_cause?: string
+          solution?: string
+          status?: Database["public"]["Enums"]["fix_record_status"]
+          tags?: string[]
+          tenant_id: string
+          title: string
+          tool?: string | null
+          updated_at?: string
+          verification_notes?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Update: {
+          additive?: string | null
+          color?: string | null
+          committed_at?: string | null
+          committed_by?: string | null
+          created_at?: string
+          created_by?: string
+          defect?: string | null
+          facility_id?: string | null
+          fix_summary?: string | null
+          id?: string
+          material?: string | null
+          parameter_changes?: Json
+          press?: string | null
+          problem?: string
+          root_cause?: string
+          solution?: string
+          status?: Database["public"]["Enums"]["fix_record_status"]
+          tags?: string[]
+          tenant_id?: string
+          title?: string
+          tool?: string | null
+          updated_at?: string
+          verification_notes?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -623,6 +707,7 @@ export type Database = {
         | "super_admin"
       conversation_status: "active" | "archived"
       conversation_visibility: "open" | "private"
+      fix_record_status: "draft" | "committed" | "verified"
       issue_category: "process" | "maintenance" | "tooling" | "quality"
       issue_event_action:
         | "created"
@@ -779,6 +864,7 @@ export const Constants = {
       ],
       conversation_status: ["active", "archived"],
       conversation_visibility: ["open", "private"],
+      fix_record_status: ["draft", "committed", "verified"],
       issue_category: ["process", "maintenance", "tooling", "quality"],
       issue_event_action: [
         "created",
