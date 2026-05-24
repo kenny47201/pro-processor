@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Building2, Plus, Save, X, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Building2, Plus, Save, X, Loader2, ArrowRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -165,10 +166,17 @@ export default function Tenants() {
             return (
               <Card key={tenant.id}>
                 <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Building2 className="h-4 w-4 text-primary" />
-                    {tenant.name}
-                    <Badge variant="secondary" className="ml-2">{tenant.slug}</Badge>
+                  <CardTitle className="text-base flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-2">
+                      <Building2 className="h-4 w-4 text-primary" />
+                      {tenant.name}
+                      <Badge variant="secondary" className="ml-2">{tenant.slug}</Badge>
+                    </span>
+                    {isAdmin && (
+                      <Button asChild variant="outline" size="sm" className="gap-1">
+                        <Link to={`/tenants/${tenant.id}`}>Manage <ArrowRight className="h-3.5 w-3.5" /></Link>
+                      </Button>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
