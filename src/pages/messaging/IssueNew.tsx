@@ -25,7 +25,7 @@ export default function IssueNew() {
   const [priority, setPriority] = useState<IssuePriority>('medium');
   const [tool, setTool] = useState('');
   const [press, setPress] = useState('');
-  const [dueBy, setDueBy] = useState('');
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,7 +52,7 @@ export default function IssueNew() {
         category,
         priority,
         owner_id: null,
-        due_by: dueBy ? new Date(dueBy).toISOString() : null,
+        due_by: null,
       });
 
       toast({ title: 'Issue reported' });
@@ -114,11 +114,6 @@ export default function IssueNew() {
               <div className="space-y-2">
                 <Label htmlFor="tool">Tool</Label>
                 <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="due">Due by</Label>
-                <Input id="due" type="date" value={dueBy} onChange={e => setDueBy(e.target.value)} />
               </div>
             </div>
             <div className="flex gap-2 pt-2">
