@@ -27,16 +27,12 @@ export default function IssueNew() {
   const [category, setCategory] = useState<IssueCategory>('process');
   const [priority, setPriority] = useState<IssuePriority>('medium');
   const [ownerId, setOwnerId] = useState<string>('unassigned');
+  const [tool, setTool] = useState('');
+  const [press, setPress] = useState('');
   const [dueBy, setDueBy] = useState('');
-  const [people, setPeople] = useState<ProfileOption[]>([]);
 
-  useEffect(() => {
-    if (!currentUser?.tenantId) return;
-    supabase.from('profiles')
-      .select('user_id, display_name, screen_name')
-      .eq('tenant_id', currentUser.tenantId)
-      .then(({ data }) => setPeople((data ?? []) as ProfileOption[]));
-  }, [currentUser?.tenantId]);
+  // people lookup removed — owner assignment handled later by supervisors
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
