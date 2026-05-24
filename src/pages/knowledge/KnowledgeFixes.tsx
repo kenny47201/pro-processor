@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Plus, Search, Wrench, CheckCircle2, FileEdit, ShieldCheck } from 'lucide-react';
+import { Plus, Search, Wrench, FileEdit, ShieldCheck, FlaskConical } from 'lucide-react';
 import { useTenant } from '@/contexts/TenantContext';
 import { EmptyState } from '@/components/EmptyState';
 import { supabase } from '@/integrations/supabase/client';
@@ -26,11 +26,13 @@ interface FixRow {
   fix_summary: string | null;
   created_at: string;
   updated_at: string;
+  consecutive_passes: number;
+  required_passes: number;
 }
 
 const STATUS_META: Record<FixStatus, { label: string; icon: typeof FileEdit; variant: 'secondary' | 'default' | 'outline' }> = {
   draft: { label: 'Draft', icon: FileEdit, variant: 'secondary' },
-  committed: { label: 'Committed', icon: CheckCircle2, variant: 'default' },
+  committed: { label: 'In Trial', icon: FlaskConical, variant: 'default' },
   verified: { label: 'Verified', icon: ShieldCheck, variant: 'outline' },
 };
 
