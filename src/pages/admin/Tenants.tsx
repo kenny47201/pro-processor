@@ -35,6 +35,7 @@ export default function Tenants() {
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState('');
   const [newSlug, setNewSlug] = useState('');
+  const [newShifts, setNewShifts] = useState('');
 
   const load = async () => {
     setLoading(true);
