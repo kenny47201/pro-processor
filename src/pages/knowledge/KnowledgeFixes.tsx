@@ -110,7 +110,7 @@ export default function KnowledgeFixes() {
           <TabsList>
             <TabsTrigger value="all">All ({counts.all})</TabsTrigger>
             <TabsTrigger value="draft">Draft ({counts.draft})</TabsTrigger>
-            <TabsTrigger value="committed">Committed ({counts.committed})</TabsTrigger>
+            <TabsTrigger value="committed">In Trial ({counts.committed})</TabsTrigger>
             <TabsTrigger value="verified">Verified ({counts.verified})</TabsTrigger>
           </TabsList>
         </Tabs>
