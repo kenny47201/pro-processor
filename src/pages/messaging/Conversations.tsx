@@ -97,6 +97,9 @@ export default function Conversations() {
                       {c.visibility === 'private' ? <Lock className="h-3 w-3" /> : <Users className="h-3 w-3" />}
                       {c.visibility}
                     </Badge>
+                    {c.department && (
+                      <Badge variant="outline">{c.department}</Badge>
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">
                     Active {formatDistanceToNow(new Date(c.last_message_at), { addSuffix: true })}
