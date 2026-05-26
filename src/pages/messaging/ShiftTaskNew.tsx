@@ -37,10 +37,12 @@ export default function ShiftTaskNew() {
   const tenantShifts = currentTenant?.shifts && currentTenant.shifts.length ? currentTenant.shifts : [];
   const shiftOptions = Array.from(new Set([...tenantShifts, ...defaultShiftOptions]));
 
+  const initialDept: Department = (currentUser?.department ?? 'Processing') as Department;
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [shift, setShift] = useState<string>(shiftOptions[0]);
+  const [department, setDepartment] = useState<Department>(initialDept);
   const [items, setItems] = useState<DraftItem[]>([]);
   const [newItemText, setNewItemText] = useState('');
   const [newItemPriority, setNewItemPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
