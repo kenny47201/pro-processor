@@ -160,6 +160,8 @@ export function TenantProvider({ children }: { children: ReactNode }) {
         email: user.email || '',
         role: primaryRole,
         shift: profile?.shift || undefined,
+        department: departmentForRole(primaryRole),
+        canSeeAllDepartments: departmentForRole(primaryRole) === null,
         tenantId: profile?.tenant_id || undefined,
         facilityId: profile?.facility_id || undefined,
       });
