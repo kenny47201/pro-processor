@@ -148,6 +148,25 @@ export default function ShiftTaskNew() {
           </div>
 
           <div className="space-y-2">
+            <Label>Department</Label>
+            {currentUser?.canSeeAllDepartments ? (
+              <Select value={department} onValueChange={(v) => setDepartment(v as Department)}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {DEPARTMENTS.map((d) => (
+                    <SelectItem key={d} value={d}>{d}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="text-sm px-3 py-2 rounded-md border bg-muted/30 text-muted-foreground">
+                {department} <span className="text-xs">(your department)</span>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground">Only members of this department (plus supervisors and managers) will see this list.</p>
+          </div>
+
+          <div className="space-y-2">
             <Label htmlFor="notes">Notes (optional)</Label>
             <Textarea id="notes" placeholder="Any additional context for the shift..." value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} />
           </div>
