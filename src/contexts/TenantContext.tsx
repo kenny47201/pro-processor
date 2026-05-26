@@ -165,14 +165,16 @@ export function TenantProvider({ children }: { children: ReactNode }) {
   // Auth state listener
   useEffect(() => {
     let isMounted = true;
+    let loadedUserId: string | null = null;
 
-    const startUserLoad = (user: SupabaseUser) => {
+    const startUserLoad = (user: SupabaseUser, showLoading: boolean) => {
       const requestId = ++loadRequestId.current;
       setAuthUser(user);
-      setIsLoading(true);
+      if (showLoading) setIsLoading(true);
       setTimeout(() => {
         loadUserData(user, requestId).finally(() => {
           if (isMounted && requestId === loadRequestId.current) {
+            loadedUserId = user.id;
             setIsLoading(false);
           }
         });
@@ -181,15 +183,20 @@ export function TenantProvider({ children }: { children: ReactNode }) {
 
     const finishSignedOut = () => {
       ++loadRequestId.current;
+      loadedUserId = null;
       clearUserData();
       setIsLoading(false);
     };
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      (event, session) => {
         if (session?.user) {
-          startUserLoad(session.user);
-        } else {
+          // Skip reloads for token refreshes / tab-focus when user unchanged
+          if (loadedUserId === session.user.id && event !== 'SIGNED_IN' && event !== 'INITIAL_SESSION') {
+            return;
+          }
+          startUserLoad(session.user, loadedUserId !== session.user.id);
+        } else if (event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
           finishSignedOut();
         }
       }
@@ -198,7 +205,7 @@ export function TenantProvider({ children }: { children: ReactNode }) {
     // Check initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
-        startUserLoad(session.user);
+        startUserLoad(session.user, loadedUserId !== session.user.id);
       } else {
         finishSignedOut();
       }
