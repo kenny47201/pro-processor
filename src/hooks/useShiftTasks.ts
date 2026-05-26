@@ -13,6 +13,7 @@ export type ShiftTaskList = {
   notes: string | null;
   date: string;
   shift: string;
+  department: 'Processing' | 'Tooling' | 'Maintenance' | null;
   status: 'active' | 'completed' | 'cancelled';
   created_at: string;
   updated_at: string;
