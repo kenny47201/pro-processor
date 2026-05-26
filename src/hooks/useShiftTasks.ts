@@ -138,7 +138,7 @@ export function useCreateShiftTaskList() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (input: { title: string; notes?: string; date: string; shift: string; tenant_id: string; facility_id?: string; created_by: string }) => {
+    mutationFn: async (input: { title: string; notes?: string; date: string; shift: string; department: 'Processing' | 'Tooling' | 'Maintenance'; tenant_id: string; facility_id?: string; created_by: string }) => {
       const { data, error } = await supabase
         .from('shift_task_lists')
         .insert(input)
