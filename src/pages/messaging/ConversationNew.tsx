@@ -95,6 +95,7 @@ export default function ConversationNew() {
         facility_id: currentFacility?.id ?? null,
         title: title.trim(),
         visibility,
+        department: visibility === 'open' && department !== 'all' ? department : null,
         created_by: currentUser.id,
       })
       .select()
