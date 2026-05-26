@@ -21,6 +21,12 @@ const shiftBadge: Record<string, string> = {
 };
 const defaultShiftBadge = 'bg-primary/10 text-primary border-primary/30';
 
+const deptBadge: Record<string, string> = {
+  Processing: 'bg-sky-500/10 text-sky-500 border-sky-500/30',
+  Tooling: 'bg-purple-500/10 text-purple-500 border-purple-500/30',
+  Maintenance: 'bg-orange-500/10 text-orange-500 border-orange-500/30',
+};
+
 export default function ShiftTasks() {
   const navigate = useNavigate();
   const { canCreateShiftTasks } = useTenant();
