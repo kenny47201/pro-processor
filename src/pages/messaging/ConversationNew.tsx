@@ -26,6 +26,10 @@ export default function ConversationNew() {
   const [title, setTitle] = useState('');
   const [firstMessage, setFirstMessage] = useState('');
   const [visibility, setVisibility] = useState<'open' | 'private'>('open');
+  const initialDept: Department | 'all' = currentUser?.canSeeAllDepartments
+    ? 'all'
+    : ((currentUser?.department ?? 'Processing') as Department);
+  const [department, setDepartment] = useState<Department | 'all'>(initialDept);
   const [submitting, setSubmitting] = useState(false);
 
   const [members, setMembers] = useState<TenantMember[]>([]);
