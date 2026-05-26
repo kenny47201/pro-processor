@@ -79,6 +79,11 @@ export default function ShiftTasks() {
                       <Badge variant="outline" className={shiftBadge[list.shift] || defaultShiftBadge}>
                         {list.shift} Shift
                       </Badge>
+                      {list.department && (
+                        <Badge variant="outline" className={deptBadge[list.department]}>
+                          {list.department}
+                        </Badge>
+                      )}
                     </div>
                     <CardTitle className="text-base">{list.title}</CardTitle>
                     {list.notes && (
