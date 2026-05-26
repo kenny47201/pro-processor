@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { useTenant } from '@/contexts/TenantContext';
+import { useTenant, DEPARTMENTS, type Department } from '@/contexts/TenantContext';
 import { useCreateShiftTaskList, useAddShiftTaskItem, useTenantProfiles } from '@/hooks/useShiftTasks';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -37,10 +37,12 @@ export default function ShiftTaskNew() {
   const tenantShifts = currentTenant?.shifts && currentTenant.shifts.length ? currentTenant.shifts : [];
   const shiftOptions = Array.from(new Set([...tenantShifts, ...defaultShiftOptions]));
 
+  const initialDept: Department = (currentUser?.department ?? 'Processing') as Department;
   const [title, setTitle] = useState('');
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
   const [shift, setShift] = useState<string>(shiftOptions[0]);
+  const [department, setDepartment] = useState<Department>(initialDept);
   const [items, setItems] = useState<DraftItem[]>([]);
   const [newItemText, setNewItemText] = useState('');
   const [newItemPriority, setNewItemPriority] = useState<'normal' | 'high' | 'urgent'>('normal');
@@ -88,6 +90,7 @@ export default function ShiftTaskNew() {
         notes: notes.trim() || undefined,
         date,
         shift,
+        department,
         tenant_id: currentTenant.id,
         facility_id: currentFacility?.id,
         created_by: currentUser.id,
@@ -142,6 +145,25 @@ export default function ShiftTaskNew() {
                 </SelectContent>
               </Select>
             </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label>Department</Label>
+            {currentUser?.canSeeAllDepartments ? (
+              <Select value={department} onValueChange={(v) => setDepartment(v as Department)}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  {DEPARTMENTS.map((d) => (
+                    <SelectItem key={d} value={d}>{d}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="text-sm px-3 py-2 rounded-md border bg-muted/30 text-muted-foreground">
+                {department} <span className="text-xs">(your department)</span>
+              </div>
+            )}
+            <p className="text-xs text-muted-foreground">Only members of this department (plus supervisors and managers) will see this list.</p>
           </div>
 
           <div className="space-y-2">

@@ -8,8 +8,9 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
-import { useTenant } from '@/contexts/TenantContext';
+import { useTenant, DEPARTMENTS, type Department } from '@/contexts/TenantContext';
 import { toast } from '@/hooks/use-toast';
 
 interface TenantMember {
@@ -25,6 +26,10 @@ export default function ConversationNew() {
   const [title, setTitle] = useState('');
   const [firstMessage, setFirstMessage] = useState('');
   const [visibility, setVisibility] = useState<'open' | 'private'>('open');
+  const initialDept: Department | 'all' = currentUser?.canSeeAllDepartments
+    ? 'all'
+    : ((currentUser?.department ?? 'Processing') as Department);
+  const [department, setDepartment] = useState<Department | 'all'>(initialDept);
   const [submitting, setSubmitting] = useState(false);
 
   const [members, setMembers] = useState<TenantMember[]>([]);
@@ -90,6 +95,7 @@ export default function ConversationNew() {
         facility_id: currentFacility?.id ?? null,
         title: title.trim(),
         visibility,
+        department: visibility === 'open' && department !== 'all' ? department : null,
         created_by: currentUser.id,
       })
       .select()
@@ -166,6 +172,28 @@ export default function ConversationNew() {
                 </div>
               </RadioGroup>
             </div>
+
+            {visibility === 'open' && (
+              <div className="space-y-2">
+                <Label>Department</Label>
+                {currentUser?.canSeeAllDepartments ? (
+                  <Select value={department} onValueChange={(v) => setDepartment(v as Department | 'all')}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All departments</SelectItem>
+                      {DEPARTMENTS.map((d) => (
+                        <SelectItem key={d} value={d}>{d}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="text-sm px-3 py-2 rounded-md border bg-muted/30 text-muted-foreground">
+                    {department} <span className="text-xs">(your department)</span>
+                  </div>
+                )}
+                <p className="text-xs text-muted-foreground">Controls which department can see this open conversation. Supervisors and managers always see everything.</p>
+              </div>
+            )}
 
             {visibility === 'private' && (
               <div className="space-y-2">

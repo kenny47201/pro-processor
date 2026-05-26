@@ -13,6 +13,7 @@ export type ShiftTaskList = {
   notes: string | null;
   date: string;
   shift: string;
+  department: 'Processing' | 'Tooling' | 'Maintenance' | null;
   status: 'active' | 'completed' | 'cancelled';
   created_at: string;
   updated_at: string;
@@ -137,7 +138,7 @@ export function useCreateShiftTaskList() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: async (input: { title: string; notes?: string; date: string; shift: string; tenant_id: string; facility_id?: string; created_by: string }) => {
+    mutationFn: async (input: { title: string; notes?: string; date: string; shift: string; department: 'Processing' | 'Tooling' | 'Maintenance'; tenant_id: string; facility_id?: string; created_by: string }) => {
       const { data, error } = await supabase
         .from('shift_task_lists')
         .insert(input)

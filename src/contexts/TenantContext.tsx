@@ -39,13 +39,24 @@ interface Facility {
   name: string;
 }
 
+export type Department = 'Processing' | 'Tooling' | 'Maintenance';
+export const DEPARTMENTS: Department[] = ['Processing', 'Tooling', 'Maintenance'];
+
+export function departmentForRole(role: UserRole): Department | null {
+  if (role === 'processor') return 'Processing';
+  if (role === 'tooling_specialist') return 'Tooling';
+  if (role === 'maintenance_tech') return 'Maintenance';
+  return null; // supervisor/manager/admin/super_admin → see all
+}
+
 interface CurrentUser {
   id: string;
   name: string;
   email: string;
   role: UserRole;
   shift?: string;
-  department?: string;
+  department: Department | null;
+  canSeeAllDepartments: boolean;
   tenantId?: string;
   facilityId?: string;
 }
@@ -149,6 +160,8 @@ export function TenantProvider({ children }: { children: ReactNode }) {
         email: user.email || '',
         role: primaryRole,
         shift: profile?.shift || undefined,
+        department: departmentForRole(primaryRole),
+        canSeeAllDepartments: departmentForRole(primaryRole) === null,
         tenantId: profile?.tenant_id || undefined,
         facilityId: profile?.facility_id || undefined,
       });

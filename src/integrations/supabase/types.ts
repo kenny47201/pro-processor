@@ -79,6 +79,7 @@ export type Database = {
         Row: {
           created_at: string
           created_by: string
+          department: Database["public"]["Enums"]["department"] | null
           facility_id: string | null
           id: string
           last_message_at: string
@@ -91,6 +92,7 @@ export type Database = {
         Insert: {
           created_at?: string
           created_by: string
+          department?: Database["public"]["Enums"]["department"] | null
           facility_id?: string | null
           id?: string
           last_message_at?: string
@@ -103,6 +105,7 @@ export type Database = {
         Update: {
           created_at?: string
           created_by?: string
+          department?: Database["public"]["Enums"]["department"] | null
           facility_id?: string | null
           id?: string
           last_message_at?: string
@@ -629,6 +632,7 @@ export type Database = {
           created_at: string
           created_by: string
           date: string
+          department: Database["public"]["Enums"]["department"] | null
           facility_id: string | null
           id: string
           notes: string | null
@@ -642,6 +646,7 @@ export type Database = {
           created_at?: string
           created_by: string
           date?: string
+          department?: Database["public"]["Enums"]["department"] | null
           facility_id?: string | null
           id?: string
           notes?: string | null
@@ -655,6 +660,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           date?: string
+          department?: Database["public"]["Enums"]["department"] | null
           facility_id?: string | null
           id?: string
           notes?: string | null
@@ -742,6 +748,11 @@ export type Database = {
         Args: { _issue: string; _user: string }
         Returns: boolean
       }
+      can_see_all_departments: { Args: { _user_id: string }; Returns: boolean }
+      get_user_department: {
+        Args: { _user_id: string }
+        Returns: Database["public"]["Enums"]["department"]
+      }
       get_user_tenant_id: { Args: { _user_id: string }; Returns: string }
       has_role: {
         Args: {
@@ -766,6 +777,7 @@ export type Database = {
         | "super_admin"
       conversation_status: "active" | "archived"
       conversation_visibility: "open" | "private"
+      department: "Processing" | "Tooling" | "Maintenance"
       fix_record_status: "draft" | "committed" | "verified"
       fix_trial_outcome: "pass" | "fail"
       issue_category: "process" | "maintenance" | "tooling" | "quality"
@@ -924,6 +936,7 @@ export const Constants = {
       ],
       conversation_status: ["active", "archived"],
       conversation_visibility: ["open", "private"],
+      department: ["Processing", "Tooling", "Maintenance"],
       fix_record_status: ["draft", "committed", "verified"],
       fix_trial_outcome: ["pass", "fail"],
       issue_category: ["process", "maintenance", "tooling", "quality"],
