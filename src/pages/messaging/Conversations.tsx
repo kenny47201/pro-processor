@@ -17,6 +17,7 @@ interface ConversationRow {
   created_by: string;
   last_message_at: string;
   tenant_id: string;
+  department: 'Processing' | 'Tooling' | 'Maintenance' | null;
 }
 
 export default function Conversations() {
