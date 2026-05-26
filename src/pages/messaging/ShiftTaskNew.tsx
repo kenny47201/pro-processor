@@ -90,6 +90,7 @@ export default function ShiftTaskNew() {
         notes: notes.trim() || undefined,
         date,
         shift,
+        department,
         tenant_id: currentTenant.id,
         facility_id: currentFacility?.id,
         created_by: currentUser.id,
