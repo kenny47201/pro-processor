@@ -173,6 +173,28 @@ export default function ConversationNew() {
               </RadioGroup>
             </div>
 
+            {visibility === 'open' && (
+              <div className="space-y-2">
+                <Label>Department</Label>
+                {currentUser?.canSeeAllDepartments ? (
+                  <Select value={department} onValueChange={(v) => setDepartment(v as Department | 'all')}>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All departments</SelectItem>
+                      {DEPARTMENTS.map((d) => (
+                        <SelectItem key={d} value={d}>{d}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  <div className="text-sm px-3 py-2 rounded-md border bg-muted/30 text-muted-foreground">
+                    {department} <span className="text-xs">(your department)</span>
+                  </div>
+                )}
+                <p className="text-xs text-muted-foreground">Controls which department can see this open conversation. Supervisors and managers always see everything.</p>
+              </div>
+            )}
+
             {visibility === 'private' && (
               <div className="space-y-2">
                 <Label>Recipients</Label>
