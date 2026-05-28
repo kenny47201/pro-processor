@@ -23,6 +23,8 @@ interface TenantRow {
   id: string; name: string; slug: string; shifts: string[]; created_at: string;
   address_line1: string | null; address_line2: string | null;
   city: string | null; state: string | null; postal_code: string | null; country: string | null;
+  county: string | null; region: string | null; time_zone: string | null;
+  operating_model: string | null; primary_industry: string | null;
 }
 interface FacilityRow { id: string; tenant_id: string; name: string; }
 interface AdminUser {
