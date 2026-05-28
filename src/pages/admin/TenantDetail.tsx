@@ -54,7 +54,7 @@ export default function TenantDetail() {
   // Editing state
   const [editName, setEditName] = useState('');
   const [editShifts, setEditShifts] = useState('');
-  const [editAddr, setEditAddr] = useState({ line1: '', line2: '', city: '', state: '', postal: '', country: '' });
+  const [editAddr, setEditAddr] = useState({ line1: '', line2: '', city: '', state: '', postal: '', country: '', county: '', region: '', timeZone: '', operatingModel: '', primaryIndustry: '' });
   const [savingDetails, setSavingDetails] = useState(false);
 
   // New facility
