@@ -220,6 +220,15 @@ export default function TenantDetail() {
                   <Input value={editAddr.postal} onChange={e => setEditAddr({ ...editAddr, postal: e.target.value })} placeholder="Postal code" disabled={!isAdmin} />
                   <Input value={editAddr.country} onChange={e => setEditAddr({ ...editAddr, country: e.target.value })} placeholder="Country" disabled={!isAdmin} />
                 </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Input value={editAddr.county} onChange={e => setEditAddr({ ...editAddr, county: e.target.value })} placeholder="County" disabled={!isAdmin} />
+                  <Input value={editAddr.region} onChange={e => setEditAddr({ ...editAddr, region: e.target.value })} placeholder="Region" disabled={!isAdmin} />
+                </div>
+                <Input value={editAddr.timeZone} onChange={e => setEditAddr({ ...editAddr, timeZone: e.target.value })} placeholder="Time Zone (e.g. America/Chicago)" disabled={!isAdmin} />
+                <div className="grid grid-cols-2 gap-2">
+                  <Input value={editAddr.operatingModel} onChange={e => setEditAddr({ ...editAddr, operatingModel: e.target.value })} placeholder="Operating Model (e.g. 24/7, 5x8)" disabled={!isAdmin} />
+                  <Input value={editAddr.primaryIndustry} onChange={e => setEditAddr({ ...editAddr, primaryIndustry: e.target.value })} placeholder="Primary Industry" disabled={!isAdmin} />
+                </div>
               </div>
               {isAdmin && (
                 <div className="flex justify-end">
