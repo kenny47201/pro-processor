@@ -678,13 +678,18 @@ export type Database = {
           address_line2: string | null
           city: string | null
           country: string | null
+          county: string | null
           created_at: string
           id: string
           name: string
+          operating_model: string | null
           postal_code: string | null
+          primary_industry: string | null
+          region: string | null
           shifts: string[]
           slug: string
           state: string | null
+          time_zone: string | null
           updated_at: string
         }
         Insert: {
@@ -692,13 +697,18 @@ export type Database = {
           address_line2?: string | null
           city?: string | null
           country?: string | null
+          county?: string | null
           created_at?: string
           id?: string
           name: string
+          operating_model?: string | null
           postal_code?: string | null
+          primary_industry?: string | null
+          region?: string | null
           shifts?: string[]
           slug: string
           state?: string | null
+          time_zone?: string | null
           updated_at?: string
         }
         Update: {
@@ -706,13 +716,18 @@ export type Database = {
           address_line2?: string | null
           city?: string | null
           country?: string | null
+          county?: string | null
           created_at?: string
           id?: string
           name?: string
+          operating_model?: string | null
           postal_code?: string | null
+          primary_industry?: string | null
+          region?: string | null
           shifts?: string[]
           slug?: string
           state?: string | null
+          time_zone?: string | null
           updated_at?: string
         }
         Relationships: []

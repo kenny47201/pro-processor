@@ -23,6 +23,8 @@ interface TenantRow {
   id: string; name: string; slug: string; shifts: string[]; created_at: string;
   address_line1: string | null; address_line2: string | null;
   city: string | null; state: string | null; postal_code: string | null; country: string | null;
+  county: string | null; region: string | null; time_zone: string | null;
+  operating_model: string | null; primary_industry: string | null;
 }
 interface FacilityRow { id: string; tenant_id: string; name: string; }
 interface AdminUser {
@@ -52,7 +54,7 @@ export default function TenantDetail() {
   // Editing state
   const [editName, setEditName] = useState('');
   const [editShifts, setEditShifts] = useState('');
-  const [editAddr, setEditAddr] = useState({ line1: '', line2: '', city: '', state: '', postal: '', country: '' });
+  const [editAddr, setEditAddr] = useState({ line1: '', line2: '', city: '', state: '', postal: '', country: '', county: '', region: '', timeZone: '', operatingModel: '', primaryIndustry: '' });
   const [savingDetails, setSavingDetails] = useState(false);
 
   // New facility
@@ -64,11 +66,11 @@ export default function TenantDetail() {
     setLoading(true);
     try {
       const [{ data: t, error: tErr }, { data: f }] = await Promise.all([
-        supabase.from('tenants').select('id,name,slug,shifts,created_at,address_line1,address_line2,city,state,postal_code,country').eq('id', id).single(),
+        supabase.from('tenants').select('id,name,slug,shifts,created_at,address_line1,address_line2,city,state,postal_code,country,county,region,time_zone,operating_model,primary_industry').eq('id', id).single(),
         supabase.from('facilities').select('id,tenant_id,name').eq('tenant_id', id),
       ]);
       if (tErr) throw tErr;
-      const tRow: TenantRow = { ...t, shifts: t.shifts?.length ? t.shifts : ['Day','Swing','Night'] };
+      const tRow: TenantRow = { ...(t as TenantRow), shifts: t.shifts?.length ? t.shifts : ['Day','Swing','Night'] };
       setTenant(tRow);
       setEditName(tRow.name);
       setEditShifts(tRow.shifts.join(', '));
@@ -76,6 +78,9 @@ export default function TenantDetail() {
         line1: tRow.address_line1 ?? '', line2: tRow.address_line2 ?? '',
         city: tRow.city ?? '', state: tRow.state ?? '',
         postal: tRow.postal_code ?? '', country: tRow.country ?? '',
+        county: tRow.county ?? '', region: tRow.region ?? '',
+        timeZone: tRow.time_zone ?? '', operatingModel: tRow.operating_model ?? '',
+        primaryIndustry: tRow.primary_industry ?? '',
       });
       setFacilities(f || []);
 
@@ -114,6 +119,11 @@ export default function TenantDetail() {
       state: editAddr.state.trim() || null,
       postal_code: editAddr.postal.trim() || null,
       country: editAddr.country.trim() || null,
+      county: editAddr.county.trim() || null,
+      region: editAddr.region.trim() || null,
+      time_zone: editAddr.timeZone.trim() || null,
+      operating_model: editAddr.operatingModel.trim() || null,
+      primary_industry: editAddr.primaryIndustry.trim() || null,
     }).eq('id', tenant.id);
     setSavingDetails(false);
     if (error) { toast({ title: 'Update failed', description: error.message, variant: 'destructive' }); return; }
@@ -209,6 +219,15 @@ export default function TenantDetail() {
                 <div className="grid grid-cols-2 gap-2">
                   <Input value={editAddr.postal} onChange={e => setEditAddr({ ...editAddr, postal: e.target.value })} placeholder="Postal code" disabled={!isAdmin} />
                   <Input value={editAddr.country} onChange={e => setEditAddr({ ...editAddr, country: e.target.value })} placeholder="Country" disabled={!isAdmin} />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <Input value={editAddr.county} onChange={e => setEditAddr({ ...editAddr, county: e.target.value })} placeholder="County" disabled={!isAdmin} />
+                  <Input value={editAddr.region} onChange={e => setEditAddr({ ...editAddr, region: e.target.value })} placeholder="Region" disabled={!isAdmin} />
+                </div>
+                <Input value={editAddr.timeZone} onChange={e => setEditAddr({ ...editAddr, timeZone: e.target.value })} placeholder="Time Zone (e.g. America/Chicago)" disabled={!isAdmin} />
+                <div className="grid grid-cols-2 gap-2">
+                  <Input value={editAddr.operatingModel} onChange={e => setEditAddr({ ...editAddr, operatingModel: e.target.value })} placeholder="Operating Model (e.g. 24/7, 5x8)" disabled={!isAdmin} />
+                  <Input value={editAddr.primaryIndustry} onChange={e => setEditAddr({ ...editAddr, primaryIndustry: e.target.value })} placeholder="Primary Industry" disabled={!isAdmin} />
                 </div>
               </div>
               {isAdmin && (
