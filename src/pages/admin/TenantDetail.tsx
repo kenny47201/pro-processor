@@ -119,6 +119,11 @@ export default function TenantDetail() {
       state: editAddr.state.trim() || null,
       postal_code: editAddr.postal.trim() || null,
       country: editAddr.country.trim() || null,
+      county: editAddr.county.trim() || null,
+      region: editAddr.region.trim() || null,
+      time_zone: editAddr.timeZone.trim() || null,
+      operating_model: editAddr.operatingModel.trim() || null,
+      primary_industry: editAddr.primaryIndustry.trim() || null,
     }).eq('id', tenant.id);
     setSavingDetails(false);
     if (error) { toast({ title: 'Update failed', description: error.message, variant: 'destructive' }); return; }
