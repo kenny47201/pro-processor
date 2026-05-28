@@ -66,11 +66,11 @@ export default function TenantDetail() {
     setLoading(true);
     try {
       const [{ data: t, error: tErr }, { data: f }] = await Promise.all([
-        supabase.from('tenants').select('id,name,slug,shifts,created_at,address_line1,address_line2,city,state,postal_code,country').eq('id', id).single(),
+        supabase.from('tenants').select('id,name,slug,shifts,created_at,address_line1,address_line2,city,state,postal_code,country,county,region,time_zone,operating_model,primary_industry').eq('id', id).single(),
         supabase.from('facilities').select('id,tenant_id,name').eq('tenant_id', id),
       ]);
       if (tErr) throw tErr;
-      const tRow: TenantRow = { ...t, shifts: t.shifts?.length ? t.shifts : ['Day','Swing','Night'] };
+      const tRow: TenantRow = { ...(t as TenantRow), shifts: t.shifts?.length ? t.shifts : ['Day','Swing','Night'] };
       setTenant(tRow);
       setEditName(tRow.name);
       setEditShifts(tRow.shifts.join(', '));
@@ -78,6 +78,9 @@ export default function TenantDetail() {
         line1: tRow.address_line1 ?? '', line2: tRow.address_line2 ?? '',
         city: tRow.city ?? '', state: tRow.state ?? '',
         postal: tRow.postal_code ?? '', country: tRow.country ?? '',
+        county: tRow.county ?? '', region: tRow.region ?? '',
+        timeZone: tRow.time_zone ?? '', operatingModel: tRow.operating_model ?? '',
+        primaryIndustry: tRow.primary_industry ?? '',
       });
       setFacilities(f || []);
 
