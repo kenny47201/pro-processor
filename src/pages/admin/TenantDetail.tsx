@@ -195,49 +195,75 @@ export default function TenantDetail() {
           <Card>
             <CardHeader><CardTitle className="text-base">Company Details</CardTitle></CardHeader>
             <CardContent className="space-y-3">
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <Label>Organization Name</Label>
-                  <Input value={editName} onChange={e => setEditName(e.target.value)} disabled={!isAdmin} />
-                </div>
-                <div className="space-y-2">
-                  <Label>Slug</Label>
-                  <Input value={tenant.slug} disabled />
-                </div>
-              </div>
+              {isAdmin ? (
+                <>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-2">
+                      <Label>Organization Name</Label>
+                      <Input value={editName} onChange={e => setEditName(e.target.value)} />
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Slug</Label>
+                      <Input value={tenant.slug} disabled />
+                    </div>
+                  </div>
 
-              <div className="pt-2">
-                <Label className="text-xs uppercase tracking-wide text-muted-foreground">Company Address</Label>
-              </div>
-              <div className="space-y-2">
-                <Input value={editAddr.line1} onChange={e => setEditAddr({ ...editAddr, line1: e.target.value })} placeholder="Street address" disabled={!isAdmin} />
-                <Input value={editAddr.line2} onChange={e => setEditAddr({ ...editAddr, line2: e.target.value })} placeholder="Suite, unit, building (optional)" disabled={!isAdmin} />
-                <div className="grid grid-cols-2 gap-2">
-                  <Input value={editAddr.city} onChange={e => setEditAddr({ ...editAddr, city: e.target.value })} placeholder="City" disabled={!isAdmin} />
-                  <Input value={editAddr.state} onChange={e => setEditAddr({ ...editAddr, state: e.target.value })} placeholder="State / Region" disabled={!isAdmin} />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <Input value={editAddr.postal} onChange={e => setEditAddr({ ...editAddr, postal: e.target.value })} placeholder="Postal code" disabled={!isAdmin} />
-                  <Input value={editAddr.country} onChange={e => setEditAddr({ ...editAddr, country: e.target.value })} placeholder="Country" disabled={!isAdmin} />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <Input value={editAddr.county} onChange={e => setEditAddr({ ...editAddr, county: e.target.value })} placeholder="County" disabled={!isAdmin} />
-                  <Input value={editAddr.region} onChange={e => setEditAddr({ ...editAddr, region: e.target.value })} placeholder="Region" disabled={!isAdmin} />
-                </div>
-                <Input value={editAddr.timeZone} onChange={e => setEditAddr({ ...editAddr, timeZone: e.target.value })} placeholder="Time Zone (e.g. America/Chicago)" disabled={!isAdmin} />
-                <div className="grid grid-cols-2 gap-2">
-                  <Input value={editAddr.operatingModel} onChange={e => setEditAddr({ ...editAddr, operatingModel: e.target.value })} placeholder="Operating Model (e.g. 24/7, 5x8)" disabled={!isAdmin} />
-                  <Input value={editAddr.primaryIndustry} onChange={e => setEditAddr({ ...editAddr, primaryIndustry: e.target.value })} placeholder="Primary Industry" disabled={!isAdmin} />
-                </div>
-              </div>
-              {isAdmin && (
-                <div className="flex justify-end">
-                  <Button onClick={saveDetails} disabled={savingDetails} className="gap-1">
-                    <Save className="h-3.5 w-3.5" /> Save
-                  </Button>
-                </div>
+                  <div className="pt-2">
+                    <Label className="text-xs uppercase tracking-wide text-muted-foreground">Company Address</Label>
+                  </div>
+                  <div className="space-y-2">
+                    <Input value={editAddr.line1} onChange={e => setEditAddr({ ...editAddr, line1: e.target.value })} placeholder="Street address" />
+                    <Input value={editAddr.line2} onChange={e => setEditAddr({ ...editAddr, line2: e.target.value })} placeholder="Suite, unit, building (optional)" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input value={editAddr.city} onChange={e => setEditAddr({ ...editAddr, city: e.target.value })} placeholder="City" />
+                      <Input value={editAddr.state} onChange={e => setEditAddr({ ...editAddr, state: e.target.value })} placeholder="State / Region" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input value={editAddr.postal} onChange={e => setEditAddr({ ...editAddr, postal: e.target.value })} placeholder="Postal code" />
+                      <Input value={editAddr.country} onChange={e => setEditAddr({ ...editAddr, country: e.target.value })} placeholder="Country" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input value={editAddr.county} onChange={e => setEditAddr({ ...editAddr, county: e.target.value })} placeholder="County" />
+                      <Input value={editAddr.region} onChange={e => setEditAddr({ ...editAddr, region: e.target.value })} placeholder="Region" />
+                    </div>
+                    <Input value={editAddr.timeZone} onChange={e => setEditAddr({ ...editAddr, timeZone: e.target.value })} placeholder="Time Zone (e.g. America/Chicago)" />
+                    <div className="grid grid-cols-2 gap-2">
+                      <Input value={editAddr.operatingModel} onChange={e => setEditAddr({ ...editAddr, operatingModel: e.target.value })} placeholder="Operating Model (e.g. 24/7, 5x8)" />
+                      <Input value={editAddr.primaryIndustry} onChange={e => setEditAddr({ ...editAddr, primaryIndustry: e.target.value })} placeholder="Primary Industry" />
+                    </div>
+                  </div>
+                  <div className="flex justify-end">
+                    <Button onClick={saveDetails} disabled={savingDetails} className="gap-1">
+                      <Save className="h-3.5 w-3.5" /> Save
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+                  {[
+                    ['Organization Name', editName],
+                    ['Slug', tenant.slug],
+                    ['Street Address', editAddr.line1],
+                    ['Suite / Unit', editAddr.line2],
+                    ['City', editAddr.city],
+                    ['State / Region', editAddr.state],
+                    ['Postal Code', editAddr.postal],
+                    ['Country', editAddr.country],
+                    ['County', editAddr.county],
+                    ['Region', editAddr.region],
+                    ['Time Zone', editAddr.timeZone],
+                    ['Operating Model', editAddr.operatingModel],
+                    ['Primary Industry', editAddr.primaryIndustry],
+                  ].map(([label, value]) => (
+                    <div key={label} className="space-y-1">
+                      <dt className="text-xs uppercase tracking-wide text-muted-foreground">{label}</dt>
+                      <dd className="text-sm text-foreground">{value || <span className="text-muted-foreground italic">Not set</span>}</dd>
+                    </div>
+                  ))}
+                </dl>
               )}
             </CardContent>
+
           </Card>
         </TabsContent>
 
