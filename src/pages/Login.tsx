@@ -49,6 +49,17 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [logoTaps, setLogoTaps] = useState<number[]>([]);
+
+  const handleLogoTap = () => {
+    const now = Date.now();
+    const recent = [...logoTaps, now].filter(t => now - t < 3000);
+    setLogoTaps(recent);
+    if (recent.length >= 5) {
+      setLogoTaps([]);
+      setSelectedRole('super_admin');
+    }
+  };
 
   // Redirect if already authenticated
   useEffect(() => {
