@@ -102,7 +102,9 @@ export default function Login() {
           <img 
             src={logoBadge} 
             alt="Pro-Processor" 
-            className="h-28 w-28 mx-auto object-contain"
+            className="h-28 w-28 mx-auto object-contain cursor-pointer select-none"
+            onClick={handleLogoTap}
+            draggable={false}
           />
         </div>
 
