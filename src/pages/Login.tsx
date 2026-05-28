@@ -18,7 +18,6 @@ const roleOrder: UserRole[] = [
   'supervisor',
   'manager',
   'admin',
-  'super_admin',
 ];
 
 const roleDescriptions: Record<UserRole, string> = {
