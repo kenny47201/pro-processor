@@ -1,0 +1,6 @@
+ALTER TABLE public.tenants
+  ADD COLUMN IF NOT EXISTS county TEXT,
+  ADD COLUMN IF NOT EXISTS region TEXT,
+  ADD COLUMN IF NOT EXISTS time_zone TEXT,
+  ADD COLUMN IF NOT EXISTS operating_model TEXT,
+  ADD COLUMN IF NOT EXISTS primary_industry TEXT;
