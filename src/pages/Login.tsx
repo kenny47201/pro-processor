@@ -18,7 +18,6 @@ const roleOrder: UserRole[] = [
   'supervisor',
   'manager',
   'admin',
-  'super_admin',
 ];
 
 const roleDescriptions: Record<UserRole, string> = {
@@ -50,6 +49,17 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [logoTaps, setLogoTaps] = useState<number[]>([]);
+
+  const handleLogoTap = () => {
+    const now = Date.now();
+    const recent = [...logoTaps, now].filter(t => now - t < 3000);
+    setLogoTaps(recent);
+    if (recent.length >= 5) {
+      setLogoTaps([]);
+      setSelectedRole('super_admin');
+    }
+  };
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -92,7 +102,9 @@ export default function Login() {
           <img 
             src={logoBadge} 
             alt="Pro-Processor" 
-            className="h-28 w-28 mx-auto object-contain"
+            className="h-28 w-28 mx-auto object-contain cursor-pointer select-none"
+            onClick={handleLogoTap}
+            draggable={false}
           />
         </div>
 
