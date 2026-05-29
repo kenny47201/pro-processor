@@ -16,6 +16,7 @@ import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format, formatDistanceToNow } from 'date-fns';
+import AttachmentsCard from '@/components/AttachmentsCard';
 
 type FixStatus = 'draft' | 'committed' | 'verified';
 type TrialOutcome = 'pass' | 'fail';
