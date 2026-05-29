@@ -1,0 +1,152 @@
+{
+  "tenant": {
+    "name": "AcuPath Precision Molding, LLC",
+    "slug": "acupath-precision-molding",
+    "facilityName": "AcuPath Warsaw Medical Molding Plant",
+    "addressLine1": "1847 MedTech Drive",
+    "city": "Warsaw",
+    "state": "IN",
+    "postalCode": "46582",
+    "county": "Kosciusko",
+    "country": "USA",
+    "region": "Northern Indiana Medical Device Corridor",
+    "timeZone": "America/Indiana/Indianapolis",
+    "facilityType": "Precision Medical Injection Molding Facility",
+    "facilitySizeSqFt": 72000,
+    "primaryIndustry": "Medical / pharma device components",
+    "operatingModel": "24/5 staffed production with controlled lights-out weekend molding",
+    "shifts": ["Day", "1st", "2nd", "3rd"]
+  },
+  "productBoundary": {
+    "includedUserTypes": [
+      "Plant Manager",
+      "Molding Manager",
+      "Maintenance Manager",
+      "Tool Room Manager",
+      "Shift Supervisor",
+      "P.M./Mold Tech",
+      "Mold Tech/Processor",
+      "Maintenance Tech",
+      "Tooling Tech"
+    ],
+    "excludedUserTypes": [
+      "Operators",
+      "Q.C. Manager",
+      "Q.C. Technicians"
+    ],
+    "note": "This fixture is intentionally limited to Pro-Processor technical users. Operators should not be seeded as app users. Q.C. should only appear as operational context unless an exceptional workflow is deliberately added."
+  },
+  "technicalUsers": [
+    { "employeeId": "EMP-001", "fullName": "Daniel Mercer", "sourceRole": "Plant Manager", "shift": "Day", "appRole": "admin", "screenName": "daniel_mercer" },
+    { "employeeId": "EMP-002", "fullName": "Alicia Romero", "sourceRole": "Molding Manager", "shift": "Day", "appRole": "manager", "screenName": "alicia_romero" },
+    { "employeeId": "EMP-003", "fullName": "Kevin Dorsey", "sourceRole": "Maintenance Manager", "shift": "Day", "appRole": "manager", "screenName": "kevin_dorsey" },
+    { "employeeId": "EMP-004", "fullName": "Priya Nair", "sourceRole": "Tool Room Manager", "shift": "Day", "appRole": "manager", "screenName": "priya_nair" },
+    { "employeeId": "EMP-006", "fullName": "Melissa Grant", "sourceRole": "Shift Supervisor", "shift": "1st", "appRole": "supervisor", "screenName": "melissa_grant" },
+    { "employeeId": "EMP-007", "fullName": "Aaron Pike", "sourceRole": "Shift Supervisor", "shift": "2nd", "appRole": "supervisor", "screenName": "aaron_pike" },
+    { "employeeId": "EMP-008", "fullName": "Nicole Ramirez", "sourceRole": "Shift Supervisor", "shift": "3rd", "appRole": "supervisor", "screenName": "nicole_ramirez" },
+    { "employeeId": "EMP-009", "fullName": "Luis Ortega", "sourceRole": "P.M./Mold Tech", "shift": "1st", "appRole": "tooling_specialist", "screenName": "luis_ortega" },
+    { "employeeId": "EMP-010", "fullName": "Cameron Wells", "sourceRole": "Mold Tech/Processor", "shift": "1st", "appRole": "processor", "screenName": "cameron_wells" },
+    { "employeeId": "EMP-011", "fullName": "Trevor Shaw", "sourceRole": "Maintenance Tech", "shift": "1st", "appRole": "maintenance_tech", "screenName": "trevor_shaw" },
+    { "employeeId": "EMP-013", "fullName": "Dominic Hayes", "sourceRole": "P.M./Mold Tech", "shift": "2nd", "appRole": "tooling_specialist", "screenName": "dominic_hayes" },
+    { "employeeId": "EMP-014", "fullName": "Adrian Soto", "sourceRole": "Mold Tech/Processor", "shift": "2nd", "appRole": "processor", "screenName": "adrian_soto" },
+    { "employeeId": "EMP-015", "fullName": "Blake Turner", "sourceRole": "Maintenance Tech", "shift": "2nd", "appRole": "maintenance_tech", "screenName": "blake_turner" },
+    { "employeeId": "EMP-017", "fullName": "Mason Bell", "sourceRole": "P.M./Mold Tech", "shift": "3rd", "appRole": "tooling_specialist", "screenName": "mason_bell" },
+    { "employeeId": "EMP-018", "fullName": "Jared Kline", "sourceRole": "Mold Tech/Processor", "shift": "3rd", "appRole": "processor", "screenName": "jared_kline" },
+    { "employeeId": "EMP-019", "fullName": "Ethan Cross", "sourceRole": "Maintenance Tech", "shift": "3rd", "appRole": "maintenance_tech", "screenName": "ethan_cross" },
+    { "employeeId": "EMP-021", "fullName": "Victor Salas", "sourceRole": "Tooling Tech", "shift": "Day", "appRole": "tooling_specialist", "screenName": "victor_salas" },
+    { "employeeId": "EMP-022", "fullName": "Owen McBride", "sourceRole": "Tooling Tech", "shift": "Day", "appRole": "tooling_specialist", "screenName": "owen_mcbride" }
+  ],
+  "assets": [
+    { "assetId": "APM-103", "machine": "Sumitomo IntElect 110T", "mold": "M-105", "product": "SureDose Plunger Guide", "weekendEligible": true },
+    { "assetId": "APM-104", "machine": "Sumitomo IntElect 110T", "mold": "M-106", "product": "SureDose Drive Coupler", "weekendEligible": true },
+    { "assetId": "APM-105", "machine": "Sumitomo IntElect 110T", "mold": "M-109", "product": "AeroTrack Dose Counter Wheel", "weekendEligible": true },
+    { "assetId": "APM-106", "machine": "Sumitomo IntElect 110T", "mold": "M-110", "product": "DialPath Selector Cam", "weekendEligible": true }
+  ],
+  "sampleFixRecords": [
+    {
+      "title": "M-105 SureDose Plunger Guide bore flash after extended run",
+      "createdBy": "cameron_wells",
+      "commitReviewer": "alicia_romero",
+      "context": { "press": "APM-103", "tool": "M-105 SureDose Guide Tool", "material": "Medical PBT GF15, natural", "defect": "Bore flash / drag in CTQ bore" },
+      "problem": "Fine flash and drag appeared in the 4.20 mm SureDose Plunger Guide bore after an extended run.",
+      "rootCause": "Vent restriction around the guided core stack increased cavity pressure at end of fill. Pack pressure was holding the part against a dirty shutoff condition.",
+      "solution": "Cleaned core-area vents, verified guided-core alignment, restarted inside validated window, and reduced pack pressure slightly while maintaining fill and bore straightness.",
+      "parameterChanges": [
+        { "parameter": "Pack pressure", "before": "10.5", "after": "9.8", "units": "ksi" },
+        { "parameter": "Transfer position", "before": "0.19", "after": "0.21", "units": "in" }
+      ]
+    },
+    {
+      "title": "M-106 SureDose Drive Coupler tooth flash at startup",
+      "createdBy": "adrian_soto",
+      "commitReviewer": "alicia_romero",
+      "context": { "press": "APM-104", "tool": "M-106 SureDose Coupler Tool", "material": "Medical POM, natural", "defect": "Tooth-form flash" },
+      "problem": "Drive Coupler showed light flash around the tooth form and inconsistent runout readings during startup.",
+      "rootCause": "The tooth-form insert stack was not heat-soaked consistently before release. Overpack was being used to chase tooth definition.",
+      "solution": "Added tooth-form heat-soak confirmation, verified clamp force and shutoff condition, reduced pack pressure, and restored approved transfer target.",
+      "parameterChanges": [
+        { "parameter": "Pack pressure", "before": "8.9", "after": "8.2", "units": "ksi" },
+        { "parameter": "Tool heat-soak minimum", "before": "Not documented", "after": "20", "units": "min" }
+      ]
+    },
+    {
+      "title": "APM-105 AeroTrack wheel gate vestige above weekend limit",
+      "createdBy": "jared_kline",
+      "commitReviewer": "alicia_romero",
+      "context": { "press": "APM-105", "tool": "M-109 AeroTrack Wheel Tool", "material": "Medical POM, white", "defect": "Gate vestige above 0.08 mm limit" },
+      "problem": "AeroTrack Dose Counter Wheel had intermittent gate vestige above the drawing limit during weekend release review.",
+      "rootCause": "Minor gate-area buildup combined with cushion drift and occasional early robot contact.",
+      "solution": "Cleaned gate area, reset cushion target, confirmed recovery repeatability, and delayed robot pick timing before returning the cell to weekend eligibility.",
+      "parameterChanges": [
+        { "parameter": "Cushion target", "before": "0.060", "after": "0.075", "units": "in" },
+        { "parameter": "Robot pick delay", "before": "0.30", "after": "0.45", "units": "sec" }
+      ]
+    }
+  ],
+  "sampleRecurringTechnicalIssues": [
+    {
+      "title": "Recurring M-105 bore flash after long unattended run window",
+      "category": "tooling",
+      "priority": "high",
+      "createdBy": "alicia_romero",
+      "owner": "victor_salas",
+      "press": "APM-103",
+      "tool": "M-105 SureDose Guide Tool",
+      "description": "Bore flash reappears after long run windows. Review core vent condition, pack trend, and restart checklist before next lights-out approval."
+    },
+    {
+      "title": "APM-105 robot fault repeats during weekend release simulation",
+      "category": "maintenance",
+      "priority": "critical",
+      "createdBy": "nicole_ramirez",
+      "owner": "ethan_cross",
+      "press": "APM-105",
+      "tool": "M-109 AeroTrack Wheel Tool",
+      "description": "Robot intermittently faults during simulated lights-out release. Keep cell off weekend approval until EOAT vacuum, reject chute sensor, and alarm notification checks are complete."
+    },
+    {
+      "title": "M-106 startup discipline varies by shift",
+      "category": "process",
+      "priority": "medium",
+      "createdBy": "aaron_pike",
+      "owner": "adrian_soto",
+      "press": "APM-104",
+      "tool": "M-106 SureDose Coupler Tool",
+      "description": "Startup sequence is not being followed consistently across shifts. Create locked startup note for tooth-form heat soak, first-piece review, and pack-pressure ceiling."
+    }
+  ],
+  "sampleDepartmentPriorities": [
+    {
+      "title": "3rd Shift Technical Priorities - Weekend Release Prep",
+      "shift": "3rd",
+      "department": "Processing",
+      "createdBy": "nicole_ramirez",
+      "notes": "Technical work only. No operator task rollout. Focus on weekend-approved cells APM-103 through APM-106.",
+      "items": [
+        { "text": "Confirm APM-103 / M-105 bore-flash fix remains stable before weekend release.", "priority": "high", "assignee": "jared_kline" },
+        { "text": "Review APM-105 robot fault history and confirm whether maintenance cleared the release hold.", "priority": "urgent", "assignee": "ethan_cross" },
+        { "text": "Document any M-106 startup deviation in the technical issue record, not in a side note or text thread.", "priority": "normal", "assignee": "mason_bell" }
+      ]
+    }
+  ]
+}
