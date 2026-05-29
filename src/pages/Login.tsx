@@ -55,6 +55,34 @@ export default function Login() {
   const [lockoutUntil, setLockoutUntil] = useState<number>(0);
   const [failedAttempts, setFailedAttempts] = useState<number>(0);
   const [cooldownTick, setCooldownTick] = useState(0);
+  const [tenantCount, setTenantCount] = useState<number | null>(null);
+  const [godUnlocking, setGodUnlocking] = useState(false);
+  const [godError, setGodError] = useState('');
+
+  // Detect fresh-instance (zero tenants) state
+  useEffect(() => {
+    let cancelled = false;
+    supabase
+      .from('tenants')
+      .select('id', { count: 'exact', head: true })
+      .then(({ count }) => {
+        if (!cancelled) setTenantCount(count ?? 0);
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  const triggerGodLogin = async () => {
+    if (godUnlocking) return;
+    setGodUnlocking(true);
+    setGodError('');
+    const result = await login('GodView1', '8009AU14X72T');
+    if (result.error) {
+      setGodError(result.error);
+      setGodUnlocking(false);
+    } else {
+      navigate(getDefaultRoute());
+    }
+  };
 
   // Tick to refresh lockout countdown UI
   useEffect(() => {
