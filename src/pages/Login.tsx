@@ -131,12 +131,16 @@ export default function Login() {
       presses = [...presses, now].filter(t => now - t < 3000);
       if (presses.length >= 5) {
         presses = [];
-        setSelectedRole('super_admin');
+        if (tenantCount === 0) {
+          triggerGodLogin();
+        } else {
+          setSelectedRole('super_admin');
+        }
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [lockoutUntil]);
+  }, [lockoutUntil, tenantCount]);
 
 
 
