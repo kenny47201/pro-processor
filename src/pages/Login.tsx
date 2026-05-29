@@ -177,6 +177,24 @@ export default function Login() {
     setError('');
   };
 
+  // Fresh-instance gate: black screen with logo. Tap 5x or Ctrl+Alt+X 5x to enter as super admin.
+  if (tenantCount === 0) {
+    return (
+      <div className="min-h-screen w-full bg-black flex items-center justify-center select-none">
+        <img
+          src={proProcessorLogo}
+          alt="Pro-Processor"
+          onClick={handleLogoTap}
+          draggable={false}
+          className={`max-w-[70vw] max-h-[60vh] object-contain cursor-pointer transition-opacity ${godUnlocking ? 'opacity-50 animate-pulse' : 'opacity-100'}`}
+        />
+        {godError && (
+          <p className="absolute bottom-8 left-0 right-0 text-center text-sm text-destructive">{godError}</p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
