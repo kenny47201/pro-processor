@@ -21,6 +21,7 @@ import {
   type IssueStatus, type IssuePriority,
 } from '@/hooks/useIssues';
 import { supabase } from '@/integrations/supabase/client';
+import AttachmentsCard from '@/components/AttachmentsCard';
 import { format, formatDistanceToNow } from 'date-fns';
 
 const STATUS_LABELS: Record<IssueStatus, string> = {
@@ -381,6 +382,9 @@ export default function IssueDetail() {
           )}
         </CardContent>
       </Card>
+
+      <AttachmentsCard issueId={issue.id} tenantId={issue.tenant_id} />
+
 
       <Card>
         <CardHeader>

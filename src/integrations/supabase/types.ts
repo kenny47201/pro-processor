@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      attachments: {
+        Row: {
+          caption: string | null
+          created_at: string
+          file_size: number
+          fix_id: string | null
+          id: string
+          issue_id: string | null
+          mime_type: string
+          storage_path: string
+          tenant_id: string
+          uploaded_by: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          file_size?: number
+          fix_id?: string | null
+          id?: string
+          issue_id?: string | null
+          mime_type: string
+          storage_path: string
+          tenant_id: string
+          uploaded_by: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          file_size?: number
+          fix_id?: string | null
+          id?: string
+          issue_id?: string | null
+          mime_type?: string
+          storage_path?: string
+          tenant_id?: string
+          uploaded_by?: string
+        }
+        Relationships: []
+      }
       conversation_messages: {
         Row: {
           body: string
