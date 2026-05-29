@@ -304,6 +304,9 @@ export default function KnowledgeFixDetail() {
         </CardContent>
       </Card>
 
+      <AttachmentsCard fixId={rec.id} tenantId={rec.tenant_id} />
+
+
       {/* Trial Progress + Logging */}
       {(inTrial || rec.status === 'verified') && (
         <Card>
