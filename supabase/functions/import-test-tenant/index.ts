@@ -86,6 +86,112 @@ Deno.serve(async (req) => {
       return jsonErr("Missing or invalid fixture payload");
     }
 
+    const dryRun: boolean = body?.dryRun === true;
+
+    // ============ DRY RUN ============
+    // Read-only inspection: classify each record as 'create' or 'update'
+    // without writing anything to the database.
+    if (dryRun) {
+      const t = fixture.tenant;
+      const plan: any = {
+        dryRun: true,
+        tenant: { name: t.name, slug: t.slug, action: "create" as "create" | "update", existingId: null as string | null },
+        facility: { name: t.facilityName ?? "AcuPath Warsaw Medical Molding Plant", action: "create" as "create" | "update", existingId: null as string | null },
+        users: [] as Array<{ screenName: string; email: string; role: string; shift: string; action: "create" | "update"; existingUserId: string | null }>,
+        fixRecords: { willCreate: 0, items: [] as Array<{ title: string; createdBy: string }> },
+        issues: { willCreate: 0, items: [] as Array<{ title: string; createdBy: string }> },
+        departmentPriorities: { willCreate: 0, items: [] as Array<{ title: string; department: string | null; itemCount: number }> },
+        exclusions: { operators: "Operator accounts will NOT be created", qc: "Q.C. accounts will NOT be created" },
+        defaultPassword: DEFAULT_PASSWORD,
+      };
+
+      // Tenant lookup
+      const { data: exTenant } = await a.from("tenants").select("id").eq("slug", t.slug).maybeSingle();
+      if (exTenant) { plan.tenant.action = "update"; plan.tenant.existingId = exTenant.id; }
+
+      // Admin-tenant guard (mirror live behavior)
+      if (!isSuper && exTenant) {
+        const { data: callerProfile } = await a.from("profiles").select("tenant_id").eq("user_id", user.id).maybeSingle();
+        if (callerProfile?.tenant_id && callerProfile.tenant_id !== exTenant.id) {
+          return jsonErr("Admins can only import into their own tenant", 403);
+        }
+      }
+
+      // Facility lookup (only if tenant exists)
+      if (exTenant) {
+        const { data: exFac } = await a.from("facilities")
+          .select("id").eq("tenant_id", exTenant.id).eq("name", plan.facility.name).maybeSingle();
+        if (exFac) { plan.facility.action = "update"; plan.facility.existingId = exFac.id; }
+      }
+
+      // Users: classify by existing screen_name profile or auth email
+      const { data: authList } = await a.auth.admin.listUsers({ page: 1, perPage: 200 });
+      const emailToAuth = new Map<string, string>();
+      for (const u of authList?.users ?? []) {
+        if (u.email) emailToAuth.set(u.email, u.id);
+      }
+      for (const u of fixture.technicalUsers) {
+        const email = screenNameToEmail(u.screenName);
+        const { data: exProfile } = await a.from("profiles")
+          .select("user_id").eq("screen_name", u.screenName).maybeSingle();
+        const existingUserId = exProfile?.user_id ?? emailToAuth.get(email) ?? null;
+        plan.users.push({
+          screenName: u.screenName,
+          email,
+          role: u.appRole,
+          shift: u.shift,
+          action: existingUserId ? "update" : "create",
+          existingUserId,
+        });
+      }
+
+      // Fix records / issues / department priorities — counted, never written
+      for (const f of fixture.sampleFixRecords ?? []) {
+        plan.fixRecords.items.push({ title: f.title, createdBy: f.createdBy });
+      }
+      plan.fixRecords.willCreate = plan.fixRecords.items.length;
+
+      for (const i of fixture.sampleRecurringTechnicalIssues ?? []) {
+        plan.issues.items.push({ title: i.title, createdBy: i.createdBy });
+      }
+      plan.issues.willCreate = plan.issues.items.length;
+
+      for (const dp of fixture.sampleDepartmentPriorities ?? []) {
+        plan.departmentPriorities.items.push({
+          title: dp.title,
+          department: dp.department ?? null,
+          itemCount: (dp.items ?? []).length,
+        });
+      }
+      plan.departmentPriorities.willCreate = plan.departmentPriorities.items.length;
+
+      // Roll-up counts for UI parity with the live summary
+      const usersCreated = plan.users.filter((u: any) => u.action === "create").length;
+      const usersUpdated = plan.users.length - usersCreated;
+      return jsonOk({
+        ok: true,
+        dryRun: true,
+        plan,
+        summary: {
+          tenant: plan.tenant.action === "create" ? "would create" : "would update",
+          tenantId: plan.tenant.existingId ?? "(new)",
+          facility: plan.facility.action === "create" ? "would create" : "would update",
+          facilityId: plan.facility.existingId ?? "(new)",
+          usersCreated,
+          usersUpdated,
+          fixRecordsCreated: plan.fixRecords.willCreate,
+          issuesCreated: plan.issues.willCreate,
+          departmentPrioritiesCreated: plan.departmentPriorities.willCreate,
+          operatorsExcluded: 1,
+          qcExcluded: 1,
+          defaultPassword: DEFAULT_PASSWORD,
+          userCredentials: plan.users.map((u: any) => ({
+            screenName: u.screenName, email: u.email, role: u.role, created: u.action === "create",
+          })),
+        },
+      });
+    }
+
     const summary = {
       tenant: "" as "created" | "updated" | "",
       tenantId: "",
