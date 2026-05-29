@@ -80,7 +80,7 @@ export default function Home() {
       color: "text-orange-500",
     },
     {
-      icon: <BookOpen className="h-5 w-5" />
+      icon: <BookOpen className="h-5 w-5" />,
       label: "Fix Records",
       value: counts.fixes,
       subtext: counts.fixes === 0 ? "No fixes yet" : "Total records",
