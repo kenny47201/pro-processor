@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Settings as SettingsIcon, FlaskConical, Loader2, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Settings as SettingsIcon, FlaskConical, Loader2, AlertTriangle, CheckCircle2, Eye } from 'lucide-react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Switch } from '@/components/ui/switch';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,6 +20,32 @@ import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
 import acupathFixture from '@/data/acupathTestTenant.json';
+
+interface ImportSummary {
+  tenant: string;
+  tenantId: string;
+  facility: string;
+  facilityId: string;
+  usersCreated: number;
+  usersUpdated: number;
+  fixRecordsCreated: number;
+  issuesCreated: number;
+  departmentPrioritiesCreated: number;
+  operatorsExcluded: number;
+  qcExcluded: number;
+  defaultPassword: string;
+  userCredentials: Array<{ screenName: string; email: string; role: string; created: boolean }>;
+}
+
+interface ImportPlan {
+  dryRun: true;
+  tenant: { name: string; slug: string; action: 'create' | 'update'; existingId: string | null };
+  facility: { name: string; action: 'create' | 'update'; existingId: string | null };
+  users: Array<{ screenName: string; email: string; role: string; shift: string; action: 'create' | 'update' }>;
+  fixRecords: { willCreate: number; items: Array<{ title: string; createdBy: string }> };
+  issues: { willCreate: number; items: Array<{ title: string; createdBy: string }> };
+  departmentPriorities: { willCreate: number; items: Array<{ title: string; department: string | null; itemCount: number }> };
+}
 
 interface ImportSummary {
   tenant: string;
