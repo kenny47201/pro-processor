@@ -39,6 +39,7 @@ export default function Tenants() {
   const [newName, setNewName] = useState('');
   const [newSlug, setNewSlug] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<TenantRow | null>(null);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [deleting, setDeleting] = useState(false);
 
   const load = async () => {
@@ -81,6 +82,7 @@ export default function Tenants() {
     }
     toast({ title: 'Organization deleted' });
     setDeleteTarget(null);
+    setDeleteConfirmText('');
     load();
   };
 
@@ -196,8 +198,10 @@ export default function Tenants() {
           })}
         </div>
       )}
-
-      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+      <AlertDialog
+        open={!!deleteTarget}
+        onOpenChange={(open) => { if (!open) { setDeleteTarget(null); setDeleteConfirmText(''); } }}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete {deleteTarget?.name}?</AlertDialogTitle>
@@ -205,11 +209,23 @@ export default function Tenants() {
               This permanently removes the organization and may cascade to its facilities, users, and data. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="confirm-delete" className="text-sm">
+              To confirm, type the organization name <span className="font-semibold text-foreground">{deleteTarget?.name}</span> below:
+            </Label>
+            <Input
+              id="confirm-delete"
+              value={deleteConfirmText}
+              onChange={(e) => setDeleteConfirmText(e.target.value)}
+              placeholder={deleteTarget?.name ?? ''}
+              autoComplete="off"
+            />
+          </div>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
             <AlertDialogAction
               onClick={(e) => { e.preventDefault(); deleteTenant(); }}
-              disabled={deleting}
+              disabled={deleting || deleteConfirmText.trim() !== (deleteTarget?.name ?? '')}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
               {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Delete Organization'}
