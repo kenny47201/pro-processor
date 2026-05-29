@@ -69,9 +69,9 @@ export function AppSidebar() {
   ];
 
   const messagingItems = [
-    { title: 'Shift Tasks', url: '/shift-tasks', icon: ClipboardList },
-    { title: 'Conversations', url: '/conversations', icon: MessageSquare },
-    { title: 'Issues', url: '/issues', icon: AlertCircle },
+    { title: 'Department Priorities', url: '/shift-tasks', icon: ClipboardList },
+    { title: 'Tech Comms', url: '/conversations', icon: MessageSquare },
+    { title: 'Problem Tracker', url: '/issues', icon: AlertCircle },
   ];
 
   const adminItems = [
