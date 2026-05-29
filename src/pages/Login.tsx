@@ -86,6 +86,25 @@ export default function Login() {
     }
   };
 
+  // Hidden keyboard shortcut: Ctrl+Alt+X pressed 5 times within 3s
+  useEffect(() => {
+    let presses: number[] = [];
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey && e.altKey && (e.key === 'x' || e.key === 'X'))) return;
+      e.preventDefault();
+      const now = Date.now();
+      if (now < lockoutUntil) return;
+      presses = [...presses, now].filter(t => now - t < 3000);
+      if (presses.length >= 5) {
+        presses = [];
+        setSelectedRole('super_admin');
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [lockoutUntil]);
+
+
 
   // Redirect if already authenticated
   useEffect(() => {
