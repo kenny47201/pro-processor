@@ -103,11 +103,7 @@ export default function Login() {
     if (recent.length >= 5) {
       setLogoTaps([]);
       setFailedAttempts(0);
-      if (tenantCount === 0) {
-        triggerGodLogin();
-      } else {
-        setSelectedRole('super_admin');
-      }
+      setSelectedRole('super_admin');
       return;
     }
 
