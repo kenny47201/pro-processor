@@ -21,6 +21,7 @@ import {
   type IssueStatus, type IssuePriority,
 } from '@/hooks/useIssues';
 import { supabase } from '@/integrations/supabase/client';
+import AttachmentsCard from '@/components/AttachmentsCard';
 import { format, formatDistanceToNow } from 'date-fns';
 
 const STATUS_LABELS: Record<IssueStatus, string> = {
