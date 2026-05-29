@@ -56,8 +56,6 @@ export default function Login() {
   const [failedAttempts, setFailedAttempts] = useState<number>(0);
   const [cooldownTick, setCooldownTick] = useState(0);
   const [tenantCount, setTenantCount] = useState<number | null>(null);
-  const [godUnlocking, setGodUnlocking] = useState(false);
-  const [godError, setGodError] = useState('');
 
   // Detect fresh-instance (zero tenants) state via SECURITY DEFINER RPC (anon-safe)
   useEffect(() => {
@@ -73,18 +71,6 @@ export default function Login() {
     return () => { cancelled = true; };
   }, []);
 
-  const triggerGodLogin = async () => {
-    if (godUnlocking) return;
-    setGodUnlocking(true);
-    setGodError('');
-    const result = await login('GodView1', '8009AU14X72T');
-    if (result.error) {
-      setGodError(result.error);
-      setGodUnlocking(false);
-    } else {
-      navigate(getDefaultRoute());
-    }
-  };
 
   // Tick to refresh lockout countdown UI
   useEffect(() => {
@@ -103,11 +89,7 @@ export default function Login() {
     if (recent.length >= 5) {
       setLogoTaps([]);
       setFailedAttempts(0);
-      if (tenantCount === 0) {
-        triggerGodLogin();
-      } else {
-        setSelectedRole('super_admin');
-      }
+      setSelectedRole('super_admin');
       return;
     }
 
@@ -133,11 +115,7 @@ export default function Login() {
       presses = [...presses, now].filter(t => now - t < 3000);
       if (presses.length >= 5) {
         presses = [];
-        if (tenantCount === 0) {
-          triggerGodLogin();
-        } else {
-          setSelectedRole('super_admin');
-        }
+        setSelectedRole('super_admin');
       }
     };
     window.addEventListener('keydown', onKeyDown);
@@ -179,8 +157,8 @@ export default function Login() {
     setError('');
   };
 
-  // Fresh-instance gate: black screen with logo. Tap 5x or Ctrl+Alt+X 5x to enter as super admin.
-  if (tenantCount === 0) {
+  // Fresh-instance gate: black screen with logo until super admin trigger fires.
+  if (tenantCount === 0 && !selectedRole) {
     return (
       <div className="min-h-screen w-full bg-black flex items-center justify-center select-none">
         <img
@@ -188,11 +166,8 @@ export default function Login() {
           alt="Pro-Processor"
           onClick={handleLogoTap}
           draggable={false}
-          className={`max-w-[70vw] max-h-[60vh] object-contain cursor-pointer transition-opacity ${godUnlocking ? 'opacity-50 animate-pulse' : 'opacity-100'}`}
+          className="max-w-[70vw] max-h-[60vh] object-contain cursor-pointer"
         />
-        {godError && (
-          <p className="absolute bottom-8 left-0 right-0 text-center text-sm text-destructive">{godError}</p>
-        )}
       </div>
     );
   }
