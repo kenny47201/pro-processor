@@ -38,9 +38,9 @@ export default function ShiftTasks() {
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <ClipboardList className="h-6 w-6 text-primary" />
-            Shift Tasks
+            Department Priorities
           </h1>
-          <p className="text-muted-foreground">Manage shift task lists and assignments</p>
+          <p className="text-muted-foreground">Shift-level priorities and assignments by department</p>
         </div>
         {canCreateShiftTasks && lists && lists.length > 0 && (
           <Button onClick={() => navigate('/shift-tasks/new')} className="gap-2">
