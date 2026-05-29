@@ -1,13 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Plus, MessageSquare, Lock, Users, Loader2 } from 'lucide-react';
 import { EmptyState } from '@/components/EmptyState';
 import { supabase } from '@/integrations/supabase/client';
 import { useTenant } from '@/contexts/TenantContext';
 import { formatDistanceToNow } from 'date-fns';
+
+const CATEGORIES = [
+  { id: 'open', label: 'Open Threads' },
+  { id: 'private', label: 'Private Messages' },
+  { id: 'changeover', label: 'Shift Changeover' },
+  { id: 'help', label: 'Help Requests' },
+  { id: 'schedule', label: 'Schedule / Coverage' },
+  { id: 'plant', label: 'Plant Questions' },
+  { id: 'linked', label: 'Linked Issue Threads' },
+] as const;
+
+type CategoryId = typeof CATEGORIES[number]['id'];
+
+function categorize(c: ConversationRow): CategoryId {
+  const t = (c.title || '').toLowerCase();
+  if (c.visibility === 'private') return 'private';
+  if (/changeover|hand[\s-]?off|shift change/.test(t)) return 'changeover';
+  if (/help|assist|support/.test(t)) return 'help';
+  if (/schedule|coverage|shift swap|pto|time off/.test(t)) return 'schedule';
+  if (/plant|facility|hr|policy/.test(t)) return 'plant';
+  if (/issue|ticket|defect|problem/.test(t)) return 'linked';
+  return 'open';
+}
+
 
 interface ConversationRow {
   id: string;
