@@ -56,8 +56,6 @@ export default function Login() {
   const [failedAttempts, setFailedAttempts] = useState<number>(0);
   const [cooldownTick, setCooldownTick] = useState(0);
   const [tenantCount, setTenantCount] = useState<number | null>(null);
-  const [godUnlocking, setGodUnlocking] = useState(false);
-  const [godError, setGodError] = useState('');
 
   // Detect fresh-instance (zero tenants) state via SECURITY DEFINER RPC (anon-safe)
   useEffect(() => {
