@@ -39,6 +39,7 @@ export default function Tenants() {
   const [newName, setNewName] = useState('');
   const [newSlug, setNewSlug] = useState('');
   const [deleteTarget, setDeleteTarget] = useState<TenantRow | null>(null);
+  const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [deleting, setDeleting] = useState(false);
 
   const load = async () => {
