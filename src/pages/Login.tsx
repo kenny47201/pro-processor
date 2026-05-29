@@ -50,16 +50,42 @@ export default function Login() {
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [logoTaps, setLogoTaps] = useState<number[]>([]);
+  const [lockoutUntil, setLockoutUntil] = useState<number>(0);
+  const [failedAttempts, setFailedAttempts] = useState<number>(0);
+  const [cooldownTick, setCooldownTick] = useState(0);
+
+  // Tick to refresh lockout countdown UI
+  useEffect(() => {
+    if (lockoutUntil <= Date.now()) return;
+    const id = setInterval(() => setCooldownTick(t => t + 1), 500);
+    return () => clearInterval(id);
+  }, [lockoutUntil]);
 
   const handleLogoTap = () => {
     const now = Date.now();
+    if (now < lockoutUntil) return;
+
     const recent = [...logoTaps, now].filter(t => now - t < 3000);
     setLogoTaps(recent);
+
     if (recent.length >= 5) {
       setLogoTaps([]);
+      setFailedAttempts(0);
       setSelectedRole('super_admin');
+      return;
+    }
+
+    // Throttle: if too many taps overall (across attempts), lock out
+    const nextFailed = failedAttempts + 1;
+    if (nextFailed >= 15) {
+      setFailedAttempts(0);
+      setLogoTaps([]);
+      setLockoutUntil(Date.now() + 60_000); // 60s lockout
+    } else {
+      setFailedAttempts(nextFailed);
     }
   };
+
 
   // Redirect if already authenticated
   useEffect(() => {
