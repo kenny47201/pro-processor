@@ -82,6 +82,7 @@ export default function Tenants() {
     }
     toast({ title: 'Organization deleted' });
     setDeleteTarget(null);
+    setDeleteConfirmText('');
     load();
   };
 
