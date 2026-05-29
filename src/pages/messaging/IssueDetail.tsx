@@ -381,7 +381,9 @@ export default function IssueDetail() {
             </>
           )}
         </CardContent>
-      </Card>
+
+      <AttachmentsCard issueId={issue.id} tenantId={issue.tenant_id} />
+
 
       <Card>
         <CardHeader>
