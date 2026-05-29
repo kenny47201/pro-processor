@@ -66,9 +66,9 @@ export default function Issues() {
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <Wrench className="h-6 w-6 text-primary" />
-            Issues
+            Problem Tracker
           </h1>
-          <p className="text-muted-foreground">Track and resolve operational issues</p>
+          <p className="text-muted-foreground">Recurring technical issues and resolution history</p>
         </div>
         <Button onClick={() => navigate('/issues/new')} className="gap-2">
           <Plus className="h-4 w-4" />
