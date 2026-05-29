@@ -59,15 +59,17 @@ export default function Login() {
   const [godUnlocking, setGodUnlocking] = useState(false);
   const [godError, setGodError] = useState('');
 
-  // Detect fresh-instance (zero tenants) state
+  // Detect fresh-instance (zero tenants) state via SECURITY DEFINER RPC (anon-safe)
   useEffect(() => {
     let cancelled = false;
-    supabase
-      .from('tenants')
-      .select('id', { count: 'exact', head: true })
-      .then(({ count }) => {
-        if (!cancelled) setTenantCount(count ?? 0);
-      });
+    supabase.rpc('has_any_tenant').then(({ data, error }) => {
+      if (cancelled) return;
+      if (error) {
+        setTenantCount(1); // fail-safe: assume tenants exist, show normal login
+      } else {
+        setTenantCount(data ? 1 : 0);
+      }
+    });
     return () => { cancelled = true; };
   }, []);
 
