@@ -296,31 +296,6 @@ export default function Settings() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-          </CardContent>
-        </Card>
-      )}
-
-      <AlertDialog open={confirmOpen} onOpenChange={setConfirmOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-warning" />
-              Import test tenant?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              This imports fictional test data for development and demo validation only.
-              Technical users will be created with a default password. Operators and Q.C.
-              accounts will <strong>not</strong> be created. Continue?
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel disabled={importing}>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={(e) => { e.preventDefault(); runImport(); }} disabled={importing}>
-              {importing ? 'Importing…' : 'Yes, import'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }
