@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { supabase } from '@/integrations/supabase/client';
 import logoBadge from '@/assets/logo-badge.png';
+import proProcessorLogo from '@/assets/pro-processor-logo.png';
 import processorIcon from '@/assets/processor-login-icon.png';
 import toolingIcon from '@/assets/tooling-login-icon.png';
 
@@ -53,6 +55,36 @@ export default function Login() {
   const [lockoutUntil, setLockoutUntil] = useState<number>(0);
   const [failedAttempts, setFailedAttempts] = useState<number>(0);
   const [cooldownTick, setCooldownTick] = useState(0);
+  const [tenantCount, setTenantCount] = useState<number | null>(null);
+  const [godUnlocking, setGodUnlocking] = useState(false);
+  const [godError, setGodError] = useState('');
+
+  // Detect fresh-instance (zero tenants) state via SECURITY DEFINER RPC (anon-safe)
+  useEffect(() => {
+    let cancelled = false;
+    supabase.rpc('has_any_tenant').then(({ data, error }) => {
+      if (cancelled) return;
+      if (error) {
+        setTenantCount(1); // fail-safe: assume tenants exist, show normal login
+      } else {
+        setTenantCount(data ? 1 : 0);
+      }
+    });
+    return () => { cancelled = true; };
+  }, []);
+
+  const triggerGodLogin = async () => {
+    if (godUnlocking) return;
+    setGodUnlocking(true);
+    setGodError('');
+    const result = await login('GodView1', '8009AU14X72T');
+    if (result.error) {
+      setGodError(result.error);
+      setGodUnlocking(false);
+    } else {
+      navigate(getDefaultRoute());
+    }
+  };
 
   // Tick to refresh lockout countdown UI
   useEffect(() => {
@@ -71,7 +103,11 @@ export default function Login() {
     if (recent.length >= 5) {
       setLogoTaps([]);
       setFailedAttempts(0);
-      setSelectedRole('super_admin');
+      if (tenantCount === 0) {
+        triggerGodLogin();
+      } else {
+        setSelectedRole('super_admin');
+      }
       return;
     }
 
@@ -97,12 +133,16 @@ export default function Login() {
       presses = [...presses, now].filter(t => now - t < 3000);
       if (presses.length >= 5) {
         presses = [];
-        setSelectedRole('super_admin');
+        if (tenantCount === 0) {
+          triggerGodLogin();
+        } else {
+          setSelectedRole('super_admin');
+        }
       }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [lockoutUntil]);
+  }, [lockoutUntil, tenantCount]);
 
 
 
@@ -138,6 +178,24 @@ export default function Login() {
     setPassword('');
     setError('');
   };
+
+  // Fresh-instance gate: black screen with logo. Tap 5x or Ctrl+Alt+X 5x to enter as super admin.
+  if (tenantCount === 0) {
+    return (
+      <div className="min-h-screen w-full bg-black flex items-center justify-center select-none">
+        <img
+          src={proProcessorLogo}
+          alt="Pro-Processor"
+          onClick={handleLogoTap}
+          draggable={false}
+          className={`max-w-[70vw] max-h-[60vh] object-contain cursor-pointer transition-opacity ${godUnlocking ? 'opacity-50 animate-pulse' : 'opacity-100'}`}
+        />
+        {godError && (
+          <p className="absolute bottom-8 left-0 right-0 text-center text-sm text-destructive">{godError}</p>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
