@@ -1,21 +1,24 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Building2, Plus, Save, X, Loader2, ArrowRight } from 'lucide-react';
+import { Building2, Plus, Loader2, ArrowRight, Trash2, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-
-const PRESETS: { label: string; shifts: string[] }[] = [
-  { label: 'Day / Swing / Night', shifts: ['Day', 'Swing', 'Night'] },
-  { label: '1st / 2nd / 3rd', shifts: ['1st', '2nd', '3rd'] },
-  { label: 'A / B / C / D (24/7)', shifts: ['A', 'B', 'C', 'D'] },
-  { label: 'Day / Night', shifts: ['Day', 'Night'] },
-];
 
 interface TenantRow {
   id: string;
@@ -32,58 +35,52 @@ export default function Tenants() {
 
   const [tenants, setTenants] = useState<TenantRow[]>([]);
   const [loading, setLoading] = useState(true);
-  const [editing, setEditing] = useState<Record<string, string>>({});
   const [creating, setCreating] = useState(false);
   const [newName, setNewName] = useState('');
   const [newSlug, setNewSlug] = useState('');
-  const [newShifts, setNewShifts] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState<TenantRow | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   const load = async () => {
     setLoading(true);
     const { data, error } = await supabase.from('tenants').select('id,name,slug,shifts');
     if (error) toast({ title: 'Error loading', description: error.message, variant: 'destructive' });
-    setTenants(((data || []) as TenantRow[]).map(t => ({ ...t, shifts: t.shifts?.length ? t.shifts : ['Day','Swing','Night'] })));
+    setTenants(((data || []) as TenantRow[]).map(t => ({ ...t, shifts: t.shifts ?? [] })));
     setLoading(false);
   };
 
   useEffect(() => { load(); }, []);
 
-  const saveShifts = async (tenantId: string) => {
-    const raw = editing[tenantId];
-    if (raw === undefined) return;
-    const shifts = raw.split(',').map(s => s.trim()).filter(Boolean);
-    if (shifts.length === 0) {
-      toast({ title: 'At least one shift required', variant: 'destructive' });
-      return;
-    }
-    const { error } = await supabase.from('tenants').update({ shifts }).eq('id', tenantId);
-    if (error) {
-      toast({ title: 'Update failed', description: error.message, variant: 'destructive' });
-      return;
-    }
-    toast({ title: 'Shift designations updated' });
-    setEditing(({ [tenantId]: _, ...rest }) => rest);
-    load();
-  };
-
   const createTenant = async () => {
     if (!newName.trim() || !newSlug.trim()) return;
-    const shifts = newShifts.split(',').map(s => s.trim()).filter(Boolean);
-    if (shifts.length === 0) {
-      toast({ title: 'Shift structure required', description: 'Define at least one shift designation before creating the organization.', variant: 'destructive' });
-      return;
-    }
     const { error } = await supabase.from('tenants').insert({
       name: newName.trim(),
       slug: newSlug.trim().toLowerCase().replace(/\s+/g, '-'),
-      shifts,
+      shifts: [],
     });
     if (error) {
       toast({ title: 'Create failed', description: error.message, variant: 'destructive' });
       return;
     }
-    toast({ title: 'Organization created' });
-    setNewName(''); setNewSlug(''); setNewShifts(''); setCreating(false);
+    toast({
+      title: 'Organization created',
+      description: 'Assign an admin to complete details, shifts, facilities, and users.',
+    });
+    setNewName(''); setNewSlug(''); setCreating(false);
+    load();
+  };
+
+  const deleteTenant = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
+    const { error } = await supabase.from('tenants').delete().eq('id', deleteTarget.id);
+    setDeleting(false);
+    if (error) {
+      toast({ title: 'Delete failed', description: error.message, variant: 'destructive' });
+      return;
+    }
+    toast({ title: 'Organization deleted' });
+    setDeleteTarget(null);
     load();
   };
 
@@ -95,7 +92,11 @@ export default function Tenants() {
             <Building2 className="h-6 w-6 text-primary" />
             Tenant Management
           </h1>
-          <p className="text-muted-foreground">Manage organizations and shift designations</p>
+          <p className="text-muted-foreground">
+            {isSuperAdmin
+              ? 'Provision new organizations and hand them off to the tenant admin.'
+              : 'Manage your organization details, shifts, facilities, and users.'}
+          </p>
         </div>
         {isSuperAdmin && !creating && (
           <Button onClick={() => setCreating(true)} className="gap-2">
@@ -106,9 +107,14 @@ export default function Tenants() {
 
       {creating && isSuperAdmin && (
         <Card>
-          <CardHeader><CardTitle className="text-base">New Organization</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-base">New Organization</CardTitle>
+            <p className="text-sm text-muted-foreground">
+              Create the tenant shell. The assigned admin will complete company details, shift structure, facilities, and user roster.
+            </p>
+          </CardHeader>
           <CardContent className="space-y-3">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-2">
                 <Label>Name</Label>
                 <Input value={newName} onChange={e => setNewName(e.target.value)} placeholder="Acme Plastics" />
@@ -118,31 +124,9 @@ export default function Tenants() {
                 <Input value={newSlug} onChange={e => setNewSlug(e.target.value)} placeholder="acme-plastics" />
               </div>
             </div>
-            <div className="space-y-2">
-              <Label>Shift Structure <span className="text-destructive">*</span></Label>
-              <Input
-                value={newShifts}
-                onChange={e => setNewShifts(e.target.value)}
-                placeholder="Day, Swing, Night"
-              />
-              <p className="text-xs text-muted-foreground">Comma-separated list of shift names. Pick a preset or type your own.</p>
-              <div className="flex flex-wrap gap-2">
-                {PRESETS.map(p => (
-                  <Button
-                    key={p.label}
-                    type="button"
-                    variant={newShifts === p.shifts.join(', ') ? 'default' : 'outline'}
-                    size="sm"
-                    onClick={() => setNewShifts(p.shifts.join(', '))}
-                  >
-                    {p.label}
-                  </Button>
-                ))}
-              </div>
-            </div>
             <div className="flex justify-end gap-2">
-              <Button variant="ghost" onClick={() => { setCreating(false); setNewName(''); setNewSlug(''); setNewShifts(''); }}>Cancel</Button>
-              <Button onClick={createTenant} disabled={!newName.trim() || !newSlug.trim() || !newShifts.trim()}>Create</Button>
+              <Button variant="ghost" onClick={() => { setCreating(false); setNewName(''); setNewSlug(''); }}>Cancel</Button>
+              <Button onClick={createTenant} disabled={!newName.trim() || !newSlug.trim()}>Create</Button>
             </div>
           </CardContent>
         </Card>
@@ -155,74 +139,55 @@ export default function Tenants() {
       ) : tenants.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center text-muted-foreground">
-            No tenants configured yet. Add your first organization to get started.
+            No tenants configured yet. {isSuperAdmin ? 'Add your first organization to get started.' : 'Contact Pro-Processor support to have your organization provisioned.'}
           </CardContent>
         </Card>
       ) : (
         <div className="grid grid-cols-1 gap-4">
           {tenants.map(tenant => {
-            const isEditing = editing[tenant.id] !== undefined;
-            const editVal = editing[tenant.id] ?? tenant.shifts.join(', ');
+            const needsSetup = !tenant.shifts || tenant.shifts.length === 0;
             return (
               <Card key={tenant.id}>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center justify-between gap-2">
-                    <span className="flex items-center gap-2">
+                    <span className="flex items-center gap-2 flex-wrap">
                       <Building2 className="h-4 w-4 text-primary" />
                       {tenant.name}
-                      <Badge variant="secondary" className="ml-2">{tenant.slug}</Badge>
+                      <Badge variant="secondary" className="ml-1">{tenant.slug}</Badge>
+                      {needsSetup && (
+                        <Badge variant="outline" className="gap-1 border-warning/40 text-warning">
+                          <AlertCircle className="h-3 w-3" /> Setup pending
+                        </Badge>
+                      )}
                     </span>
-                    {isAdmin && (
-                      <Button asChild variant="outline" size="sm" className="gap-1">
-                        <Link to={`/tenants/${tenant.id}`}>Manage <ArrowRight className="h-3.5 w-3.5" /></Link>
-                      </Button>
-                    )}
+                    <div className="flex items-center gap-2">
+                      {isAdmin && (
+                        <Button asChild variant="outline" size="sm" className="gap-1">
+                          <Link to={`/tenants/${tenant.id}`}>Manage <ArrowRight className="h-3.5 w-3.5" /></Link>
+                        </Button>
+                      )}
+                      {isSuperAdmin && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-destructive hover:text-destructive hover:bg-destructive/10 gap-1"
+                          onClick={() => setDeleteTarget(tenant)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" /> Delete
+                        </Button>
+                      )}
+                    </div>
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="space-y-2">
-                    <Label className="text-xs uppercase tracking-wide text-muted-foreground">Shift Designations</Label>
-                    {!isEditing ? (
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {tenant.shifts.map(s => (
-                          <Badge key={s} variant="outline" className="bg-primary/10 text-primary border-primary/30">{s}</Badge>
-                        ))}
-                        {isAdmin && (
-                          <Button variant="ghost" size="sm" onClick={() => setEditing({ ...editing, [tenant.id]: tenant.shifts.join(', ') })}>
-                            Edit
-                          </Button>
-                        )}
-                      </div>
+                <CardContent>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Label className="text-xs uppercase tracking-wide text-muted-foreground mr-1">Shifts:</Label>
+                    {tenant.shifts.length === 0 ? (
+                      <span className="text-sm text-muted-foreground italic">Not yet configured by tenant admin</span>
                     ) : (
-                      <div className="space-y-2">
-                        <Input
-                          value={editVal}
-                          onChange={e => setEditing({ ...editing, [tenant.id]: e.target.value })}
-                          placeholder="Day, Swing, Night"
-                        />
-                        <p className="text-xs text-muted-foreground">Comma-separated list of shift names.</p>
-                        <div className="flex flex-wrap gap-2">
-                          {PRESETS.map(p => (
-                            <Button
-                              key={p.label}
-                              type="button"
-                              variant="outline"
-                              size="sm"
-                              onClick={() => setEditing({ ...editing, [tenant.id]: p.shifts.join(', ') })}
-                            >
-                              {p.label}
-                            </Button>
-                          ))}
-                        </div>
-                        <div className="flex justify-end gap-2 pt-1">
-                          <Button variant="ghost" size="sm" onClick={() => setEditing(({ [tenant.id]: _, ...rest }) => rest)} className="gap-1">
-                            <X className="h-3.5 w-3.5" /> Cancel
-                          </Button>
-                          <Button size="sm" onClick={() => saveShifts(tenant.id)} className="gap-1">
-                            <Save className="h-3.5 w-3.5" /> Save
-                          </Button>
-                        </div>
-                      </div>
+                      tenant.shifts.map(s => (
+                        <Badge key={s} variant="outline" className="bg-primary/10 text-primary border-primary/30">{s}</Badge>
+                      ))
                     )}
                   </div>
                 </CardContent>
@@ -231,6 +196,27 @@ export default function Tenants() {
           })}
         </div>
       )}
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {deleteTarget?.name}?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This permanently removes the organization and may cascade to its facilities, users, and data. This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => { e.preventDefault(); deleteTenant(); }}
+              disabled={deleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Delete Organization'}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
