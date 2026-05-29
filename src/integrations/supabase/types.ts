@@ -808,6 +808,7 @@ export type Database = {
         Returns: Database["public"]["Enums"]["department"]
       }
       get_user_tenant_id: { Args: { _user_id: string }; Returns: string }
+      has_any_tenant: { Args: never; Returns: boolean }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
