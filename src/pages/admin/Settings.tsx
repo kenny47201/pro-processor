@@ -69,22 +69,33 @@ export default function Settings() {
 
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [importing, setImporting] = useState(false);
+  const [dryRun, setDryRun] = useState(true);
   const [summary, setSummary] = useState<ImportSummary | null>(null);
+  const [plan, setPlan] = useState<ImportPlan | null>(null);
+  const [lastWasDryRun, setLastWasDryRun] = useState(false);
 
-  async function runImport() {
+  async function runImport(asDryRun: boolean) {
     setImporting(true);
     setSummary(null);
+    setPlan(null);
     try {
       const { data, error } = await supabase.functions.invoke('import-test-tenant', {
-        body: { fixture: acupathFixture },
+        body: { fixture: acupathFixture, dryRun: asDryRun },
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       setSummary(data.summary);
-      toast({ title: 'Import complete', description: 'AcuPath technical test tenant loaded.' });
+      setPlan(data.plan ?? null);
+      setLastWasDryRun(asDryRun);
+      toast({
+        title: asDryRun ? 'Dry run complete' : 'Import complete',
+        description: asDryRun
+          ? 'Preview only — no records were written.'
+          : 'AcuPath technical test tenant loaded.',
+      });
     } catch (e: any) {
       toast({
-        title: 'Import failed',
+        title: asDryRun ? 'Dry run failed' : 'Import failed',
         description: e?.message ?? 'Unknown error',
         variant: 'destructive',
       });
