@@ -111,7 +111,15 @@ export function TenantProvider({ children }: { children: ReactNode }) {
         .from('profiles')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
+
+      // If the auth session has no matching profile (e.g. after a tenant wipe),
+      // force sign-out so the app returns to the fresh-instance splash.
+      if (!profile) {
+        await supabase.auth.signOut();
+        if (requestId === loadRequestId.current) clearUserData();
+        return;
+      }
 
       if (profile?.status === 'pending' || profile?.status === 'inactive') {
         await supabase.auth.signOut();
