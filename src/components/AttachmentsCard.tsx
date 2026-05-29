@@ -31,7 +31,9 @@ const MAX_BYTES = 10 * 1024 * 1024; // 10 MB
 const ACCEPT = 'image/png,image/jpeg,image/webp,image/gif,image/heic';
 
 export default function AttachmentsCard({ issueId, fixId, tenantId }: Props) {
-  const { currentUser, isAdmin, isSuperAdmin } = useTenant();
+  const { currentUser } = useTenant();
+  const isAdmin = currentUser?.role === 'admin';
+  const isSuperAdmin = currentUser?.role === 'super_admin';
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Attachment[]>([]);
