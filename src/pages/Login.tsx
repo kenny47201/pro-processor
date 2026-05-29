@@ -7,7 +7,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { supabase } from '@/integrations/supabase/client';
 import logoBadge from '@/assets/logo-badge.png';
+import proProcessorLogo from '@/assets/pro-processor-logo.png';
 import processorIcon from '@/assets/processor-login-icon.png';
 import toolingIcon from '@/assets/tooling-login-icon.png';
 
