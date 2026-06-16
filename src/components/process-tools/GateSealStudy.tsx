@@ -91,7 +91,7 @@ export function GateSealStudy() {
           <ExportBtn />
         </div>
         <CardDescription>
-          Incrementally increase hold time and weigh parts to determine gate freeze-off time
+          Incrementally increase hold time and weigh parts to determine gate seal-off time
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -174,7 +174,7 @@ export function GateSealStudy() {
               <div className="pt-2 border-t">
                 <Badge variant="default" className="mb-1">Gate Seal Time</Badge>
                 <p className="text-sm text-muted-foreground">
-                  Gate freezes at approximately <span className="font-semibold text-foreground">{getSealTime()!.toFixed(1)} seconds</span>.
+                  Gate seals at approximately <span className="font-semibold text-foreground">{getSealTime()!.toFixed(1)} seconds</span>.
                   Weight stabilized — additional hold time provides no benefit.
                 </p>
               </div>

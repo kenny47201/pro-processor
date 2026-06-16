@@ -358,7 +358,7 @@ export const doeStudies: DoeStudy[] = [
           'Setpoint ≠ delivered melt. Cold-runner purge readings, hot-runner tip-to-tip thermal spread, probe delay, purge cooling, skin formation, and technique all distort the result.',
           'Material drivers: MFR/viscosity, moisture, regrind percentage, color/additive package, lot-to-lot variation, thermal history.',
           'Machine drivers: screw design, L/D, compression ratio, check ring condition, barrel wear, back pressure, screw rpm, decompression, residence time, shot-size-to-barrel ratio.',
-          'Mold/runner drivers: cold runner mass, sprue restriction, hot-runner manifold zone balance, tip/drop temperatures, gate type (valve vs thermal), gate freeze-off behavior.',
+          'Mold/runner drivers: cold runner mass, sprue restriction, hot-runner manifold zone balance, tip/drop temperatures, gate type (valve vs thermal), gate seal-off behavior.',
           'Auxiliary drivers: dryer condition, hopper feed-throat cooling, hot-runner controller stability, robot/sprue-picker cycle timing.',
         ],
       },
@@ -496,8 +496,8 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Gate Seal',
     summary:
       'Determine the minimum pack/hold time after which additional hold time no longer increases part weight — the point at which the gate has frozen and pressure can no longer feed the cavity.',
-    linkedToolId: 'gate-freeze',
-    linkedToolLabel: 'Gate Freeze Worksheet',
+    linkedToolId: 'gate-seal',
+    linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Reference (PDF)', href: '/doe/gate-seal-study-guide.pdf' },
       { label: 'Editable Manual (DOCX)', href: '/doe/gate-seal-study-guide.docx' },
@@ -652,8 +652,8 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Decompression',
     summary:
       'Vary decompression amount, speed, and timing to find the minimum effective setting that relieves residual melt pressure without introducing air, splay, cushion instability, or false degradation symptoms.',
-    linkedToolId: 'gate-freeze',
-    linkedToolLabel: 'Gate Freeze Worksheet',
+    linkedToolId: 'gate-seal',
+    linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Manual (PDF)', href: '/doe/decompression-doe-manual.pdf' },
     ],
@@ -726,8 +726,8 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Hold Pressure Curve',
     summary:
       'Run a controlled second-stage pressure study to identify the center of the hold-pressure operating window where part weight, dimensions, cavity pressure response, and cosmetic quality remain robust without over-packing the mold.',
-    linkedToolId: 'gate-freeze',
-    linkedToolLabel: 'Gate Freeze Worksheet',
+    linkedToolId: 'gate-seal',
+    linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Reference (PDF)', href: '/doe/hold-pressure-curve-technical-reference.pdf' },
     ],
@@ -787,7 +787,7 @@ export const doeStudies: DoeStudy[] = [
         title: 'Troubleshooting & Safe Adjustments',
         image: holdPressure06,
         body: [
-          'Sinks and voids often point to insufficient hold pressure, insufficient hold time, early gate freeze, or low melt temperature. Flash and molded-in stress often point the other direction: too much pressure, too much time, weak venting, or insufficient clamp margin.',
+          'Sinks and voids often point to insufficient hold pressure, insufficient hold time, early gate seal, or low melt temperature. Flash and molded-in stress often point the other direction: too much pressure, too much time, weak venting, or insufficient clamp margin.',
           'If part weight is inconsistent, first prove machine repeatability, check-ring condition, and material consistency before assuming the pressure target is wrong.',
           'Adjust conservatively, one factor at a time, and keep the validated result inside machine, mold, hot-runner, and material limits.',
         ],
@@ -800,8 +800,8 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Hot Runner Balance',
     summary:
       'Run a cavity-by-cavity thermal DOE on the hot runner to separate true balance opportunity from tooling, heater, thermocouple, valve-gate, shear, or process-instability issues before approving zone offsets for production.',
-    linkedToolId: 'gate-freeze',
-    linkedToolLabel: 'Gate Freeze Worksheet',
+    linkedToolId: 'gate-seal',
+    linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Reference (PDF)', href: '/doe/hot-runner-balance-temp-doe-technical-reference.pdf' },
     ],

@@ -85,7 +85,7 @@ export const fountainFlowGuide: KnowledgeGuide = {
           items: [
             'Choose a realistic fill time target — base this on wall thickness, flow length, and material data, not arbitrary speed settings.',
             'Establish melt temperature window — use manufacturer-recommended melt temps as starting points and verify with pyrometer readings.',
-            'Confirm gate freeze / pack strategy — understand when the gate freezes and set pack time accordingly to avoid under- or over-packing.',
+            'Confirm gate seal / pack strategy — understand when the gate seals and set pack time accordingly to avoid under- or over-packing.',
             'Define acceptable surface criteria — know the surface quality requirements (Class A, textured, functional) before dialing in the process.',
           ],
         },
@@ -292,7 +292,7 @@ export const fountainFlowGuide: KnowledgeGuide = {
           columns: ['Cold Runner', 'Hot Runner', 'Stack Mold'],
           rows: [
             ['Short shots', 'Stringing or drool', 'Fill imbalance top vs. bottom'],
-            ['Flow/appearance variation', 'Gate freeze-off / hesitation', 'Short shots in second level'],
+            ['Flow/appearance variation', 'Gate seal-off / hesitation', 'Short shots in second level'],
             ['Sink marks (from cooler gates and longer fill)', 'Color or gloss variation', 'Warpage from differential cooling'],
             ['Runner scrap and regrind issues', 'Burns/degradation (excess heat or residence)', 'Flash from clamp or imbalance'],
             ['Warpage from non-uniform cooling', 'Tip leakage / contamination', 'Cycle time variability'],

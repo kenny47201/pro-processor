@@ -12,7 +12,7 @@ export const shrinkageGuide: DefectGuide = {
   category: 'Dimensional',
   severity: 'high',
   tags: [
-    'shrinkage', 'dimensional', 'pvT', 'pack/hold', 'gate freeze',
+    'shrinkage', 'dimensional', 'pvT', 'pack/hold', 'gate-seal',
     'anisotropy', 'fiber orientation', 'cooling', 'hot runner', 'cold runner',
   ],
   sections: [
@@ -64,7 +64,7 @@ export const shrinkageGuide: DefectGuide = {
           columns: ['Material', 'Shrinkage Range (%)', 'Notes'],
           rows: [
             ['PC/ABS', '0.5 – 0.7', 'Amorphous, good dimensional stability'],
-            ['ABS', '0.5 – 0.7', 'Sensitive to hold pressure and gate freeze'],
+            ['ABS', '0.5 – 0.7', 'Sensitive to hold pressure and gate seal'],
             ['PC', '0.6 – 0.8', 'Stress-sensitive; control melt temp & residence'],
             ['PBT GF30', '0.2 – 0.4', 'Lower in flow, higher anisotropy'],
             ['PA6', '0.8 – 1.5', 'Hygroscopic; condition before measuring'],
@@ -97,7 +97,7 @@ export const shrinkageGuide: DefectGuide = {
           columns: ['Family', 'Behavior', 'Risk Profile', 'Process Note'],
           rows: [
             ['PP / PE', 'Higher crystalline contraction', 'High global shrink, high sink risk in thick sections', 'Needs robust packing; mold temp affects crystallinity'],
-            ['ABS', 'Lower amorphous contraction', 'Moderate, good dimensional stability', 'Sensitive to hold pressure & gate freeze'],
+            ['ABS', 'Lower amorphous contraction', 'Moderate, good dimensional stability', 'Sensitive to hold pressure & gate seal'],
             ['PC', 'Low–moderate amorphous', 'Lower shrink; stress sensitivity dominates', 'Control melt temp & residence to avoid degradation'],
             ['PA (unfilled)', 'Moderate–high + moisture effects', 'Time-dependent dimensional drift', 'Drying & post-mold conditioning critical'],
             ['GF-filled grades', 'Lower in-flow, higher anisotropy', 'Directional dimensional drift', 'Orientation control & balanced flow critical'],
@@ -107,13 +107,13 @@ export const shrinkageGuide: DefectGuide = {
         {
           type: 'paragraph',
           text:
-            'Pack pressure, hold time, melt temperature, and mold temperature are the primary process levers. Insufficient pack or premature gate freeze locks in additional shrinkage. Higher mold temperature in crystalline materials may increase final shrinkage but reduces residual stress. Multi-stage injection (velocity-controlled fill + intentional pack profile) gives better repeatability than single-stage pressure.',
+            'Pack pressure, hold time, melt temperature, and mold temperature are the primary process levers. Insufficient pack or premature gate seal locks in additional shrinkage. Higher mold temperature in crystalline materials may increase final shrinkage but reduces residual stress. Multi-stage injection (velocity-controlled fill + intentional pack profile) gives better repeatability than single-stage pressure.',
         },
         { type: 'heading', level: 3, text: '2.3 Gate design, size, and location' },
         {
           type: 'list',
           items: [
-            'Gate size governs pressure drop and gate freeze time. Undersized gates make the machine look "fully packed" while the cavity has already been isolated from the pressure source.',
+            'Gate size governs pressure drop and gate seal time. Undersized gates make the machine look "fully packed" while the cavity has already been isolated from the pressure source.',
             'Gate location governs which features feed last. Thick sections far from the gate are classic shrinkage and sink locations.',
             'Hot-runner valve gates can dramatically improve dimensional control if they stay open long enough for shrinkage flow. A valve gate that closes early behaves like a premature freeze.',
           ],
@@ -125,7 +125,7 @@ export const shrinkageGuide: DefectGuide = {
           columns: ['Category', 'Cold Runner', 'Hot Runner'],
           rows: [
             ['Runner heat loss', 'High', 'Low'],
-            ['Gate freeze risk', 'High (limits pack window)', 'Low (controllable)'],
+            ['Gate seal risk', 'High (limits pack window)', 'Low (controllable)'],
             ['Pack pressure transmission', 'Reduced', 'Maintained'],
             ['Cavity-to-cavity repeatability', 'Geometric balance only', 'Per-zone control'],
             ['Failure modes', 'Cold slug, runner imbalance, undersized gate', 'Tip drift, manifold imbalance, valve timing'],
@@ -158,7 +158,7 @@ export const shrinkageGuide: DefectGuide = {
           type: 'list',
           items: [
             'Microscopy and microtome sectioning — correlate local sink/void regions with wall-thickness intersections or fiber orientation layers.',
-            'Cavity pressure transducers — quantify actual pack transmission and gate freeze.',
+            'Cavity pressure transducers — quantify actual pack transmission and gate seal.',
             'Gate-seal study by part weight — increase hold time in steps until weight stops changing.',
             'Moldflow / Moldex3D shrinkage and warp simulation seeded with measured pvT and actual process inputs.',
           ],
@@ -179,7 +179,7 @@ export const shrinkageGuide: DefectGuide = {
         {
           type: 'list',
           items: [
-            'Separate fill, pack, and hold conceptually. Establish a viscosity-robust fill, then set hold time based on actual gate-freeze evidence rather than assumption.',
+            'Separate fill, pack, and hold conceptually. Establish a viscosity-robust fill, then set hold time based on actual gate seal evidence rather than assumption.',
             'For cold runners, protect the pack window: limit runner pressure loss, avoid undersized gates, ensure gate stays open long enough to feed contraction.',
             'For hot runners, use individual zone control and verify thermal balance — do not assume the manifold is inherently balanced.',
             'Keep wall thickness uniform where tolerances are tight. If thick sections are unavoidable, gate them directly or give them a reliable feed path.',
@@ -223,7 +223,7 @@ export const shrinkageGuide: DefectGuide = {
             items: [
               'Start at the symptom branch — global undersize vs localized sink — they have different root causes.',
               'Confirm shot-to-shot stability before changing the mold; an unstable process masks geometry issues.',
-              'For thick-section sinks, jump straight to pack pressure / hold time and gate freeze before runner geometry.',
+              'For thick-section sinks, jump straight to pack pressure / hold time and gate seal before runner geometry.',
               'For warped-but-in-spec parts, branch to anisotropy and differential cooling rather than overall shrink rate.',
             ],
           },

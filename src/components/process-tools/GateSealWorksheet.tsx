@@ -35,12 +35,12 @@ const STEPS = [
   {
     number: 3,
     title: 'Analyze the Plateau',
-    description: 'Enter your data points below. The tool will identify where part weight stabilizes — that is your gate freeze (seal) point.',
+    description: 'Enter your data points below. The tool will identify where part weight stabilizes — that is your gate seal (seal) point.',
   },
 ];
 
-export function GateFreezeWorksheet() {
-  const { ref: cardRef, ExportBtn } = useExport('Gate Freeze Study Worksheet');
+export function GateSealWorksheet() {
+  const { ref: cardRef, ExportBtn } = useExport('Gate Seal Study Worksheet');
   const [currentStep, setCurrentStep] = useState(0);
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([
     { id: 1, holdTime: '', partWeight: '' },
@@ -120,7 +120,7 @@ export function GateFreezeWorksheet() {
         <div className="flex items-center justify-between">
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5 text-primary" />
-            Gate Freeze Study Worksheet
+            Gate Seal Study Worksheet
           </CardTitle>
           <ExportBtn />
         </div>
@@ -236,7 +236,7 @@ export function GateFreezeWorksheet() {
                 )}
                 <div>
                   <p className="text-sm font-semibold">
-                    {sealTime !== null ? 'Gate Freeze Detected' : 'No Clear Plateau Found'}
+                    {sealTime !== null ? 'Gate Seal Detected' : 'No Clear Plateau Found'}
                   </p>
                   {sealTime !== null ? (
                     <>

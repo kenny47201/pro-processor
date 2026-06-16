@@ -48,7 +48,7 @@ export const crystallinityGuide: KnowledgeGuide = {
         },
         {
           type: "paragraph",
-          text: "Crystallinity matters because it changes density, volumetric shrinkage, linear shrinkage, stiffness, tensile behavior, creep resistance, fatigue behavior, heat-deflection behavior, chemical resistance, wear behavior, barrier properties, surface finish, opacity, dimensional stability, and failure mode. The same resin can mold into a dimensionally stable production component or a drifting, warped, brittle, opaque, sink-prone part depending on mold temperature, gate freeze, pack/hold profile, cooling balance, residence time, and material condition.",
+          text: "Crystallinity matters because it changes density, volumetric shrinkage, linear shrinkage, stiffness, tensile behavior, creep resistance, fatigue behavior, heat-deflection behavior, chemical resistance, wear behavior, barrier properties, surface finish, opacity, dimensional stability, and failure mode. The same resin can mold into a dimensionally stable production component or a drifting, warped, brittle, opaque, sink-prone part depending on mold temperature, gate seal, pack/hold profile, cooling balance, residence time, and material condition.",
         },
         {
           type: "table",
@@ -555,7 +555,7 @@ export const crystallinityGuide: KnowledgeGuide = {
         { type: "heading", level: 3, text: "F.4 POM / Acetal — Page 12" },
         {
           type: "paragraph",
-          text: "POM crystallizes rapidly and shrinks strongly. It offers dimensional stability and wear performance when processed correctly, but underpacking, premature gate freeze, or uneven mold temperature can create voids, sink, and delayed dimensional change. Its thermal stability window is narrower than many commodity materials; overheating and excessive residence can release formaldehyde.",
+          text: "POM crystallizes rapidly and shrinks strongly. It offers dimensional stability and wear performance when processed correctly, but underpacking, premature gate seal, or uneven mold temperature can create voids, sink, and delayed dimensional change. Its thermal stability window is narrower than many commodity materials; overheating and excessive residence can release formaldehyde.",
         },
         { type: "heading", level: 3, text: "F.5 PBT and PET — Page 12" },
         {
@@ -660,7 +660,7 @@ export const crystallinityGuide: KnowledgeGuide = {
           type: "callout",
           tone: "info",
           title: "Teaching Sequence (Page 15)",
-          text: "Use the visuals in this order: chain order vs disorder, lamellae, spherulites, cooling rate, skin-core morphology, then gate freeze. That moves the trainee from molecule to morphology to process control.",
+          text: "Use the visuals in this order: chain order vs disorder, lamellae, spherulites, cooling rate, skin-core morphology, then gate seal. That moves the trainee from molecule to morphology to process control.",
         },
       ],
     },
@@ -983,10 +983,10 @@ export const crystallinityGuide: KnowledgeGuide = {
         {
           type: "image",
           src: crystallinityGateFreezeKinetics,
-          alt: "Gate freeze-off kinetics and runner-system comparison",
+          alt: "Gate seal-off kinetics and runner-system comparison",
           figureNumber: "Figure J-1",
           caption:
-            "Gate freeze-off kinetics and runner-system comparison. Weight-vs-hold-time plateau identifies natural gate seal in freeze-controlled systems. (Page 18)",
+            "Gate seal-off kinetics and runner-system comparison. Weight-vs-hold-time plateau identifies natural gate seal in freeze-controlled systems. (Page 18)",
         },
         {
           type: "table",
@@ -1009,7 +1009,7 @@ export const crystallinityGuide: KnowledgeGuide = {
             ],
             [
               "Pack transmission",
-              "Limited by progressive runner/gate freeze.",
+              "Limited by progressive runner/gate seal.",
               "More direct hydraulic connection while manifold is molten.",
               "Hot runner may pack more efficiently and consistently.",
               "Balance manifold and cavity weights.",
@@ -1067,7 +1067,7 @@ export const crystallinityGuide: KnowledgeGuide = {
         },
         {
           type: "paragraph",
-          text: "Open thermal tip gates keep the gate region hot from behind. Valve gates remove natural freeze as the primary seal mechanism; gate close time becomes a programmable parameter. Cold runner gate freeze is easier to measure through a conventional part-weight plateau. (Section J, Page 19)",
+          text: "Open thermal tip gates keep the gate region hot from behind. Valve gates remove natural freeze as the primary seal mechanism; gate close time becomes a programmable parameter. Cold runner gate seal is easier to measure through a conventional part-weight plateau. (Section J, Page 19)",
         },
         {
           type: "callout",
@@ -1107,9 +1107,9 @@ export const crystallinityGuide: KnowledgeGuide = {
             ],
             [
               "Gate size / land",
-              "Controls gate freeze time and pressure loss.",
+              "Controls gate seal time and pressure loss.",
               "Undersized: early seal, underpack, sink/voids. Oversized: delay seal.",
-              "Run gate-freeze and pressure-drop studies before locking.",
+              "Run gate seal and pressure-drop studies before locking.",
             ],
             [
               "Gate location",
@@ -1396,7 +1396,7 @@ export const crystallinityGuide: KnowledgeGuide = {
             [
               "Part weight vs hold time",
               "Mass accepted before gate seal.",
-              "Excellent for gate-freeze and pack optimization.",
+              "Excellent for gate seal and pack optimization.",
               "Does not isolate crystallinity alone.",
               "Scientific molding setup.",
             ],
@@ -1878,7 +1878,7 @@ export const crystallinityGuide: KnowledgeGuide = {
               "Fact-checked consolidated: reference register, corrected claims, material ranges, DSC formula, evidence qualifications.",
             ],
             [
-              "Visual images: degree of crystallinity, gate freeze-off kinetics, lamellae, cooling rate, spherulites, skin-core",
+              "Visual images: degree of crystallinity, gate seal-off kinetics, lamellae, cooling rate, spherulites, skin-core",
               "Embedded visual teaching plates connecting molecular structure to molding outcomes.",
             ],
             [
@@ -1932,7 +1932,7 @@ export const crystallinityGuide: KnowledgeGuide = {
               "Flow pattern where melt at the center moves forward then rolls outward to contact the mold wall, creating skin formation and orientation.",
             ],
             [
-              "Gate freeze",
+              "Gate seal",
               "Loss of the ability to feed material through the gate because it solidified or was mechanically closed.",
             ],
             [
@@ -2016,7 +2016,7 @@ export const crystallinityGuide: KnowledgeGuide = {
         },
         {
           type: "paragraph",
-          text: "Training objective: by the end of the module, the learner should be able to define semicrystalline morphology, explain skin-core development, connect crystallinity to shrinkage and properties, distinguish hot-runner and cold-runner effects, run a basic gate-freeze study, and choose a diagnostic method.",
+          text: "Training objective: by the end of the module, the learner should be able to define semicrystalline morphology, explain skin-core development, connect crystallinity to shrinkage and properties, distinguish hot-runner and cold-runner effects, run a basic gate seal study, and choose a diagnostic method.",
         },
         {
           type: "table",
@@ -2057,7 +2057,7 @@ export const crystallinityGuide: KnowledgeGuide = {
             "7. Why can a higher mold temperature increase shrinkage but improve long-term dimensional stability?",
             "8. Why does glass fiber make shrinkage anisotropic?",
             "9. Which method would you use to quantify Xc: visual inspection, DSC, or part weight? Explain.",
-            "10. When would a valve-gate timing study replace a conventional gate-freeze study?",
+            "10. When would a valve-gate timing study replace a conventional gate seal study?",
           ],
         },
       ],

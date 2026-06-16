@@ -329,7 +329,7 @@ export const morphologyGuide: KnowledgeGuide = {
             ['Melt Thermal History', 'Melt cools in runner. Lower melt temp at gate.', 'Thermal control to gate. Hotter melt at gate.', 'Each level can see different melt temp depending on balance and cooling.'],
             ['Residence Time', 'Longer (melt spends time in runner and gate).', 'Shorter (melt delivered directly to gate).', 'Varies by level; typically similar to hot runner but dependent on balance.'],
             ['Shear History', 'More shear in runner and at turns/changes in direction.', 'Lower shear in manifold if well designed; shear concentrated at gate tip.', 'Varies by level and flow path; imbalance increases shear in some cavities.'],
-            ['Gate Freeze Behavior', 'Gate cools quickly; higher risk of early freeze if cycle or runner temp is low.', 'Gate area stays hot; freeze occurs later in cavity. Hot gate can alter skin/core structure near gate.', 'Gate timing can differ between levels; risk of early freeze if imbalance exists.'],
+            ['Gate Seal Behavior', 'Gate cools quickly; higher risk of early freeze if cycle or runner temp is low.', 'Gate area stays hot; freeze occurs later in cavity. Hot gate can alter skin/core structure near gate.', 'Gate timing can differ between levels; risk of early freeze if imbalance exists.'],
             ['Pressure Loss', 'Higher due to runner length, turns, and cooler melt.', 'Lower pressure loss (optimized flow path).', 'Higher potential due to longer flow path to upper/lower levels.'],
             ['Balance Sensitivity', 'Moderate — affected by runner length and layout.', 'High — manifold balance and nozzle tip balance are critical.', 'Very High — flow balance between cavities and levels is critical.'],
             ['Cavity-to-Cavity Consistency', 'More variation possible with long or imbalanced runners.', 'Better consistency when hot runner is balanced and stable.', 'Most challenging — levels and cavities can vary if any imbalance or deflection occurs.'],
@@ -371,7 +371,7 @@ export const morphologyGuide: KnowledgeGuide = {
         {
           type: 'list',
           items: [
-            'Cool melt at gate, early gate freeze.',
+            'Cool melt at gate, early gate seal.',
             'Pressure loss from long/complex runners.',
             'Imbalance between cavities.',
           ],
@@ -384,7 +384,7 @@ export const morphologyGuide: KnowledgeGuide = {
           type: 'list',
           items: [
             'Runner and mold temperature.',
-            'Gate freeze time and fill balance.',
+            'Gate seal time and fill balance.',
             'Part weight, pressure at switchover.',
           ],
         },
@@ -481,7 +481,7 @@ export const morphologyGuide: KnowledgeGuide = {
           src: morphologyRunnerComparison,
           alt: 'Infographic comparing morphology across cold runner, hot runner, and stack mold systems with through-thickness diagrams and factor comparison tables.',
           figureNumber: 'Figure 3',
-          caption: 'Cold Runner vs Hot Runner vs Stack Mold — Side-by-side comparison of how each system affects thermal history, shear, gate freeze, pressure loss, and cavity-to-cavity consistency.',
+          caption: 'Cold Runner vs Hot Runner vs Stack Mold — Side-by-side comparison of how each system affects thermal history, shear, gate seal, pressure loss, and cavity-to-cavity consistency.',
         },
       ],
     },

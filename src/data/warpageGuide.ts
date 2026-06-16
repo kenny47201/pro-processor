@@ -133,7 +133,7 @@ export const warpageGuide: DefectGuide = {
           columns: ['Parameter', 'Effect on Warp', 'Recommended Action'],
           rows: [
             ['Mold temperature differential (cavity vs core)', 'Primary driver of bowing', 'Hold ±2 °C across the cavity face'],
-            ['Pack / hold pressure', 'Insufficient = differential shrinkage', 'Pack until gate freeze; verify with gate-seal study'],
+            ['Pack / hold pressure', 'Insufficient = differential shrinkage', 'Pack until gate seal; verify with gate-seal study'],
             ['Hold time', 'Too short locks in differential shrinkage', 'Establish via gate-seal study, not assumption'],
             ['Cooling time', 'Too short = post-ejection relaxation warp', 'Add until in-mold dimension stabilizes'],
             ['Injection speed', 'High shear induces fiber orientation', 'Profile speed; slow at gates for fiber-filled'],
@@ -148,9 +148,9 @@ export const warpageGuide: DefectGuide = {
           rows: [
             ['Pressure transmission to cavity', 'Reduced by runner & gate pressure loss', 'Maintained close to cavity'],
             ['Cavity-to-cavity balance', 'Geometric balance only', 'Individual zone control possible'],
-            ['Gate freeze risk', 'Higher (cold gate)', 'Lower (heated tip / valve gate)'],
+            ['Gate seal risk', 'Higher (cold gate)', 'Lower (heated tip / valve gate)'],
             ['Pack repeatability', 'Subject to cold-slug variation', 'More consistent if zones balanced'],
-            ['Failure modes that drive warp', 'Premature gate freeze, runner imbalance', 'Tip drift, manifold imbalance, valve-gate timing'],
+            ['Failure modes that drive warp', 'Premature gate seal, runner imbalance', 'Tip drift, manifold imbalance, valve-gate timing'],
           ],
         },
         { type: 'heading', level: 3, text: '2.4 Wall thickness & geometry' },
@@ -254,7 +254,7 @@ export const warpageGuide: DefectGuide = {
             items: [
               'Always begin with quantification — a CMM or fixture report establishes the baseline before any change.',
               'Confirm shot-to-shot stability before blaming the mold; an unstable process invalidates downstream nodes.',
-              'Branch by runner system: cold-runner branches focus on balance and gate freeze; hot-runner branches focus on tip temperature uniformity.',
+              'Branch by runner system: cold-runner branches focus on balance and gate seal; hot-runner branches focus on tip temperature uniformity.',
               'Re-validate after every node — never stack two changes between measurements.',
             ],
           },

@@ -1531,8 +1531,8 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Melt temperature too low — cold front preserves frozen skin, no healing.',
               'Mold temperature too low — interface freezes before consolidation.',
               'Fill speed too low — front cools excessively before re-merge.',
-              'Insufficient pack pressure or pack ends before gate freeze.',
-              'Gate freezes before pressure transmits to seam — common with small gates on thick parts.',
+              'Insufficient pack pressure or pack ends before gate seal.',
+              'Gate seals before pressure transmits to seam — common with small gates on thick parts.',
             ],
           },
           { type: 'heading', level: 3, text: '2.3 Mold design' },
@@ -1618,7 +1618,7 @@ export const additionalDefectGuides: DefectGuide[] = [
             tone: 'warning',
             title: 'Common pitfalls',
             text:
-              'Adding hold time after gate freeze. Raising temperature without re-verifying moisture and residence. Ignoring hot-runner balance in multi-cavity tools. Assuming clamp force is a seam fix when the real problem is air trap or temperature.',
+              'Adding hold time after gate seal. Raising temperature without re-verifying moisture and residence. Ignoring hot-runner balance in multi-cavity tools. Assuming clamp force is a seam fix when the real problem is air trap or temperature.',
           },
         ],
       },
@@ -1811,7 +1811,7 @@ export const additionalDefectGuides: DefectGuide[] = [
       'Localized concave surface depressions produced when interior shrinkage exceeds the ability of the solidified skin and feed system to maintain the nominal outer profile — primarily a packing-and-freeze problem opposite thick features.',
     category: 'Cosmetic & Dimensional',
     severity: 'medium',
-    tags: ['shrinkage', 'pack pressure', 'gate freeze', 'wall thickness', 'rib design', 'boss'],
+    tags: ['shrinkage', 'pack pressure', 'gate-seal', 'wall thickness', 'rib design', 'boss'],
     sections: [
       {
         id: 'executive-summary',
@@ -1827,7 +1827,7 @@ export const additionalDefectGuides: DefectGuide[] = [
             tone: 'info',
             title: 'Hierarchy of causes',
             text:
-              'Sinks emerge when local volumetric contraction, local stiffness development, and feed-path availability are misaligned in time. Address in this order: (1) geometry & mass concentration, (2) gate freeze & pressure transmission, (3) material shrink behavior, (4) mold thermal balance, (5) machine consistency.',
+              'Sinks emerge when local volumetric contraction, local stiffness development, and feed-path availability are misaligned in time. Address in this order: (1) geometry & mass concentration, (2) gate seal & pressure transmission, (3) material shrink behavior, (4) mold thermal balance, (5) machine consistency.',
           },
         ],
       },
@@ -1882,16 +1882,16 @@ export const additionalDefectGuides: DefectGuide[] = [
           {
             type: 'image',
             src: sinkMarksFormationTimeline,
-            alt: 'Four-stage timeline: mold fills, packing, gate freezes, interior cools and sink appears',
+            alt: 'Four-stage timeline: mold fills, packing, gate seals, interior cools and sink appears',
             figureNumber: 'Figure 3',
             caption:
-              'Sink formation timeline — the surface remains nominal through fill and pack. Once the gate freezes, no more melt can be fed; as the still-hot interior continues to cool and contract, the now-rigid skin is pulled inward and a sink appears.',
+              'Sink formation timeline — the surface remains nominal through fill and pack. Once the gate seals, no more melt can be fed; as the still-hot interior continues to cool and contract, the now-rigid skin is pulled inward and a sink appears.',
             lookFor: {
               tone: 'warning',
               title: 'Why timing matters',
               items: [
                 'Stages 1–2: defect not yet visible — early inspection misses it.',
-                'Stage 3 (gate freeze): the last opportunity to compensate via pack pressure.',
+                'Stage 3 (gate seal): the last opportunity to compensate via pack pressure.',
                 'Stage 4: sink emerges minutes-to-hours after ejection — verify with delayed inspection.',
                 'Most sink fixes target Stage 3: extend the open-gate window (larger gate, hotter melt, valve-gate hold).',
               ],
@@ -1912,7 +1912,7 @@ export const additionalDefectGuides: DefectGuide[] = [
             type: 'list',
             items: [
               'Insufficient pack pressure or pack time — interior under-fed during cooling.',
-              'Gate freezes before packing complete — most common single cause.',
+              'Gate seals before packing complete — most common single cause.',
               'Mold temperature too high → extended cooling, more shrinkage to compensate.',
               'Cooling time too short — interior still molten at ejection.',
               'Check ring leakage → effective pack pressure drops.',
@@ -1934,7 +1934,7 @@ export const additionalDefectGuides: DefectGuide[] = [
           {
             type: 'paragraph',
             text:
-              'Cold runners are limited by gate freeze timing — pack pressure transmission ends when the gate freezes. Hot runners offer a longer feed window because the gate stays open via tip control or valve gating, but only deliver this advantage when manifold balance, valve-gate timing, and tip temperatures are stable.',
+              'Cold runners are limited by gate seal timing — pack pressure transmission ends when the gate seals. Hot runners offer a longer feed window because the gate stays open via tip control or valve gating, but only deliver this advantage when manifold balance, valve-gate timing, and tip temperatures are stable.',
           },
         ],
       },
@@ -1993,7 +1993,7 @@ export const additionalDefectGuides: DefectGuide[] = [
                 kind: 'calculator',
                 items: [
                   {
-                    text: 'Run a gate-freeze (pack & hold) study — increase hold time in steps until part weight stops climbing.',
+                    text: 'Run a gate seal (pack & hold) study — increase hold time in steps until part weight stops climbing.',
                     hint: 'The single most decisive test. Splits process fixes from geometry fixes.',
                     toolId: 'pack-hold',
                   },
@@ -2021,7 +2021,7 @@ export const additionalDefectGuides: DefectGuide[] = [
                     text: 'Pack pressure — currently within clamp/flash limits? Step up 5–10% and re-evaluate.',
                   },
                   {
-                    text: 'Hold time — set at or just past gate-freeze (from the pack & hold study).',
+                    text: 'Hold time — set at or just past gate seal (from the pack & hold study).',
                   },
                   {
                     text: 'Melt temperature — modest increase improves pressure transmission to thick zones.',
@@ -2065,7 +2065,7 @@ export const additionalDefectGuides: DefectGuide[] = [
             items: [
               'Map sink location vs CAD section — identify the thick feature opposite.',
               'Check if defect grows after ejection (5 min, 24 hr) — yes → shrinkage/freeze problem.',
-              'Run a gate-freeze study: increase hold time in steps, weigh parts. When weight stops increasing, useful hold has ended.',
+              'Run a gate seal study: increase hold time in steps, weigh parts. When weight stops increasing, useful hold has ended.',
               'If gate is freezing too early → enlarge gate, reduce land, move gate, raise mold/melt temp.',
               'Compare first-cavity vs last-cavity in multi-cavity tools.',
               'For hot runner: log nozzle-tip temperatures and verify zone consistency.',
@@ -2103,7 +2103,7 @@ export const additionalDefectGuides: DefectGuide[] = [
               'Place gates at or near the thickest critical section.',
               'Specify proper cooling at thick zones — baffles, bubblers, or beryllium-copper inserts.',
               'For semi-crystalline resins, design with documented shrinkage allowance.',
-              'Use simulation to predict gate freeze and volumetric shrinkage in DFM.',
+              'Use simulation to predict gate seal and volumetric shrinkage in DFM.',
             ],
           },
         ],
@@ -2115,16 +2115,16 @@ export const additionalDefectGuides: DefectGuide[] = [
           {
             type: 'image',
             src: sinkMarksDecisionTree,
-            alt: 'Decision tree for diagnosing sink marks: confirm depression opposite hidden mass, run a gate-freeze study, then branch to process or geometry corrections',
+            alt: 'Decision tree for diagnosing sink marks: confirm depression opposite hidden mass, run a gate seal study, then branch to process or geometry corrections',
             figureNumber: 'Figure 5',
             caption:
-              'Sink mark troubleshooting decision tree — confirm the depression sits opposite a rib, boss, or insert, then run a gate-freeze study. If the gate freezes before pack is complete, fix the process (pack pressure, hold time, melt temp, cushion). If the gate is fully sealed and sink persists, the cause is geometric (thin the rib/boss, enlarge gate, core out mass, relocate gate).',
+              'Sink mark troubleshooting decision tree — confirm the depression sits opposite a rib, boss, or insert, then run a gate seal study. If the gate seals before pack is complete, fix the process (pack pressure, hold time, melt temp, cushion). If the gate is fully sealed and sink persists, the cause is geometric (thin the rib/boss, enlarge gate, core out mass, relocate gate).',
             lookFor: {
               tone: 'info',
               title: 'How to use this tree',
               items: [
                 'Always start with Step 2 — sinks not opposite hidden mass are usually a different defect (flow, jetting, weld read-through).',
-                'Step 3 (gate-freeze study) is the single most decisive test — it determines which branch to take.',
+                'Step 3 (gate seal study) is the single most decisive test — it determines which branch to take.',
                 'Process branch: cheap, fast, reversible. Try it first even when geometry is suspect.',
                 'Geometry branch: required when pack is maxed and gate is fully sealed but sink remains. Loop back to Step 2 with CT scan or sectioning if uncertain.',
               ],
@@ -2146,7 +2146,7 @@ export const additionalDefectGuides: DefectGuide[] = [
                 toolId: 'pack-hold',
                 label: 'Pack & Hold Study',
                 description:
-                  'Run a gate-freeze study — the decisive test that splits process fixes from geometry fixes.',
+                  'Run a gate seal study — the decisive test that splits process fixes from geometry fixes.',
               },
               {
                 toolId: 'shot-volume',
@@ -2160,7 +2160,7 @@ export const additionalDefectGuides: DefectGuide[] = [
             type: 'orderedList',
             items: [
               'Increase pack pressure (within clamp/flash limits).',
-              'Increase hold time up to gate-freeze point.',
+              'Increase hold time up to gate seal point.',
               'Increase melt temperature modestly — improves pressure transmission.',
               'Decrease mold temperature at thick zones — speeds skin formation.',
               'Increase cooling time so interior stiffens before depression forms.',
@@ -2180,7 +2180,7 @@ export const additionalDefectGuides: DefectGuide[] = [
             items: [
               'Use texture intentionally to hide unavoidable mild read-through, but never as primary corrective action.',
               'Collaborate with mold maker on gate relocation, runner rebalance, and cooling-circuit changes.',
-              'Document gate-freeze study results — it is the highest-value single test for sink troubleshooting.',
+              'Document gate seal study results — it is the highest-value single test for sink troubleshooting.',
               'If pack increases stop reducing sink, gate is frozen — further pack just causes flash.',
             ],
           },
