@@ -12,7 +12,7 @@ import { DryerSizingCalculator } from '@/components/process-tools/DryerSizingCal
 import { ChillerSizingCalculator } from '@/components/process-tools/ChillerSizingCalculator';
 import { MeltDensityCalculator } from '@/components/process-tools/MeltDensityCalculator';
 import { ViscosityCurveStudy } from '@/components/process-tools/ViscosityCurveStudy';
-import { GateFreezeWorksheet } from '@/components/process-tools/GateFreezeWorksheet';
+import { GateSealWorksheet } from '@/components/process-tools/GateSealWorksheet';
 import { CoolingTimeCalculator } from '@/components/process-tools/CoolingTimeCalculator';
 import { PackHoldStudy } from '@/components/process-tools/PackHoldStudy';
 import { CpkCalculator } from '@/components/process-tools/CpkCalculator';
@@ -54,7 +54,7 @@ const TOOL_REGISTRY: Record<string, ToolDef[]> = {
   ],
   optimization: [
     { id: 'viscosity-curve', label: 'Viscosity Curve', tab: 'optimization', Component: ViscosityCurveStudy },
-    { id: 'gate-freeze', label: 'Gate Freeze Worksheet', tab: 'optimization', Component: GateFreezeWorksheet },
+    { id: 'gate seal', label: 'Gate Seal Worksheet', tab: 'optimization', Component: GateSealWorksheet },
     { id: 'pack-hold', label: 'Pack & Hold Study', tab: 'optimization', Component: PackHoldStudy },
     { id: 'cooling-time', label: 'Cooling Time', tab: 'optimization', Component: CoolingTimeCalculator },
     { id: 'pressure-loss', label: 'Pressure Loss', tab: 'optimization', Component: PressureLossCalculator },

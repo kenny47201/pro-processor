@@ -185,13 +185,13 @@ export const witnessMarksGuide: KnowledgeGuide = {
         { type: 'heading', level: 3, text: 'C — Press Settings / Process Levers That Matter Most' },
         {
           type: 'list',
-          items: ['Gate freeze', 'Runner balance', 'Gate trim', 'Mold alignment', 'Cooling uniformity'],
+          items: ['Gate seal', 'Runner balance', 'Gate trim', 'Mold alignment', 'Cooling uniformity'],
         },
         { type: 'heading', level: 3, text: 'D — Typical Troubleshooting Focus' },
         {
           type: 'list',
           items: [
-            'Check gate freeze and trim quality',
+            'Check gate seal and trim quality',
             'Balance runner lengths and sizes',
             'Verify parting line alignment',
             'Check ejector pin condition',
@@ -201,7 +201,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
         { type: 'heading', level: 3, text: 'E — Main Processing Difference' },
         {
           type: 'paragraph',
-          text: 'Emphasis on gate freeze, runner balance, gate trim, mold alignment, and cooling uniformity.',
+          text: 'Emphasis on gate seal, runner balance, gate trim, mold alignment, and cooling uniformity.',
         },
         { type: 'heading', level: 3, text: '3.2 Hot Runner Molds' },
         { type: 'heading', level: 3, text: 'A — Common Witness Mark Sources' },
@@ -233,7 +233,7 @@ export const witnessMarksGuide: KnowledgeGuide = {
           items: [
             'Hot tip temperature',
             'Manifold balance',
-            'Gate freeze',
+            'Gate seal',
             'Decompression',
             'Fill-to-pack consistency',
           ],
@@ -245,14 +245,14 @@ export const witnessMarksGuide: KnowledgeGuide = {
             'Balance hot tip and manifold temps',
             'Verify gate seal / valve timing',
             'Tune decompression and back pressure',
-            'Confirm gate freeze and fill-to-pack',
+            'Confirm gate seal and fill-to-pack',
             'Check nozzle alignment and wear',
           ],
         },
         { type: 'heading', level: 3, text: 'E — Main Processing Difference' },
         {
           type: 'paragraph',
-          text: 'Emphasis on hot tip temperature, manifold balance, gate freeze, decompression, and fill-to-pack consistency.',
+          text: 'Emphasis on hot tip temperature, manifold balance, gate seal, decompression, and fill-to-pack consistency.',
         },
         { type: 'heading', level: 3, text: '3.3 Stack Molds' },
         { type: 'heading', level: 3, text: 'A — Common Witness Mark Sources' },

@@ -296,7 +296,7 @@ export const nucleationGuide: KnowledgeGuide = {
             'Dryer verified if dew point and time are required.',
             'Mold temperature mapped and stable.',
             'Cavity balance checked.',
-            'Gate freeze understood.',
+            'Gate seal understood.',
             'Dimensional study planned.',
             'Cavity-to-cavity comparison planned.',
           ],
@@ -433,8 +433,8 @@ export const nucleationGuide: KnowledgeGuide = {
           caption: 'How Nucleation Behavior Changes by Mold Type',
           columns: ['Mold Type', 'Nucleation Characteristics', 'Common Risks', 'Processing Focus'],
           rows: [
-            ['Cold Runner', 'Melt loses heat in sprue/runner, cold slug risk, gate freeze occurs relatively quickly, thermal gradient can be larger.', 'Cold slug or hesitation at gate, early gate freeze, higher melt temperature variation, runner scrap/regrind must be managed.', 'Maintain stable nozzle and front-zone temperatures, use cold slug wells and proper purging, balance runners to minimize pressure drop, optimize pack/hold and runner scrap/regrind strategy.'],
-            ['Hot Runner', 'Manifold and tips keep melt molten, thermal history and residence time matter more, gate thermal condition strongly affects morphology, gate freeze can be delayed.', 'Excess residence time and degradation, drool/stringing at gates, uneven tip/manifold temperatures, gate remains open too long and part quality issues.', 'Tight control of manifold and tip temperatures, monitor and manage residence time, color/material changeover discipline, prevent drool/stringing, tune gate thermal condition for morphology.'],
+            ['Cold Runner', 'Melt loses heat in sprue/runner, cold slug risk, gate seal occurs relatively quickly, thermal gradient can be larger.', 'Cold slug or hesitation at gate, early gate seal, higher melt temperature variation, runner scrap/regrind must be managed.', 'Maintain stable nozzle and front-zone temperatures, use cold slug wells and proper purging, balance runners to minimize pressure drop, optimize pack/hold and runner scrap/regrind strategy.'],
+            ['Hot Runner', 'Manifold and tips keep melt molten, thermal history and residence time matter more, gate thermal condition strongly affects morphology, gate seal can be delayed.', 'Excess residence time and degradation, drool/stringing at gates, uneven tip/manifold temperatures, gate remains open too long and part quality issues.', 'Tight control of manifold and tip temperatures, monitor and manage residence time, color/material changeover discipline, prevent drool/stringing, tune gate thermal condition for morphology.'],
             ['Stack Mold', 'Same nucleation physics as other tools, but temperature balance and fill balance between levels become major issues, platen-side differences can create level-to-level morphology and shrink variation, hot runner balancing is often more demanding.', 'Uneven level temperatures, uneven fill to top vs bottom cavities, differential shrinkage between levels, more difficult hot runner balance across levels, clamp/platen asymmetry effects.', 'Ensure level-to-level thermal balance, balance fill to both parting planes, verify clamp and platen uniformity, balance cavity families within each level, confirm cooling circuits and flow balance.'],
           ],
         },
@@ -444,7 +444,7 @@ export const nucleationGuide: KnowledgeGuide = {
           caption: 'Runner-System Processing Focus',
           columns: ['Cold Runner Processing Focus', 'Hot Runner Processing Focus', 'Stack Mold Processing Focus'],
           rows: [[
-            'Nozzle and front-zone stability, cold slug wells and purge, runner balance to limit pressure drop, faster gate freeze, watch runner-generated variation.',
+            'Nozzle and front-zone stability, cold slug wells and purge, runner balance to limit pressure drop, faster gate seal, watch runner-generated variation.',
             'Manifold and tip temperature control, residence time control, color/material changeover discipline, avoid drool/stringing, gate thermal tuning for morphology.',
             'Level-to-level thermal balance, fill balance to both parting planes, clamp and platen uniformity, cavity family balance within each level, cooling circuit verification.'
           ]],
@@ -456,7 +456,7 @@ export const nucleationGuide: KnowledgeGuide = {
           columns: ['Similarities', 'Differences'],
           rows: [
             ['Same semi-crystalline crystallization physics.', 'Thermal history before the cavity differs.'],
-            ['Same material/additive effects.', 'Gate freeze behavior differs.'],
+            ['Same material/additive effects.', 'Gate seal behavior differs.'],
             ['Same importance of undercooling and shear.', 'Balance difficulty differs.'],
             ['—', 'Cavity-to-cavity consistency risk differs.'],
             ['—', 'How strongly runner/manifold temperature affects the cavity melt differs.'],

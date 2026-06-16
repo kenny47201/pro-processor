@@ -288,7 +288,7 @@ export const coldSlugMarksGuide: DefectGuide = {
             tone: 'info',
             items: [
               'Confirm the defect is a cold slug mark (silvery teardrop near the gate) before entering the tree — splay and jetting use different paths.',
-              'Branch by runner system first: cold-runner issues usually trace to cold-slug well sizing; hot-runner issues trace to tip temperature and gate freeze.',
+              'Branch by runner system first: cold-runner issues usually trace to cold-slug well sizing; hot-runner issues trace to tip temperature and gate seal.',
               'On the process branch, change one parameter at a time and re-run 5–10 shots before moving to the next node.',
               'If both branches return to start, escalate to mold maintenance — worn gate land or undersized cold-slug well.',
             ],

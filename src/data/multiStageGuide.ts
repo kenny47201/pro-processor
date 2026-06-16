@@ -255,7 +255,7 @@ export const multiStageGuide: KnowledgeGuide = {
           type: 'list',
           items: [
             'Tip temperature consistency.',
-            'Gate freeze behavior.',
+            'Gate seal behavior.',
             'Thermal balance between drops.',
             'Less material waste, but higher sensitivity to thermal issues.',
           ],

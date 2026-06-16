@@ -83,7 +83,7 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
       { toolId: 'dryer-sizing', text: 'Verify dryer capacity vs throughput and residence time.', label: 'Dryer Sizing', description: 'Confirm dryer can hold resin to spec dew point at your throughput.' },
       { toolId: 'shot-volume', text: 'Confirm shot size vs barrel capacity (residence-time risk).', label: 'Shot & Part Volume', description: 'Catch under-utilized barrels that hold melt too long and degrade it.' },
       { toolId: 'vent-depth', text: 'Check vent depth vs resin spec for end-of-fill venting.', label: 'Vent Depth Calculator', hint: 'Most common root cause for blisters at last-fill.', description: 'Size vents per polymer family to evacuate trapped gas.' },
-      { toolId: 'pack-hold', text: 'Run a gate-freeze study to separate gas defects from shrinkage cavities.', label: 'Pack & Hold Study', description: 'A bubble that shrinks with more pack is shrinkage-driven, not gas.' },
+      { toolId: 'pack-hold', text: 'Run a gate seal study to separate gas defects from shrinkage cavities.', label: 'Pack & Hold Study', description: 'A bubble that shrinks with more pack is shrinkage-driven, not gas.' },
     ],
     settings: [
       'Decompression — reduce to minimum required to break drool.',
@@ -161,7 +161,7 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
     ],
     calculators: [
       { toolId: 'tonnage', text: 'Recalculate required clamp tonnage with a 10–20% safety factor.', label: 'Clamp Tonnage Calculator', hint: 'Most common flash root cause is undersized clamp for projected area.', description: 'Verify the press has enough tonnage for the projected area and resin.' },
-      { toolId: 'pack-hold', text: 'Run a gate-freeze study — over-packing past gate freeze causes flash.', label: 'Pack & Hold Study', description: 'Trim hold time to the gate-freeze point, not beyond.' },
+      { toolId: 'pack-hold', text: 'Run a gate seal study — over-packing past gate seal causes flash.', label: 'Pack & Hold Study', description: 'Trim hold time to the gate seal point, not beyond.' },
       { toolId: 'vent-depth', text: 'Verify vents are within max depth — over-deep vents flash.', label: 'Vent Depth Calculator', description: 'Confirm vent depth respects polymer max before flashing.' },
     ],
     settings: [
@@ -420,18 +420,18 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
       'Check rib-to-wall ratios — > 0.6× wall is a void risk.',
     ],
     measure: [
-      'Run a gradual gate-freeze study with weight tracking.',
+      'Run a gradual gate seal study with weight tracking.',
       'Measure cushion stability over 20 shots.',
       'Verify cooling time vs thickest wall.',
     ],
     calculators: [
-      { toolId: 'pack-hold', text: 'Run a gate-freeze study — voids = inadequate packing before freeze.', label: 'Pack & Hold Study', hint: 'Decisive test for voids.', description: 'Identify if pack ends before the gate freezes.' },
+      { toolId: 'pack-hold', text: 'Run a gate seal study — voids = inadequate packing before freeze.', label: 'Pack & Hold Study', hint: 'Decisive test for voids.', description: 'Identify if pack ends before the gate seals.' },
       { toolId: 'cooling-time', text: 'Estimate cooling time for the thickest section.', label: 'Cooling Time Calculator', description: 'Confirm cooling allows full core solidification.' },
       { toolId: 'shot-volume', text: 'Confirm shot size + runner volume support full pack.', label: 'Shot & Part Volume', description: 'Verify enough material is available to feed the core.' },
     ],
     settings: [
       'Increase pack pressure (within clamp/flash limits).',
-      'Increase hold time up to gate freeze.',
+      'Increase hold time up to gate seal.',
       'Increase melt temperature for better pressure transmission.',
       'Lower mold temperature at thick zones to stiffen skin.',
     ],
@@ -448,17 +448,17 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
     ],
     measure: [
       'Track mold-surface temperature with contact pyrometer (both halves).',
-      'Run a gate-freeze study — under-packed parts shrink more.',
+      'Run a gate seal study — under-packed parts shrink more.',
       'Verify cushion stability shot-to-shot.',
     ],
     calculators: [
-      { toolId: 'pack-hold', text: 'Run a gate-freeze study to optimize hold time.', label: 'Pack & Hold Study', description: 'Maximize useful hold to compensate for shrinkage.' },
+      { toolId: 'pack-hold', text: 'Run a gate seal study to optimize hold time.', label: 'Pack & Hold Study', description: 'Maximize useful hold to compensate for shrinkage.' },
       { toolId: 'cooling-time', text: 'Estimate cooling time so the part is fully solid before ejection.', label: 'Cooling Time Calculator', description: 'Adequate cooling locks dimensions.' },
       { toolId: 'material-data', text: 'Reference resin shrinkage spec for flow vs cross-flow direction.', label: 'Material Data Sheet', description: 'Use published shrinkage values to set tooling allowances.' },
     ],
     settings: [
       'Increase pack pressure within clamp limits.',
-      'Increase hold time to gate-freeze point.',
+      'Increase hold time to gate seal point.',
       'Lower mold temperature to reduce volumetric contraction.',
       'Lower melt temperature if dimensions over-shrink.',
     ],
@@ -630,7 +630,7 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
     ],
     calculators: [
       { toolId: 'cooling-time', text: 'Calculate differential cooling time for thick vs. thin sections.', label: 'Cooling Time Calculator', description: 'Thick sections cool much slower, driving internal stresses.' },
-      { toolId: 'gate-freeze', text: 'Determine if gate freezes before thick section is packed.', label: 'Gate Freeze Study', description: 'Early gate freeze prevents packing of thick sections.' },
+      { toolId: 'gate seal', text: 'Determine if gate seals before thick section is packed.', label: 'Gate Seal Study', description: 'Early gate seal prevents packing of thick sections.' },
       { toolId: 'tonnage', text: 'Verify clamp force for projected area at max injection pressure.', label: 'Tonnage Calculator', description: 'NUWT parts may require higher packing pressure.' },
     ],
     settings: [

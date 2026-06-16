@@ -14,7 +14,7 @@ export const voidsGuide: DefectGuide = {
   category: 'Internal / Structural',
   severity: 'high',
   tags: [
-    'voids', 'vacuum void', 'shrinkage', 'pack pressure', 'gate freeze',
+    'voids', 'vacuum void', 'shrinkage', 'pack pressure', 'gate seal',
     'thick section', 'hot runner', 'cold runner', 'venting', 'moisture',
   ],
   sections: [
@@ -132,7 +132,7 @@ export const voidsGuide: DefectGuide = {
           src: voidsPressureProfile,
           alt: 'Cavity pressure profile chart showing optimal hold vs low hold pressure void risk',
           figureNumber: 'Figure 2',
-          caption: 'Cavity pressure profile during fill / pack-hold / cool. Sustained hold pressure (green) feeds shrinkage and prevents voids; insufficient hold (red dashed) lets pressure collapse before gate freeze, dramatically raising void risk.',
+          caption: 'Cavity pressure profile during fill / pack-hold / cool. Sustained hold pressure (green) feeds shrinkage and prevents voids; insufficient hold (red dashed) lets pressure collapse before gate seal, dramatically raising void risk.',
         },
         {
           type: 'table',
@@ -140,7 +140,7 @@ export const voidsGuide: DefectGuide = {
           columns: ['Aspect', 'Cold Runner', 'Hot Runner'],
           rows: [
             ['Pressure available at gate', 'Reduced by runner pressure loss', 'Closer to barrel pressure'],
-            ['Gate freeze timing', 'Earlier — limits hold window', 'Controllable via tip temp / valve gate'],
+            ['Gate seal timing', 'Earlier — limits hold window', 'Controllable via tip temp / valve gate'],
             ['Cavity balance', 'Depends on geometric balance', 'Individual zone control'],
             ['Void risk in thick sections', 'Higher unless gate is sized generously', 'Lower if tip & manifold balanced'],
             ['Failure modes', 'Cold slug, undersized gate, runner freeze', 'Tip drift, valve-gate mistiming, hold-up degradation'],
@@ -151,7 +151,7 @@ export const voidsGuide: DefectGuide = {
           src: voidsRunnerSchematic,
           alt: 'Cold runner vs hot runner system schematic',
           figureNumber: 'Figure 3',
-          caption: 'Cold runner systems lose pressure and heat through the solidifying runner — gate freezes earlier and elevates void risk. Hot runner systems maintain melt at temperature up to the gate, transmitting pack pressure more reliably to the cavity.',
+          caption: 'Cold runner systems lose pressure and heat through the solidifying runner — gate seals earlier and elevates void risk. Hot runner systems maintain melt at temperature up to the gate, transmitting pack pressure more reliably to the cavity.',
         },
         {
           type: 'list',
@@ -198,7 +198,7 @@ export const voidsGuide: DefectGuide = {
           items: [
             'Design for uniform wall thickness; core out bosses and ribs to eliminate thick masses.',
             'Locate gates at or near the thickest section so pack pressure can reach it before it freezes.',
-            'Size gates generously enough to delay gate freeze through the entire pack window.',
+            'Size gates generously enough to delay gate seal through the entire pack window.',
             'Profile injection: fast fill to gate, slow during pack for thick sections.',
             'Run a gate-seal study at startup — set hold time based on weight stabilization, not assumption.',
             'Dry hygroscopic resins to spec; verify dew point continuously.',
@@ -271,6 +271,6 @@ export const voidsGuide: DefectGuide = {
     { id: 'R5', text: 'Husky Injection Molding Systems — Hot Runner Systems Technical Manual.' },
     { id: 'R6', text: 'Mold-Masters — Hot Runner Temperature Control Best Practices.' },
     { id: 'R7', text: 'Ley, N. — Practical Guide to Injection Moulding (gate design & hold pressure optimization).' },
-    { id: 'R8', text: 'Technical Paper — Gate Freeze-Off Time Study for Thick-Section PP Parts.' },
+    { id: 'R8', text: 'Technical Paper — Gate Seal-Off Time Study for Thick-Section PP Parts.' },
   ],
 };

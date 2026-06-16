@@ -117,7 +117,7 @@ export const defectGuides: DefectGuide[] = [
             tone: 'info',
             title: 'Fastest reliable diagnostic sequence',
             text:
-              'Classify the defect (internal bubble vs surface blister vs shrinkage void vs sink) → verify actual resin moisture (don\'t trust the dryer setpoint) → measure actual melt temperature with a purge-shot pyrometer → check screw recovery, back pressure, decompression, check-ring → inspect venting, gate freeze timing, thick-to-thin transitions → see if the symptom changes with runner zone adjustment. Correct based on physical mechanism, not visual symptom alone. [R1][R4][R8][R9][R12]',
+              'Classify the defect (internal bubble vs surface blister vs shrinkage void vs sink) → verify actual resin moisture (don\'t trust the dryer setpoint) → measure actual melt temperature with a purge-shot pyrometer → check screw recovery, back pressure, decompression, check-ring → inspect venting, gate seal timing, thick-to-thin transitions → see if the symptom changes with runner zone adjustment. Correct based on physical mechanism, not visual symptom alone. [R1][R4][R8][R9][R12]',
           },
           {
             type: 'table',
@@ -126,7 +126,7 @@ export const defectGuides: DefectGuide[] = [
             rows: [
               ['Moisture content', 'Silvering, blistering, bubbles, odor', 'Moisture or hydrolysis risk', 'Measure resin moisture; verify dryer dew point and hopper sealing'],
               ['Melt temperature', 'Foamed purge, smoke, volatile smell', 'Thermal degradation / volatile release', 'Measure actual melt temperature at purge'],
-              ['Pack / hold', 'Internal bubbles in thick section', 'Shrinkage cavity or gas not compressed out', 'Review cavity pressure, pack pressure, gate freeze timing'],
+              ['Pack / hold', 'Internal bubbles in thick section', 'Shrinkage cavity or gas not compressed out', 'Review cavity pressure, pack pressure, gate seal timing'],
               ['Hot-runner zones', 'Defect worsens by cavity or nozzle', 'Tip or manifold imbalance / hold-up', 'Check zone actuals, sensor health, startup history'],
               ['Venting', 'End-of-fill bubble or blister near last-fill area', 'Gas entrapment', 'Inspect vents, witness marks, trapped-air locations'],
             ],
@@ -162,7 +162,7 @@ export const defectGuides: DefectGuide[] = [
               ['Bubble', 'Internal or sub-surface', 'May be invisible externally; visible in transparent parts', 'Gas / vapor pocket, sometimes combined with shrinkage'],
               ['Blister', 'Near skin', 'Raised dome or swollen patch', 'Gas trapped close to surface or skin separation'],
               ['Sink mark', 'Over thick section, rib, or boss', 'Depression or dimpling', 'External skin drawn inward by late shrinkage'],
-              ['Vacuum void', 'Core of thick section', 'Usually no surface sign until sectioned', 'Unfed core shrinkage after gate freeze'],
+              ['Vacuum void', 'Core of thick section', 'Usually no surface sign until sectioned', 'Unfed core shrinkage after gate seal'],
             ],
           },
           {
@@ -191,7 +191,7 @@ export const defectGuides: DefectGuide[] = [
           {
             type: 'paragraph',
             text:
-              'Morphology gives clues. Moisture-related defects often appear with silvering or foamed purge. Gas entrapment defects cluster at end-of-fill, near blind pockets, around thick-to-thin transitions, or adjacent to poorly vented features. Shrinkage-driven bubbles concentrate in thick sections and worsen when hold pressure/time is too low or gate freeze is too early. Surface blisters often appear after demolding or after warm storage as trapped gas expands. [R1][R2][R11][R12][R18]',
+              'Morphology gives clues. Moisture-related defects often appear with silvering or foamed purge. Gas entrapment defects cluster at end-of-fill, near blind pockets, around thick-to-thin transitions, or adjacent to poorly vented features. Shrinkage-driven bubbles concentrate in thick sections and worsen when hold pressure/time is too low or gate seal is too early. Surface blisters often appear after demolding or after warm storage as trapped gas expands. [R1][R2][R11][R12][R18]',
           },
           {
             type: 'image',
@@ -254,7 +254,7 @@ export const defectGuides: DefectGuide[] = [
           {
             type: 'paragraph',
             text:
-              'Injection pressure, hold pressure, and hold time distinguish gas defects from shrinkage cavities. If a bubble shrinks or disappears when hold pressure/time is increased and gate freeze delayed, the defect has a strong shrinkage component. If it persists despite greater packing but improves with drying, venting, or lower melt temperature, gas or moisture is more likely. [R4][R6]',
+              'Injection pressure, hold pressure, and hold time distinguish gas defects from shrinkage cavities. If a bubble shrinks or disappears when hold pressure/time is increased and gate seal delayed, the defect has a strong shrinkage component. If it persists despite greater packing but improves with drying, venting, or lower melt temperature, gas or moisture is more likely. [R4][R6]',
           },
           {
             type: 'paragraph',
@@ -273,7 +273,7 @@ export const defectGuides: DefectGuide[] = [
             columns: ['Design area', 'Cold runner', 'Hot runner', 'Bubble / blister consequence'],
             rows: [
               ['Thermal history', 'Shorter runner residence time; colder melt at gate', 'Longer manifold/nozzle residence time; more thermal zones', 'Cold runner reduces dwell-driven degradation but adds cold interfaces; hot runner can improve continuity OR create gas via overheating/hold-up'],
-              ['Gate condition', 'Sprue/runner can form cold slug; earlier gate freeze', 'Tip thermally conditioned; valve or open tip state matters', 'Cold slug or early freeze can seed bubbles; poorly tuned hot tip can overheat or drool'],
+              ['Gate condition', 'Sprue/runner can form cold slug; earlier gate seal', 'Tip thermally conditioned; valve or open tip state matters', 'Cold slug or early freeze can seed bubbles; poorly tuned hot tip can overheat or drool'],
               ['Maintenance burden', 'Lower controller complexity', 'Heaters, thermocouples, tips, manifold balancing required', 'Sensor drift or heater failure produces cavity-specific blisters'],
               ['Scrap / regrind loop', 'Runner scrap can add contamination if reground poorly', 'No runner scrap, but startup purge burden higher', 'Regrind moisture/contamination produces bubbles in cold runners; hot runner startup residue does the same'],
             ],
@@ -340,8 +340,8 @@ export const defectGuides: DefectGuide[] = [
           { type: 'paragraph', text: 'Part: matte-black structural carrier with rib field and screw bosses; 2-cavity cold-runner tool.' },
           { type: 'paragraph', text: 'Symptom: internal bubbles visible after sectioning and occasional shallow surface domes near boss roots after warm storage.' },
           { type: 'paragraph', text: 'Initial misdiagnosis: treated as sink only — hold pressure raised aggressively. Cosmetic surface improved slightly but sectioned parts still showed cavities.' },
-          { type: 'paragraph', text: 'Root cause: mixed mechanism — thick boss/rib intersections, early gate freeze in restrictive cold runner, insufficient pressure transmission to boss root. Modest gas content but the cavity behaved like a bubble because the core pulled away while the skin stayed intact.' },
-          { type: 'paragraph', text: 'Corrective actions: enlarged gate, increased hold time after gate-freeze study, reduced boss wall, cored the root. Containment included cavity-pressure monitoring.' },
+          { type: 'paragraph', text: 'Root cause: mixed mechanism — thick boss/rib intersections, early gate seal in restrictive cold runner, insufficient pressure transmission to boss root. Modest gas content but the cavity behaved like a bubble because the core pulled away while the skin stayed intact.' },
+          { type: 'paragraph', text: 'Corrective actions: enlarged gate, increased hold time after gate seal study, reduced boss wall, cored the root. Containment included cavity-pressure monitoring.' },
           { type: 'callout', tone: 'success', text: 'Outcome: internal bubbles eliminated; cavity-to-cavity variation collapsed within containment.' },
 
           { type: 'heading', level: 3, text: '3.2 Medical transparent housing — PC, hot runner' },
@@ -402,7 +402,7 @@ export const defectGuides: DefectGuide[] = [
             rows: [
               ['Foamed purge + silvering + bubbles', 'Moisture or degradation', 'Measure moisture; verify actual melt temp and residence time', 'Assuming the dryer setpoint proves the resin is dry'],
               ['Raised dome at last-fill area', 'Gas entrapment / blister', 'Inspect venting; reduce initial speed slightly; evaluate end-of-fill air trap', 'Treating it as sink and only increasing hold pressure'],
-              ['Internal bubble in thick boss', 'Shrinkage + gas / poor feed', 'Gate-freeze study; increase hold time / gate size; section part', 'Blaming venting only'],
+              ['Internal bubble in thick boss', 'Shrinkage + gas / poor feed', 'Gate seal study; increase hold time / gate size; section part', 'Blaming venting only'],
               ['Single hot-runner cavity affected', 'Nozzle-zone or residence imbalance', 'Swap or inspect nozzle zone; audit startup history', 'Changing global machine settings first'],
             ],
           },
@@ -427,7 +427,7 @@ export const defectGuides: DefectGuide[] = [
           {
             type: 'paragraph',
             text:
-              'Cold-runner molds: keep material dry and homogeneous before the runner, avoid excessive pressure loss through long/small runners, and maintain enough pack duration before gate freeze to feed thick sections. Cold runners may be more forgiving for moisture/degradation defects (lower runner residence time) but less forgiving for shrinkage (gate freezes earlier; pressure path longer). [R3][R6][R10]',
+              'Cold-runner molds: keep material dry and homogeneous before the runner, avoid excessive pressure loss through long/small runners, and maintain enough pack duration before gate seal to feed thick sections. Cold runners may be more forgiving for moisture/degradation defects (lower runner residence time) but less forgiving for shrinkage (gate seals earlier; pressure path longer). [R3][R6][R10]',
           },
           {
             type: 'paragraph',
@@ -470,7 +470,7 @@ export const defectGuides: DefectGuide[] = [
             rows: [
               ['Moisture / hydrolysis', 'Stop and prove moisture content; restore drying', 'Lower unnecessary melt temp; reduce dwell time', 'Inspect cold slug / purge evidence; do not blame runner first', 'Audit startup dwell, nozzle actuals, and hold-up zones immediately'],
               ['Gas entrapment / blister', 'Improve venting and modify fill profile', 'Reduce severe initial speed, then recover with faster mid-fill', 'Check last-fill venting and parting-line vent land', 'Check venting plus cavity-specific nozzle effects'],
-              ['Shrinkage-driven bubble', 'Increase hold pressure / time and delay gate freeze', 'Increase gate size or move gate closer to thick section', 'Long pressure path often makes this worse', 'Hot runner may improve feed if nozzle/tip is stable'],
+              ['Shrinkage-driven bubble', 'Increase hold pressure / time and delay gate seal', 'Increase gate size or move gate closer to thick section', 'Long pressure path often makes this worse', 'Hot runner may improve feed if nozzle/tip is stable'],
               ['Degradation / volatile release', 'Lower actual melt temp and reduce residence time', 'Purge contaminated material; inspect regrind and colorants', 'Simpler diagnosis — runner dwell is lower', 'Investigate manifold/nozzle overheating or stagnation first'],
             ],
           },
@@ -507,7 +507,7 @@ export const defectGuides: DefectGuide[] = [
           {
             type: 'paragraph',
             text:
-              'The most repeatable industry guidance comes from scientific molding: control melt preparation, prove actual melt conditions, track cavity pressure where justified, define the gate-freeze window, and distinguish filling defects from packing defects before making changes. Machine and hot-runner vendors emphasize maintenance, startup discipline, and real measurement over setpoint faith. [R8][R9][R10]',
+              'The most repeatable industry guidance comes from scientific molding: control melt preparation, prove actual melt conditions, track cavity pressure where justified, define the gate seal window, and distinguish filling defects from packing defects before making changes. Machine and hot-runner vendors emphasize maintenance, startup discipline, and real measurement over setpoint faith. [R8][R9][R10]',
           },
           {
             type: 'callout',
@@ -534,7 +534,7 @@ export const defectGuides: DefectGuide[] = [
               tone: 'success',
               items: [
                 'Step 1 splits the path on resin family — hygroscopic resins start with moisture verification.',
-                'Step 2 triages by location: thick section → gate-freeze study; end-of-fill → venting; cavity-specific → hot-runner audit.',
+                'Step 2 triages by location: thick section → gate seal study; end-of-fill → venting; cavity-specific → hot-runner audit.',
                 'Always verify actual melt temperature, purge quality, and back-pressure / decompression before changing setpoints.',
                 'Avoid the listed pitfalls — most repeat-offender defects come from skipping verification steps.',
               ],
@@ -550,7 +550,7 @@ export const defectGuides: DefectGuide[] = [
               'Inspect purge quality: foaming, odor, discoloration, unmelted particles, smoke.',
               'Review decompression, back pressure, screw recovery, and check-ring stability.',
               'Determine whether defect location is thick-section, end-of-fill, cavity-specific, or random.',
-              'For thick-section defects: run gate-freeze / hold study before changing venting only.',
+              'For thick-section defects: run gate seal / hold study before changing venting only.',
               'For end-of-fill defects: inspect vents, air traps, and fill-profile compression severity.',
               'For cavity-specific hot-runner defects: audit nozzle-zone actuals, startup dwell, and residue.',
               'Lock the corrected condition into an SOP with measured, not assumed, critical parameters.',

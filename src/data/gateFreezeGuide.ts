@@ -6,29 +6,29 @@ import gateFreezeSealTiming from '@/assets/gate-freeze-seal-timing.png';
 import gateFreezeStackMold from '@/assets/gate-freeze-stack-mold.png';
 
 export const gateFreezeGuide: KnowledgeGuide = {
-  slug: 'gate-freeze-off-kinetics',
-  title: 'Gate Freeze-Off Kinetics',
+  slug: 'gate seal-off-kinetics',
+  title: 'Gate Seal-Off Kinetics',
   summary:
-    'A comprehensive guide to understanding when and why the gate seals during packing — covering the physics of freeze-off, press settings that affect it, runner system differences, and how to run a gate-freeze study.',
+    'A comprehensive guide to understanding when and why the gate seals during packing — covering the physics of freeze-off, press settings that affect it, runner system differences, and how to run a gate seal study.',
   sections: [
-    /* ── Section 1: What Gate Freeze-Off Is ── */
+    /* ── Section 1: What Gate Seal-Off Is ── */
     {
       id: 'what-it-is',
-      title: '1. What Gate Freeze-Off Is',
+      title: '1. What Gate Seal-Off Is',
       blocks: [
         {
           type: 'paragraph',
-          text: 'Gate freeze-off is the point at which the polymer in the narrow gate solidifies enough that pack/hold pressure can no longer push material into the cavity. The gate has "sealed," and any additional hold time beyond this point is wasted cycle time.',
+          text: 'Gate seal-off is the point at which the polymer in the narrow gate solidifies enough that pack/hold pressure can no longer push material into the cavity. The gate has "sealed," and any additional hold time beyond this point is wasted cycle time.',
         },
         { type: 'heading', level: 3, text: '1.1 Definition' },
         {
           type: 'paragraph',
-          text: 'The word "kinetics" matters because gate freeze-off is not an instant event — it is a time-dependent process governed by heat transfer, pressure, gate geometry, and material behavior. In a classic cold-runner study, shot weight rises as hold time increases, then levels off when the gate freezes and additional hold time no longer adds material to the part.',
+          text: 'The word "kinetics" matters because gate seal-off is not an instant event — it is a time-dependent process governed by heat transfer, pressure, gate geometry, and material behavior. In a classic cold-runner study, shot weight rises as hold time increases, then levels off when the gate seals and additional hold time no longer adds material to the part.',
         },
         { type: 'heading', level: 3, text: '1.2 Why It Matters' },
         {
           type: 'paragraph',
-          text: 'Gate freeze-off kinetics is one of the main reasons hold time exists at all. The timing of the gate seal directly controls part quality and cycle efficiency:',
+          text: 'Gate seal-off kinetics is one of the main reasons hold time exists at all. The timing of the gate seal directly controls part quality and cycle efficiency:',
         },
         {
           type: 'list',
@@ -67,9 +67,9 @@ export const gateFreezeGuide: KnowledgeGuide = {
         {
           type: 'image',
           src: gateFreezeWeightVsHold,
-          alt: 'Graph showing part weight rising with hold time then plateauing at the gate freeze-off point.',
+          alt: 'Graph showing part weight rising with hold time then plateauing at the gate seal-off point.',
           figureNumber: 'Figure 1',
-          caption: 'Weight vs. Hold Time — Part weight rises as the cavity fills and packs. When the gate freezes, flow stops and weight plateaus.',
+          caption: 'Weight vs. Hold Time — Part weight rises as the cavity fills and packs. When the gate seals, flow stops and weight plateaus.',
         },
       ],
     },
@@ -80,7 +80,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
       blocks: [
         {
           type: 'paragraph',
-          text: 'Cold runner molds show the clearest gate freeze curve because the gate is expected to freeze thermally. The sealing process follows three distinct phases.',
+          text: 'Cold runner molds show the clearest gate seal curve because the gate is expected to freeze thermally. The sealing process follows three distinct phases.',
         },
         { type: 'heading', level: 3, text: '2.1 The Three Phases' },
         {
@@ -106,7 +106,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
           type: 'callout',
           tone: 'success',
           title: 'Study Tip',
-          text: 'Cold runner gate-freeze studies produce the sharpest, most readable plateau curves. They are the ideal starting point for learning this technique.',
+          text: 'Cold runner gate seal studies produce the sharpest, most readable plateau curves. They are the ideal starting point for learning this technique.',
         },
         {
           type: 'image',
@@ -124,7 +124,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
       blocks: [
         {
           type: 'paragraph',
-          text: 'How and when the gate seals differs significantly between cold runner, hot runner (open gate), and valve-gated hot runner systems. Understanding these differences is essential for interpreting gate-freeze studies correctly.',
+          text: 'How and when the gate seals differs significantly between cold runner, hot runner (open gate), and valve-gated hot runner systems. Understanding these differences is essential for interpreting gate seal studies correctly.',
         },
         { type: 'heading', level: 3, text: '3.1 Cold Runner' },
         {
@@ -195,7 +195,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
       blocks: [
         {
           type: 'paragraph',
-          text: 'Stack molds add complexity because upper and lower cavities can experience different cooling rates, so gate freeze-off can occur at different times.',
+          text: 'Stack molds add complexity because upper and lower cavities can experience different cooling rates, so gate seal-off can occur at different times.',
         },
         { type: 'heading', level: 3, text: '4.1 Why Levels Freeze Differently' },
         {
@@ -239,7 +239,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
             'Multiple parting planes with potentially asymmetric flow paths.',
             'Each gate or level can freeze at different times due to runner length, thermal exposure, pressure drop, and cooling balance differences.',
             'Stack molds demand more attention to cavity-to-cavity balance.',
-            'Verify balance by weighing parts from each level independently during gate-freeze studies.',
+            'Verify balance by weighing parts from each level independently during gate seal studies.',
             'Temperature matching between levels is critical for consistent seal timing.',
           ],
         },
@@ -248,7 +248,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
           src: gateFreezeStackMold,
           alt: 'Cross-section diagram of a stack mold showing different thermal paths between upper and lower cavity levels.',
           figureNumber: 'Figure 4',
-          caption: 'Stack Mold — Different Thermal Paths, Different Freeze-Off — Upper and lower cavities experience different cooling rates, causing gate freeze-off to occur at different times.',
+          caption: 'Stack Mold — Different Thermal Paths, Different Freeze-Off — Upper and lower cavities experience different cooling rates, causing gate seal-off to occur at different times.',
         },
       ],
     },
@@ -264,7 +264,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
         { type: 'heading', level: 3, text: '5.1 Press Settings' },
         {
           type: 'table',
-          caption: 'How Press Settings Change Gate Freeze-Off',
+          caption: 'How Press Settings Change Gate Seal-Off',
           columns: ['Setting', 'Increase It and the Gate Usually...', 'Why'],
           rows: [
             ['Melt temperature', 'Freezes later', 'Hotter melt needs more time to lose heat before sealing.'],
@@ -272,8 +272,8 @@ export const gateFreezeGuide: KnowledgeGuide = {
             ['Hold / pack pressure', 'Can keep the gate open slightly longer; increases amount packed before seal', 'Higher pressure keeps material dense and can delay the apparent end of weight increase; can also influence crystallization in some resins.'],
             ['Hold time', 'Does not change the physics of freeze-off, but determines whether you are holding before or after seal', 'Too short means backflow; too long means wasted time.'],
             ['Injection speed', 'Often changes apparent freeze behavior indirectly', 'Faster fill creates more shear heating and a different temperature history near the gate.'],
-            ['Back pressure', 'Affects melt conditioning, not gate freeze directly', 'Changes melt density, mixing, and barrel temperature uniformity more than gate sealing itself.'],
-            ['Cooling time', 'Does not change when the gate freezes', 'Cooling time is often reduced when hold time is increased during a study to keep total cycle constant.'],
+            ['Back pressure', 'Affects melt conditioning, not gate seal directly', 'Changes melt density, mixing, and barrel temperature uniformity more than gate sealing itself.'],
+            ['Cooling time', 'Does not change when the gate seals', 'Cooling time is often reduced when hold time is increased during a study to keep total cycle constant.'],
           ],
         },
         {
@@ -303,7 +303,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
     /* ── Section 6: Pre-Molding Choices & How to Study It ── */
     {
       id: 'study-method',
-      title: '6. How to Study Gate Freeze-Off',
+      title: '6. How to Study Gate Seal-Off',
       blocks: [
         { type: 'heading', level: 3, text: '6.1 What Changes Before Molding' },
         {
@@ -323,7 +323,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
         { type: 'heading', level: 3, text: '6.2 The Standard Method' },
         {
           type: 'paragraph',
-          text: 'The standard gate-freeze (gate-seal) study is straightforward:',
+          text: 'The standard gate seal (gate-seal) study is straightforward:',
         },
         {
           type: 'orderedList',
@@ -363,7 +363,7 @@ export const gateFreezeGuide: KnowledgeGuide = {
           type: 'callout',
           tone: 'success',
           title: 'Working Takeaway',
-          text: 'Gate freeze-off kinetics is the timing law that tells you when packing can stop without hurting the part. Master it by learning the interaction of gate geometry, heat transfer, pressure, and runner type — then validate with a real gate-freeze study on the actual mold.',
+          text: 'Gate seal-off kinetics is the timing law that tells you when packing can stop without hurting the part. Master it by learning the interaction of gate geometry, heat transfer, pressure, and runner type — then validate with a real gate seal study on the actual mold.',
         },
       ],
     },
