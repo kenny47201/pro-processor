@@ -630,7 +630,7 @@ export const defectDiagnostics: Record<string, DefectDiagnostics> = {
     ],
     calculators: [
       { toolId: 'cooling-time', text: 'Calculate differential cooling time for thick vs. thin sections.', label: 'Cooling Time Calculator', description: 'Thick sections cool much slower, driving internal stresses.' },
-      { toolId: 'gate seal', text: 'Determine if gate seals before thick section is packed.', label: 'Gate Seal Study', description: 'Early gate seal prevents packing of thick sections.' },
+      { toolId: 'gate-seal', text: 'Determine if gate seals before thick section is packed.', label: 'Gate Seal Study', description: 'Early gate seal prevents packing of thick sections.' },
       { toolId: 'tonnage', text: 'Verify clamp force for projected area at max injection pressure.', label: 'Tonnage Calculator', description: 'NUWT parts may require higher packing pressure.' },
     ],
     settings: [

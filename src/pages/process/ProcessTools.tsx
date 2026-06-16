@@ -54,7 +54,7 @@ const TOOL_REGISTRY: Record<string, ToolDef[]> = {
   ],
   optimization: [
     { id: 'viscosity-curve', label: 'Viscosity Curve', tab: 'optimization', Component: ViscosityCurveStudy },
-    { id: 'gate seal', label: 'Gate Seal Worksheet', tab: 'optimization', Component: GateSealWorksheet },
+    { id: 'gate-seal', label: 'Gate Seal Worksheet', tab: 'optimization', Component: GateSealWorksheet },
     { id: 'pack-hold', label: 'Pack & Hold Study', tab: 'optimization', Component: PackHoldStudy },
     { id: 'cooling-time', label: 'Cooling Time', tab: 'optimization', Component: CoolingTimeCalculator },
     { id: 'pressure-loss', label: 'Pressure Loss', tab: 'optimization', Component: PressureLossCalculator },

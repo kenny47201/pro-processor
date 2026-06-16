@@ -1811,7 +1811,7 @@ export const additionalDefectGuides: DefectGuide[] = [
       'Localized concave surface depressions produced when interior shrinkage exceeds the ability of the solidified skin and feed system to maintain the nominal outer profile — primarily a packing-and-freeze problem opposite thick features.',
     category: 'Cosmetic & Dimensional',
     severity: 'medium',
-    tags: ['shrinkage', 'pack pressure', 'gate seal', 'wall thickness', 'rib design', 'boss'],
+    tags: ['shrinkage', 'pack pressure', 'gate-seal', 'wall thickness', 'rib design', 'boss'],
     sections: [
       {
         id: 'executive-summary',

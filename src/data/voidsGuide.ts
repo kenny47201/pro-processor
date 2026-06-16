@@ -14,7 +14,7 @@ export const voidsGuide: DefectGuide = {
   category: 'Internal / Structural',
   severity: 'high',
   tags: [
-    'voids', 'vacuum void', 'shrinkage', 'pack pressure', 'gate seal',
+    'voids', 'vacuum void', 'shrinkage', 'pack pressure', 'gate-seal',
     'thick section', 'hot runner', 'cold runner', 'venting', 'moisture',
   ],
   sections: [

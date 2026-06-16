@@ -12,7 +12,7 @@ export const shrinkageGuide: DefectGuide = {
   category: 'Dimensional',
   severity: 'high',
   tags: [
-    'shrinkage', 'dimensional', 'pvT', 'pack/hold', 'gate seal',
+    'shrinkage', 'dimensional', 'pvT', 'pack/hold', 'gate-seal',
     'anisotropy', 'fiber orientation', 'cooling', 'hot runner', 'cold runner',
   ],
   sections: [

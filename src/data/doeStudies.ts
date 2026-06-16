@@ -496,7 +496,7 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Gate Seal',
     summary:
       'Determine the minimum pack/hold time after which additional hold time no longer increases part weight — the point at which the gate has frozen and pressure can no longer feed the cavity.',
-    linkedToolId: 'gate seal',
+    linkedToolId: 'gate-seal',
     linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Reference (PDF)', href: '/doe/gate-seal-study-guide.pdf' },
@@ -652,7 +652,7 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Decompression',
     summary:
       'Vary decompression amount, speed, and timing to find the minimum effective setting that relieves residual melt pressure without introducing air, splay, cushion instability, or false degradation symptoms.',
-    linkedToolId: 'gate seal',
+    linkedToolId: 'gate-seal',
     linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Manual (PDF)', href: '/doe/decompression-doe-manual.pdf' },
@@ -726,7 +726,7 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Hold Pressure Curve',
     summary:
       'Run a controlled second-stage pressure study to identify the center of the hold-pressure operating window where part weight, dimensions, cavity pressure response, and cosmetic quality remain robust without over-packing the mold.',
-    linkedToolId: 'gate seal',
+    linkedToolId: 'gate-seal',
     linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Reference (PDF)', href: '/doe/hold-pressure-curve-technical-reference.pdf' },
@@ -800,7 +800,7 @@ export const doeStudies: DoeStudy[] = [
     shortTitle: 'Hot Runner Balance',
     summary:
       'Run a cavity-by-cavity thermal DOE on the hot runner to separate true balance opportunity from tooling, heater, thermocouple, valve-gate, shear, or process-instability issues before approving zone offsets for production.',
-    linkedToolId: 'gate seal',
+    linkedToolId: 'gate-seal',
     linkedToolLabel: 'Gate Seal Worksheet',
     downloads: [
       { label: 'Technical Reference (PDF)', href: '/doe/hot-runner-balance-temp-doe-technical-reference.pdf' },
