@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUnits, inToMm } from '@/contexts/UnitSystemContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -23,6 +24,7 @@ const THERMAL_DIFFUSIVITY: Record<string, number> = {
 
 export function CoolingTimeCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Cooling Time Estimator');
+  const { L, isMetric } = useUnits();
   const [wallThickness, setWallThickness] = useState<string>('');
   const [meltTemp, setMeltTemp] = useState<string>('');
   const [moldTemp, setMoldTemp] = useState<string>('');
@@ -32,7 +34,8 @@ export function CoolingTimeCalculator() {
   const [result, setResult] = useState<{ coolingTime: number; minCoolingTime: number; recommendation: string } | null>(null);
 
   const handleCalculate = () => {
-    const h = parseFloat(wallThickness); // mm
+    const hInput = parseFloat(wallThickness);
+    const h = isMetric ? hInput : inToMm(hInput); // canonical mm
     const Tm = parseFloat(meltTemp);
     const Tw = parseFloat(moldTemp);
     const Te = parseFloat(ejectTemp);
@@ -42,7 +45,7 @@ export function CoolingTimeCalculator() {
     if (Te <= Tw || Tm <= Te) return;
 
     // Cooling time formula: t = (h²) / (π² × α) × ln(4/π × (Tm - Tw)/(Te - Tw))
-    // h in cm for calculation
+    // h in cm for calculation (temperature ratio is unit-agnostic between °F/°C)
     const hCm = h / 10;
     const coolingTime = (hCm * hCm) / (Math.PI * Math.PI * alpha) * Math.log((4 / Math.PI) * (Tm - Tw) / (Te - Tw));
     const minCoolingTime = coolingTime * 0.85;
@@ -100,24 +103,24 @@ export function CoolingTimeCalculator() {
           )}
           <div className="space-y-2">
             <Label className="flex items-center gap-1">
-              Max Wall Thickness (mm)
+              Max Wall Thickness ({L.length})
               <Tooltip><TooltipTrigger><Info className="h-3 w-3 text-muted-foreground" /></TooltipTrigger>
                 <TooltipContent>Thickest wall section of the part</TooltipContent>
               </Tooltip>
             </Label>
-            <Input type="number" step="0.1" placeholder="e.g., 3.0" value={wallThickness} onChange={(e) => setWallThickness(e.target.value)} />
+            <Input type="number" step="0.1" placeholder={isMetric ? 'e.g., 3.0' : 'e.g., 0.120'} value={wallThickness} onChange={(e) => setWallThickness(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>Melt Temperature (°F)</Label>
-            <Input type="number" placeholder="e.g., 500" value={meltTemp} onChange={(e) => setMeltTemp(e.target.value)} />
+            <Label>Melt Temperature ({L.temp})</Label>
+            <Input type="number" placeholder={isMetric ? 'e.g., 260' : 'e.g., 500'} value={meltTemp} onChange={(e) => setMeltTemp(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>Mold Temperature (°F)</Label>
-            <Input type="number" placeholder="e.g., 120" value={moldTemp} onChange={(e) => setMoldTemp(e.target.value)} />
+            <Label>Mold Temperature ({L.temp})</Label>
+            <Input type="number" placeholder={isMetric ? 'e.g., 50' : 'e.g., 120'} value={moldTemp} onChange={(e) => setMoldTemp(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>Ejection Temperature (°F)</Label>
-            <Input type="number" placeholder="e.g., 200" value={ejectTemp} onChange={(e) => setEjectTemp(e.target.value)} />
+            <Label>Ejection Temperature ({L.temp})</Label>
+            <Input type="number" placeholder={isMetric ? 'e.g., 95' : 'e.g., 200'} value={ejectTemp} onChange={(e) => setEjectTemp(e.target.value)} />
           </div>
         </div>
 
