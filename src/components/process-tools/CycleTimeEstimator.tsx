@@ -147,6 +147,39 @@ export function CycleTimeEstimator() {
                 💡 Cooling typically represents 60-80% of total cycle. Optimize cooling channels for the largest cycle reduction.
               </p>
             </div>
+
+            <div className="mt-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">Send to Press</p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3 text-sm">
+                <div>
+                  <p className="text-muted-foreground">Injection time limit</p>
+                  <p className="font-semibold">{(parseFloat(fillTime) || 0).toFixed(2)} s</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Pack / Hold timer</p>
+                  <p className="font-semibold">{(parseFloat(packHoldTime) || 0).toFixed(2)} s</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Cooling timer</p>
+                  <p className="font-semibold">{(parseFloat(coolingTime) || 0).toFixed(2)} s</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Mold open delay</p>
+                  <p className="font-semibold">{(parseFloat(moldOpenTime) || 0).toFixed(2)} s</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Ejection delay</p>
+                  <p className="font-semibold">{(parseFloat(ejectionTime) || 0).toFixed(2)} s</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Mold close delay</p>
+                  <p className="font-semibold">{(parseFloat(moldCloseTime) || 0).toFixed(2)} s</p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Key these values into the corresponding timer fields on the HMI. Expected total: <b>{result.totalCycle.toFixed(1)} s</b>.
+              </p>
+            </div>
           </div>
         )}
       </CardContent>

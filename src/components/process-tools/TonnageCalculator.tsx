@@ -7,8 +7,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { TYPICAL_CAVITY_PRESSURES } from '@/types/processTools';
+import { TYPICAL_CAVITY_PRESSURES, STANDARD_TONNAGES } from '@/types/processTools';
 import { useExport } from './ExportButton';
+import { HelperPopover } from './HelperPopover';
+import { rectangleAreaMm2, circleAreaMm2, mm2ToIn2, mm2ToCm2 } from '@/lib/geometryHelpers';
 
 type Units = 'imperial' | 'metric';
 
@@ -127,7 +129,12 @@ export function TonnageCalculator() {
         <div className="space-y-3">
           {/* Projected Area of 1 Part / Cavity */}
           <div className="grid grid-cols-[1fr_auto] items-center gap-3">
-            <Label htmlFor="partArea">Projected Area of 1 Part / Cavity</Label>
+            <div className="flex items-center gap-1 flex-wrap">
+              <Label htmlFor="partArea">Projected Area of 1 Part / Cavity</Label>
+              <HelperPopover title="Derive projected area from part dimensions" description="Enter the outline of the part as seen looking down at the parting line.">
+                <PartAreaDeriver isMetric={isMetric} onApply={(v) => setPartArea(v.toFixed(3))} />
+              </HelperPopover>
+            </div>
             <div className="flex items-center gap-2">
               <Input
                 id="partArea"
@@ -268,7 +275,92 @@ export function TonnageCalculator() {
             </div>
           </div>
         )}
+        {result && (() => {
+          // Send to Press: recommend next standard machine (imperial tons) with safety margin.
+          const tonnageUsTons = isMetric ? result.tonnage / METRIC_TONS_PER_US_TON : result.tonnage;
+          const withSafety = tonnageUsTons * 1.1;
+          const recommended = STANDARD_TONNAGES.find((t) => t >= withSafety) || STANDARD_TONNAGES[STANDARD_TONNAGES.length - 1];
+          return (
+            <div className="mt-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
+              <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">Send to Press</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                <div>
+                  <p className="text-muted-foreground">Required (+10% safety)</p>
+                  <p className="font-semibold">{withSafety.toFixed(1)} US tons</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Recommended machine size</p>
+                  <p className="font-semibold">{recommended} US tons</p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                Pick a press ≥ recommended. If capacity is tight, verify actual peak cavity pressure during a short-shot study.
+              </p>
+            </div>
+          );
+        })()}
       </CardContent>
     </Card>
+  );
+}
+
+// -----------------------------------------------------------------------------
+// Inline helper: derive projected area from part dimensions
+// -----------------------------------------------------------------------------
+function PartAreaDeriver({ isMetric, onApply }: { isMetric: boolean; onApply: (val: number) => void }) {
+  const [shape, setShape] = useState<'rect' | 'circle'>('rect');
+  const [l, setL] = useState('');
+  const [w, setW] = useState('');
+  const [d, setD] = useState('');
+
+  const compute = (): number | null => {
+    if (shape === 'rect') {
+      const lMm = parseFloat(l);
+      const wMm = parseFloat(w);
+      if (!lMm || !wMm) return null;
+      const mm2 = rectangleAreaMm2(lMm, wMm);
+      return isMetric ? mm2ToCm2(mm2) : mm2ToIn2(mm2);
+    }
+    const dMm = parseFloat(d);
+    if (!dMm) return null;
+    const mm2 = circleAreaMm2(dMm);
+    return isMetric ? mm2ToCm2(mm2) : mm2ToIn2(mm2);
+  };
+
+  const preview = compute();
+
+  return (
+    <div className="space-y-3">
+      <div className="flex gap-2">
+        <Button type="button" size="sm" variant={shape === 'rect' ? 'default' : 'outline'} onClick={() => setShape('rect')}>Rectangle</Button>
+        <Button type="button" size="sm" variant={shape === 'circle' ? 'default' : 'outline'} onClick={() => setShape('circle')}>Circle / Round</Button>
+      </div>
+      <p className="text-xs text-muted-foreground">Enter dimensions in <b>mm</b> (part outline as seen from the parting line).</p>
+      {shape === 'rect' ? (
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <Label className="text-xs">Length (mm)</Label>
+            <Input type="number" value={l} onChange={(e) => setL(e.target.value)} />
+          </div>
+          <div>
+            <Label className="text-xs">Width (mm)</Label>
+            <Input type="number" value={w} onChange={(e) => setW(e.target.value)} />
+          </div>
+        </div>
+      ) : (
+        <div>
+          <Label className="text-xs">Outside diameter (mm)</Label>
+          <Input type="number" value={d} onChange={(e) => setD(e.target.value)} />
+        </div>
+      )}
+      <div className="flex items-center justify-between pt-1">
+        <span className="text-xs text-muted-foreground">
+          {preview !== null ? `= ${preview.toFixed(3)} ${isMetric ? 'cm²' : 'in²'}` : '—'}
+        </span>
+        <Button type="button" size="sm" disabled={preview === null} onClick={() => preview !== null && onApply(preview)}>
+          Use this value
+        </Button>
+      </div>
+    </div>
   );
 }

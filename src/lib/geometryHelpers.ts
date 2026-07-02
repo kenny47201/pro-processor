@@ -65,6 +65,23 @@ export function sprueConeCc(smallDiameterMm: number, largeDiameterMm: number, le
   return (Math.PI * lengthMm * (r1 * r1 + r1 * r2 + r2 * r2)) / (3 * MM3_PER_CC);
 }
 
+// ---------- Projected area (mm² → in²/cm²) ----------
+
+const IN2_PER_MM2 = 1 / 645.16;
+const CM2_PER_MM2 = 1 / 100;
+
+/** Rectangle projected area */
+export function rectangleAreaMm2(lMm: number, wMm: number): number {
+  return lMm * wMm;
+}
+/** Circle projected area */
+export function circleAreaMm2(diameterMm: number): number {
+  const r = diameterMm / 2;
+  return Math.PI * r * r;
+}
+export function mm2ToIn2(mm2: number): number { return mm2 * IN2_PER_MM2; }
+export function mm2ToCm2(mm2: number): number { return mm2 * CM2_PER_MM2; }
+
 // ---------- Machine translation ----------
 
 /**
