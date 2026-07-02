@@ -52,7 +52,12 @@ export function ThroughputCalculator() {
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="shotWeight">Shot Weight (g)</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="shotWeight">Shot Weight (g)</Label>
+              <HelperPopover title="Derive shot weight" description="Shot weight = (part weight × cavities) + runner weight">
+                <ShotWeightHelper onApply={(g) => setShotWeight(g.toFixed(2))} />
+              </HelperPopover>
+            </div>
             <Input
               id="shotWeight"
               type="number"
