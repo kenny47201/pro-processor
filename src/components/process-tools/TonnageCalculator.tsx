@@ -129,7 +129,12 @@ export function TonnageCalculator() {
         <div className="space-y-3">
           {/* Projected Area of 1 Part / Cavity */}
           <div className="grid grid-cols-[1fr_auto] items-center gap-3">
-            <Label htmlFor="partArea">Projected Area of 1 Part / Cavity</Label>
+            <div className="flex items-center gap-1 flex-wrap">
+              <Label htmlFor="partArea">Projected Area of 1 Part / Cavity</Label>
+              <HelperPopover title="Derive projected area from part dimensions" description="Enter the outline of the part as seen looking down at the parting line.">
+                <PartAreaDeriver isMetric={isMetric} onApply={(v) => setPartArea(v.toFixed(3))} />
+              </HelperPopover>
+            </div>
             <div className="flex items-center gap-2">
               <Input
                 id="partArea"
