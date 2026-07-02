@@ -40,21 +40,6 @@ export function TonnageCalculator() {
   const tonsPerAreaUnit = isMetric ? 'tons / sq.cm' : 'tons / sq.in';
   const tonUnit = isMetric ? 'metric tons' : 'US tons';
 
-  const convertArea = (val: string, toMetric: boolean) => {
-    const n = parseFloat(val);
-    if (isNaN(n)) return val;
-    return (toMetric ? n * CM2_PER_IN2 : n / CM2_PER_IN2).toFixed(3);
-  };
-
-  const convertTPA = (val: string, toMetric: boolean) => {
-    const n = parseFloat(val);
-    if (isNaN(n)) return val;
-    // imperial: US tons/in². metric: metric tons/cm².
-    const converted = toMetric
-      ? (n * METRIC_TONS_PER_US_TON) / CM2_PER_IN2
-      : (n * CM2_PER_IN2) / METRIC_TONS_PER_US_TON;
-    return converted.toFixed(4);
-  };
 
   // Clear inputs when the global unit system flips.
   useEffect(() => {
