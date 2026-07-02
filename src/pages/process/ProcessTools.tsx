@@ -336,6 +336,5 @@ function ProcessToolsInner() {
         </TabsContent>
       </Tabs>
     </div>
-    </UnitSystemProvider>
   );
 }
