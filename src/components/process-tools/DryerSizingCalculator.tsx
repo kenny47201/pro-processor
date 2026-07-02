@@ -13,6 +13,7 @@ import { useExport } from './ExportButton';
 
 export function DryerSizingCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Dryer Sizing Calculator');
+  const { L, isMetric } = useUnits();
   const [throughput, setThroughput] = useState<string>('');
   const [selectedMaterial, setSelectedMaterial] = useState<string>('');
   const [residenceTime, setResidenceTime] = useState<string>('');
@@ -28,7 +29,8 @@ export function DryerSizingCalculator() {
   };
 
   const handleCalculate = () => {
-    const thru = parseFloat(throughput);
+    const thruInput = parseFloat(throughput);
+    const thru = isMetric ? kgToLb(thruInput) : thruInput; // canonical lb/hr
     const time = parseFloat(residenceTime);
     const density = parseFloat(bulkDensity) || 35;
     const safety = parseFloat(safetyFactor) || 1.25;
@@ -80,12 +82,12 @@ export function DryerSizingCalculator() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="throughput">Material Throughput (lb/hr)</Label>
+            <Label htmlFor="throughput">Material Throughput ({L.flowMass})</Label>
             <Input
               id="throughput"
               type="number"
               step="0.1"
-              placeholder="e.g., 25.5"
+              placeholder={isMetric ? 'e.g., 11.5' : 'e.g., 25.5'}
               value={throughput}
               onChange={(e) => setThroughput(e.target.value)}
             />
@@ -179,7 +181,9 @@ export function DryerSizingCalculator() {
               <div>
                 <p className="text-sm text-muted-foreground">Recommended Dryer Capacity</p>
                 <p className="text-2xl font-bold text-primary">
-                  {result.recommendedDryerCapacityLbHr.toFixed(1)} lb/hr
+                  {isMetric
+                    ? `${lbToKg(result.recommendedDryerCapacityLbHr).toFixed(1)} kg/hr`
+                    : `${result.recommendedDryerCapacityLbHr.toFixed(1)} lb/hr`}
                 </p>
               </div>
             </div>
