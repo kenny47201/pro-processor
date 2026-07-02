@@ -132,6 +132,23 @@ export function VentDepthCalculator() {
                 💡 Vent depth is material-dependent. Too deep = flash. Too shallow = burns and shorts. Always verify with material supplier TDS.
               </p>
             </div>
+
+            <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Toolroom — Vent Cut Spec</p>
+              <ul className="text-xs space-y-1">
+                <li>• <span className="font-semibold">Vent depth:</span> {result.depth.typical.toFixed(4)}" (min {result.depth.min.toFixed(4)}" / max {result.depth.max.toFixed(4)}")</li>
+                <li>• <span className="font-semibold">Vent width:</span> {parseFloat(ventWidth).toFixed(3)}" each</li>
+                <li>• <span className="font-semibold">Land length:</span> {result.ventLandLength.toFixed(3)}" then relieve to 0.010" for {(result.ventLandLength * 5).toFixed(3)}"</li>
+                {result.recommendedVents > 0 && (
+                  <>
+                    <li>• <span className="font-semibold">Quantity:</span> ~{result.recommendedVents} vents evenly around parting line</li>
+                    <li>• <span className="font-semibold">Total vent width:</span> {result.totalVentLength.toFixed(2)}"</li>
+                  </>
+                )}
+                <li>• Also vent ejector pins, subgates, and last-to-fill areas identified by short-shot study.</li>
+                <li>• Tolerance: −0.0000 / +0.0002" on depth. Verify with feeler gauge after cutting.</li>
+              </ul>
+            </div>
           </div>
         )}
       </CardContent>

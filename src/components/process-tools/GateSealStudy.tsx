@@ -179,6 +179,19 @@ export function GateSealStudy() {
                 </p>
               </div>
             )}
+
+            {getSealTime() !== null && (
+              <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+                <p className="text-sm font-semibold text-primary mb-2">📋 Send to Press — Hold Timer Setpoints</p>
+                <ul className="text-xs space-y-1">
+                  <li>• <span className="font-semibold">Minimum Hold (HMI):</span> {getSealTime()!.toFixed(1)} s (seal point)</li>
+                  <li>• <span className="font-semibold">Production Hold (+10% buffer):</span> {(getSealTime()! * 1.1).toFixed(1)} s ← recommended setpoint</li>
+                  <li>• <span className="font-semibold">Safe Hold (+20% buffer):</span> {(getSealTime()! * 1.2).toFixed(1)} s (for high-shrink materials)</li>
+                  <li>• <span className="font-semibold">Cooling Timer:</span> subtract hold time from total in-mold time — see Cooling Time Calculator.</li>
+                  <li>• Any hold time beyond the seal point is wasted cycle. Reducing to {(getSealTime()! * 1.1).toFixed(1)} s can save {Math.max(0, (results!.at(-1)!.holdTime - getSealTime()! * 1.1)).toFixed(1)} s/cycle.</li>
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </CardContent>

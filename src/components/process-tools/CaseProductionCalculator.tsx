@@ -134,6 +134,17 @@ export function CaseProductionCalculator() {
                 <p className="text-xs text-muted-foreground mt-1">scrap cycles × cav ÷ pieces</p>
               </div>
             </div>
+
+            <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Scheduling / Packout</p>
+              <ul className="text-xs space-y-1">
+                <li>• <span className="font-semibold">Pallet build rate:</span> {result.casesPerHour.toFixed(2)} cases/hr → operator changes gaylord/pallet every {(60 / result.casesPerHour).toFixed(1)} min per case.</li>
+                <li>• <span className="font-semibold">Per shift (8 hr):</span> {(result.casesPerHour * 8).toFixed(0)} cases • <span className="font-semibold">24 hr:</span> {(result.casesPerHour * 24).toFixed(0)} cases</li>
+                <li>• <span className="font-semibold">Order-to-run time:</span> divide order qty (cases) by {result.casesPerHour.toFixed(2)} to get run hours.</li>
+                <li>• <span className="font-semibold">Startup allowance:</span> add {result.startupScrapCases.toFixed(2)} cases to material order for startup scrap.</li>
+                <li>• <span className="font-semibold">Label print qty:</span> order qty ÷ {result.shotsPerCase.toFixed(0)} shots/case × safety factor.</li>
+              </ul>
+            </div>
           </div>
         )}
       </CardContent>

@@ -166,6 +166,22 @@ export function CostPerPartCalculator() {
                 })}
               </div>
             </div>
+
+            <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Sales / Scheduling</p>
+              <ul className="text-xs space-y-1">
+                <li>• <span className="font-semibold">Quote floor (0% margin):</span> ${result.totalCost.toFixed(4)}/part</li>
+                <li>• <span className="font-semibold">15% margin quote:</span> ${(result.totalCost * 1.15).toFixed(4)}/part (${(result.totalCost * 1.15 * 1000).toFixed(2)}/1000)</li>
+                <li>• <span className="font-semibold">25% margin quote:</span> ${(result.totalCost * 1.25).toFixed(4)}/part (${(result.totalCost * 1.25 * 1000).toFixed(2)}/1000)</li>
+                <li>• <span className="font-semibold">Break-even qty vs. tool cost:</span> use (tool $) ÷ margin/part.</li>
+                {result.materialCost / result.totalCost > 0.6 && (
+                  <li className="pt-1">💡 Material is {((result.materialCost / result.totalCost) * 100).toFixed(0)}% of cost — highest leverage: increase regrind % or reduce runner weight.</li>
+                )}
+                {result.machineCost / result.totalCost > 0.4 && (
+                  <li className="pt-1">💡 Machine cost dominates — target cycle time reduction (see Cycle Time Estimator).</li>
+                )}
+              </ul>
+            </div>
           </div>
         )}
       </CardContent>

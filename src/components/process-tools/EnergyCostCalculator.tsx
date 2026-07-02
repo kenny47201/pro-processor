@@ -132,6 +132,17 @@ export function EnergyCostCalculator() {
                 </div>
               )}
             </div>
+
+            <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Cost / Facilities</p>
+              <ul className="text-xs space-y-1">
+                <li>• <span className="font-semibold">Add to Cost/Part:</span> ${result.costPerPart > 0 ? result.costPerPart.toFixed(4) : '—'} (paste into Cost Per Part → utilities line).</li>
+                <li>• <span className="font-semibold">Annual utility budget line:</span> ${result.costPerYear.toLocaleString(undefined, { maximumFractionDigits: 0 })}</li>
+                <li>• <span className="font-semibold">Peak demand estimate:</span> {(result.totalKw * 1.25).toFixed(1)} kW (size breaker/service ≥ this).</li>
+                <li>• 10% utilization improvement saves: ${(result.costPerYear * 0.10).toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr</li>
+                <li>• Servo/all-electric retrofit typically saves 30–60% vs. hydraulic → potential ${(result.costPerYear * 0.4).toLocaleString(undefined, { maximumFractionDigits: 0 })}/yr.</li>
+              </ul>
+            </div>
           </div>
         )}
       </CardContent>

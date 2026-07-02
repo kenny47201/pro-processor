@@ -199,6 +199,19 @@ export function ViscosityCurveStudy() {
                 </p>
               </div>
             )}
+
+            {findOptimalRegion() && (
+              <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+                <p className="text-sm font-semibold text-primary mb-2">📋 Send to Press — Injection Setpoints</p>
+                <ul className="text-xs space-y-1">
+                  <li>• <span className="font-semibold">Fill Time (HMI):</span> {findOptimalRegion()!.fillTime.toFixed(2)} s</li>
+                  <li>• <span className="font-semibold">Injection Speed (HMI):</span> {findOptimalRegion()!.speed || '—'} % (adjust to hit the fill time above)</li>
+                  <li>• <span className="font-semibold">Flow Rate target:</span> {findOptimalRegion()!.shearRate.toFixed(1)} cm³/s</li>
+                  <li>• <span className="font-semibold">Injection Pressure Limit:</span> set 10–20% above the peak psi observed at this speed to ensure velocity-controlled fill.</li>
+                  <li>• Lock this speed in the process sheet — this is where viscosity is least sensitive to shot-to-shot variation.</li>
+                </ul>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
