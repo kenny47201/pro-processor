@@ -30,6 +30,8 @@ import { PinnedToolsBar, PinnedToolItem } from '@/components/process-tools/Pinne
 import { PinnableToolWrapper } from '@/components/process-tools/PinnableToolWrapper';
 import { usePinnedTools } from '@/hooks/usePinnedTools';
 import { DoeStudyViewer } from '@/components/process-tools/DoeStudyViewer';
+import { UnitSystemProvider } from '@/contexts/UnitSystemContext';
+import { UnitSystemToggle } from '@/components/process-tools/UnitSystemToggle';
 import { Wrench, Scale, Gauge, Thermometer, FlaskConical } from 'lucide-react';
 
 type ToolDef = {
@@ -145,15 +147,19 @@ export default function ProcessTools() {
   );
 
   return (
+    <UnitSystemProvider>
     <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
-          <Wrench className="h-6 w-6 text-primary" />
-          Process Tools
-        </h1>
-        <p className="text-muted-foreground mt-1">
-          Engineering calculators, studies, and analysis tools for injection molding
-        </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
+            <Wrench className="h-6 w-6 text-primary" />
+            Process Tools
+          </h1>
+          <p className="text-muted-foreground mt-1">
+            Engineering calculators, studies, and analysis tools for injection molding
+          </p>
+        </div>
+        <UnitSystemToggle />
       </div>
 
       <PinnedToolsBar
@@ -322,5 +328,6 @@ export default function ProcessTools() {
         </TabsContent>
       </Tabs>
     </div>
+    </UnitSystemProvider>
   );
 }
