@@ -108,7 +108,12 @@ export function PressureLossCalculator() {
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label className="text-sm">Flow Rate (cc/s)</Label>
+            <div className="flex items-center justify-between">
+              <Label className="text-sm">Flow Rate (cc/s)</Label>
+              <HelperPopover title="Derive flow rate" description="Flow rate = shot volume ÷ fill time">
+                <FlowRateHelper onApply={(v) => setFlowRate(v.toFixed(1))} />
+              </HelperPopover>
+            </div>
             <Input type="number" value={flowRate} onChange={e => setFlowRate(e.target.value)} className="h-8 text-sm" />
           </div>
           <div>
