@@ -154,6 +154,24 @@ export function CpkCalculator() {
                 <li>• &gt; 1.67: Excellent — Six Sigma level</li>
               </ul>
             </div>
+
+            <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Quality / Process</p>
+              {result.cpk >= 1.33 ? (
+                <ul className="text-xs space-y-1">
+                  <li>✅ Process is capable — lock the current setpoints in the process sheet.</li>
+                  <li>• Reduce SPC sampling frequency; monitor mean drift toward {((parseFloat(usl) + parseFloat(lsl)) / 2).toFixed(4)}.</li>
+                  <li>• Target center: {((parseFloat(usl) + parseFloat(lsl)) / 2).toFixed(4)} (current μ offset: {(result.mean - (parseFloat(usl) + parseFloat(lsl)) / 2).toFixed(4)}).</li>
+                </ul>
+              ) : (
+                <ul className="text-xs space-y-1">
+                  <li>⚠️ Process not capable — hold shipment pending containment.</li>
+                  <li>• Recenter to target {((parseFloat(usl) + parseFloat(lsl)) / 2).toFixed(4)} (shift μ by {((parseFloat(usl) + parseFloat(lsl)) / 2 - result.mean).toFixed(4)}).</li>
+                  <li>• Reduce σ from {result.stdDev.toFixed(4)} to ≤ {((parseFloat(usl) - parseFloat(lsl)) / (6 * 1.33)).toFixed(4)} to reach Cpk ≥ 1.33.</li>
+                  <li>• Run a viscosity curve + cavity variation study to identify variation sources.</li>
+                </ul>
+              )}
+            </div>
           </div>
         )}
       </CardContent>

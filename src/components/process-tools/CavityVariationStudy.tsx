@@ -174,6 +174,23 @@ export function CavityVariationStudy() {
                 <li>• CV &gt; 10%: Poor balance, investigate hot runner or filling issues</li>
               </ul>
             </div>
+
+            <div className="mt-4 pt-4 border-t bg-primary/5 -mx-4 -mb-4 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Toolroom / Process</p>
+              <ul className="text-xs space-y-1">
+                <li>• Target weight for all cavities: <span className="font-semibold">{result.average.toFixed(3)} g</span> (±{(result.average * 0.02).toFixed(3)} g for 2% CV).</li>
+                {weights.map((w, i) => {
+                  const wt = parseFloat(w);
+                  if (isNaN(wt) || wt <= 0) return null;
+                  const dev = ((wt - result.average) / result.average) * 100;
+                  const action = Math.abs(dev) < 2 ? '✅ Hold' : dev > 0 ? '🔻 Restrict gate / reduce flow' : '🔺 Enlarge gate / increase flow';
+                  return <li key={i}>Cavity {i + 1}: {wt.toFixed(3)} g ({dev >= 0 ? '+' : ''}{dev.toFixed(2)}%) → {action}</li>;
+                })}
+                {result.coefficientOfVariation > 5 && (
+                  <li className="pt-1">⚠️ Also run Runner Balance Calculator to compute per-cavity Ø adjustments.</li>
+                )}
+              </ul>
+            </div>
           </div>
         )}
       </CardContent>
