@@ -144,6 +144,26 @@ export function CoolingTimeCalculator() {
             <p className="text-sm text-muted-foreground mt-3">{result.recommendation}</p>
           </div>
         )}
+
+        {result && (
+          <div className="mt-3 p-4 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-xs font-semibold uppercase tracking-wide text-primary mb-2">Send to Press</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+              <div>
+                <p className="text-muted-foreground">Cooling Timer (HMI)</p>
+                <p className="font-semibold">{result.coolingTime.toFixed(1)} s</p>
+              </div>
+              <div>
+                <p className="text-muted-foreground">Aggressive target (85%)</p>
+                <p className="font-semibold">{result.minCoolingTime.toFixed(1)} s</p>
+              </div>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              Enter the full estimate as the Cooling Timer first; only trim toward the 85% target after verifying
+              part stability, dimensional shrink, and eject quality across 30 consecutive shots.
+            </p>
+          </div>
+        )}
       </CardContent>
     </Card>
   );
