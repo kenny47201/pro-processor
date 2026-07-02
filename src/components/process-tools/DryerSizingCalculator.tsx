@@ -200,6 +200,24 @@ export function DryerSizingCalculator() {
                 </div>
               </div>
             )}
+
+            <div className="mt-4 pt-4 border-t rounded-md border border-primary/30 bg-primary/5 p-3 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Send to Material Handling</p>
+              <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                <span className="text-muted-foreground">Hopper size (min)</span>
+                <span className="font-mono font-semibold">{result.requiredHopperVolumeCuFt.toFixed(1)} ft³ ({(result.requiredHopperVolumeCuFt * 7.48).toFixed(0)} gal)</span>
+                <span className="text-muted-foreground">Dryer air rating</span>
+                <span className="font-mono font-semibold">≥ {result.recommendedDryerCapacityLbHr.toFixed(0)} lb/hr</span>
+                {selectedMaterial && DRYING_PARAMETERS[selectedMaterial] && (
+                  <>
+                    <span className="text-muted-foreground">HMI dryer setpoint</span>
+                    <span className="font-mono font-semibold">{DRYING_PARAMETERS[selectedMaterial].temp}°F, dp ≤ {DRYING_PARAMETERS[selectedMaterial].dewPoint}°F</span>
+                    <span className="text-muted-foreground">Start-of-run purge</span>
+                    <span className="font-mono font-semibold">{DRYING_PARAMETERS[selectedMaterial].time} hr before molding</span>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </CardContent>

@@ -195,6 +195,22 @@ export function ChillerSizingCalculator() {
                 <li>• Verify pump capacity meets GPM requirement at mold pressure drop</li>
               </ul>
             </div>
+
+            <div className="mt-3 rounded-md border border-primary/30 bg-primary/5 p-3 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Send to Utilities</p>
+              <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                <span className="text-muted-foreground">Chiller nameplate</span>
+                <span className="font-mono font-semibold">{Math.ceil(result.tonsRequired * 1.2)} tons (+20% margin)</span>
+                <span className="text-muted-foreground">Pump GPM (min)</span>
+                <span className="font-mono font-semibold">{result.gpmRequired.toFixed(1)} GPM per mold</span>
+                <span className="text-muted-foreground">Supply water setpoint</span>
+                <span className="font-mono font-semibold">{Math.max(45, parseFloat(ejectTemp) - 100).toFixed(0)}°F typical</span>
+                <span className="text-muted-foreground">Mold ΔT (in→out)</span>
+                <span className="font-mono font-semibold">≤ {deltaT}°F across circuit</span>
+                <span className="text-muted-foreground">Manifold sizing</span>
+                <span className="font-mono font-semibold">≥ {(result.gpmRequired / 4).toFixed(1)} GPM / circuit (4 loops)</span>
+              </div>
+            </div>
           </div>
         )}
       </CardContent>

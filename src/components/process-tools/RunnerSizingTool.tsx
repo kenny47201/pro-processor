@@ -191,6 +191,23 @@ export function RunnerSizingTool() {
               </div>
             </div>
 
+            <div className="rounded-md border border-primary/30 bg-primary/5 p-3 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Send to Toolroom</p>
+              <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                <span className="text-muted-foreground">Cut runner Ø</span>
+                <span className="font-mono font-semibold">{result.recommendedDiameter.toFixed(1)} mm (+0.1 / −0.0)</span>
+                <span className="text-muted-foreground">Sub-runner Ø (branch)</span>
+                <span className="font-mono font-semibold">{(result.recommendedDiameter * 0.85).toFixed(1)} mm</span>
+                <span className="text-muted-foreground">Sprue O Ø (large end)</span>
+                <span className="font-mono font-semibold">{(result.recommendedDiameter + 2).toFixed(1)} mm</span>
+                <span className="text-muted-foreground">Land length target</span>
+                <span className="font-mono font-semibold">≤ 1.0 mm at gate</span>
+              </div>
+              <p className="text-[10px] text-muted-foreground pt-1">
+                Full-round preferred. Confirm with short-shot balance before final EDM.
+              </p>
+            </div>
+
             <div className="text-[10px] text-muted-foreground bg-muted/20 rounded p-2">
               <strong>Guidelines:</strong> Runner Ø should be 1.5–2× wall thickness. Full-round runners are preferred. 
               Keep shear rate below 50,000 s⁻¹ for most materials. Verify with short-shot studies.
