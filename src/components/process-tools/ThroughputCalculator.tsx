@@ -3,9 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { Calculator } from 'lucide-react';
+import { Calculator, Send } from 'lucide-react';
 import { calculateThroughput } from '@/lib/processCalculations';
 import { useExport } from './ExportButton';
+import { HelperPopover } from './HelperPopover';
 
 export function ThroughputCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Throughput Calculator');
