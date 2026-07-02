@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useUnits } from '@/contexts/UnitSystemContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -53,6 +54,9 @@ export function CycleTimeEstimator() {
     setMoldOpenTime('1.5'); setEjectionTime('1.0'); setMoldCloseTime('1.5');
     setRobotTime('0'); setResult(null);
   };
+
+  const { resetNonce } = useUnits();
+  useEffect(() => { handleReset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [resetNonce]);
 
   return (
     <Card ref={cardRef}>

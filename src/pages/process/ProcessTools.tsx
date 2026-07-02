@@ -30,7 +30,7 @@ import { PinnedToolsBar, PinnedToolItem } from '@/components/process-tools/Pinne
 import { PinnableToolWrapper } from '@/components/process-tools/PinnableToolWrapper';
 import { usePinnedTools } from '@/hooks/usePinnedTools';
 import { DoeStudyViewer } from '@/components/process-tools/DoeStudyViewer';
-import { UnitSystemProvider } from '@/contexts/UnitSystemContext';
+import { UnitSystemProvider, useUnits } from '@/contexts/UnitSystemContext';
 import { UnitSystemToggle } from '@/components/process-tools/UnitSystemToggle';
 import { Wrench, Scale, Gauge, Thermometer, FlaskConical } from 'lucide-react';
 
@@ -84,6 +84,15 @@ function findTool(id: string) {
 }
 
 export default function ProcessTools() {
+  return (
+    <UnitSystemProvider>
+      <ProcessToolsInner />
+    </UnitSystemProvider>
+  );
+}
+
+function ProcessToolsInner() {
+  const { resetNonce } = useUnits();
   const [activeTab, setActiveTab] = useState('setup');
   const [searchParams, setSearchParams] = useSearchParams();
   const { pinned, isPinned, toggle, clear } = usePinnedTools();
@@ -134,7 +143,7 @@ export default function ProcessTools() {
     >
       {tools.map(({ id, label, Component }) => (
         <PinnableToolWrapper
-          key={id}
+          key={`${id}-${resetNonce}`}
           id={id}
           label={label}
           pinned={isPinned(id)}
@@ -147,7 +156,6 @@ export default function ProcessTools() {
   );
 
   return (
-    <UnitSystemProvider>
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
@@ -328,6 +336,5 @@ export default function ProcessTools() {
         </TabsContent>
       </Tabs>
     </div>
-    </UnitSystemProvider>
   );
 }
