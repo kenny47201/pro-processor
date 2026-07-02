@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useUnits } from '@/contexts/UnitSystemContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -42,6 +43,9 @@ export function EnergyCostCalculator() {
 
     setResult({ totalKw, kwhPerDay, costPerDay, costPerYear, costPerHour, energyPerPart, costPerPart });
   };
+
+  const { resetNonce } = useUnits();
+  useEffect(() => { handleReset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [resetNonce]);
 
   const handleReset = () => {
     setMachineKw(''); setUtilizationPct('70'); setElectricRate('0.10');

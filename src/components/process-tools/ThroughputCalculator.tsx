@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useUnits, lbToKg } from '@/contexts/UnitSystemContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -35,6 +36,9 @@ export function ThroughputCalculator() {
     setPiecesPerCase('100');
     setResult(null);
   };
+
+  const { isMetric, resetNonce } = useUnits();
+  useEffect(() => { handleReset(); /* eslint-disable-next-line react-hooks/exhaustive-deps */ }, [resetNonce]);
 
   return (
     <Card ref={cardRef}>
@@ -133,9 +137,9 @@ export function ThroughputCalculator() {
                 </p>
               </div>
               <div>
-                <p className="text-sm text-muted-foreground">Lb/Hour</p>
+                <p className="text-sm text-muted-foreground">{isMetric ? 'Kg/Hour' : 'Lb/Hour'}</p>
                 <p className="text-xl font-bold text-primary">
-                  {result.lbPerHour.toFixed(2)}
+                  {(isMetric ? lbToKg(result.lbPerHour) : result.lbPerHour).toFixed(2)}
                 </p>
               </div>
               <div>
@@ -156,8 +160,8 @@ export function ThroughputCalculator() {
                 <p className="font-medium">{(result.casesPerHour * 8).toFixed(1)}</p>
               </div>
               <div>
-                <p className="text-muted-foreground">Lb per Shift (8hr)</p>
-                <p className="font-medium">{(result.lbPerHour * 8).toFixed(1)}</p>
+                <p className="text-muted-foreground">{isMetric ? 'Kg' : 'Lb'} per Shift (8hr)</p>
+                <p className="font-medium">{((isMetric ? lbToKg(result.lbPerHour) : result.lbPerHour) * 8).toFixed(1)}</p>
               </div>
             </div>
 
