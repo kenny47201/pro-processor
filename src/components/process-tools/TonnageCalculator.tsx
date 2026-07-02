@@ -1,16 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { TYPICAL_CAVITY_PRESSURES, STANDARD_TONNAGES } from '@/types/processTools';
 import { useExport } from './ExportButton';
 import { HelperPopover } from './HelperPopover';
 import { rectangleAreaMm2, circleAreaMm2, mm2ToIn2, mm2ToCm2 } from '@/lib/geometryHelpers';
+import { useUnits } from '@/contexts/UnitSystemContext';
 
 type Units = 'imperial' | 'metric';
 
@@ -25,7 +25,8 @@ const tonsPerSqInToMetric = (t: number) => (t * METRIC_TONS_PER_US_TON) / CM2_PE
 
 export function TonnageCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Clamp Tonnage Calculator');
-  const [units, setUnits] = useState<Units>('imperial');
+  const { system, resetNonce } = useUnits();
+  const units: Units = system;
   const [partArea, setPartArea] = useState<string>('');
   const [cavities, setCavities] = useState<string>('');
   const [runnerArea, setRunnerArea] = useState<string>('');
@@ -39,31 +40,15 @@ export function TonnageCalculator() {
   const tonsPerAreaUnit = isMetric ? 'tons / sq.cm' : 'tons / sq.in';
   const tonUnit = isMetric ? 'metric tons' : 'US tons';
 
-  const convertArea = (val: string, toMetric: boolean) => {
-    const n = parseFloat(val);
-    if (isNaN(n)) return val;
-    return (toMetric ? n * CM2_PER_IN2 : n / CM2_PER_IN2).toFixed(3);
-  };
 
-  const convertTPA = (val: string, toMetric: boolean) => {
-    const n = parseFloat(val);
-    if (isNaN(n)) return val;
-    // imperial: US tons/in². metric: metric tons/cm².
-    const converted = toMetric
-      ? (n * METRIC_TONS_PER_US_TON) / CM2_PER_IN2
-      : (n * CM2_PER_IN2) / METRIC_TONS_PER_US_TON;
-    return converted.toFixed(4);
-  };
-
-  const handleUnitsChange = (next: Units) => {
-    if (!next || next === units) return;
-    const toMetric = next === 'metric';
-    setPartArea((v) => convertArea(v, toMetric));
-    setRunnerArea((v) => convertArea(v, toMetric));
-    setTonsPerArea((v) => convertTPA(v, toMetric));
-    setUnits(next);
+  // Clear inputs when the global unit system flips.
+  useEffect(() => {
+    setPartArea('');
+    setRunnerArea('');
+    setTonsPerArea('');
     setResult(null);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetNonce]);
 
   const handleMaterialChange = (mat: string) => {
     setMaterial(mat);
@@ -107,18 +92,7 @@ export function TonnageCalculator() {
       <CardHeader>
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <CardTitle className="flex items-center gap-2">Clamp Tonnage Calculator</CardTitle>
-          <div className="flex items-center gap-2">
-            <ToggleGroup
-              type="single"
-              size="sm"
-              value={units}
-              onValueChange={(v) => handleUnitsChange(v as Units)}
-            >
-              <ToggleGroupItem value="imperial" aria-label="Imperial units">Imperial</ToggleGroupItem>
-              <ToggleGroupItem value="metric" aria-label="Metric units">Metric</ToggleGroupItem>
-            </ToggleGroup>
-            <ExportBtn />
-          </div>
+          <ExportBtn />
         </div>
         <CardDescription>
           Total Projected Area × Required Tonnage per unit area = Calculated Tonnage

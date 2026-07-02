@@ -1,43 +1,44 @@
+# Global Units Toggle for Process Tools
+
 ## Goal
-Make every process calculator self-sufficient: technicians can derive every required input from part measurements, material data, or machine specs without leaving Process Tools, and can translate results into values they can key directly into the press.
+Add one global Metric/Imperial switch to the Process Tools header. Every calculator reads it, relabels its inputs/outputs, and clears its state when the user flips the switch. Default is Imperial.
 
-## Pattern (applied to all 22 calculators)
-Each calculator gets three consistent additions:
+## Architecture
 
-1. **Info popovers on every input** — explain what the value is, where to measure it, typical ranges, and a "Help me calculate this" link that opens an inline mini-calculator (Popover + small form) which writes the result back into the parent field.
-2. **Inline helper calculators** — small self-contained forms that appear inside the popover or an expandable "Derive from measurements" section. No page navigation.
-3. **"Send to press" output block** — every calculator ends with a section that converts the abstract result into a machine-input value (mm of stroke, °C setpoints, seconds of hold, cm³/s injection speed, etc.), with the exact label the tech sees on the HMI.
+**1. New `UnitSystemContext` (`src/contexts/UnitSystemContext.tsx`)**
+- State: `system: 'imperial' | 'metric'` (default `'imperial'`, persisted to `localStorage`).
+- Exposes `system`, `setSystem`, and a `resetNonce` counter that increments on every switch — calculators listen to it to clear their state.
+- Ships a `useUnits()` hook + shared conversion helpers (`toMm`, `toIn`, `cToF`, `fToC`, `barToPsi`, `psiToBar`, `gToOz`, `ozToG`, `lbToKg`, `kgToLb`, `cm3ToIn3`, `in3ToCm3`, etc.).
+- Ships a `unitLabels` object per system so components pull labels from a single source (e.g. `L.length`, `L.temp`, `L.pressure`, `L.mass`, `L.volume`, `L.flowRate`).
 
-## Phase 1 — Shot Volume & Weight Calculator (this turn)
+**2. Provider + toggle in `ProcessTools.tsx`**
+- Wrap the page in `<UnitSystemProvider>`.
+- Add a segmented `Imperial | Metric` control in the page header (right side of the H1 row).
+- Show a small toast when switching: "Units switched to Metric — inputs cleared."
 
-Add three inline helpers + a shot-size translator:
+**3. Per-calculator changes** (applied uniformly to all 22 tools + Material Data Sheet display units)
+- Import `useUnits()` and destructure `system`, `resetNonce`, and the relevant labels.
+- Replace hard-coded unit strings in `<Label>`, `<CardDescription>`, placeholders, and result units with values from `unitLabels`.
+- Convert user input to the calculation's canonical unit before calling the shared math in `processCalculations.ts` / `geometryHelpers.ts` — the underlying formulas stay unchanged.
+- Convert result values back to the active system for display (e.g. tonnage stays as US tons but shows kN alongside when metric; cooling temps switch °F↔°C; wall thickness in↔mm; pressures psi↔bar; volumes in³↔cm³; masses oz/lb↔g/kg).
+- `useEffect(() => handleReset(), [resetNonce])` on each calculator so all inputs and results clear on switch.
 
-**A. "Single Part Volume" helper** (popover on the Part Volume input)
-- Method 1: From part weight + material density → `V = weight / density`
-- Method 2: From simple geometry (box, cylinder, disc) → volume formula picker
-- "Use this value" button writes back to Part Volume field
+**4. Tools that are already unit-agnostic**
+- `UnitConverterTool`, `CpkCalculator`, `RejectRateAnalyzer`, `CavityVariationStudy` (grams are SI and used globally), `ThroughputCalculator` (lb/hr vs kg/hr toggle), `EnergyCostCalculator` (kWh is SI; only currency stays), `CostPerPartCalculator` (currency only) — these still get the label swap where a unit is shown, but no math changes.
 
-**B. "Runner Volume" helper** (popover on the Runner Volume input)
-- Full-round: `V = π × (d/2)² × L × n`
-- Trapezoidal: `V = ((top+bottom)/2) × depth × L × n`
-- Half-round: `V = 0.5 × π × (d/2)² × L × n`
-- Plus sprue cone: `V = (π × L / 3) × (R₁² + R₁R₂ + R₂²)`
-- Sums all segments, writes back to Runner Volume field
-
-**C. New "Shot Size → Machine Stroke" translator** (added below results)
-- Inputs: barrel/screw diameter (mm), cushion (mm, default 3–5), decompression (mm, default 0)
-- Formula: `stroke_mm = (shotVolume_cc × 1000) / (π × (D/2)²) + cushion + decompression`
-- Output labeled **"Shot Size (mm)"** and **"Transfer Position estimate (mm)"** at 95% fill — exactly what the tech types into the press.
-
-## Phase 2 — Apply pattern to remaining calculators (next turns, one per turn to keep changes reviewable)
-
-For each: Tonnage, Throughput, Cavity Variation, Runner Pressure Loss, Runner Scrap/Yield, Shear Rate, Dryer, Chiller, Cooling Time, Cycle Time, Cost/Part, Cpk, Energy Cost, Gate Seal, Melt Density, Pack/Hold, Pressure Loss, Reject Rate, Runner Balance, Runner Sizing, Vent Depth, Viscosity Curve, Unit Converter — add the equivalent input-helpers + "Send to press" translation block.
+## Rollout Order
+1. Context + provider + header toggle.
+2. Setup & Sizing tab (Tonnage, Shot Volume, Melt Density, Throughput, Case Production, Runner Scrap, Cavity Variation, Shear Rate, Dryer, Chiller).
+3. Optimization tab (Viscosity, Gate Seal, Pack/Hold, Cooling Time, Pressure Loss, Runner Sizing, Runner Balance).
+4. Quality tab (Cpk, Reject Rate, Cost per Part).
+5. Utilities tab (Material Data Sheet, Vent Depth, Cycle Time, Energy Cost). Unit Converter unchanged.
 
 ## Technical Notes
-- New shared component `src/components/process-tools/HelperPopover.tsx` — wraps an Info icon in a Popover, renders children (the mini-calc), exposes an `onApply(value)` callback that writes to the parent field.
-- New helper module `src/lib/geometryHelpers.ts` — box/cylinder/disc/tube volumes, runner shapes, sprue cone, screw stroke math.
-- Reuse existing `MATERIAL_DENSITIES` for weight→volume conversions.
-- Zero backend changes.
+- Canonical internal units chosen to match the existing formulas so `processCalculations.ts` is untouched: length mm, temp °F for cooling (formula is unit-agnostic in ΔT), pressure psi, mass g, volume cm³, flow g/s, force US tons. Conversions happen only at the input/output boundary of each component.
+- `resetNonce` avoids each calculator having to diff `system` itself and prevents stale mixed-unit values.
+- Label maps live in the context file so we never re-hardcode "mm" or "°F" in component JSX.
 
-## Deliverable This Turn
-Only Phase 1 (Shot Volume calculator). After you confirm the pattern feels right, I'll roll it across the other 21 calculators.
+## Out of Scope
+- DOE viewer content (static reference material with embedded units in prose).
+- Knowledge docs / defect guides.
+- Persisting per-user preference to the backend (localStorage is enough for now; can be moved to profile later).
