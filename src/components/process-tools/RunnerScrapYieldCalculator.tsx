@@ -231,6 +231,24 @@ export function RunnerScrapYieldCalculator() {
                 <li>• Optimize runner design to minimize cold runner volume</li>
               </ul>
             </div>
+
+            <div className="mt-3 rounded-md border border-primary/30 bg-primary/5 p-3 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Send to Scheduling / Materials</p>
+              <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                <span className="text-muted-foreground">Order virgin (lb / hr)</span>
+                <span className="font-mono font-semibold">{(result.partOutputLbPerHour + result.runnerScrapLbPerHour).toFixed(2)}</span>
+                <span className="text-muted-foreground">Regrind cap @ 25%</span>
+                <span className="font-mono font-semibold">{(result.runnerScrapLbPerHour * 0.25).toFixed(2)} lb/hr back</span>
+                <span className="text-muted-foreground">Grind rate needed</span>
+                <span className="font-mono font-semibold">≥ {(result.runnerScrapLbPerHour * 1.1).toFixed(1)} lb/hr</span>
+                {result.costPerShift !== undefined && (
+                  <>
+                    <span className="text-muted-foreground">Recover w/ 25% regrind</span>
+                    <span className="font-mono font-semibold">${(result.costPerShift * 0.25).toFixed(2)} / shift</span>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </CardContent>

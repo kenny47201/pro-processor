@@ -230,6 +230,26 @@ export function RunnerBalanceCalculator() {
                 <p>• Review cavities with highest Flow Index values — longer runners with smaller diameters create more resistance.</p>
               </div>
             )}
+
+            <div className="rounded-md border border-primary/30 bg-primary/5 p-3 space-y-1.5">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wide">Send to Toolroom</p>
+              <p className="text-xs">Increase runner Ø on cavities running <strong>slow / light</strong>; reduce Ø or add flow restrictor on cavities running <strong>fast / heavy</strong>. Target ≤2% fill Δ and ≤1% weight Δ.</p>
+              <div className="grid grid-cols-[1fr_70px_90px] gap-1 text-[11px] pt-1">
+                <span className="text-muted-foreground font-medium">Cavity</span>
+                <span className="text-muted-foreground font-medium">Δ Wt</span>
+                <span className="text-muted-foreground font-medium">Action</span>
+                {result.cavityDetails.map(d => {
+                  const action = d.weightDeviation < -1 ? 'Enlarge Ø' : d.weightDeviation > 1 ? 'Restrict / balance' : 'Hold';
+                  return (
+                    <div key={d.label} className="contents">
+                      <span>{d.label}</span>
+                      <span className="font-mono">{d.weightDeviation > 0 ? '+' : ''}{d.weightDeviation.toFixed(1)}%</span>
+                      <span className="font-medium">{action}</span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         )}
       </CardContent>
