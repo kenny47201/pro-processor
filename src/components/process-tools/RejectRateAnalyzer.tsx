@@ -164,6 +164,18 @@ export function RejectRateAnalyzer() {
               </div>
               <p className="text-xs text-muted-foreground mt-2">Red bars = vital few (80% of defects). Focus improvement efforts here.</p>
             </div>
+
+            <div className="pt-3 border-t bg-primary/5 -m-4 mt-3 p-4 rounded-b-lg">
+              <p className="text-sm font-semibold text-primary mb-2">📋 Send to Quality / Process</p>
+              <ul className="text-xs space-y-1">
+                {result.pareto.filter(d => d.cumPct <= 80).slice(0, 3).map((d, i) => (
+                  <li key={i}>• <span className="font-semibold">{d.defect}</span> ({d.count} rejects, {d.pct.toFixed(0)}% of scrap) → open Defect Guide, run root-cause DOE.</li>
+                ))}
+                <li className="pt-1">• <span className="font-semibold">Scrap cost impact:</span> {result.totalRejects} rejects × cost/part = enter in Cost Per Part → scrap rate {result.rejectRate.toFixed(1)}%.</li>
+                <li>• Fixing the top {Math.min(3, result.pareto.length)} defects addresses ~{result.pareto.slice(0, 3).reduce((s, d) => s + d.pct, 0).toFixed(0)}% of scrap.</li>
+                {result.rejectRate > 5 && <li className="pt-1">⚠️ Reject rate &gt; 5% — hold shipment and containment sort until root cause identified.</li>}
+              </ul>
+            </div>
           </div>
         )}
       </CardContent>
