@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUnits, gToOz, ozToG, fToC, cToF, gpmToLpm } from '@/contexts/UnitSystemContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -11,6 +12,7 @@ import { useExport } from './ExportButton';
 
 export function ChillerSizingCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Chiller Sizing Calculator');
+  const { L, isMetric } = useUnits();
   const [shotWeight, setShotWeight] = useState<string>('');
   const [cycleTime, setCycleTime] = useState<string>('');
   const [meltTemp, setMeltTemp] = useState<string>('450');
@@ -20,12 +22,13 @@ export function ChillerSizingCalculator() {
   const [result, setResult] = useState<ReturnType<typeof calculateChillerSizing> | null>(null);
 
   const handleCalculate = () => {
-    const weight = parseFloat(shotWeight);
+    // Canonicalize inputs: shot weight → grams; temps → °F
+    const weight = isMetric ? parseFloat(shotWeight) : ozToG(parseFloat(shotWeight));
     const cycle = parseFloat(cycleTime);
-    const melt = parseFloat(meltTemp);
-    const eject = parseFloat(ejectTemp);
+    const melt = isMetric ? cToF(parseFloat(meltTemp)) : parseFloat(meltTemp);
+    const eject = isMetric ? cToF(parseFloat(ejectTemp)) : parseFloat(ejectTemp);
     const cp = parseFloat(specificHeat);
-    const dt = parseFloat(deltaT);
+    const dt = isMetric ? parseFloat(deltaT) * 9 / 5 : parseFloat(deltaT);
 
     if (isNaN(weight) || isNaN(cycle) || isNaN(melt) || isNaN(eject)) return;
 
@@ -59,12 +62,12 @@ export function ChillerSizingCalculator() {
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="shotWeight">Shot Weight (g)</Label>
+            <Label htmlFor="shotWeight">Shot Weight ({L.mass})</Label>
             <Input
               id="shotWeight"
               type="number"
               step="0.1"
-              placeholder="e.g., 45.5"
+              placeholder={isMetric ? 'e.g., 45.5' : 'e.g., 1.6'}
               value={shotWeight}
               onChange={(e) => setShotWeight(e.target.value)}
             />
@@ -83,24 +86,24 @@ export function ChillerSizingCalculator() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="meltTemp">Melt Temperature (°F)</Label>
+            <Label htmlFor="meltTemp">Melt Temperature ({L.temp})</Label>
             <Input
               id="meltTemp"
               type="number"
               step="5"
-              placeholder="e.g., 450"
+              placeholder={isMetric ? 'e.g., 230' : 'e.g., 450'}
               value={meltTemp}
               onChange={(e) => setMeltTemp(e.target.value)}
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="ejectTemp">Eject Temperature (°F)</Label>
+            <Label htmlFor="ejectTemp">Eject Temperature ({L.temp})</Label>
             <Input
               id="ejectTemp"
               type="number"
               step="5"
-              placeholder="e.g., 180"
+              placeholder={isMetric ? 'e.g., 80' : 'e.g., 180'}
               value={ejectTemp}
               onChange={(e) => setEjectTemp(e.target.value)}
             />
@@ -130,7 +133,7 @@ export function ChillerSizingCalculator() {
 
           <div className="space-y-2">
             <Label htmlFor="deltaT" className="flex items-center gap-1">
-              Allowable ΔT (°F)
+              Allowable ΔT ({L.temp})
               <Tooltip>
                 <TooltipTrigger>
                   <Info className="h-3 w-3 text-muted-foreground" />
@@ -182,7 +185,9 @@ export function ChillerSizingCalculator() {
               <div>
                 <p className="text-sm text-muted-foreground">Flow Rate Required</p>
                 <p className="text-2xl font-bold text-primary">
-                  {result.gpmRequired.toFixed(1)} GPM
+                  {isMetric
+                    ? `${gpmToLpm(result.gpmRequired).toFixed(1)} L/min`
+                    : `${result.gpmRequired.toFixed(1)} GPM`}
                 </p>
               </div>
             </div>

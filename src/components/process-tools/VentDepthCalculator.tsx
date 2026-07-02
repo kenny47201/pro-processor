@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useUnits, inToMm } from '@/contexts/UnitSystemContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -28,6 +29,10 @@ const VENT_DEPTHS: Record<string, { min: number; max: number; typical: number; u
 
 export function VentDepthCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Vent Depth Reference');
+  const { isMetric } = useUnits();
+  const fmt = (inches: number) => isMetric
+    ? `${inToMm(inches).toFixed(3)} mm`
+    : `${inches.toFixed(4)}"`;
   const [material, setMaterial] = useState<string>('');
   const [partPerimeter, setPartPerimeter] = useState<string>('');
   const [ventWidth, setVentWidth] = useState<string>('0.250');
@@ -40,11 +45,13 @@ export function VentDepthCalculator() {
 
   const handleCalculate = () => {
     if (!material || !VENT_DEPTHS[material]) return;
-    const perim = parseFloat(partPerimeter) || 0;
-    const width = parseFloat(ventWidth) || 0.250;
+    const perimInput = parseFloat(partPerimeter) || 0;
+    const perim = isMetric ? perimInput / 25.4 : perimInput; // canonical inches
+    const widthInput = parseFloat(ventWidth) || (isMetric ? 6.35 : 0.250);
+    const width = isMetric ? widthInput / 25.4 : widthInput; // canonical inches
     const depth = VENT_DEPTHS[material];
-    const ventLandLength = 0.040; // typical land length
-    const recommendedVents = perim > 0 ? Math.ceil(perim / 1.0) : 0; // roughly 1 vent per inch
+    const ventLandLength = 0.040;
+    const recommendedVents = perim > 0 ? Math.ceil(perim / 1.0) : 0;
     const totalVentLength = recommendedVents * width;
 
     setResult({ depth, ventLandLength, recommendedVents, totalVentLength });
@@ -81,12 +88,12 @@ export function VentDepthCalculator() {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Part Perimeter at Parting Line (in)</Label>
-            <Input type="number" step="0.1" placeholder="e.g., 12.5" value={partPerimeter} onChange={(e) => setPartPerimeter(e.target.value)} />
+            <Label>Part Perimeter at Parting Line ({isMetric ? 'mm' : 'in'})</Label>
+            <Input type="number" step="0.1" placeholder={isMetric ? 'e.g., 320' : 'e.g., 12.5'} value={partPerimeter} onChange={(e) => setPartPerimeter(e.target.value)} />
           </div>
           <div className="space-y-2">
-            <Label>Vent Width (in)</Label>
-            <Input type="number" step="0.025" placeholder="0.250" value={ventWidth} onChange={(e) => setVentWidth(e.target.value)} />
+            <Label>Vent Width ({isMetric ? 'mm' : 'in'})</Label>
+            <Input type="number" step={isMetric ? '0.5' : '0.025'} placeholder={isMetric ? '6.35' : '0.250'} value={ventWidth} onChange={(e) => setVentWidth(e.target.value)} />
           </div>
         </div>
 
@@ -102,15 +109,15 @@ export function VentDepthCalculator() {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <p className="text-sm text-muted-foreground">Min Depth</p>
-                <p className="text-xl font-bold">{result.depth.min.toFixed(4)}"</p>
+                <p className="text-xl font-bold">{fmt(result.depth.min)}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Typical Depth</p>
-                <p className="text-xl font-bold text-primary">{result.depth.typical.toFixed(4)}"</p>
+                <p className="text-xl font-bold text-primary">{fmt(result.depth.typical)}</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Max Depth</p>
-                <p className="text-xl font-bold">{result.depth.max.toFixed(4)}"</p>
+                <p className="text-xl font-bold">{fmt(result.depth.max)}</p>
               </div>
             </div>
 
