@@ -241,11 +241,11 @@ export function RunnerBalanceCalculator() {
                 {result.cavityDetails.map(d => {
                   const action = d.weightDeviation < -1 ? 'Enlarge Ø' : d.weightDeviation > 1 ? 'Restrict / balance' : 'Hold';
                   return (
-                    <>
-                      <span key={d.label + '-l'}>{d.label}</span>
-                      <span key={d.label + '-d'} className="font-mono">{d.weightDeviation > 0 ? '+' : ''}{d.weightDeviation.toFixed(1)}%</span>
-                      <span key={d.label + '-a'} className="font-medium">{action}</span>
-                    </>
+                    <div key={d.label} className="contents">
+                      <span>{d.label}</span>
+                      <span className="font-mono">{d.weightDeviation > 0 ? '+' : ''}{d.weightDeviation.toFixed(1)}%</span>
+                      <span className="font-medium">{action}</span>
+                    </div>
                   );
                 })}
               </div>

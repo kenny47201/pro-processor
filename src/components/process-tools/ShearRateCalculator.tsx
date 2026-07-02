@@ -223,6 +223,48 @@ export function ShearRateCalculator() {
                 <li>• &gt; 100,000 s⁻¹: Excessive — risk of degradation, splay</li>
               </ul>
             </div>
+
+            {(() => {
+              const rate = result.shearRate;
+              // If shear too high, propose min gate size to bring it to 50k s^-1
+              const Q = calculateFlowRateFromFill(); // cm3/s
+              const Q_m3s = Q / 1e6;
+              const targetRate = 50000;
+              // For circular: γ = 4Q/(πr³) → r = (4Q/(π·γ))^(1/3)
+              const rMin_m = Math.cbrt((4 * Q_m3s) / (Math.PI * targetRate));
+              const dMinMm = rMin_m * 2 * 1000;
+              // For fill-time increase to reduce shear proportionally
+              const currentFill = parseFloat(fillTime) || 0;
+              const suggestedFill = currentFill > 0 && rate > targetRate ? currentFill * (rate / targetRate) : currentFill;
+              return (
+                <div className="mt-3 rounded-md border border-primary/30 bg-primary/5 p-3 space-y-1.5">
+                  <p className="text-xs font-semibold text-primary uppercase tracking-wide">Send to Press / Toolroom</p>
+                  <div className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs">
+                    {rate > targetRate ? (
+                      <>
+                        <span className="text-muted-foreground">Min gate Ø to hit 50k s⁻¹</span>
+                        <span className="font-mono font-semibold">{dMinMm.toFixed(2)} mm</span>
+                        {currentFill > 0 && (
+                          <>
+                            <span className="text-muted-foreground">Or slow fill time to</span>
+                            <span className="font-mono font-semibold">{suggestedFill.toFixed(2)} s</span>
+                          </>
+                        )}
+                        <span className="text-muted-foreground">HMI action</span>
+                        <span className="font-semibold">Reduce injection velocity in the gate segment</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="text-muted-foreground">Shear headroom</span>
+                        <span className="font-mono font-semibold">OK — no press change needed</span>
+                        <span className="text-muted-foreground">Safe fill-time floor</span>
+                        <span className="font-mono font-semibold">{(currentFill * (rate / targetRate)).toFixed(2)} s min</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+              );
+            })()}
           </div>
         )}
       </CardContent>
