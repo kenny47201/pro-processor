@@ -157,19 +157,6 @@ function ProcessToolsInner() {
 
   return (
     <div className="space-y-6">
-          label={label}
-          pinned={isPinned(id)}
-          onTogglePin={toggle}
-        >
-          <Component />
-        </PinnableToolWrapper>
-      ))}
-    </div>
-  );
-
-  return (
-    <UnitSystemProvider>
-    <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
