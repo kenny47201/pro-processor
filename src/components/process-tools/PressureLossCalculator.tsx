@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Calculator } from 'lucide-react';
+import { Plus, Trash2, Send } from 'lucide-react';
 import { useExport } from './ExportButton';
+import { HelperPopover } from './HelperPopover';
 
 interface RunnerSegment {
   id: number;
@@ -107,7 +108,12 @@ export function PressureLossCalculator() {
       <CardContent className="space-y-4">
         <div className="grid grid-cols-2 gap-3">
           <div>
-            <Label className="text-sm">Flow Rate (cc/s)</Label>
+            <div className="flex items-center justify-between">
+              <Label className="text-sm">Flow Rate (cc/s)</Label>
+              <HelperPopover title="Derive flow rate" description="Flow rate = shot volume ÷ fill time">
+                <FlowRateHelper onApply={(v) => setFlowRate(v.toFixed(1))} />
+              </HelperPopover>
+            </div>
             <Input type="number" value={flowRate} onChange={e => setFlowRate(e.target.value)} className="h-8 text-sm" />
           </div>
           <div>
@@ -167,9 +173,51 @@ export function PressureLossCalculator() {
             {results.totalLoss > 15000 && (
               <p className="text-xs text-destructive">⚠ High pressure loss — consider increasing runner diameters or reducing flow rate.</p>
             )}
+
+            <div className="rounded-lg p-3 border-2 border-primary/30 bg-primary/5 space-y-2">
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <Send className="h-4 w-4 text-primary" /> Send to Press — Injection Pressure Limit
+              </p>
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div>
+                  <p className="text-xs text-muted-foreground">Runner Loss</p>
+                  <p className="text-base font-bold text-primary">{results.totalLoss.toFixed(0)} psi</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">+ Cavity (est. 3000)</p>
+                  <p className="text-base font-bold text-primary">{(results.totalLoss + 3000).toFixed(0)} psi</p>
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Max Limit (+20%)</p>
+                  <p className="text-base font-bold text-primary">{((results.totalLoss + 3000) * 1.2).toFixed(0)} psi</p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Set the HMI <span className="font-mono">Injection Pressure Limit</span> to the +20% value. Divide by your machine's intensification ratio to enter hydraulic PSI.
+              </p>
+            </div>
           </div>
         )}
       </CardContent>
     </Card>
+  );
+}
+
+function FlowRateHelper({ onApply }: { onApply: (v: number) => void }) {
+  const [vol, setVol] = useState('');
+  const [time, setTime] = useState('');
+  const q = (parseFloat(vol) || 0) / (parseFloat(time) || 1);
+  return (
+    <div className="space-y-2">
+      <div className="grid grid-cols-2 gap-2">
+        <div><Label className="text-xs">Shot Vol (cc)</Label><Input type="number" step="0.1" value={vol} onChange={e => setVol(e.target.value)} className="h-8" /></div>
+        <div><Label className="text-xs">Fill Time (s)</Label><Input type="number" step="0.01" value={time} onChange={e => setTime(e.target.value)} className="h-8" /></div>
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-xs text-muted-foreground">Flow rate</span>
+        <span className="text-sm font-semibold">{q.toFixed(1)} cc/s</span>
+      </div>
+      <Button size="sm" className="w-full h-7 text-xs" onClick={() => onApply(q)} disabled={!q || !isFinite(q)}>Apply</Button>
+    </div>
   );
 }

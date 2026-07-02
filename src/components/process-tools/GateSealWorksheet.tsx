@@ -257,6 +257,31 @@ export function GateSealWorksheet() {
               </div>
             </div>
 
+            {sealTime !== null && (
+              <div className="rounded-lg p-4 border-2 border-primary/30 bg-primary/5 space-y-2">
+                <p className="text-sm font-semibold flex items-center gap-2">
+                  <Clock className="h-4 w-4 text-primary" /> Send to Press — Hold Timer
+                </p>
+                <div className="grid grid-cols-3 gap-3">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Minimum</p>
+                    <p className="text-base font-bold text-primary">{sealTime.toFixed(1)} s</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Production (+10%)</p>
+                    <p className="text-base font-bold text-primary">{(sealTime * 1.1).toFixed(1)} s</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Safe (+20%)</p>
+                    <p className="text-base font-bold text-primary">{(sealTime * 1.2).toFixed(1)} s</p>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Enter the +10% value in the HMI as <span className="font-mono">Hold Time</span>. Remaining cooling is set by the Cooling Timer (see Cooling Time calculator).
+                </p>
+              </div>
+            )}
+
             {/* Data table */}
             <div className="border rounded-lg overflow-hidden">
               <table className="w-full text-sm">
