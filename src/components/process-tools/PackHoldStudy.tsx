@@ -183,6 +183,27 @@ export function PackHoldStudy() {
                 </p>
               </div>
             )}
+
+            {getOptimalPressure() && (
+              <div className="rounded-lg p-3 border-2 border-primary/30 bg-primary/5 mt-2 space-y-2">
+                <p className="text-sm font-semibold">Send to Press — Pack / Hold Pressure</p>
+                <div className="grid grid-cols-3 gap-2 text-center">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Pack (hydraulic)</p>
+                    <p className="text-base font-bold text-primary">{getOptimalPressure()!.holdPressure} psi</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">≈ Plastic (÷10 IR)</p>
+                    <p className="text-base font-bold text-primary">{(getOptimalPressure()!.holdPressure * 10).toFixed(0)} psi</p>
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground">Bar (metric)</p>
+                    <p className="text-base font-bold text-primary">{(getOptimalPressure()!.holdPressure * 0.0689).toFixed(0)}</p>
+                  </div>
+                </div>
+                <p className="text-xs text-muted-foreground">Enter the hydraulic value in Pack / Hold PSI on the HMI. Verify intensification ratio (IR) for your machine before applying the plastic-pressure estimate.</p>
+              </div>
+            )}
           </div>
         )}
       </CardContent>
