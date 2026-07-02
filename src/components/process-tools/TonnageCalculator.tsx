@@ -1,16 +1,16 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { TYPICAL_CAVITY_PRESSURES, STANDARD_TONNAGES } from '@/types/processTools';
 import { useExport } from './ExportButton';
 import { HelperPopover } from './HelperPopover';
 import { rectangleAreaMm2, circleAreaMm2, mm2ToIn2, mm2ToCm2 } from '@/lib/geometryHelpers';
+import { useUnits } from '@/contexts/UnitSystemContext';
 
 type Units = 'imperial' | 'metric';
 
@@ -25,7 +25,8 @@ const tonsPerSqInToMetric = (t: number) => (t * METRIC_TONS_PER_US_TON) / CM2_PE
 
 export function TonnageCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Clamp Tonnage Calculator');
-  const [units, setUnits] = useState<Units>('imperial');
+  const { system, resetNonce } = useUnits();
+  const units: Units = system;
   const [partArea, setPartArea] = useState<string>('');
   const [cavities, setCavities] = useState<string>('');
   const [runnerArea, setRunnerArea] = useState<string>('');
