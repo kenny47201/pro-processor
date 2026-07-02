@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Trash2, Calculator } from 'lucide-react';
+import { Plus, Trash2, Send } from 'lucide-react';
 import { useExport } from './ExportButton';
+import { HelperPopover } from './HelperPopover';
 
 interface RunnerSegment {
   id: number;
