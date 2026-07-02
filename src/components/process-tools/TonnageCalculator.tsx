@@ -5,38 +5,70 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Calculator, Info } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { calculateClampTonnage } from '@/lib/processCalculations';
 import { TYPICAL_CAVITY_PRESSURES, STANDARD_TONNAGES } from '@/types/processTools';
 import { useExport } from './ExportButton';
 
+type Units = 'imperial' | 'metric';
+
+// Conversion constants
+const CM2_PER_IN2 = 6.4516;
+const PSI_PER_BAR = 14.5038;
+const METRIC_TONS_PER_US_TON = 0.907185;
+
 export function TonnageCalculator() {
   const { ref: cardRef, ExportBtn } = useExport('Clamp Tonnage Calculator');
+  const [units, setUnits] = useState<Units>('imperial');
   const [projectedArea, setProjectedArea] = useState<string>('');
   const [cavityPressure, setCavityPressure] = useState<string>('');
   const [safetyFactor, setSafetyFactor] = useState<string>('1.1');
   const [selectedMaterial, setSelectedMaterial] = useState<string>('');
   const [result, setResult] = useState<{ requiredTonnage: number; recommendedMachine: number } | null>(null);
 
+  const isMetric = units === 'metric';
+  const areaUnit = isMetric ? 'cm²' : 'in²';
+  const pressureUnit = isMetric ? 'bar' : 'psi';
+  const tonUnit = isMetric ? 'metric tons' : 'US tons';
+
+  const handleUnitsChange = (next: Units) => {
+    if (!next || next === units) return;
+    // Convert existing values so the user doesn't lose their input
+    const area = parseFloat(projectedArea);
+    const pressure = parseFloat(cavityPressure);
+    if (next === 'metric') {
+      if (!isNaN(area)) setProjectedArea((area * CM2_PER_IN2).toFixed(2));
+      if (!isNaN(pressure)) setCavityPressure((pressure / PSI_PER_BAR).toFixed(1));
+    } else {
+      if (!isNaN(area)) setProjectedArea((area / CM2_PER_IN2).toFixed(2));
+      if (!isNaN(pressure)) setCavityPressure((pressure * PSI_PER_BAR).toFixed(0));
+    }
+    setUnits(next);
+    setResult(null);
+  };
+
   const handleMaterialChange = (material: string) => {
     setSelectedMaterial(material);
     if (material && TYPICAL_CAVITY_PRESSURES[material]) {
-      setCavityPressure(TYPICAL_CAVITY_PRESSURES[material].typical.toString());
+      const psi = TYPICAL_CAVITY_PRESSURES[material].typical;
+      setCavityPressure(isMetric ? (psi / PSI_PER_BAR).toFixed(1) : psi.toString());
     }
   };
 
   const handleCalculate = () => {
-    const area = parseFloat(projectedArea);
-    const pressure = parseFloat(cavityPressure);
+    const areaIn = parseFloat(projectedArea);
+    const pressureIn = parseFloat(cavityPressure);
     const safety = parseFloat(safetyFactor);
 
-    if (isNaN(area) || isNaN(pressure) || isNaN(safety)) {
-      return;
-    }
+    if (isNaN(areaIn) || isNaN(pressureIn) || isNaN(safety)) return;
 
-    const calcResult = calculateClampTonnage(area, pressure, safety);
-    setResult(calcResult);
+    // Convert to imperial for the underlying calc
+    const areaSqIn = isMetric ? areaIn / CM2_PER_IN2 : areaIn;
+    const pressurePsi = isMetric ? pressureIn * PSI_PER_BAR : pressureIn;
+
+    setResult(calculateClampTonnage(areaSqIn, pressurePsi, safety));
   };
 
   const handleReset = () => {
@@ -47,14 +79,26 @@ export function TonnageCalculator() {
     setResult(null);
   };
 
+  const displayTons = (usTons: number) => (isMetric ? usTons * METRIC_TONS_PER_US_TON : usTons);
+  const matRange = selectedMaterial ? TYPICAL_CAVITY_PRESSURES[selectedMaterial] : null;
+
   return (
     <Card ref={cardRef}>
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle className="flex items-center gap-2">
-            Clamp Tonnage Calculator
-          </CardTitle>
-          <ExportBtn />
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <CardTitle className="flex items-center gap-2">Clamp Tonnage Calculator</CardTitle>
+          <div className="flex items-center gap-2">
+            <ToggleGroup
+              type="single"
+              size="sm"
+              value={units}
+              onValueChange={(v) => handleUnitsChange(v as Units)}
+            >
+              <ToggleGroupItem value="imperial" aria-label="Imperial units">Imperial</ToggleGroupItem>
+              <ToggleGroupItem value="metric" aria-label="Metric units">Metric</ToggleGroupItem>
+            </ToggleGroup>
+            <ExportBtn />
+          </div>
         </div>
         <CardDescription>
           F<sub>required</sub> = Projected Area × Cavity Pressure × Safety Factor
@@ -69,9 +113,7 @@ export function TonnageCalculator() {
                 <TooltipTrigger>
                   <Info className="h-3 w-3 text-muted-foreground" />
                 </TooltipTrigger>
-                <TooltipContent>
-                  Select material to auto-fill typical cavity pressure
-                </TooltipContent>
+                <TooltipContent>Select material to auto-fill typical cavity pressure</TooltipContent>
               </Tooltip>
             </Label>
             <Select value={selectedMaterial} onValueChange={handleMaterialChange}>
@@ -80,9 +122,7 @@ export function TonnageCalculator() {
               </SelectTrigger>
               <SelectContent>
                 {Object.keys(TYPICAL_CAVITY_PRESSURES).map((mat) => (
-                  <SelectItem key={mat} value={mat}>
-                    {mat}
-                  </SelectItem>
+                  <SelectItem key={mat} value={mat}>{mat}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
@@ -90,7 +130,7 @@ export function TonnageCalculator() {
 
           <div className="space-y-2">
             <Label htmlFor="projectedArea" className="flex items-center gap-1">
-              Projected Area (in²)
+              Projected Area ({areaUnit})
               <Tooltip>
                 <TooltipTrigger>
                   <Info className="h-3 w-3 text-muted-foreground" />
@@ -104,7 +144,7 @@ export function TonnageCalculator() {
               id="projectedArea"
               type="number"
               step="0.01"
-              placeholder="e.g., 25.5"
+              placeholder={isMetric ? 'e.g., 164.5' : 'e.g., 25.5'}
               value={projectedArea}
               onChange={(e) => setProjectedArea(e.target.value)}
             />
@@ -112,15 +152,18 @@ export function TonnageCalculator() {
 
           <div className="space-y-2">
             <Label htmlFor="cavityPressure" className="flex items-center gap-1">
-              Cavity Pressure (psi)
+              Cavity Pressure ({pressureUnit})
               <Tooltip>
                 <TooltipTrigger>
                   <Info className="h-3 w-3 text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent>
-                  {selectedMaterial && TYPICAL_CAVITY_PRESSURES[selectedMaterial] ? (
+                  {matRange ? (
                     <span>
-                      {selectedMaterial} typical range: {TYPICAL_CAVITY_PRESSURES[selectedMaterial].min.toLocaleString()} - {TYPICAL_CAVITY_PRESSURES[selectedMaterial].max.toLocaleString()} psi
+                      {selectedMaterial} typical range:{' '}
+                      {isMetric
+                        ? `${(matRange.min / PSI_PER_BAR).toFixed(0)} - ${(matRange.max / PSI_PER_BAR).toFixed(0)} bar`
+                        : `${matRange.min.toLocaleString()} - ${matRange.max.toLocaleString()} psi`}
                     </span>
                   ) : (
                     'Peak cavity pressure during fill/pack'
@@ -131,8 +174,8 @@ export function TonnageCalculator() {
             <Input
               id="cavityPressure"
               type="number"
-              step="100"
-              placeholder="e.g., 10000"
+              step={isMetric ? '1' : '100'}
+              placeholder={isMetric ? 'e.g., 690' : 'e.g., 10000'}
               value={cavityPressure}
               onChange={(e) => setCavityPressure(e.target.value)}
             />
@@ -166,9 +209,7 @@ export function TonnageCalculator() {
             <Calculator className="h-4 w-4 mr-2" />
             Calculate
           </Button>
-          <Button variant="outline" onClick={handleReset}>
-            Reset
-          </Button>
+          <Button variant="outline" onClick={handleReset}>Reset</Button>
         </div>
 
         {result && (
@@ -177,13 +218,13 @@ export function TonnageCalculator() {
               <div>
                 <p className="text-sm text-muted-foreground">Required Tonnage</p>
                 <p className="text-2xl font-bold text-primary">
-                  {result.requiredTonnage.toFixed(1)} tons
+                  {displayTons(result.requiredTonnage).toFixed(1)} {tonUnit}
                 </p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Recommended Machine</p>
                 <p className="text-2xl font-bold text-primary">
-                  {result.recommendedMachine} ton
+                  {displayTons(result.recommendedMachine).toFixed(0)} {tonUnit}
                 </p>
                 <Badge variant="secondary" className="mt-1">
                   {((result.requiredTonnage / result.recommendedMachine) * 100).toFixed(0)}% utilization
@@ -192,20 +233,28 @@ export function TonnageCalculator() {
             </div>
 
             <div className="mt-4 pt-4 border-t">
-              <p className="text-sm text-muted-foreground mb-2">Available Machine Sizes Near Your Requirement:</p>
+              <p className="text-sm text-muted-foreground mb-2">
+                Available Machine Sizes Near Your Requirement:
+              </p>
               <div className="flex flex-wrap gap-2">
-                {STANDARD_TONNAGES
-                  .filter(t => t >= result.requiredTonnage * 0.8 && t <= result.requiredTonnage * 1.5)
-                  .map((t) => (
-                    <Badge 
-                      key={t} 
-                      variant={t === result.recommendedMachine ? 'default' : 'outline'}
-                      className={t < result.requiredTonnage ? 'opacity-50' : ''}
-                    >
-                      {t}T {t < result.requiredTonnage && '⚠️'}
-                    </Badge>
-                  ))}
+                {STANDARD_TONNAGES.filter(
+                  (t) => t >= result.requiredTonnage * 0.8 && t <= result.requiredTonnage * 1.5
+                ).map((t) => (
+                  <Badge
+                    key={t}
+                    variant={t === result.recommendedMachine ? 'default' : 'outline'}
+                    className={t < result.requiredTonnage ? 'opacity-50' : ''}
+                  >
+                    {displayTons(t).toFixed(0)}
+                    {isMetric ? ' t' : 'T'} {t < result.requiredTonnage && '⚠️'}
+                  </Badge>
+                ))}
               </div>
+              {isMetric && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  Machine sizes converted from standard US ton ratings.
+                </p>
+              )}
             </div>
           </div>
         )}
