@@ -56,15 +56,14 @@ export function TonnageCalculator() {
     return converted.toFixed(4);
   };
 
-  const handleUnitsChange = (next: Units) => {
-    if (!next || next === units) return;
-    const toMetric = next === 'metric';
-    setPartArea((v) => convertArea(v, toMetric));
-    setRunnerArea((v) => convertArea(v, toMetric));
-    setTonsPerArea((v) => convertTPA(v, toMetric));
-    setUnits(next);
+  // Clear inputs when the global unit system flips.
+  useEffect(() => {
+    setPartArea('');
+    setRunnerArea('');
+    setTonsPerArea('');
     setResult(null);
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetNonce]);
 
   const handleMaterialChange = (mat: string) => {
     setMaterial(mat);
@@ -108,18 +107,7 @@ export function TonnageCalculator() {
       <CardHeader>
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <CardTitle className="flex items-center gap-2">Clamp Tonnage Calculator</CardTitle>
-          <div className="flex items-center gap-2">
-            <ToggleGroup
-              type="single"
-              size="sm"
-              value={units}
-              onValueChange={(v) => handleUnitsChange(v as Units)}
-            >
-              <ToggleGroupItem value="imperial" aria-label="Imperial units">Imperial</ToggleGroupItem>
-              <ToggleGroupItem value="metric" aria-label="Metric units">Metric</ToggleGroupItem>
-            </ToggleGroup>
-            <ExportBtn />
-          </div>
+          <ExportBtn />
         </div>
         <CardDescription>
           Total Projected Area × Required Tonnage per unit area = Calculated Tonnage
