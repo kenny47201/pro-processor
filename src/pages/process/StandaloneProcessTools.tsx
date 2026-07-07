@@ -1,4 +1,5 @@
 import ProcessTools from "./ProcessTools";
+import { InstallProcessToolsButton } from "@/components/process-tools/InstallProcessToolsButton";
 import { Calculator, Factory, Gauge, Wrench } from "lucide-react";
 
 export default function StandaloneProcessTools() {
@@ -22,25 +23,29 @@ export default function StandaloneProcessTools() {
                 </p>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 text-center text-xs text-muted-foreground">
-              <div className="rounded-lg border border-border bg-background px-3 py-2">
-                <Calculator className="mx-auto mb-1 h-4 w-4 text-primary" />
-                Calculators
-              </div>
-              <div className="rounded-lg border border-border bg-background px-3 py-2">
-                <Gauge className="mx-auto mb-1 h-4 w-4 text-primary" />
-                Studies
-              </div>
-              <div className="rounded-lg border border-border bg-background px-3 py-2">
-                <Wrench className="mx-auto mb-1 h-4 w-4 text-primary" />
-                Utilities
+            <div className="space-y-3">
+              <InstallProcessToolsButton />
+              <div className="grid grid-cols-3 gap-2 text-center text-xs text-muted-foreground">
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <Calculator className="mx-auto mb-1 h-4 w-4 text-primary" />
+                  Calculators
+                </div>
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <Gauge className="mx-auto mb-1 h-4 w-4 text-primary" />
+                  Studies
+                </div>
+                <div className="rounded-lg border border-border bg-background px-3 py-2">
+                  <Wrench className="mx-auto mb-1 h-4 w-4 text-primary" />
+                  Utilities
+                </div>
               </div>
             </div>
           </div>
           <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-muted-foreground">
             This standalone module intentionally excludes Pro-Processor account workflows, shift tasks,
             conversations, issue tracking, tenant administration, and plant accountability records. It is the
-            process-toolkit surface only.
+            process-toolkit surface only. Open this screen once online after deployment, then install it for
+            offline calculator and study access.
           </div>
         </div>
       </header>
