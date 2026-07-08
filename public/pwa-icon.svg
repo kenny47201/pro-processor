@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Pro-Processor Process Tools">
+  <rect width="512" height="512" rx="112" fill="#020617"/>
+  <circle cx="256" cy="256" r="170" fill="#0f172a" stroke="#38bdf8" stroke-width="18"/>
+  <path d="M164 278h184v34H164zM184 202h144v34H184z" fill="#e2e8f0"/>
+  <path d="M152 150h208l36 52v160H116V202l36-52z" fill="none" stroke="#38bdf8" stroke-width="22" stroke-linejoin="round"/>
+  <path d="M202 370h108" stroke="#f97316" stroke-width="22" stroke-linecap="round"/>
+</svg>

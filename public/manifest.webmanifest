@@ -1,0 +1,28 @@
+{
+  "name": "Pro-Processor Process Tools",
+  "short_name": "Process Tools",
+  "description": "Installable offline injection molding calculators, graphs, and DOE tools.",
+  "start_url": "/tools",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "theme_color": "#0f172a",
+  "background_color": "#020617",
+  "categories": ["productivity", "utilities", "business"],
+  "icons": [
+    {
+      "src": "/pwa-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Open Process Tools",
+      "short_name": "Tools",
+      "description": "Open the standalone injection molding process tools workspace.",
+      "url": "/tools"
+    }
+  ]
+}
