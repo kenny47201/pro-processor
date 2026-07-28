@@ -154,13 +154,13 @@ export default function KnowledgeFixDetail() {
       logged_by: currentUser.id,
       outcome: tOutcome,
       notes: tNotes.trim() || null,
-      press: tPress.trim() || null,
-      tool: tTool.trim() || null,
+      machine_id: tMachineId,
+      mold_id: tMoldId,
       shot_count: tShots ? Number(tShots) : null,
     });
     setBusy(false);
     if (error) { toast.error(error.message); return; }
-    setTNotes(''); setTPress(''); setTTool(''); setTShots(''); setTOutcome('pass');
+    setTNotes(''); setTMachineId(null); setTMoldId(null); setTShots(''); setTOutcome('pass');
     toast.success(tOutcome === 'pass' ? 'Pass logged' : 'Fail logged — counter reset');
   };
 
