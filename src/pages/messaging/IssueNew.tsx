@@ -82,12 +82,12 @@ export default function IssueNew() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="press">Press</Label>
-                <Input id="press" value={press} onChange={e => setPress(e.target.value)} maxLength={100} placeholder="e.g. Press 4" />
+                <Label>Press</Label>
+                <MachinePicker value={machineId} onChange={setMachineId} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="tool">Tool</Label>
-                <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
+                <Label>Tool / Mold</Label>
+                <MoldPicker value={moldId} onChange={setMoldId} />
               </div>
             </div>
             <div className="space-y-2">
