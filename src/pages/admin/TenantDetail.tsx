@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Building2, Save, X, Loader2, Users as UsersIcon, Factory, Clock, Plus } from 'lucide-react';
+import { ArrowLeft, Building2, Save, X, Loader2, Users as UsersIcon, Factory, Clock, Plus, Cog, Wrench } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { ROLE_LABELS, UserRole } from '@/types/models';
+import { MachineRegistry, MoldRegistry } from '@/components/admin/MachineMoldRegistry';
 
 const PRESETS: { label: string; shifts: string[] }[] = [
   { label: 'Day / Swing / Night', shifts: ['Day', 'Swing', 'Night'] },
@@ -187,6 +188,8 @@ export default function TenantDetail() {
           <TabsTrigger value="details" className="gap-1"><Building2 className="h-3.5 w-3.5" /> Details</TabsTrigger>
           <TabsTrigger value="shifts" className="gap-1"><Clock className="h-3.5 w-3.5" /> Shifts</TabsTrigger>
           <TabsTrigger value="facilities" className="gap-1"><Factory className="h-3.5 w-3.5" /> Facilities <Badge variant="secondary" className="ml-1">{facilities.length}</Badge></TabsTrigger>
+          <TabsTrigger value="presses" className="gap-1"><Cog className="h-3.5 w-3.5" /> Presses</TabsTrigger>
+          <TabsTrigger value="molds" className="gap-1"><Wrench className="h-3.5 w-3.5" /> Molds</TabsTrigger>
           <TabsTrigger value="users" className="gap-1"><UsersIcon className="h-3.5 w-3.5" /> Users <Badge variant="secondary" className="ml-1">{users.length}</Badge></TabsTrigger>
         </TabsList>
 
@@ -330,6 +333,14 @@ export default function TenantDetail() {
               </CardContent>
             </Card>
           ))}
+        </TabsContent>
+
+        <TabsContent value="presses" className="mt-4">
+          <MachineRegistry tenantId={tenant.id} canEdit={isAdmin} />
+        </TabsContent>
+
+        <TabsContent value="molds" className="mt-4">
+          <MoldRegistry tenantId={tenant.id} canEdit={isAdmin} />
         </TabsContent>
 
         {/* Users */}

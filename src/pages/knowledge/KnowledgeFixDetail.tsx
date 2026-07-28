@@ -17,6 +17,8 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { format, formatDistanceToNow } from 'date-fns';
 import AttachmentsCard from '@/components/AttachmentsCard';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
+import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
 
 type FixStatus = 'draft' | 'committed' | 'verified';
 type TrialOutcome = 'pass' | 'fail';
@@ -61,6 +63,8 @@ interface TrialRow {
   notes: string | null;
   press: string | null;
   tool: string | null;
+  machine_id: string | null;
+  mold_id: string | null;
   shot_count: number | null;
   created_at: string;
 }
@@ -75,6 +79,10 @@ export default function KnowledgeFixDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { currentUser, canCommitFixes, canVerifyFixes } = useTenant();
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
+  const machineName = (id: string | null) => id ? (machines.find(m => m.id === id)?.name ?? null) : null;
+  const moldName = (id: string | null) => id ? (molds.find(m => m.id === id)?.name ?? null) : null;
   const [rec, setRec] = useState<FixRecord | null>(null);
   const [trials, setTrials] = useState<TrialRow[]>([]);
   const [loading, setLoading] = useState(true);
@@ -84,8 +92,8 @@ export default function KnowledgeFixDetail() {
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
   const [tNotes, setTNotes] = useState('');
-  const [tPress, setTPress] = useState('');
-  const [tTool, setTTool] = useState('');
+  const [tMachineId, setTMachineId] = useState<string | null>(null);
+  const [tMoldId, setTMoldId] = useState<string | null>(null);
   const [tShots, setTShots] = useState('');
 
   useEffect(() => {
@@ -153,13 +161,13 @@ export default function KnowledgeFixDetail() {
       logged_by: currentUser.id,
       outcome: tOutcome,
       notes: tNotes.trim() || null,
-      press: tPress.trim() || null,
-      tool: tTool.trim() || null,
+      machine_id: tMachineId,
+      mold_id: tMoldId,
       shot_count: tShots ? Number(tShots) : null,
     });
     setBusy(false);
     if (error) { toast.error(error.message); return; }
-    setTNotes(''); setTPress(''); setTTool(''); setTShots(''); setTOutcome('pass');
+    setTNotes(''); setTMachineId(null); setTMoldId(null); setTShots(''); setTOutcome('pass');
     toast.success(tOutcome === 'pass' ? 'Pass logged' : 'Fail logged — counter reset');
   };
 
@@ -368,12 +376,12 @@ export default function KnowledgeFixDetail() {
                     )}
                   </div>
                   <div>
-                    <Label htmlFor="t-press" className="text-xs">Press</Label>
-                    <Input id="t-press" value={tPress} onChange={(e) => setTPress(e.target.value)} placeholder="e.g. Press 4" />
+                    <Label className="text-xs">Press</Label>
+                    <MachinePicker value={tMachineId} onChange={setTMachineId} />
                   </div>
                   <div>
-                    <Label htmlFor="t-tool" className="text-xs">Tool</Label>
-                    <Input id="t-tool" value={tTool} onChange={(e) => setTTool(e.target.value)} placeholder="e.g. Mold A-12" />
+                    <Label className="text-xs">Tool</Label>
+                    <MoldPicker value={tMoldId} onChange={setTMoldId} />
                   </div>
                   <div>
                     <Label htmlFor="t-shots" className="text-xs">Shot count</Label>
@@ -408,8 +416,8 @@ export default function KnowledgeFixDetail() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
                           <span>{formatDistanceToNow(new Date(t.created_at), { addSuffix: true })}</span>
-                          {t.press && <span>· Press: <span className="text-foreground">{t.press}</span></span>}
-                          {t.tool && <span>· Tool: <span className="text-foreground">{t.tool}</span></span>}
+                          {(machineName(t.machine_id) || t.press) && <span>· Press: <span className="text-foreground">{machineName(t.machine_id) || t.press}</span></span>}
+                          {(moldName(t.mold_id) || t.tool) && <span>· Tool: <span className="text-foreground">{moldName(t.mold_id) || t.tool}</span></span>}
                           {t.shot_count != null && <span>· Shots: <span className="text-foreground">{t.shot_count}</span></span>}
                         </div>
                         {t.notes && <div className="mt-1 whitespace-pre-wrap">{t.notes}</div>}

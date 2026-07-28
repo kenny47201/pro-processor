@@ -12,6 +12,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useTenant } from '@/contexts/TenantContext';
 import { useCreateIssue, type IssueCategory, type IssuePriority } from '@/hooks/useIssues';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 
 export default function IssueNew() {
   const navigate = useNavigate();
@@ -25,8 +26,10 @@ export default function IssueNew() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState<IssueCategory>('process');
   const [priority, setPriority] = useState<IssuePriority>('medium');
-  const [tool, setTool] = useState('');
-  const [press, setPress] = useState('');
+  const [machineId, setMachineId] = useState<string | null>(null);
+  const [moldId, setMoldId] = useState<string | null>(null);
+  
+
   
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -39,22 +42,19 @@ export default function IssueNew() {
       toast({ title: 'Title required', description: 'Use at least 3 characters.', variant: 'destructive' });
       return;
     }
-    const header = [
-      press.trim() && `Press: ${press.trim()}`,
-      tool.trim() && `Tool: ${tool.trim()}`,
-    ].filter(Boolean).join(' • ');
-    const fullDesc = (header ? `${header}\n\n` : '') + description.trim();
     try {
       const issue = await createIssue.mutateAsync({
         tenant_id: currentUser.tenantId,
         facility_id: currentUser.facilityId ?? null,
         created_by: currentUser.id,
         title: title.trim().slice(0, 200),
-        description: fullDesc.slice(0, 5000),
+        description: description.trim().slice(0, 5000),
         category,
         priority,
         owner_id: null,
         due_by: null,
+        asset_id: machineId,
+        mold_id: moldId,
       });
 
       toast({ title: 'Issue reported' });
@@ -82,12 +82,12 @@ export default function IssueNew() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="press">Press</Label>
-                <Input id="press" value={press} onChange={e => setPress(e.target.value)} maxLength={100} placeholder="e.g. Press 4" />
+                <Label>Press</Label>
+                <MachinePicker value={machineId} onChange={setMachineId} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="tool">Tool</Label>
-                <Input id="tool" value={tool} onChange={e => setTool(e.target.value)} maxLength={100} placeholder="e.g. Mold 12-cav widget" />
+                <Label>Tool / Mold</Label>
+                <MoldPicker value={moldId} onChange={setMoldId} />
               </div>
             </div>
             <div className="space-y-2">

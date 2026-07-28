@@ -194,6 +194,8 @@ export type Database = {
           fix_id: string
           id: string
           logged_by: string
+          machine_id: string | null
+          mold_id: string | null
           notes: string | null
           outcome: Database["public"]["Enums"]["fix_trial_outcome"]
           press: string | null
@@ -206,6 +208,8 @@ export type Database = {
           fix_id: string
           id?: string
           logged_by: string
+          machine_id?: string | null
+          mold_id?: string | null
           notes?: string | null
           outcome: Database["public"]["Enums"]["fix_trial_outcome"]
           press?: string | null
@@ -218,6 +222,8 @@ export type Database = {
           fix_id?: string
           id?: string
           logged_by?: string
+          machine_id?: string | null
+          mold_id?: string | null
           notes?: string | null
           outcome?: Database["public"]["Enums"]["fix_trial_outcome"]
           press?: string | null
@@ -231,6 +237,20 @@ export type Database = {
             columns: ["fix_id"]
             isOneToOne: false
             referencedRelation: "knowledge_fixes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fix_trials_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fix_trials_mold_id_fkey"
+            columns: ["mold_id"]
+            isOneToOne: false
+            referencedRelation: "molds"
             referencedColumns: ["id"]
           },
         ]
@@ -401,7 +421,22 @@ export type Database = {
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "issues_asset_id_fkey"
+            columns: ["asset_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "issues_mold_id_fkey"
+            columns: ["mold_id"]
+            isOneToOne: false
+            referencedRelation: "molds"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       knowledge_fixes: {
         Row: {
@@ -416,7 +451,9 @@ export type Database = {
           facility_id: string | null
           fix_summary: string | null
           id: string
+          machine_id: string | null
           material: string | null
+          mold_id: string | null
           parameter_changes: Json
           press: string | null
           problem: string
@@ -447,7 +484,9 @@ export type Database = {
           facility_id?: string | null
           fix_summary?: string | null
           id?: string
+          machine_id?: string | null
           material?: string | null
+          mold_id?: string | null
           parameter_changes?: Json
           press?: string | null
           problem?: string
@@ -478,7 +517,9 @@ export type Database = {
           facility_id?: string | null
           fix_summary?: string | null
           id?: string
+          machine_id?: string | null
           material?: string | null
+          mold_id?: string | null
           parameter_changes?: Json
           press?: string | null
           problem?: string
@@ -497,7 +538,142 @@ export type Database = {
           verified_at?: string | null
           verified_by?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_fixes_machine_id_fkey"
+            columns: ["machine_id"]
+            isOneToOne: false
+            referencedRelation: "machines"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "knowledge_fixes_mold_id_fkey"
+            columns: ["mold_id"]
+            isOneToOne: false
+            referencedRelation: "molds"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      machines: {
+        Row: {
+          asset_tag: string | null
+          created_at: string
+          facility_id: string | null
+          id: string
+          manufacturer: string | null
+          model: string | null
+          name: string
+          notes: string | null
+          shot_size_oz: number | null
+          status: Database["public"]["Enums"]["machine_status"]
+          tenant_id: string
+          tonnage: number | null
+          updated_at: string
+        }
+        Insert: {
+          asset_tag?: string | null
+          created_at?: string
+          facility_id?: string | null
+          id?: string
+          manufacturer?: string | null
+          model?: string | null
+          name: string
+          notes?: string | null
+          shot_size_oz?: number | null
+          status?: Database["public"]["Enums"]["machine_status"]
+          tenant_id: string
+          tonnage?: number | null
+          updated_at?: string
+        }
+        Update: {
+          asset_tag?: string | null
+          created_at?: string
+          facility_id?: string | null
+          id?: string
+          manufacturer?: string | null
+          model?: string | null
+          name?: string
+          notes?: string | null
+          shot_size_oz?: number | null
+          status?: Database["public"]["Enums"]["machine_status"]
+          tenant_id?: string
+          tonnage?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "machines_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "machines_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      molds: {
+        Row: {
+          cavities: number | null
+          created_at: string
+          facility_id: string | null
+          id: string
+          name: string
+          notes: string | null
+          part_name: string | null
+          status: Database["public"]["Enums"]["mold_status"]
+          tenant_id: string
+          tool_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          cavities?: number | null
+          created_at?: string
+          facility_id?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          part_name?: string | null
+          status?: Database["public"]["Enums"]["mold_status"]
+          tenant_id: string
+          tool_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cavities?: number | null
+          created_at?: string
+          facility_id?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          part_name?: string | null
+          status?: Database["public"]["Enums"]["mold_status"]
+          tenant_id?: string
+          tool_number?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "molds_facility_id_fkey"
+            columns: ["facility_id"]
+            isOneToOne: false
+            referencedRelation: "facilities"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "molds_tenant_id_fkey"
+            columns: ["tenant_id"]
+            isOneToOne: false
+            referencedRelation: "tenants"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -848,6 +1024,8 @@ export type Database = {
         | "watcher_removed"
       issue_priority: "low" | "medium" | "high" | "critical"
       issue_status: "open" | "in_progress" | "needs_verification" | "closed"
+      machine_status: "active" | "idle" | "down" | "retired"
+      mold_status: "active" | "in_repair" | "retired"
       profile_status: "pending" | "active" | "inactive"
       shift_task_list_status: "active" | "completed" | "cancelled"
       signoff_decision: "approved" | "rejected" | "needs_work"
@@ -1008,6 +1186,8 @@ export const Constants = {
       ],
       issue_priority: ["low", "medium", "high", "critical"],
       issue_status: ["open", "in_progress", "needs_verification", "closed"],
+      machine_status: ["active", "idle", "down", "retired"],
+      mold_status: ["active", "in_repair", "retired"],
       profile_status: ["pending", "active", "inactive"],
       shift_task_list_status: ["active", "completed", "cancelled"],
       signoff_decision: ["approved", "rejected", "needs_work"],

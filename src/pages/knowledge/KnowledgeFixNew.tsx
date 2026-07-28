@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 
 interface ParamChange {
   param: string;
@@ -17,9 +18,7 @@ interface ParamChange {
   units: string;
 }
 
-const CATEGORY_FIELDS: { key: 'tool' | 'press' | 'material' | 'color' | 'additive'; label: string; placeholder: string }[] = [
-  { key: 'tool', label: 'Tool / Mold', placeholder: 'Tool ID or mold name' },
-  { key: 'press', label: 'Press', placeholder: 'Machine name or asset tag' },
+const CATEGORY_FIELDS: { key: 'material' | 'color' | 'additive'; label: string; placeholder: string }[] = [
   { key: 'material', label: 'Material', placeholder: 'e.g. PP HOM, ABS, PC/ABS' },
   { key: 'color', label: 'Color', placeholder: 'Color name or code' },
   { key: 'additive', label: 'Additive', placeholder: 'e.g. UV stabilizer, MB %' },
@@ -32,6 +31,8 @@ export default function KnowledgeFixNew() {
 
   const [title, setTitle] = useState('');
   const [fixSummary, setFixSummary] = useState('');
+  const [machineId, setMachineId] = useState<string | null>(null);
+  const [moldId, setMoldId] = useState<string | null>(null);
   const [cats, setCats] = useState<Record<string, string>>({});
   const [problem, setProblem] = useState('');
   const [rootCause, setRootCause] = useState('');
@@ -61,8 +62,10 @@ export default function KnowledgeFixNew() {
       title: title.trim(),
       fix_summary: fixSummary.trim() || null,
       defect: null,
-      tool: cats.tool?.trim() || null,
-      press: cats.press?.trim() || null,
+      tool: null,
+      press: null,
+      machine_id: machineId,
+      mold_id: moldId,
       material: cats.material?.trim() || null,
       color: cats.color?.trim() || null,
       additive: cats.additive?.trim() || null,
@@ -139,6 +142,14 @@ export default function KnowledgeFixNew() {
             <Label className="text-sm font-semibold">Context</Label>
             <p className="text-xs text-muted-foreground mb-3">Tag what this fix applies to. All optional.</p>
             <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label className="text-xs">Press</Label>
+                <MachinePicker value={machineId} onChange={setMachineId} />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Tool / Mold</Label>
+                <MoldPicker value={moldId} onChange={setMoldId} />
+              </div>
               {CATEGORY_FIELDS.map((f) => (
                 <div key={f.key} className="space-y-1.5">
                   <Label htmlFor={f.key} className="text-xs">{f.label}</Label>
@@ -152,6 +163,7 @@ export default function KnowledgeFixNew() {
               ))}
             </div>
           </div>
+
 
           <div className="space-y-2">
             <Label htmlFor="problem">Problem</Label>

@@ -123,6 +123,8 @@ export function useCreateIssue() {
       priority: IssuePriority;
       owner_id?: string | null;
       due_by?: string | null;
+      asset_id?: string | null;
+      mold_id?: string | null;
     }) => {
       const { data, error } = await supabase.from('issues').insert(input).select().single();
       if (error) throw error;
