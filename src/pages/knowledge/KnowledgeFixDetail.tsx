@@ -369,12 +369,12 @@ export default function KnowledgeFixDetail() {
                     )}
                   </div>
                   <div>
-                    <Label htmlFor="t-press" className="text-xs">Press</Label>
-                    <Input id="t-press" value={tPress} onChange={(e) => setTPress(e.target.value)} placeholder="e.g. Press 4" />
+                    <Label className="text-xs">Press</Label>
+                    <MachinePicker value={tMachineId} onChange={setTMachineId} />
                   </div>
                   <div>
-                    <Label htmlFor="t-tool" className="text-xs">Tool</Label>
-                    <Input id="t-tool" value={tTool} onChange={(e) => setTTool(e.target.value)} placeholder="e.g. Mold A-12" />
+                    <Label className="text-xs">Tool</Label>
+                    <MoldPicker value={tMoldId} onChange={setTMoldId} />
                   </div>
                   <div>
                     <Label htmlFor="t-shots" className="text-xs">Shot count</Label>
