@@ -11,6 +11,7 @@ import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { ROLE_LABELS, UserRole } from '@/types/models';
+import { MachineRegistry, MoldRegistry } from '@/components/admin/MachineMoldRegistry';
 
 const PRESETS: { label: string; shifts: string[] }[] = [
   { label: 'Day / Swing / Night', shifts: ['Day', 'Swing', 'Night'] },
