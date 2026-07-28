@@ -26,8 +26,10 @@ export default function IssueNew() {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState<IssueCategory>('process');
   const [priority, setPriority] = useState<IssuePriority>('medium');
-  const [tool, setTool] = useState('');
-  const [press, setPress] = useState('');
+  const [machineId, setMachineId] = useState<string | null>(null);
+  const [moldId, setMoldId] = useState<string | null>(null);
+  
+
   
 
   const handleSubmit = async (e: React.FormEvent) => {
