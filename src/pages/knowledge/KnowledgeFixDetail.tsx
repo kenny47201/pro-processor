@@ -85,8 +85,8 @@ export default function KnowledgeFixDetail() {
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
   const [tNotes, setTNotes] = useState('');
-  const [tPress, setTPress] = useState('');
-  const [tTool, setTTool] = useState('');
+  const [tMachineId, setTMachineId] = useState<string | null>(null);
+  const [tMoldId, setTMoldId] = useState<string | null>(null);
   const [tShots, setTShots] = useState('');
 
   useEffect(() => {
