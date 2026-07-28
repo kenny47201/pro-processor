@@ -31,6 +31,8 @@ export default function KnowledgeFixNew() {
 
   const [title, setTitle] = useState('');
   const [fixSummary, setFixSummary] = useState('');
+  const [machineId, setMachineId] = useState<string | null>(null);
+  const [moldId, setMoldId] = useState<string | null>(null);
   const [cats, setCats] = useState<Record<string, string>>({});
   const [problem, setProblem] = useState('');
   const [rootCause, setRootCause] = useState('');
