@@ -188,6 +188,8 @@ export default function TenantDetail() {
           <TabsTrigger value="details" className="gap-1"><Building2 className="h-3.5 w-3.5" /> Details</TabsTrigger>
           <TabsTrigger value="shifts" className="gap-1"><Clock className="h-3.5 w-3.5" /> Shifts</TabsTrigger>
           <TabsTrigger value="facilities" className="gap-1"><Factory className="h-3.5 w-3.5" /> Facilities <Badge variant="secondary" className="ml-1">{facilities.length}</Badge></TabsTrigger>
+          <TabsTrigger value="presses" className="gap-1"><Cog className="h-3.5 w-3.5" /> Presses</TabsTrigger>
+          <TabsTrigger value="molds" className="gap-1"><Wrench className="h-3.5 w-3.5" /> Molds</TabsTrigger>
           <TabsTrigger value="users" className="gap-1"><UsersIcon className="h-3.5 w-3.5" /> Users <Badge variant="secondary" className="ml-1">{users.length}</Badge></TabsTrigger>
         </TabsList>
 
