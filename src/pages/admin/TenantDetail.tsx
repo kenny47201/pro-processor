@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Building2, Save, X, Loader2, Users as UsersIcon, Factory, Clock, Plus } from 'lucide-react';
+import { ArrowLeft, Building2, Save, X, Loader2, Users as UsersIcon, Factory, Clock, Plus, Cog, Wrench } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
