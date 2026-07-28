@@ -42,22 +42,19 @@ export default function IssueNew() {
       toast({ title: 'Title required', description: 'Use at least 3 characters.', variant: 'destructive' });
       return;
     }
-    const header = [
-      press.trim() && `Press: ${press.trim()}`,
-      tool.trim() && `Tool: ${tool.trim()}`,
-    ].filter(Boolean).join(' • ');
-    const fullDesc = (header ? `${header}\n\n` : '') + description.trim();
     try {
       const issue = await createIssue.mutateAsync({
         tenant_id: currentUser.tenantId,
         facility_id: currentUser.facilityId ?? null,
         created_by: currentUser.id,
         title: title.trim().slice(0, 200),
-        description: fullDesc.slice(0, 5000),
+        description: description.trim().slice(0, 5000),
         category,
         priority,
         owner_id: null,
         due_by: null,
+        asset_id: machineId,
+        mold_id: moldId,
       });
 
       toast({ title: 'Issue reported' });
