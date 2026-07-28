@@ -78,6 +78,10 @@ export default function KnowledgeFixDetail() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { currentUser, canCommitFixes, canVerifyFixes } = useTenant();
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
+  const machineName = (id: string | null) => id ? (machines.find(m => m.id === id)?.name ?? null) : null;
+  const moldName = (id: string | null) => id ? (molds.find(m => m.id === id)?.name ?? null) : null;
   const [rec, setRec] = useState<FixRecord | null>(null);
   const [trials, setTrials] = useState<TrialRow[]>([]);
   const [loading, setLoading] = useState(true);
