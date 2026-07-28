@@ -62,6 +62,8 @@ interface TrialRow {
   notes: string | null;
   press: string | null;
   tool: string | null;
+  machine_id: string | null;
+  mold_id: string | null;
   shot_count: number | null;
   created_at: string;
 }
