@@ -12,6 +12,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { useTenant } from '@/contexts/TenantContext';
 import { useCreateIssue, type IssueCategory, type IssuePriority } from '@/hooks/useIssues';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 
 export default function IssueNew() {
   const navigate = useNavigate();
