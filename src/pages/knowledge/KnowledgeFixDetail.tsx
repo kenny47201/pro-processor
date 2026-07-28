@@ -416,8 +416,8 @@ export default function KnowledgeFixDetail() {
                       <div className="min-w-0 flex-1">
                         <div className="flex flex-wrap gap-x-2 gap-y-0.5 text-xs text-muted-foreground">
                           <span>{formatDistanceToNow(new Date(t.created_at), { addSuffix: true })}</span>
-                          {t.press && <span>· Press: <span className="text-foreground">{t.press}</span></span>}
-                          {t.tool && <span>· Tool: <span className="text-foreground">{t.tool}</span></span>}
+                          {(machineName(t.machine_id) || t.press) && <span>· Press: <span className="text-foreground">{machineName(t.machine_id) || t.press}</span></span>}
+                          {(moldName(t.mold_id) || t.tool) && <span>· Tool: <span className="text-foreground">{moldName(t.mold_id) || t.tool}</span></span>}
                           {t.shot_count != null && <span>· Shots: <span className="text-foreground">{t.shot_count}</span></span>}
                         </div>
                         {t.notes && <div className="mt-1 whitespace-pre-wrap">{t.notes}</div>}
