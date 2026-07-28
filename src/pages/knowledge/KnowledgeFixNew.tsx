@@ -142,6 +142,14 @@ export default function KnowledgeFixNew() {
             <Label className="text-sm font-semibold">Context</Label>
             <p className="text-xs text-muted-foreground mb-3">Tag what this fix applies to. All optional.</p>
             <div className="grid gap-3 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label className="text-xs">Press</Label>
+                <MachinePicker value={machineId} onChange={setMachineId} />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="text-xs">Tool / Mold</Label>
+                <MoldPicker value={moldId} onChange={setMoldId} />
+              </div>
               {CATEGORY_FIELDS.map((f) => (
                 <div key={f.key} className="space-y-1.5">
                   <Label htmlFor={f.key} className="text-xs">{f.label}</Label>
@@ -155,6 +163,7 @@ export default function KnowledgeFixNew() {
               ))}
             </div>
           </div>
+
 
           <div className="space-y-2">
             <Label htmlFor="problem">Problem</Label>
