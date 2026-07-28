@@ -20,7 +20,7 @@ export default function ProcessorDashboard() {
       const [issues, tasks, fixes] = await Promise.all([
         supabase
           .from('issues')
-          .select('id,title,priority,status,press:issues_press_fkey(*)')
+          .select('id,title,priority,status')
           .neq('status', 'closed')
           .order('created_at', { ascending: false })
           .limit(5),
