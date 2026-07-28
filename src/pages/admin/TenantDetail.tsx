@@ -335,6 +335,14 @@ export default function TenantDetail() {
           ))}
         </TabsContent>
 
+        <TabsContent value="presses" className="mt-4">
+          <MachineRegistry tenantId={tenant.id} canEdit={isAdmin} />
+        </TabsContent>
+
+        <TabsContent value="molds" className="mt-4">
+          <MoldRegistry tenantId={tenant.id} canEdit={isAdmin} />
+        </TabsContent>
+
         {/* Users */}
         <TabsContent value="users" className="mt-4 space-y-3">
           <div className="flex items-center justify-between">
