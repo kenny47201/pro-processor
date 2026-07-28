@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 
 interface ParamChange {
   param: string;
@@ -17,9 +18,7 @@ interface ParamChange {
   units: string;
 }
 
-const CATEGORY_FIELDS: { key: 'tool' | 'press' | 'material' | 'color' | 'additive'; label: string; placeholder: string }[] = [
-  { key: 'tool', label: 'Tool / Mold', placeholder: 'Tool ID or mold name' },
-  { key: 'press', label: 'Press', placeholder: 'Machine name or asset tag' },
+const CATEGORY_FIELDS: { key: 'material' | 'color' | 'additive'; label: string; placeholder: string }[] = [
   { key: 'material', label: 'Material', placeholder: 'e.g. PP HOM, ABS, PC/ABS' },
   { key: 'color', label: 'Color', placeholder: 'Color name or code' },
   { key: 'additive', label: 'Additive', placeholder: 'e.g. UV stabilizer, MB %' },
