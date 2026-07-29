@@ -28,6 +28,7 @@ export const knowledgeGuides: DepartmentalKnowledgeGuide[] = [
   { ...crystallinityGuide, department: 'Processing' },
   { ...proactiveMaintenanceGuide, department: 'Maintenance' },
   { ...hydraulicsPneumaticsGuide, department: 'Maintenance' },
+  { ...hydraulicPressureDropTroubleshooting, department: 'Maintenance' },
 ];
 
 export const KNOWLEDGE_DEPARTMENTS: KnowledgeDepartment[] = ['Processing', 'Maintenance', 'Tool Room'];
