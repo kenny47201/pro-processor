@@ -35,7 +35,7 @@ export const cavitationVsAerationGuide: KnowledgeGuide = {
           text: 'The sound pattern is one of the best clues when distinguishing the two conditions:',
         },
         {
-          type: 'unorderedList',
+          type: 'list',
           items: [
             'Cavitation usually makes a steady, high-pitched whine that tracks with pump speed and load.',
             'Aeration tends to sound more erratic and may include a marbles-or-gravel noise as slugs of air move through the pump.',
@@ -53,7 +53,7 @@ export const cavitationVsAerationGuide: KnowledgeGuide = {
           text: 'Foamy oil in the reservoir strongly supports aeration. Look for foam, bubbles, or a shimmering surface in the sight glass. Cavitation can also be present if the suction side is starved enough to pull vapor bubbles out of the fluid, but it does not usually create persistent foam in the reservoir.',
         },
         {
-          type: 'unorderedList',
+          type: 'list',
           items: [
             'Persistent foam → suspect aeration first.',
             'Clear oil but high-pitched whine under load → suspect cavitation.',
