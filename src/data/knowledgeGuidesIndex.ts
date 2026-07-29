@@ -14,6 +14,7 @@ import { pumpFlowTestGuide } from './pumpFlowTestGuide';
 import { hydraulicAirIngestionGuide } from './hydraulicAirIngestionGuide';
 import { reservoirAirBleedGuide } from './reservoirAirBleedGuide';
 import { cavitationVsAerationGuide } from './cavitationVsAerationGuide';
+import { foamyOilRisksGuide } from './foamyOilRisksGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
 export type KnowledgeDepartment = 'Processing' | 'Maintenance' | 'Tool Room';
