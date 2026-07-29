@@ -10,6 +10,7 @@ import { proactiveMaintenanceGuide } from './proactiveMaintenanceGuide';
 import { hydraulicsPneumaticsGuide } from './hydraulicsPneumaticsGuide';
 import { hydraulicPressureDropTroubleshooting } from './hydraulicPressureDropTroubleshooting';
 import { pumpFailureSignsGuide } from './pumpFailureSignsGuide';
+import { pumpFlowTestGuide } from './pumpFlowTestGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
 export type KnowledgeDepartment = 'Processing' | 'Maintenance' | 'Tool Room';
