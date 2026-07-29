@@ -11,6 +11,7 @@ import { hydraulicsPneumaticsGuide } from './hydraulicsPneumaticsGuide';
 import { hydraulicPressureDropTroubleshooting } from './hydraulicPressureDropTroubleshooting';
 import { pumpFailureSignsGuide } from './pumpFailureSignsGuide';
 import { pumpFlowTestGuide } from './pumpFlowTestGuide';
+import { hydraulicAirIngestionGuide } from './hydraulicAirIngestionGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
 export type KnowledgeDepartment = 'Processing' | 'Maintenance' | 'Tool Room';
