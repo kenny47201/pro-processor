@@ -55,7 +55,15 @@ export type GuideBlock =
         label: string;
         /** What to do / trace at this step. */
         focus: string;
-        symbols?: { glyph?: string; name: string; hint: string }[];
+        symbols?: {
+          glyph?: string;
+          name: string;
+          hint: string;
+          /** Common field interpretations shown in the symbol glossary panel. */
+          meanings?: string[];
+          /** Name of a line type in this step's legend that this symbol sits on. */
+          lineRef?: string;
+        }[];
         lineTypes?: {
           name: string;
           style?: 'solid' | 'dashed' | 'dotted' | 'double';
