@@ -420,6 +420,112 @@ export function SymbolTour({ block }: { block: TourBlock }) {
           </div>
         )}
       </div>
+
+      {/* Symbol glossary */}
+      <details className="rounded-md border border-border bg-background/70 group">
+        <summary
+          className={cn(
+            'flex cursor-pointer list-none items-center gap-2 font-semibold select-none',
+            a11y ? 'px-4 py-3.5 text-sm' : 'px-3 py-2.5 text-xs',
+          )}
+        >
+          <BookOpen className="h-4 w-4 text-primary shrink-0" />
+          Symbol glossary — every symbol in this tour, its legend line, and common interpretations
+          <ChevronRight className="h-4 w-4 ml-auto shrink-0 text-muted-foreground transition-transform group-open:rotate-90" />
+        </summary>
+        <div className={cn('border-t border-border space-y-3', a11y ? 'p-4' : 'p-3')}>
+          {block.steps.map((s, i) =>
+            (s.symbols ?? []).length === 0 ? null : (
+              <div key={i} className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono uppercase tracking-wide text-muted-foreground">
+                    Step {i + 1}
+                  </span>
+                  <span className={cn('font-medium truncate', a11y ? 'text-sm' : 'text-xs')}>{s.label}</span>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-6 px-2 text-[10px] ml-auto shrink-0"
+                    onClick={() => setActive(i)}
+                  >
+                    Go to step
+                  </Button>
+                </div>
+                <ul className="space-y-1.5">
+                  {(s.symbols ?? []).map((sym, j) => {
+                    const line = sym.lineRef
+                      ? (s.lineTypes ?? []).find((l) => l.name === sym.lineRef)
+                      : undefined;
+                    const identified = !!state.checked[`${i}:${j}`];
+                    return (
+                      <li
+                        key={j}
+                        className={cn(
+                          'rounded-md border bg-muted/20 space-y-1',
+                          a11y ? 'px-3 py-3 border-2' : 'px-2.5 py-2',
+                        )}
+                      >
+                        <div className="flex items-center gap-2 flex-wrap">
+                          {sym.glyph && (
+                            <span className={cn('font-mono text-primary', a11y ? 'text-lg' : 'text-sm')}>
+                              {sym.glyph}
+                            </span>
+                          )}
+                          <span className={cn('font-semibold', a11y ? 'text-sm' : 'text-xs')}>{sym.name}</span>
+                          {identified && (
+                            <span className="inline-flex items-center gap-1 text-[10px] text-success">
+                              <Check className="h-3 w-3" /> identified
+                            </span>
+                          )}
+                        </div>
+                        <p
+                          className={cn(
+                            'leading-snug',
+                            a11y ? 'text-sm text-foreground/80' : 'text-xs text-muted-foreground',
+                          )}
+                        >
+                          {sym.hint}
+                        </p>
+                        {line && (
+                          <div className="flex items-center gap-2">
+                            <LineSwatch line={line} a11y={false} />
+                            <span
+                              className={cn(
+                                'text-[11px]',
+                                accentText[line.accent ?? 'primary'],
+                              )}
+                            >
+                              {line.name}
+                            </span>
+                            <span className="text-[11px] text-muted-foreground truncate">
+                              — {line.meaning}
+                            </span>
+                          </div>
+                        )}
+                        {sym.meanings && sym.meanings.length > 0 && (
+                          <ul className="list-disc pl-4 space-y-0.5">
+                            {sym.meanings.map((m, k) => (
+                              <li
+                                key={k}
+                                className={cn(
+                                  'leading-snug',
+                                  a11y ? 'text-sm text-foreground/80' : 'text-xs text-muted-foreground',
+                                )}
+                              >
+                                {m}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ),
+          )}
+        </div>
+      </details>
     </section>
   );
 }
