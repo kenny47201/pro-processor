@@ -44,6 +44,28 @@ export type GuideBlock =
       lookFor?: { title?: string; items: string[]; tone?: 'info' | 'warning' | 'success' };
     }
   | {
+      /**
+       * Interactive step-by-step tour for reading a drawing. Each step is a tappable
+       * card that highlights the symbols and line types to look for at that stage.
+       */
+      type: 'symbolTour';
+      title?: string;
+      description?: string;
+      steps: {
+        label: string;
+        /** What to do / trace at this step. */
+        focus: string;
+        symbols?: { glyph?: string; name: string; hint: string }[];
+        lineTypes?: {
+          name: string;
+          style?: 'solid' | 'dashed' | 'dotted' | 'double';
+          accent?: 'primary' | 'warning' | 'success' | 'muted';
+          meaning: string;
+        }[];
+        tip?: string;
+      }[];
+    }
+  | {
       /** Cross-link to one or more Process Tools calculators relevant to this defect. */
       type: 'calculatorLinks';
       title?: string;
