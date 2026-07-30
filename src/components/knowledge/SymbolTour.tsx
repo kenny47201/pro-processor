@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BookOpen,
   Check,
@@ -79,6 +79,17 @@ export function SymbolTour({ block }: { block: TourBlock }) {
 
   const [state, setState] = useState<TourProgress>(emptyProgress);
   const [restored, setRestored] = useState(false);
+  const [focusedSymbol, setFocusedSymbol] = useState<string | null>(null);
+  const symbolRefs = useRef<Record<string, HTMLLIElement | null>>({});
+
+  // Scroll the focused checklist item into view after the step switches.
+  useEffect(() => {
+    if (!focusedSymbol) return;
+    const el = symbolRefs.current[focusedSymbol];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const t = window.setTimeout(() => setFocusedSymbol(null), 2600);
+    return () => window.clearTimeout(t);
+  }, [focusedSymbol]);
 
   // Load per-user progress whenever the user or tour changes.
   useEffect(() => {
@@ -296,12 +307,17 @@ export function SymbolTour({ block }: { block: TourBlock }) {
                 return (
                   <li
                     key={j}
+                    ref={(el) => {
+                      symbolRefs.current[key] = el;
+                    }}
                     className={cn(
-                      'flex items-start gap-2.5 rounded-md border transition-colors',
+                      'flex items-start gap-2.5 rounded-md border transition-all',
                       a11y ? 'px-3 py-3 border-2 min-h-[56px]' : 'px-2.5 py-2',
                       isChecked
                         ? 'border-success/50 bg-success/10'
                         : cn('bg-primary/5', a11y ? 'border-primary' : 'border-primary/25'),
+                      focusedSymbol === key &&
+                        'ring-2 ring-primary ring-offset-2 ring-offset-background border-primary',
                     )}
                   >
                     <Checkbox
@@ -461,8 +477,22 @@ export function SymbolTour({ block }: { block: TourBlock }) {
                     return (
                       <li
                         key={j}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Go to ${sym.name} in step ${i + 1}`}
+                        onClick={() => {
+                          setActive(i);
+                          setFocusedSymbol(`${i}:${j}`);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setActive(i);
+                            setFocusedSymbol(`${i}:${j}`);
+                          }
+                        }}
                         className={cn(
-                          'rounded-md border bg-muted/20 space-y-1',
+                          'rounded-md border bg-muted/20 space-y-1 cursor-pointer transition-colors hover:border-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                           a11y ? 'px-3 py-3 border-2' : 'px-2.5 py-2',
                         )}
                       >
@@ -478,6 +508,9 @@ export function SymbolTour({ block }: { block: TourBlock }) {
                               <Check className="h-3 w-3" /> identified
                             </span>
                           )}
+                          <span className="ml-auto text-[10px] text-muted-foreground shrink-0">
+                            Step {i + 1} →
+                          </span>
                         </div>
                         <p
                           className={cn(
