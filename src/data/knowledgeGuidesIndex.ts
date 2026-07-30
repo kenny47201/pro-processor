@@ -17,6 +17,7 @@ import { cavitationVsAerationGuide } from './cavitationVsAerationGuide';
 import { foamyOilRisksGuide } from './foamyOilRisksGuide';
 import { maintenanceCoreJobGuide } from './maintenanceCoreJobGuide';
 import { readingSchematicsGuide } from './readingSchematicsGuide';
+import { eliteMaintenanceTrainingGuide } from './eliteMaintenanceTrainingGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
 export type KnowledgeDepartment = 'Processing' | 'Maintenance' | 'Tool Room';
