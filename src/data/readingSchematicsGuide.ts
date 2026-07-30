@@ -68,6 +68,15 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'A good beginner trick is to ask, "If oil leaves the pump, what valve decides where it goes next?" That question usually leads you through the whole circuit.',
         },
+        {
+          type: 'image',
+          src: schematicsHydraulicCard,
+          alt: 'Hydraulic schematic reference card showing main parts, line types, reading order, and an example circuit',
+          figureNumber: 'Card 2',
+          caption:
+            'Hydraulic reference card: main parts to find first, line-type legend, connection dot versus hop-over, six-step reading order, and a tank-to-tank example circuit.',
+        },
+
       ],
     },
     {
