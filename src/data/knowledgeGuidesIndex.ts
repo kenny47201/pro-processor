@@ -46,7 +46,6 @@ export const knowledgeGuides: DepartmentalKnowledgeGuide[] = [
   { ...foamyOilRisksGuide, department: 'Maintenance' },
   { ...maintenanceCoreJobGuide, department: 'Maintenance' },
   { ...readingSchematicsGuide, department: 'Maintenance' },
-  { ...readingSchematicsGuide, department: 'Maintenance' },
   { ...eliteMaintenanceTrainingGuide, department: 'Maintenance' },
 ];
 
