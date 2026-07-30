@@ -1,4 +1,8 @@
 import type { KnowledgeGuide } from './fountainFlowGuide';
+import schematicsOverviewCard from '@/assets/schematics-overview-infographic.png';
+import schematicsHydraulicCard from '@/assets/schematics-hydraulic-infographic.png';
+import schematicsPneumaticCard from '@/assets/schematics-pneumatic-infographic.png';
+import schematicsElectricalCard from '@/assets/schematics-electrical-infographic.png';
 
 export const readingSchematicsGuide: KnowledgeGuide = {
   slug: 'reading-schematics-hydraulic-pneumatic-electrical',
@@ -14,8 +18,17 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'A schematic is not a picture of the machine; it is a simplified drawing that shows what connects to what and what each part is supposed to do. Once you learn to follow the lines and recognize the symbols, you can understand how the machine works without opening it up. The key is to read it like a story: where does power enter, what controls it, and where does it go next.',
         },
+        {
+          type: 'image',
+          src: schematicsOverviewCard,
+          alt: 'Beginner overview reference card comparing hydraulic, pneumatic, and electrical schematics with common symbols',
+          figureNumber: 'Card 1',
+          caption:
+            'Beginner overview: first steps, line-type legend, the three system types, four questions to ask, mistakes to avoid, learning order, and common symbols.',
+        },
       ],
     },
+
     {
       id: 'first-steps',
       title: 'First Steps for Any Schematic',
@@ -55,6 +68,15 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'A good beginner trick is to ask, "If oil leaves the pump, what valve decides where it goes next?" That question usually leads you through the whole circuit.',
         },
+        {
+          type: 'image',
+          src: schematicsHydraulicCard,
+          alt: 'Hydraulic schematic reference card showing main parts, line types, reading order, and an example circuit',
+          figureNumber: 'Card 2',
+          caption:
+            'Hydraulic reference card: main parts to find first, line-type legend, connection dot versus hop-over, six-step reading order, and a tank-to-tank example circuit.',
+        },
+
       ],
     },
     {
@@ -80,6 +102,15 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'A pneumatic circuit is often easier to understand if you think of it as "air in, air controlled, air out".',
         },
+        {
+          type: 'image',
+          src: schematicsPneumaticCard,
+          alt: 'Pneumatic schematic reference card showing air supply, FRL, valves, exhaust paths, and an example circuit',
+          figureNumber: 'Card 3',
+          caption:
+            'Pneumatic reference card: air supply and preparation, valves and flow controls, exhaust and pilot lines, plus a double-acting cylinder example circuit.',
+        },
+
       ],
     },
     {
@@ -105,6 +136,15 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'Think of an electrical schematic as a decision tree: "If this switch closes, then this relay energizes, then this coil shifts the valve or starts the motor".',
         },
+        {
+          type: 'image',
+          src: schematicsElectricalCard,
+          alt: 'Electrical schematic reference card showing power sources, protection, control devices, contact behavior, and a ladder example circuit',
+          figureNumber: 'Card 4',
+          caption:
+            'Electrical reference card: power and protection, control and output devices, normally open versus normally closed behavior, and a start/stop relay ladder example.',
+        },
+
       ],
     },
     {
