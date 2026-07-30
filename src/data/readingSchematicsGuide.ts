@@ -136,6 +136,15 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'Think of an electrical schematic as a decision tree: "If this switch closes, then this relay energizes, then this coil shifts the valve or starts the motor".',
         },
+        {
+          type: 'image',
+          src: schematicsElectricalCard,
+          alt: 'Electrical schematic reference card showing power sources, protection, control devices, contact behavior, and a ladder example circuit',
+          figureNumber: 'Card 4',
+          caption:
+            'Electrical reference card: power and protection, control and output devices, normally open versus normally closed behavior, and a start/stop relay ladder example.',
+        },
+
       ],
     },
     {
