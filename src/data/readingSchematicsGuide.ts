@@ -79,10 +79,30 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Start at the bottom of the drawing where the tank symbol sits, then find the pump feeding out of it. This is where pressure energy is created and where every trace should begin.',
               symbols: [
-                { glyph: '⊔', name: 'Reservoir / tank', hint: 'Open-top rectangle; return lines drop into it.' },
-                { glyph: '◯▶', name: 'Fixed pump', hint: 'Circle with one solid triangle pointing out.' },
-                { glyph: '◯▶▶', name: 'Variable pump', hint: 'Circle with an arrow drawn diagonally through it.' },
-                { glyph: 'M', name: 'Electric motor', hint: 'Circle marked M coupled to the pump.' },
+                {
+                  glyph: '⊔',
+                  name: 'Reservoir / tank',
+                  hint: 'Open-top rectangle; return lines drop into it.',
+                  meanings: ['Every trace starts and ends here — if you cannot get back to tank, you have missed a branch.', 'Return, drain, and relief lines all terminate in this symbol.', 'Fluid level, temperature, and breather condition are the first field checks.'], lineRef: 'Drain line',
+                },
+                {
+                  glyph: '◯▶',
+                  name: 'Fixed pump',
+                  hint: 'Circle with one solid triangle pointing out.',
+                  meanings: ['Constant displacement — flow is set by rpm, so speed changes come from valves, not the pump.', 'Excess flow goes over the relief valve, which is where wasted horsepower turns into oil heat.'], lineRef: 'Working line',
+                },
+                {
+                  glyph: '◯▶▶',
+                  name: 'Variable pump',
+                  hint: 'Circle with an arrow drawn diagonally through it.',
+                  meanings: ['Displacement changes on demand, so pressure can hold with little flow.', 'Unstable pressure or hunting usually points at the compensator, not the motor.'], lineRef: 'Working line',
+                },
+                {
+                  glyph: 'M',
+                  name: 'Electric motor',
+                  hint: 'Circle marked M coupled to the pump.',
+                  meanings: ['Drives the pump; ties this print to a starter or drive on the electrical schematic.', 'Overload trips here often mean a hydraulic restriction, not an electrical fault.'],
+                },
               ],
               lineTypes: [
                 { name: 'Working line', style: 'solid', accent: 'primary', meaning: 'Main oil flow leaving the pump.' },
@@ -95,9 +115,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Follow the solid line leaving the pump outlet. Note every tee and every gauge port along the way; those are your test points when you troubleshoot later.',
               symbols: [
-                { glyph: '⊙', name: 'Pressure gauge', hint: 'Circle with a pointer; marks a legitimate test point.' },
-                { glyph: '●', name: 'Connection dot', hint: 'Lines that cross WITH a dot are joined.' },
-                { glyph: '⌒', name: 'Hop-over', hint: 'Lines that cross with a hop are NOT joined.' },
+                {
+                  glyph: '⊙',
+                  name: 'Pressure gauge',
+                  hint: 'Circle with a pointer; marks a legitimate test point.',
+                  meanings: ['Marks a sanctioned test point — take baseline readings here when the machine runs well.', 'A gauge port with no gauge is still your fastest place to install one.'], lineRef: 'Pressure line',
+                },
+                {
+                  glyph: '●',
+                  name: 'Connection dot',
+                  hint: 'Lines that cross WITH a dot are joined.',
+                  meanings: ['A dot means the lines are joined and share the same pressure.', 'Missing dots are the most common misread on a crowded print.'],
+                },
+                {
+                  glyph: '⌒',
+                  name: 'Hop-over',
+                  hint: 'Lines that cross with a hop are NOT joined.',
+                  meanings: ['The hop means the lines cross but do not connect.', 'Older prints may use a plain crossing; check the drawing legend before assuming.'],
+                },
               ],
               lineTypes: [
                 { name: 'Pressure line', style: 'solid', accent: 'primary', meaning: 'Full system pressure downstream of the pump.' },
@@ -109,9 +144,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Find the devices that limit or hold pressure before the oil reaches an actuator. Their pilot lines tell you what they are sensing.',
               symbols: [
-                { glyph: '▣↗', name: 'Relief valve', hint: 'Single square with an arrow and a spring; sets max pressure.' },
-                { glyph: '▣↘', name: 'Reducing valve', hint: 'Square with the arrow offset; lowers pressure to one branch.' },
-                { glyph: '▣⇅', name: 'Counterbalance', hint: 'Holds a load against gravity until pilot pressure arrives.' },
+                {
+                  glyph: '▣↗',
+                  name: 'Relief valve',
+                  hint: 'Single square with an arrow and a spring; sets max pressure.',
+                  meanings: ['Sets the maximum system pressure and protects the pump.', 'Continuous dumping means wasted energy and hot oil.', 'A relief stuck open reads as low pressure everywhere downstream.'], lineRef: 'Tank / return',
+                },
+                {
+                  glyph: '▣↘',
+                  name: 'Reducing valve',
+                  hint: 'Square with the arrow offset; lowers pressure to one branch.',
+                  meanings: ['Drops pressure for one branch only — core pulls, ejectors, or clamp low pressure.', 'A branch that is low while the main gauge is normal points here first.'], lineRef: 'Pilot line',
+                },
+                {
+                  glyph: '▣⇅',
+                  name: 'Counterbalance',
+                  hint: 'Holds a load against gravity until pilot pressure arrives.',
+                  meanings: ['Holds a vertical load until pilot pressure allows motion.', 'Drifting platens or slides suggest a leaking counterbalance or its check.'], lineRef: 'Pilot line',
+                },
               ],
               lineTypes: [
                 { name: 'Pilot line', style: 'dashed', accent: 'warning', meaning: 'Small signal line that shifts or sets a valve.' },
@@ -124,9 +174,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Locate the boxed valve that decides where the oil goes. Count the boxes for positions and the ports on each box for ways, then check how it is shifted.',
               symbols: [
-                { glyph: '▭▭▭', name: '4/3 directional valve', hint: 'Three boxes = three positions; four ports = four ways.' },
-                { glyph: '⌁', name: 'Solenoid operator', hint: 'Small angled box on the valve end; energized electrically.' },
-                { glyph: '⌇', name: 'Spring return', hint: 'Coil symbol; shows the rest position when de-energized.' },
+                {
+                  glyph: '▭▭▭',
+                  name: '4/3 directional valve',
+                  hint: 'Three boxes = three positions; four ports = four ways.',
+                  meanings: ['Boxes = positions, ports = ways; read the center box to know the rest state.', 'Closed center holds, tandem unloads the pump, float lets the actuator drift.'], lineRef: 'Working lines A and B',
+                },
+                {
+                  glyph: '⌁',
+                  name: 'Solenoid operator',
+                  hint: 'Small angled box on the valve end; energized electrically.',
+                  meanings: ['Cross-reference this to an output coil on the electrical print.', 'Voltage present but no shift means a failed coil or a stuck spool.'], lineRef: 'Pilot line',
+                },
+                {
+                  glyph: '⌇',
+                  name: 'Spring return',
+                  hint: 'Coil symbol; shows the rest position when de-energized.',
+                  meanings: ['Shows where the valve sits when power is lost — that is your safe state.', 'Check this before energizing; it predicts what moves at power-up.'],
+                },
               ],
               lineTypes: [
                 { name: 'Working lines A and B', style: 'solid', accent: 'primary', meaning: 'Route to the two actuator ports.' },
@@ -139,9 +204,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Follow lines A and B to the device doing the work. Note rod side versus cap side — that is what sets clamp force and speed.',
               symbols: [
-                { glyph: '⊏⊐', name: 'Double-acting cylinder', hint: 'Rectangle with a piston and rod; ports on both ends.' },
-                { glyph: '◯▶◀', name: 'Hydraulic motor', hint: 'Circle with triangles pointing in; rotary output.' },
-                { glyph: '⨯', name: 'Flow control', hint: 'Restrictor with an arrow; meters speed, not force.' },
+                {
+                  glyph: '⊏⊐',
+                  name: 'Double-acting cylinder',
+                  hint: 'Rectangle with a piston and rod; ports on both ends.',
+                  meanings: ['Cap-side area is larger, so extend force exceeds retract force at the same pressure.', 'Drifting under load usually means piston seal bypass — verify with a controlled hold test.'], lineRef: 'Working line',
+                },
+                {
+                  glyph: '◯▶◀',
+                  name: 'Hydraulic motor',
+                  hint: 'Circle with triangles pointing in; rotary output.',
+                  meanings: ['Rotary output — screw drive, core pulls, or auxiliary rotation.', 'Case drain flow above baseline is an early wear indicator.'], lineRef: 'Working line',
+                },
+                {
+                  glyph: '⨯',
+                  name: 'Flow control',
+                  hint: 'Restrictor with an arrow; meters speed, not force.',
+                  meanings: ['Sets speed, never force; a speed complaint belongs here, a force complaint does not.', 'Meter-in controls the feed side, meter-out controls the exhaust side and resists load runaway.'], lineRef: 'Working line',
+                },
               ],
               lineTypes: [
                 { name: 'Working line', style: 'solid', accent: 'primary', meaning: 'Pressurized side pushing the piston.' },
@@ -154,9 +234,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Finish the trace by following the return path through any filter or cooler and back into the reservoir. A circuit you cannot trace back to tank is a circuit you have not finished reading.',
               symbols: [
-                { glyph: '◇', name: 'Filter', hint: 'Diamond with a dashed centerline.' },
-                { glyph: '◇≈', name: 'Cooler / heat exchanger', hint: 'Diamond with arrows showing heat removal.' },
-                { glyph: '⊔', name: 'Reservoir', hint: 'The trace ends where it started.' },
+                {
+                  glyph: '◇',
+                  name: 'Filter',
+                  hint: 'Diamond with a dashed centerline.',
+                  meanings: ['Watch for the bypass check — a bypassing filter passes dirty oil silently.', 'Indicator or differential switch on this symbol is a real PM data point.'], lineRef: 'Return line',
+                },
+                {
+                  glyph: '◇≈',
+                  name: 'Cooler / heat exchanger',
+                  hint: 'Diamond with arrows showing heat removal.',
+                  meanings: ['Oil temperature rise points at wasted power upstream, not usually the cooler itself.', 'Water side fouling and low coolant flow are the common failures.'], lineRef: 'Return line',
+                },
+                {
+                  glyph: '⊔',
+                  name: 'Reservoir',
+                  hint: 'The trace ends where it started.',
+                  meanings: ['The trace is complete once the return path re-enters this symbol.', 'Restricted returns show up as back pressure, heat, and sluggish retract.'], lineRef: 'Return line',
+                },
               ],
               lineTypes: [
                 { name: 'Return line', style: 'solid', accent: 'success', meaning: 'Low-pressure oil heading home.' },
@@ -211,9 +306,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Start at the compressor, receiver, or plant air header symbol. Note the supply pressure called out on the drawing; every downstream setting is relative to it.',
               symbols: [
-                { glyph: '◯▶', name: 'Compressor', hint: 'Circle with an outward triangle, like a pump.' },
-                { glyph: '⬭', name: 'Receiver tank', hint: 'Oval or rounded vessel storing volume.' },
-                { glyph: '▽', name: 'Air supply / source', hint: 'Open triangle marking the plant air connection.' },
+                {
+                  glyph: '◯▶',
+                  name: 'Compressor',
+                  hint: 'Circle with an outward triangle, like a pump.',
+                  meanings: ['Source of plant air; on machine prints it is often just a supply arrow.', 'Pressure dips across the plant point upstream, not at the press.'], lineRef: 'Main air line',
+                },
+                {
+                  glyph: '⬭',
+                  name: 'Receiver tank',
+                  hint: 'Oval or rounded vessel storing volume.',
+                  meanings: ['Stores volume to absorb demand spikes.', 'Water accumulates here — a missed drain sends moisture downstream.'], lineRef: 'Main air line',
+                },
+                {
+                  glyph: '▽',
+                  name: 'Air supply / source',
+                  hint: 'Open triangle marking the plant air connection.',
+                  meanings: ['Marks where plant air enters this drawing.', 'Verify supply pressure here before troubleshooting anything downstream.'], lineRef: 'Main air line',
+                },
               ],
               lineTypes: [
                 { name: 'Main air line', style: 'solid', accent: 'primary', meaning: 'Full supply pressure to the machine.' },
@@ -225,9 +335,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Find the filter, regulator, and lubricator group. This is where dirty, wet, unregulated air becomes usable air, and where most nuisance faults start.',
               symbols: [
-                { glyph: '◇', name: 'Filter / water separator', hint: 'Diamond with a bowl and drain underneath.' },
-                { glyph: '▣↘', name: 'Regulator', hint: 'Square with an adjustable spring arrow.' },
-                { glyph: '◇◦', name: 'Lubricator', hint: 'Diamond with a drop symbol inside.' },
+                {
+                  glyph: '◇',
+                  name: 'Filter / water separator',
+                  hint: 'Diamond with a bowl and drain underneath.',
+                  meanings: ['Removes moisture and particulate before the valves see it.', 'A full bowl or plugged element shows as slow, weak actuation.'], lineRef: 'Drain',
+                },
+                {
+                  glyph: '▣↘',
+                  name: 'Regulator',
+                  hint: 'Square with an adjustable spring arrow.',
+                  meanings: ['Sets the working pressure for this branch, not for the plant.', 'Creeping or drooping pressure under demand means a worn regulator.'], lineRef: 'Regulated air',
+                },
+                {
+                  glyph: '◇◦',
+                  name: 'Lubricator',
+                  hint: 'Diamond with a drop symbol inside.',
+                  meanings: ['Adds oil mist for older tooling; many modern valves must stay dry.', 'Check OEM requirements before adding oil to a non-lube circuit.'], lineRef: 'Regulated air',
+                },
               ],
               lineTypes: [
                 { name: 'Regulated air', style: 'solid', accent: 'primary', meaning: 'Downstream of the regulator at set pressure.' },
@@ -240,9 +365,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Find the boxed directional valve that decides when air reaches the cylinder. Check its actuators on both ends: solenoid, pilot, manual lever, or spring return.',
               symbols: [
-                { glyph: '▭▭', name: '5/2 valve', hint: 'Two boxes, five ports: supply, two work ports, two exhausts.' },
-                { glyph: '⌁', name: 'Solenoid operator', hint: 'Electrically shifted; ties back to the electrical print.' },
-                { glyph: '⌇', name: 'Spring return', hint: 'Defines the safe rest position on air loss.' },
+                {
+                  glyph: '▭▭',
+                  name: '5/2 valve',
+                  hint: 'Two boxes, five ports: supply, two work ports, two exhausts.',
+                  meanings: ['Two positions, five ports: one supply, two work, two exhaust.', 'Detented versions stay put on air loss; spring-return versions do not.'], lineRef: 'Work lines',
+                },
+                {
+                  glyph: '⌁',
+                  name: 'Solenoid operator',
+                  hint: 'Electrically shifted; ties back to the electrical print.',
+                  meanings: ['Cross-reference this to an output coil on the electrical print.', 'Voltage present but no shift means a failed coil or a stuck spool.'], lineRef: 'Pilot line',
+                },
+                {
+                  glyph: '⌇',
+                  name: 'Spring return',
+                  hint: 'Defines the safe rest position on air loss.',
+                  meanings: ['Shows where the valve sits when power is lost — that is your safe state.', 'Check this before energizing; it predicts what moves at power-up.'],
+                },
               ],
               lineTypes: [
                 { name: 'Work lines', style: 'solid', accent: 'primary', meaning: 'Air routed to each cylinder port.' },
@@ -255,9 +395,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Follow the work lines to the moving device, and note any flow controls at its ports. In pneumatics, speed is almost always set by metering exhaust, not supply.',
               symbols: [
-                { glyph: '⊏⊐', name: 'Double-acting cylinder', hint: 'Ports on both ends; air both extends and retracts.' },
-                { glyph: '⊏|', name: 'Single-acting cylinder', hint: 'One port plus a return spring.' },
-                { glyph: '⨯▷', name: 'Flow control with check', hint: 'Restrictor plus bypass check; meters one direction only.' },
+                {
+                  glyph: '⊏⊐',
+                  name: 'Double-acting cylinder',
+                  hint: 'Ports on both ends; air both extends and retracts.',
+                  meanings: ['Cap-side area is larger, so extend force exceeds retract force at the same pressure.', 'Drifting under load usually means piston seal bypass — verify with a controlled hold test.'], lineRef: 'Working line',
+                },
+                {
+                  glyph: '⊏|',
+                  name: 'Single-acting cylinder',
+                  hint: 'One port plus a return spring.',
+                  meanings: ['Air extends, spring returns — or the reverse.', 'A weak return usually means a broken spring or a blocked vent port.'], lineRef: 'Work line',
+                },
+                {
+                  glyph: '⨯▷',
+                  name: 'Flow control with check',
+                  hint: 'Restrictor plus bypass check; meters one direction only.',
+                  meanings: ['Meters in one direction and free-flows the other.', 'Nearly always set for meter-out on air to keep motion smooth.'], lineRef: 'Metered exhaust',
+                },
               ],
               lineTypes: [
                 { name: 'Work line', style: 'solid', accent: 'primary', meaning: 'Pressurized side driving the stroke.' },
@@ -270,9 +425,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Finish at the exhaust ports. Unlike hydraulics, the trace ends venting to atmosphere, often through a muffler or a quick-exhaust valve mounted at the cylinder.',
               symbols: [
-                { glyph: '▽', name: 'Exhaust to atmosphere', hint: 'Open triangle at the valve exhaust ports.' },
-                { glyph: '▽≡', name: 'Muffler / silencer', hint: 'Triangle with hatching; restricts if clogged.' },
-                { glyph: '▣▽', name: 'Quick exhaust valve', hint: 'Dumps cylinder air locally for fast retract.' },
+                {
+                  glyph: '▽',
+                  name: 'Exhaust to atmosphere',
+                  hint: 'Open triangle at the valve exhaust ports.',
+                  meanings: ['Air leaves here instead of returning — no tank in a pneumatic circuit.', 'Blocked exhaust is a top cause of slow or stalling cylinders.'], lineRef: 'Exhaust path',
+                },
+                {
+                  glyph: '▽≡',
+                  name: 'Muffler / silencer',
+                  hint: 'Triangle with hatching; restricts if clogged.',
+                  meanings: ['Quiets exhaust but restricts when clogged with oil or debris.', 'Swap or clean before condemning the valve on a slow-cylinder call.'], lineRef: 'Exhaust path',
+                },
+                {
+                  glyph: '▣▽',
+                  name: 'Quick exhaust valve',
+                  hint: 'Dumps cylinder air locally for fast retract.',
+                  meanings: ['Dumps cylinder air locally for a fast stroke.', 'Mounted at the cylinder — check it there, not at the valve bank.'], lineRef: 'Exhaust path',
+                },
               ],
               lineTypes: [
                 { name: 'Exhaust path', style: 'solid', accent: 'success', meaning: 'Air on its way out of the system.' },
@@ -284,9 +454,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Trace the thin dashed lines last. They carry almost no flow but decide when everything else happens, and they link the pneumatic print to the electrical print.',
               symbols: [
-                { glyph: '⌁', name: 'Solenoid pilot', hint: 'Where a PLC output enters the air circuit.' },
-                { glyph: '◉', name: 'Pressure switch', hint: 'Sends a signal back to the control system.' },
-                { glyph: '▣&', name: 'AND / OR logic valve', hint: 'Shuttle or two-pressure valve used as air logic.' },
+                {
+                  glyph: '⌁',
+                  name: 'Solenoid pilot',
+                  hint: 'Where a PLC output enters the air circuit.',
+                  meanings: ['Entry point for a PLC output into the air circuit.', 'Confirm the output is commanded before replacing the valve.'], lineRef: 'Pilot / signal line',
+                },
+                {
+                  glyph: '◉',
+                  name: 'Pressure switch',
+                  hint: 'Sends a signal back to the control system.',
+                  meanings: ['Feeds a permissive or alarm back to the controller.', 'A machine that will not start on low air often traps here.'], lineRef: 'Electrical link',
+                },
+                {
+                  glyph: '▣&',
+                  name: 'AND / OR logic valve',
+                  hint: 'Shuttle or two-pressure valve used as air logic.',
+                  meanings: ['Shuttle (OR) passes the higher of two signals; two-pressure (AND) needs both.', 'Used for two-hand controls and safety interlock logic.'], lineRef: 'Pilot / signal line',
+                },
               ],
               lineTypes: [
                 { name: 'Pilot / signal line', style: 'dashed', accent: 'warning', meaning: 'Control signal, not working air.' },
@@ -341,9 +526,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Identify the rails first. On a ladder drawing the left rail is the hot side and the right rail is the common or neutral. Note the voltage of the control circuit before you probe anything.',
               symbols: [
-                { glyph: 'L1 / L2', name: 'Supply rails', hint: 'Vertical lines on each side of the ladder.' },
-                { glyph: '⧢', name: 'Control transformer', hint: 'Two coils; steps 480 VAC down to 120 VAC control.' },
-                { glyph: '+24 / 0V', name: 'DC power supply', hint: 'Feeds PLC I/O and sensors.' },
+                {
+                  glyph: 'L1 / L2',
+                  name: 'Supply rails',
+                  hint: 'Vertical lines on each side of the ladder.',
+                  meanings: ['All rungs run left to right between these two rails.', 'Measure rail-to-rail first to confirm control voltage is present.'], lineRef: 'Power conductor',
+                },
+                {
+                  glyph: '⧢',
+                  name: 'Control transformer',
+                  hint: 'Two coils; steps 480 VAC down to 120 VAC control.',
+                  meanings: ['Isolates and steps line voltage down to control voltage.', 'A blown control fuse here kills every rung at once.'], lineRef: 'Power conductor',
+                },
+                {
+                  glyph: '+24 / 0V',
+                  name: 'DC power supply',
+                  hint: 'Feeds PLC I/O and sensors.',
+                  meanings: ['Powers PLC I/O, sensors, and safety relays.', 'Sagging 24 VDC creates random, intermittent input faults.'], lineRef: 'Power conductor',
+                },
               ],
               lineTypes: [
                 { name: 'Power conductor', style: 'solid', accent: 'primary', meaning: 'Carries control voltage through the rung.' },
@@ -356,10 +556,30 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Just past the power entry, find the fuses, breakers, overloads, and emergency stop contacts. If any of these are open, every rung below them is dead.',
               symbols: [
-                { glyph: '▭⌇', name: 'Fuse', hint: 'Small rectangle in series with the rail.' },
-                { glyph: '⌒⌒', name: 'Circuit breaker', hint: 'Switch with a trip element.' },
-                { glyph: '⊘', name: 'E-stop (NC)', hint: 'Mushroom head, normally closed contact.' },
-                { glyph: '⌁OL', name: 'Overload contact', hint: 'Opens the starter rung on thermal trip.' },
+                {
+                  glyph: '▭⌇',
+                  name: 'Fuse',
+                  hint: 'Small rectangle in series with the rail.',
+                  meanings: ['Protects the branch, not the machine — find why it opened.', 'A repeat blow means a short or an overloaded downstream device.'], lineRef: 'Protected feed',
+                },
+                {
+                  glyph: '⌒⌒',
+                  name: 'Circuit breaker',
+                  hint: 'Switch with a trip element.',
+                  meanings: ['Resettable protection; a trip is evidence, not a nuisance.', 'Log every trip; repeat trips are a documented failure pattern.'], lineRef: 'Protected feed',
+                },
+                {
+                  glyph: '⊘',
+                  name: 'E-stop (NC)',
+                  hint: 'Mushroom head, normally closed contact.',
+                  meanings: ['Normally closed so any broken wire drops the circuit safely.', 'Never jumper it — the print shows dual channels for a reason.'], lineRef: 'Safety circuit',
+                },
+                {
+                  glyph: '⌁OL',
+                  name: 'Overload contact',
+                  hint: 'Opens the starter rung on thermal trip.',
+                  meanings: ['Thermal trip that drops the starter rung.', 'A tripped overload usually means a mechanical load problem.'], lineRef: 'Protected feed',
+                },
               ],
               lineTypes: [
                 { name: 'Protected feed', style: 'solid', accent: 'primary', meaning: 'Downstream of protection devices.' },
@@ -372,10 +592,30 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Read the inputs in the middle of the rung. These are the permissives — every one of them must be satisfied before the output on the right can energize.',
               symbols: [
-                { glyph: '─┤├─', name: 'Normally open contact', hint: 'Closes when its device or coil is activated.' },
-                { glyph: '─┤/├─', name: 'Normally closed contact', hint: 'Opens when activated; passes power at rest.' },
-                { glyph: '⊙PB', name: 'Pushbutton', hint: 'Momentary start or stop input.' },
-                { glyph: '⌐LS', name: 'Limit / proximity switch', hint: 'Position feedback; often a PLC input.' },
+                {
+                  glyph: '─┤├─',
+                  name: 'Normally open contact',
+                  hint: 'Closes when its device or coil is activated.',
+                  meanings: ['Shown de-energized; it closes when its coil or device is active.', 'Prints always show the rest state, not the running state.'], lineRef: 'Rung conductor',
+                },
+                {
+                  glyph: '─┤/├─',
+                  name: 'Normally closed contact',
+                  hint: 'Opens when activated; passes power at rest.',
+                  meanings: ['Passes power at rest and opens when activated.', 'Used for stop buttons and fail-safe interlocks.'], lineRef: 'Rung conductor',
+                },
+                {
+                  glyph: '⊙PB',
+                  name: 'Pushbutton',
+                  hint: 'Momentary start or stop input.',
+                  meanings: ['Momentary input; the rung usually seals in around it.', 'Test across the contact, not to ground, when hunting an open.'], lineRef: 'Rung conductor',
+                },
+                {
+                  glyph: '⌐LS',
+                  name: 'Limit / proximity switch',
+                  hint: 'Position feedback; often a PLC input.',
+                  meanings: ['Position feedback and permissive for the next motion step.', 'A machine stalled mid-sequence is usually waiting on one of these.'], lineRef: 'Rung conductor',
+                },
               ],
               lineTypes: [
                 { name: 'Rung conductor', style: 'solid', accent: 'primary', meaning: 'Series path — all contacts must close.' },
@@ -388,10 +628,30 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'The right end of the rung is the output. Identify what it actually drives — a relay coil, a contactor, a solenoid on the hydraulic or pneumatic print, a heater, or a lamp.',
               symbols: [
-                { glyph: '─( )─', name: 'Relay / contactor coil', hint: 'Circle at the far right of the rung.' },
-                { glyph: '─(SOL)─', name: 'Valve solenoid', hint: 'Cross-references directly to a valve on the fluid print.' },
-                { glyph: '⊗', name: 'Indicator lamp', hint: 'Shows state; useful free diagnostics.' },
-                { glyph: 'M', name: 'Motor starter', hint: 'Contactor plus overload driving a motor.' },
+                {
+                  glyph: '─( )─',
+                  name: 'Relay / contactor coil',
+                  hint: 'Circle at the far right of the rung.',
+                  meanings: ['The output of the rung; everything left of it is the condition.', 'Voltage at the coil with no pull-in means an open coil or common.'], lineRef: 'Output leg',
+                },
+                {
+                  glyph: '─(SOL)─',
+                  name: 'Valve solenoid',
+                  hint: 'Cross-references directly to a valve on the fluid print.',
+                  meanings: ['Direct cross-reference to a valve on the hydraulic or pneumatic print.', 'This symbol is the bridge between the electrical and fluid drawings.'], lineRef: 'Output leg',
+                },
+                {
+                  glyph: '⊗',
+                  name: 'Indicator lamp',
+                  hint: 'Shows state; useful free diagnostics.',
+                  meanings: ['Free diagnostics — it states what the logic believes is true.', 'A lamp that never lights narrows the fault to that rung.'], lineRef: 'Output leg',
+                },
+                {
+                  glyph: 'M',
+                  name: 'Motor starter',
+                  hint: 'Contactor plus overload driving a motor.',
+                  meanings: ['Contactor plus overload driving a motor load.', 'Check the overload and the load before replacing the contactor.'], lineRef: 'Output leg',
+                },
               ],
               lineTypes: [
                 { name: 'Output leg', style: 'solid', accent: 'primary', meaning: 'Coil side of the rung back to common.' },
@@ -404,9 +664,24 @@ export const readingSchematicsGuide: KnowledgeGuide = {
               focus:
                 'Use the numbers printed beside each coil to jump to the rungs where its contacts appear. This is how one rung reaches out and controls the rest of the machine.',
               symbols: [
-                { glyph: '12 / 407', name: 'Rung cross-reference', hint: 'Line numbers listed under a coil.' },
-                { glyph: '─┤├─CR1', name: 'Referenced contact', hint: 'Same tag as the coil, appearing on another rung.' },
-                { glyph: 'I:1/4', name: 'PLC I/O address', hint: 'Ties field wiring to program logic.' },
+                {
+                  glyph: '12 / 407',
+                  name: 'Rung cross-reference',
+                  hint: 'Line numbers listed under a coil.',
+                  meanings: ['Line numbers under a coil list every rung its contacts appear on.', 'Chase these before opening a panel — the cause is often two rungs away.'], lineRef: 'Logic reference',
+                },
+                {
+                  glyph: '─┤├─CR1',
+                  name: 'Referenced contact',
+                  hint: 'Same tag as the coil, appearing on another rung.',
+                  meanings: ['Same tag as its coil, acting somewhere else in the ladder.', 'Trace the tag, not the wire color.'], lineRef: 'Logic reference',
+                },
+                {
+                  glyph: 'I:1/4',
+                  name: 'PLC I/O address',
+                  hint: 'Ties field wiring to program logic.',
+                  meanings: ['Ties field wiring to a program address you can monitor online.', 'Forced or masked I/O is a common hidden cause of \'impossible\' behavior.'], lineRef: 'Logic reference',
+                },
               ],
               lineTypes: [
                 { name: 'Logic reference', style: 'dotted', accent: 'muted', meaning: 'Not a wire — a pointer to another sheet.' },
