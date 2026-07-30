@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   BookOpen,
   Check,
@@ -79,6 +79,17 @@ export function SymbolTour({ block }: { block: TourBlock }) {
 
   const [state, setState] = useState<TourProgress>(emptyProgress);
   const [restored, setRestored] = useState(false);
+  const [focusedSymbol, setFocusedSymbol] = useState<string | null>(null);
+  const symbolRefs = useRef<Record<string, HTMLLIElement | null>>({});
+
+  // Scroll the focused checklist item into view after the step switches.
+  useEffect(() => {
+    if (!focusedSymbol) return;
+    const el = symbolRefs.current[focusedSymbol];
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const t = window.setTimeout(() => setFocusedSymbol(null), 2600);
+    return () => window.clearTimeout(t);
+  }, [focusedSymbol]);
 
   // Load per-user progress whenever the user or tour changes.
   useEffect(() => {
