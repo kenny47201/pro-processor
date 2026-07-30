@@ -16,6 +16,7 @@ import { cavitationVsAerationGuide } from './cavitationVsAerationGuide';
 import { foamyOilRisksGuide } from './foamyOilRisksGuide';
 import { maintenanceCoreJobGuide } from './maintenanceCoreJobGuide';
 import { readingSchematicsGuide } from './readingSchematicsGuide';
+import { precisionMaintenanceTrainingGuide } from './precisionMaintenanceTrainingGuide';
 import type { KnowledgeGuide } from './fountainFlowGuide';
 
 export type KnowledgeDepartment = 'Processing' | 'Maintenance' | 'Tool Room';
@@ -43,6 +44,7 @@ export const knowledgeGuides: DepartmentalKnowledgeGuide[] = [
   { ...foamyOilRisksGuide, department: 'Maintenance' },
   { ...maintenanceCoreJobGuide, department: 'Maintenance' },
   { ...readingSchematicsGuide, department: 'Maintenance' },
+  { ...precisionMaintenanceTrainingGuide, department: 'Maintenance' },
 ];
 
 export const KNOWLEDGE_DEPARTMENTS: KnowledgeDepartment[] = ['Processing', 'Maintenance', 'Tool Room'];
