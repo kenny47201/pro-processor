@@ -186,7 +186,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'LOTO Verification Sequence'
         },
         {
@@ -287,7 +287,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Injection Molding Cell System Map'
         },
         {
@@ -296,7 +296,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - A quality defect that is not a press failure'
         },
         {
@@ -486,7 +486,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Hydraulic Direct Clamp Diagnostic Decision Tree'
         },
         {
@@ -495,7 +495,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Hydraulic Clamp Cylinder Seal Replacement - Generic Planning Procedure'
         },
         {
@@ -504,7 +504,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - Hydraulic clamp loses tonnage after warm-up'
         },
         {
@@ -557,7 +557,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Toggle Clamp Diagnostic Decision Tree'
         },
         {
@@ -566,7 +566,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Toggle Linkage Inspection and Pin/Bushing Replacement'
         },
         {
@@ -575,7 +575,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - Toggle clamp overload after mold change'
         },
         {
@@ -622,7 +622,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Two-Platen Clamp Diagnostic Decision Tree'
         },
         {
@@ -669,7 +669,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'All-Electric Clamp Diagnostic Decision Tree'
         },
         {
@@ -687,7 +687,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Tie-Bar-Less Clamp Diagnostic Decision Tree'
         },
         {
@@ -705,7 +705,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Mold Protection / Ejector / Core Pull Diagnostic Decision Tree'
         },
         {
@@ -729,7 +729,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Screw Zones'
         },
         {
@@ -798,7 +798,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Injection Unit Diagnostic Decision Tree'
         },
         {
@@ -842,7 +842,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Check Ring / Non-Return Valve Inspection'
         },
         {
@@ -860,7 +860,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Accumulator-Assisted Injection Diagnostic Decision Tree'
         },
         {
@@ -869,7 +869,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'All-Electric Injection Axis Diagnostic Decision Tree'
         },
         {
@@ -887,7 +887,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - Recovery time increases after material change'
         },
         {
@@ -960,7 +960,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Hydraulic Power Unit Diagnostic Decision Tree'
         },
         {
@@ -1004,7 +1004,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Hydraulic Filter Element Replacement'
         },
         {
@@ -1022,7 +1022,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Hydraulic Valve Control Diagnostic Decision Tree'
         },
         {
@@ -1040,7 +1040,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Hydraulic Hose Replacement'
         },
         {
@@ -1073,7 +1073,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Servo Drive / VFD / Motor Diagnostic Decision Tree'
         },
         {
@@ -1082,7 +1082,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Servo Motor Replacement - Generic'
         },
         {
@@ -1140,7 +1140,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'PLC I/O and Network Diagnostic Decision Tree'
         },
         {
@@ -1158,7 +1158,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Barrel / Mold / Hot Runner Temperature Zone Diagnostic Decision Tree'
         },
         {
@@ -1167,7 +1167,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Heater Band Replacement'
         },
         {
@@ -1191,7 +1191,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Hot Runner System Diagnostic Decision Tree'
         },
         {
@@ -1250,7 +1250,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Hot Runner Zone Fault Isolation'
         },
         {
@@ -1268,7 +1268,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - Cold drop misdiagnosed as bad heater'
         },
         {
@@ -1292,7 +1292,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Pneumatic Circuit Diagnostic Decision Tree'
         },
         {
@@ -1330,7 +1330,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - FRL Filter Element Replacement and Regulator Check'
         },
         {
@@ -1398,7 +1398,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Cooling / Temperature Management Diagnostic Decision Tree'
         },
         {
@@ -1461,7 +1461,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Mold Temperature Controller Diagnostic Decision Tree'
         },
         {
@@ -1470,7 +1470,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - MTC Pump Seal Replacement'
         },
         {
@@ -1479,7 +1479,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - MTC no-flow alarm creates apparent mold issue'
         },
         {
@@ -1598,7 +1598,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Drying System Diagnostic Decision Tree'
         },
         {
@@ -1607,7 +1607,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Desiccant Dryer Filter and Dew Point Verification'
         },
         {
@@ -1616,7 +1616,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - Splay traced to dryer airflow'
         },
         {
@@ -1669,7 +1669,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Material Conveying Diagnostic Decision Tree'
         },
         {
@@ -1678,7 +1678,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Vacuum Receiver Filter Sock Replacement'
         },
         {
@@ -1725,7 +1725,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Blender / Doser Diagnostic Decision Tree'
         },
         {
@@ -1734,7 +1734,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Gravimetric Blender Load Cell Calibration Check'
         },
         {
@@ -1787,7 +1787,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Granulator Diagnostic Decision Tree'
         },
         {
@@ -1796,7 +1796,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Granulator Knife Clearance Adjustment'
         },
         {
@@ -1849,7 +1849,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Robot / EOAT / IMM Interface Diagnostic Decision Tree'
         },
         {
@@ -1858,7 +1858,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - EOAT Vacuum Cup and Sensor Service'
         },
         {
@@ -1867,7 +1867,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Real-World Scenario - Mold close blocked by robot signal'
         },
         {
@@ -1920,7 +1920,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Chiller / Process Cooling Diagnostic Decision Tree'
         },
         {
@@ -1929,7 +1929,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Chiller Process Water Strainer Cleaning'
         },
         {
@@ -1947,7 +1947,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Press-Side Compressed Air Diagnostic Decision Tree'
         },
         {
@@ -1994,7 +1994,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Downstream Equipment Diagnostic Decision Tree'
         },
         {
@@ -2003,7 +2003,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Conveyor Belt Tracking Adjustment'
         },
         {
@@ -2296,7 +2296,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Hydraulic Pump Replacement'
         },
         {
@@ -2305,7 +2305,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Pressure Transducer Replacement'
         },
         {
@@ -2314,7 +2314,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Safety Gate Switch Replacement and Validation'
         },
         {
@@ -2323,7 +2323,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Thermocouple Replacement'
         },
         {
@@ -2332,7 +2332,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Robot Battery Replacement'
         },
         {
@@ -2341,7 +2341,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'SOP - Cooling Circuit Flush'
         },
         {
@@ -2379,7 +2379,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Daily IMM Inspection Checklist'
         },
         {
@@ -2397,7 +2397,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Repair Work Order Template'
         },
         {
@@ -2406,7 +2406,7 @@ export const eliteMaintenanceTrainingGuide: KnowledgeGuide = {
         },
         {
           type: 'heading',
-          level: 4,
+          level: 3,
           text: 'Spare Parts Criticality Matrix'
         },
         {
