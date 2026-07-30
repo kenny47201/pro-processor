@@ -1,4 +1,14 @@
 import type { KnowledgeGuide } from './fountainFlowGuide';
+import cellSystemMap from '@/assets/maint-cell-system-map.png';
+import safetyCoreLoto from '@/assets/maint-safety-core-loto.webp';
+import masterTroubleshooting from '@/assets/maint-master-troubleshooting-workflow.webp';
+import clampSystems from '@/assets/maint-clamp-systems.webp';
+import injectionUnitAnatomy from '@/assets/maint-injection-unit-anatomy.webp';
+import hydraulicFundamentals from '@/assets/maint-hydraulic-fundamentals.png';
+import electricalDiagnostics from '@/assets/maint-electrical-control-diagnostics.webp';
+import barrelHotRunner from '@/assets/maint-barrel-hot-runner-temp-control.png';
+import auxiliaryEcosystem from '@/assets/maint-auxiliary-equipment-ecosystem.webp';
+import reactiveToReliable from '@/assets/maint-reactive-to-reliable.png';
 
 export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
   slug: 'precision-maintenance-training-rev2',
@@ -36,6 +46,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-0-reliability-mindset-and-the-new-technicia",
       title: "Part 0 - Reliability Mindset and the New Technician Operating Model",
       blocks: [
+        {
+          type: 'image',
+          src: reactiveToReliable,
+          alt: 'Reliability maturity ladder from reactive to reliability culture, with the reliability loop, foundation of cleaning, lubrication and fastening, and KPI dashboard',
+          figureNumber: 'Figure 0.1',
+          caption:
+            'From Reactive to Reliable: the maturity ladder, reliability loop, and the KPIs that prove progress.',
+        },
         { type: 'heading', level: 3, text: "0.1 Break the Reactive Curse" },
         { type: 'paragraph', text: "A heater band burns out. The technician replaces it, the zone heats, and production restarts. That is restoration, not reliability. The professional question is why the heater failed. Was the band loose on the barrel? Was the solid-state relay leaking current? Was the thermocouple open or poorly seated? Was a terminal loose and generating heat? Was the wrong watt density installed? Was the band contaminated by resin or water? A repair that does not address the failure mechanism is only a temporary reset of the countdown." },
         { type: 'paragraph', text: "NEW MANDATE: Stop celebrating the breakdown. Recognize safe, accurate restoration, but measure success by preventing recurrence, extending useful life, protecting the mold and process, and reducing risk to people." },
@@ -60,6 +78,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "front-safety-core-mandatory-foundation",
       title: "Front Safety Core - Mandatory Foundation",
       blocks: [
+        {
+          type: 'image',
+          src: safetyCoreLoto,
+          alt: 'Safety core infographic showing machine hazard zones, hazard categories, the ten-step LOTO verification sequence, and golden rules',
+          figureNumber: 'Figure S.1',
+          caption:
+            'Safety Core: hazard zones, hazard categories, and the ten-step lockout/tagout verification sequence.',
+        },
         { type: 'heading', level: 3, text: "S0.1 Safety Philosophy for Injection Molding Maintenance" },
         { type: 'paragraph', text: "Injection molding maintenance exposes technicians to stacked hazards. A single press can contain 480 VAC mains, DC bus voltage inside servo drives, 120 VAC control circuits, 24 VDC inputs and outputs, hydraulic pressure above 2,000 psi (13.8 MPa), charged accumulators, hot barrel surfaces above 500 deg F (260 deg C), hot runner components, heavy mold components, stored gravity energy, robot work envelopes, pneumatic motion, and rotating auxiliary equipment. The correct safety philosophy is to remove energy, prevent restart, verify zero energy, control the work zone, and restore the system only after a deliberate functional test." },
         { type: 'paragraph', text: "WARNING: Never bypass a safety gate, mold area interlock, light curtain, robot fence switch, two-hand control, emergency stop, or safety-rated input to keep production running. Bypassing safety functions can create fatal crushing, shearing, burn, or electrocution hazards and can destroy the legal defensibility of the maintenance program." },
@@ -132,6 +158,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-1-foundations-of-injection-molding-machine-",
       title: "Part 1 - Foundations of Injection Molding Machine Systems",
       blocks: [
+        {
+          type: 'image',
+          src: cellSystemMap,
+          alt: 'Injection molding cell system map showing material storage through inspection and packout plus chiller, mold temperature controller, compressed air, hydraulic power unit, electrical panel, granulator and quality systems',
+          figureNumber: 'Figure 1.1',
+          caption:
+            'The molding cell as a system: the press is one node among material, cooling, air, electrical, automation, and data systems.',
+        },
         { type: 'heading', level: 3, text: "1.1 The Injection Molding Process: A Systems-Level Overview" },
         { type: 'paragraph', text: "Injection molding converts plastic pellets into molded parts through a repeated sequence of drying or conditioning, material conveying, plasticizing, injection, packing, holding, cooling, mold opening, ejection, part handling, and cycle recovery. Maintenance technicians must understand this process because many machine failures first appear as quality defects, and many quality defects first appear to be machine failures. A molding cell is a controlled system. The machine creates clamp force, melt pressure, velocity, screw rotation, barrel heat, ejector motion, and core-pull motion. The mold forms the part and contains cooling circuits, venting, slides, lifters, hot runners, and mechanical shutoffs. Auxiliary equipment controls material condition, melt delivery, mold temperature, part removal, inspection, scrap handling, and downstream logistics. The technician must diagnose across the entire system before assigning blame to the press." },
         { type: 'paragraph', text: "A typical cycle is: mold close, clamp tonnage build, injection forward, velocity-to-pressure transfer, pack/hold, screw recovery, cooling, decompression if used, mold open, ejection, robot takeout, and mold close permissive. Each cycle step has permissives and feedback. If the machine stalls at mold close, the cause may be clamp hydraulics, toggle lubrication, safety gate feedback, robot enable-mold-close signal, low air pressure, mold protection, core pull position, or a mechanical obstruction in the mold." },
@@ -185,6 +219,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-2-clamp-systems-theory-components-troublesh",
       title: "Part 2 - Clamp Systems: Theory, Components, Troubleshooting, and Repair",
       blocks: [
+        {
+          type: 'image',
+          src: clampSystems,
+          alt: 'Clamp systems comparison of hydraulic direct, toggle, two-platen, all-electric and tie-bar-less clamps with strengths, maintenance watch-outs, and symptom-to-suspect table',
+          figureNumber: 'Figure 2.1',
+          caption:
+            'Clamp systems at a glance: how force is generated by clamp type, maintenance watch-outs, and symptoms mapped to suspects.',
+        },
         { type: 'heading', level: 3, text: "2.1 Clamp System Purpose and Universal Principles" },
         { type: 'paragraph', text: "The clamp system closes the mold, protects the mold during closing, builds and holds clamp force during injection and packing, opens the mold, and provides the structure that keeps the mold halves aligned. Clamp failures create flash, short shots, broken cores, crushed vents, damaged leader pins, cracked platens, tie-bar strain imbalance, robot interference, and catastrophic crush hazards. Clamp tonnage is the force that resists cavity pressure trying to separate the mold. The required clamp force depends on projected part area, runner area, cavity pressure, number of cavities, material, process, and safety factor. Maintenance does not normally set clamp tonnage from scratch, but maintenance must understand that low or uneven clamp force can look like tooling damage or process drift." },
         { type: 'paragraph', text: "Generic force concepts: hydraulic cylinder force equals pressure times effective piston area. Toggle clamp force is generated by a mechanical linkage approaching over-center; small movement near lockup creates high force multiplication. Electric clamp force is generated by servo torque through ballscrews, rack-and-pinion systems, or mechanical linkages, with feedback from encoders and strain/position systems. Hydromechanical and two-platen clamps use long stroke cylinders for movement and mechanical locking or short high-pressure clamp cylinders for force." },
@@ -241,6 +283,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-3-injection-units-theory-components-trouble",
       title: "Part 3 - Injection Units: Theory, Components, Troubleshooting, and Repair",
       blocks: [
+        {
+          type: 'image',
+          src: injectionUnitAnatomy,
+          alt: 'Injection unit anatomy showing hopper, feed throat, feed, transition and metering zones, check ring, nozzle and carriage with common failure signs',
+          figureNumber: 'Figure 3.1',
+          caption:
+            'Injection unit anatomy and the failure signs that show up first as process instability.',
+        },
         { type: 'paragraph', text: "DIAGNOSTIC FOCUS: Apply the Master Diagnostic Workflow in Part 11 to mold protection / ejector / core pull faults. Use subsystem prints, baseline readings, and controlled tests. Do not repeat the entire master workflow or replace parts from the alarm text alone." },
         { type: 'heading', level: 3, text: "3.1 Reciprocating Screw Theory" },
         { type: 'paragraph', text: "The reciprocating screw performs two jobs. During recovery, it rotates to convey pellets, melt resin, mix additives, and build a measured shot in front of the screw while the screw moves backward. During injection, the screw stops rotating and acts like a plunger, moving forward to inject molten plastic through the nozzle, sprue, runner, hot runner, and gates into the mold. The check ring or non-return valve should close during injection so melt does not leak backward over the screw flights. A maintenance technician must understand plasticizing because mechanical wear appears as process instability. Screw/barrel wear reduces conveying efficiency, increases recovery time, creates melt temperature variation, and can increase black specks through stagnation. Check ring wear creates cushion variation, short shots, inconsistent part weight, and apparent pressure instability. Feed throat cooling problems cause bridging, surging, or poor feed." },
@@ -284,6 +334,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-4-hydraulic-systems-theory-components",
       title: "Part 4 - Hydraulic Systems: Theory, Components, Troubleshooting, and Repair",
       blocks: [
+        {
+          type: 'image',
+          src: hydraulicFundamentals,
+          alt: 'Hydraulic system diagram with reservoir, strainer, pump, filters, valves, cylinders, cooler and return filter, plus fault signature reference',
+          figureNumber: 'Figure 4.1',
+          caption:
+            'Hydraulic fundamentals: circuit path, pressure/flow/force relationships, and common fault signatures.',
+        },
         { type: 'heading', level: 3, text: "4.1 Hydraulic Theory for IMM Maintenance" },
         { type: 'paragraph', text: "Hydraulics transmit power through pressurized fluid. Pressure is resistance to flow; flow creates actuator speed; force equals pressure times area; hydraulic power equals pressure times flow. In maintenance practice, a pressure problem may actually be a flow problem, a flow problem may actually be a restriction problem, and a heat problem may be wasted power from leakage, bypassing, or incorrect valve command. Injection molding hydraulics use fixed or variable displacement pumps, servo pumps, accumulators, proportional valves, servo valves, directional valves, relief valves, pressure reducing valves, counterbalance valves, check valves, filters, heat exchangers, reservoirs, cylinders, motors, and manifold blocks. Each circuit has a function and a sequence. Understanding the schematic is mandatory." },
         { type: 'paragraph', text: "Hydraulic concept Floor meaning Common diagnostic trap" },
@@ -324,6 +382,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-5-electrical-and-drive-systems-theory-compo",
       title: "Part 5 - Electrical and Drive Systems: Theory, Components, Troubleshooting, and Repair",
       blocks: [
+        {
+          type: 'image',
+          src: electricalDiagnostics,
+          alt: 'Electrical architecture diagram from main disconnect through transformer, 24 VDC supply, servo drives, heater outputs, safety circuit and sensors with measurement targets',
+          figureNumber: 'Figure 5.1',
+          caption:
+            'Electrical and control architecture, key measurement targets, and diagnostic discipline.',
+        },
         { type: 'heading', level: 3, text: "5.1 Electrical Architecture of IMM Cells" },
         { type: 'paragraph', text: "An IMM electrical system usually contains incoming three-phase power, main disconnect, fusing/circuit breakers, transformers or power supplies, control circuits, PLC or industrial controller, safety relays or safety PLC, HMI, servo drives, VFDs, contactors, SSRs, heater circuits, temperature inputs, sensors, solenoids, encoder/resolver feedback, network buses, and auxiliary interfaces. Troubleshooting must separate power distribution, control logic, field device, load, and feedback. Electrical failures often have mechanical causes. A servo overcurrent may result from a dry ballscrew. A heater SSR failure may result from a loose heater band drawing uneven current. A blown fuse may be downstream of a shorted cable in a robot cable carrier. A thermocouple alarm may be a crushed mold cable. Treat electrical faults as system faults until proven otherwise." },
         { type: 'paragraph', text: "WARNING: Before opening an electrical enclosure, verify authorization, PPE, arc-flash label requirements, and whether an electrically safe work condition is required. Do not assume a disconnect removes every voltage source; back-fed auxiliary power and UPS/control circuits may remain energized." },
@@ -365,6 +431,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-6-hot-runner-systems-theory-components",
       title: "Part 6 - Hot Runner Systems: Theory, Components, Troubleshooting, and Repair",
       blocks: [
+        {
+          type: 'image',
+          src: barrelHotRunner,
+          alt: 'Barrel heater zones and thermocouples, hot runner flow path from controller to manifold, drops and cavities, plus a zone-not-heating diagnostic sequence',
+          figureNumber: 'Figure 6.1',
+          caption:
+            'Barrel heater, hot runner, and temperature control: zones, flow path, symptoms, and the zone-not-heating sequence.',
+        },
         { type: 'heading', level: 3, text: "6.1 Hot Runner Theory" },
         { type: 'paragraph', text: "A hot runner system keeps plastic molten from machine nozzle to cavity gate using heated manifolds, drops, tips, nozzles, bushings, and controllers. Hot runners reduce cold runner scrap and improve cycle efficiency, but they add thermal, electrical, pneumatic/hydraulic, mechanical, and sequencing complexity. Maintenance must understand zone mapping, heater resistance, thermocouple polarity, ground faults, valve gate actuation, manifold leakage, and startup/shutdown discipline. Hot tips rely on thermal balance at the gate. Valve gates use pins driven by pneumatic, hydraulic, or electric actuators to open and close the gate. A temperature issue can look like a valve gate issue; a pin issue can look like a temperature issue; a bad cable can look like a manifold failure. Zone mapping is therefore core maintenance work." },
         { type: 'paragraph', text: "WARNING: Hot runner molds can remain hot and pressurized after machine stop. Follow mold-specific cool-down, depressurization, and LOTO procedures before opening junction boxes, removing tips, or servicing valve gate actuators." },
@@ -424,6 +498,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-9-auxiliary-equipment-theory-components",
       title: "Part 9 - Auxiliary Equipment: Theory, Components, Troubleshooting, Repair, and Integration",
       blocks: [
+        {
+          type: 'image',
+          src: auxiliaryEcosystem,
+          alt: 'Auxiliary equipment ecosystem around the press including dryer, loader, blender, mold temperature controller, chiller, compressed air, robot, granulator and conveyor with failure effects',
+          figureNumber: 'Figure 9.1',
+          caption:
+            'Auxiliary ecosystem: how dryer, chiller, air, conveying, and automation failures present as machine problems.',
+        },
         { type: 'paragraph', text: "DIAGNOSTIC FOCUS: Apply the Master Diagnostic Workflow in Part 11 to cooling / temperature management faults. Use subsystem prints, baseline readings, and controlled tests. Do not repeat the entire master workflow or replace parts from the alarm text alone." },
         { type: 'heading', level: 3, text: "9A - Mold Temperature Controllers: Water, Oil, Hot Runner Controllers, Multi- Zone Systems, IMM Integration, and Water Quality" },
         { type: 'paragraph', text: "Mold temperature controllers, often called MTCs or thermolators, circulate controlled-temperature fluid through mold circuits. Water-based units are common for low-to-moderate temperatures. Oil-based units operate at higher temperatures but add fire, burn, leak, and fluid degradation hazards. Hot runner controllers are electrical temperature control systems for mold manifolds and drops. Complex cells may use multi-zone MTCs to control core, cavity, slides, inserts, and hot halves separately. The control loop includes a temperature sensor, controller, heater, cooling valve or heat exchanger, pump, flow path, and mold circuit. Temperature stability depends on fluid flow, pump performance, heater output, cooling valve control, sensor accuracy, circuit cleanliness, and mold connection discipline. A mold temperature fault can create dimensional drift, sticking, warp, sink, gloss variation, cycle time increase, and startup scrap." },
@@ -601,6 +683,14 @@ export const precisionMaintenanceTrainingGuide: KnowledgeGuide = {
       id: "part-11-troubleshooting-methodology-and-master-d",
       title: "Part 11 - Troubleshooting Methodology and Master Diagnostic Decision Trees",
       blocks: [
+        {
+          type: 'image',
+          src: masterTroubleshooting,
+          alt: 'Twelve-step master troubleshooting workflow from confirming the complaint to documenting closeout, with evidence to look for at each step and common diagnostic traps',
+          figureNumber: 'Figure 11.1',
+          caption:
+            'Master troubleshooting workflow: one universal twelve-step diagnostic sequence with evidence at each step.',
+        },
         { type: 'heading', level: 3, text: "11.0 Root Cause Analysis - Restore, Stabilize, Eliminate" },
         { type: 'paragraph', text: "Troubleshooting restores function. Root cause analysis prevents recurrence. Not every event requires a formal team RCA, but repeat failures, safety events, major downtime, quality escapes, high-cost damage, and failures with unclear mechanisms require structured analysis." },
         { type: 'orderedList', items: ["Contain the risk and restore the system safely.", "Define the problem with asset, function, time, operating state, symptom, and consequence.", "Build the event timeline from alarms, trends, work orders, witness observations, and physical evidence.", "Identify the physical failure mechanism before assigning organizational causes.", "Use Five Whys, fault-tree logic, or cause-and-effect analysis without forcing a predetermined answer.", "Separate immediate cause, contributing conditions, latent system causes, and detection failures.", "Select corrective actions that remove or control the cause, assign owners and dates, and verify effectiveness."] },
