@@ -307,12 +307,17 @@ export function SymbolTour({ block }: { block: TourBlock }) {
                 return (
                   <li
                     key={j}
+                    ref={(el) => {
+                      symbolRefs.current[key] = el;
+                    }}
                     className={cn(
-                      'flex items-start gap-2.5 rounded-md border transition-colors',
+                      'flex items-start gap-2.5 rounded-md border transition-all',
                       a11y ? 'px-3 py-3 border-2 min-h-[56px]' : 'px-2.5 py-2',
                       isChecked
                         ? 'border-success/50 bg-success/10'
                         : cn('bg-primary/5', a11y ? 'border-primary' : 'border-primary/25'),
+                      focusedSymbol === key &&
+                        'ring-2 ring-primary ring-offset-2 ring-offset-background border-primary',
                     )}
                   >
                     <Checkbox
