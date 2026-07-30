@@ -102,6 +102,15 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'A pneumatic circuit is often easier to understand if you think of it as "air in, air controlled, air out".',
         },
+        {
+          type: 'image',
+          src: schematicsPneumaticCard,
+          alt: 'Pneumatic schematic reference card showing air supply, FRL, valves, exhaust paths, and an example circuit',
+          figureNumber: 'Card 3',
+          caption:
+            'Pneumatic reference card: air supply and preparation, valves and flow controls, exhaust and pilot lines, plus a double-acting cylinder example circuit.',
+        },
+
       ],
     },
     {
