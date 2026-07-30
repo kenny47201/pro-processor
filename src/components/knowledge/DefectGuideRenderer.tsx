@@ -18,6 +18,7 @@ import { Link } from 'react-router-dom';
 import type { GuideBlock } from '@/data/defectGuides';
 import { cn } from '@/lib/utils';
 import { ZoomableImage } from '@/components/ui/zoomable-image';
+import { SymbolTour } from '@/components/knowledge/SymbolTour';
 
 const groupKindConfig = {
   inspect: { icon: Eye, label: 'Inspect', accent: 'text-primary' },
@@ -339,6 +340,8 @@ export function DefectGuideRenderer({ blocks }: { blocks: GuideBlock[] }) {
             const storageKey = `defect-checklist:${sig}`;
             return <DiagnoseChecklist key={i} block={block} storageKey={storageKey} />;
           }
+          case 'symbolTour':
+            return <SymbolTour key={i} block={block} />;
           default:
             return null;
         }
