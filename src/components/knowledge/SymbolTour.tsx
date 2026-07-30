@@ -477,8 +477,22 @@ export function SymbolTour({ block }: { block: TourBlock }) {
                     return (
                       <li
                         key={j}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Go to ${sym.name} in step ${i + 1}`}
+                        onClick={() => {
+                          setActive(i);
+                          setFocusedSymbol(`${i}:${j}`);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setActive(i);
+                            setFocusedSymbol(`${i}:${j}`);
+                          }
+                        }}
                         className={cn(
-                          'rounded-md border bg-muted/20 space-y-1',
+                          'rounded-md border bg-muted/20 space-y-1 cursor-pointer transition-colors hover:border-primary hover:bg-primary/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary',
                           a11y ? 'px-3 py-3 border-2' : 'px-2.5 py-2',
                         )}
                       >
@@ -494,6 +508,9 @@ export function SymbolTour({ block }: { block: TourBlock }) {
                               <Check className="h-3 w-3" /> identified
                             </span>
                           )}
+                          <span className="ml-auto text-[10px] text-muted-foreground shrink-0">
+                            Step {i + 1} →
+                          </span>
                         </div>
                         <p
                           className={cn(
