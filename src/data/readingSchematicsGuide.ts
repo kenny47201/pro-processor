@@ -1,4 +1,8 @@
 import type { KnowledgeGuide } from './fountainFlowGuide';
+import schematicsOverviewCard from '@/assets/schematics-overview-infographic.png';
+import schematicsHydraulicCard from '@/assets/schematics-hydraulic-infographic.png';
+import schematicsPneumaticCard from '@/assets/schematics-pneumatic-infographic.png';
+import schematicsElectricalCard from '@/assets/schematics-electrical-infographic.png';
 
 export const readingSchematicsGuide: KnowledgeGuide = {
   slug: 'reading-schematics-hydraulic-pneumatic-electrical',
@@ -14,8 +18,17 @@ export const readingSchematicsGuide: KnowledgeGuide = {
           type: 'paragraph',
           text: 'A schematic is not a picture of the machine; it is a simplified drawing that shows what connects to what and what each part is supposed to do. Once you learn to follow the lines and recognize the symbols, you can understand how the machine works without opening it up. The key is to read it like a story: where does power enter, what controls it, and where does it go next.',
         },
+        {
+          type: 'image',
+          src: schematicsOverviewCard,
+          alt: 'Beginner overview reference card comparing hydraulic, pneumatic, and electrical schematics with common symbols',
+          figureNumber: 'Card 1',
+          caption:
+            'Beginner overview: first steps, line-type legend, the three system types, four questions to ask, mistakes to avoid, learning order, and common symbols.',
+        },
       ],
     },
+
     {
       id: 'first-steps',
       title: 'First Steps for Any Schematic',
