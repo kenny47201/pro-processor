@@ -427,6 +427,63 @@ export default function Users() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Reset Password Dialog */}
+      <Dialog open={!!resetting} onOpenChange={(o) => { if (!o) { setResetting(null); setResetResult(null); setResetPassword(''); } }}>
+        <DialogContent className="max-w-md">
+          <DialogHeader><DialogTitle>Reset Password</DialogTitle></DialogHeader>
+          {resetting && (
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                Screen-name logins have no email recovery, so an admin sets a temporary password directly for{' '}
+                <span className="font-medium text-foreground">{resetting.display_name || resetting.screen_name || resetting.email}</span>.
+              </p>
+              {resetResult ? (
+                <div className="rounded-md border border-border bg-muted/50 p-3 space-y-2">
+                  <Label>Temporary password</Label>
+                  <div className="font-mono text-lg break-all">{resetResult}</div>
+                  <p className="text-xs text-muted-foreground">
+                    Copy it now — it will not be shown again. Have the user change it after signing in.
+                  </p>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      navigator.clipboard?.writeText(resetResult);
+                      toast({ title: 'Copied to clipboard' });
+                    }}
+                  >
+                    Copy
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-1.5">
+                  <Label>New password (leave blank to auto-generate)</Label>
+                  <Input
+                    type="text"
+                    value={resetPassword}
+                    onChange={e => setResetPassword(e.target.value)}
+                    placeholder="At least 6 characters"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+          <DialogFooter>
+            {resetResult ? (
+              <Button onClick={() => { setResetting(null); setResetResult(null); setResetPassword(''); }}>Done</Button>
+            ) : (
+              <>
+                <Button variant="ghost" onClick={() => setResetting(null)}>Cancel</Button>
+                <Button onClick={submitReset} disabled={!!busy || (!!resetPassword && resetPassword.length < 6)}>
+                  {busy === resetting?.user_id ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Reset Password'}
+                </Button>
+              </>
+            )}
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
+
   );
 }
