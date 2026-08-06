@@ -13,7 +13,7 @@ type AppRole =
 
 type Action =
   | "list" | "create" | "invite" | "approve"
-  | "update" | "deactivate" | "reactivate" | "delete";
+  | "update" | "deactivate" | "reactivate" | "delete" | "reset_password";
 
 interface Body {
   action: Action;
@@ -29,6 +29,14 @@ interface Body {
   // ops on existing users
   userId?: string;
 }
+
+function generatePassword() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  const bytes = new Uint8Array(12);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => chars[b % chars.length]).join("");
+}
+
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
