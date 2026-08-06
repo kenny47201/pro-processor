@@ -104,11 +104,36 @@ export default function IssueDetail() {
     return p?.display_name || p?.screen_name || uid.slice(0, 6);
   };
 
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
+
   const canEdit = useMemo(() => {
     if (!issue || !currentUser) return false;
     const supervisorish = ['supervisor', 'manager', 'admin', 'super_admin'].includes(currentUser.role);
     return supervisorish || issue.created_by === currentUser.id;
   }, [issue, currentUser]);
+
+  const handleRegistryChange = async (field: 'asset_id' | 'mold_id', value: string | null) => {
+    if (!issue || !currentUser) return;
+    const label = field === 'asset_id'
+      ? machines.find(m => m.id === value)?.name ?? 'none'
+      : molds.find(m => m.id === value)?.name ?? 'none';
+    try {
+      await updateIssue.mutateAsync({
+        id: issue.id,
+        patch: { [field]: value } as Record<string, string | null>,
+        event: {
+          actor_id: currentUser.id,
+          action: 'status_change',
+          notes: `${field === 'asset_id' ? 'Press' : 'Mold'} set to ${label}`,
+        },
+      });
+    } catch (err) {
+      toast({ title: 'Update failed', description: (err as Error).message, variant: 'destructive' });
+    }
+  };
+
+
 
   const handleStatusChange = async (next: IssueStatus) => {
     if (!issue || !currentUser) return;
