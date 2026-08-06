@@ -176,7 +176,18 @@ export default function Issues() {
                       <Badge variant="outline" className="bg-card text-muted-foreground">
                         {CATEGORY_LABELS[issue.category]}
                       </Badge>
+                      {machineName(issue.asset_id) && (
+                        <Badge variant="outline" className="bg-card text-muted-foreground font-normal">
+                          <span className="mr-1 opacity-70">Press:</span>{machineName(issue.asset_id)}
+                        </Badge>
+                      )}
+                      {moldName(issue.mold_id) && (
+                        <Badge variant="outline" className="bg-card text-muted-foreground font-normal">
+                          <span className="mr-1 opacity-70">Mold:</span>{moldName(issue.mold_id)}
+                        </Badge>
+                      )}
                     </div>
+
                     <CardTitle className="text-base">{issue.title}</CardTitle>
                     {issue.description && (
                       <p className="text-sm text-muted-foreground line-clamp-2">{issue.description}</p>
