@@ -19,6 +19,7 @@ import { format, formatDistanceToNow } from 'date-fns';
 import AttachmentsCard from '@/components/AttachmentsCard';
 import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
+import { canDeleteFixRecord, canDeleteFixTrial } from '@/lib/permissions';
 
 type FixStatus = 'draft' | 'committed' | 'verified';
 type TrialOutcome = 'pass' | 'fail';
