@@ -42,7 +42,12 @@ export interface IssueEvent {
   created_at: string;
 }
 
-export function useIssues(filters?: { status?: IssueStatus; category?: IssueCategory }) {
+export function useIssues(filters?: {
+  status?: IssueStatus;
+  category?: IssueCategory;
+  asset_id?: string;
+  mold_id?: string;
+}) {
   const qc = useQueryClient();
 
   useEffect(() => {
@@ -61,12 +66,15 @@ export function useIssues(filters?: { status?: IssueStatus; category?: IssueCate
       let q = supabase.from('issues').select('*').order('created_at', { ascending: false });
       if (filters?.status) q = q.eq('status', filters.status);
       if (filters?.category) q = q.eq('category', filters.category);
+      if (filters?.asset_id) q = q.eq('asset_id', filters.asset_id);
+      if (filters?.mold_id) q = q.eq('mold_id', filters.mold_id);
       const { data, error } = await q;
       if (error) throw error;
       return (data ?? []) as Issue[];
     },
   });
 }
+
 
 export function useIssue(id: string | undefined) {
   const qc = useQueryClient();
