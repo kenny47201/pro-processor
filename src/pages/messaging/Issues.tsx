@@ -121,6 +121,24 @@ export default function Issues() {
             ))}
           </SelectContent>
         </Select>
+        <Select value={machineFilter} onValueChange={setMachineFilter}>
+          <SelectTrigger className="w-[170px]"><SelectValue placeholder="All presses" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All presses</SelectItem>
+            {machines.map(m => (
+              <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={moldFilter} onValueChange={setMoldFilter}>
+          <SelectTrigger className="w-[170px]"><SelectValue placeholder="All molds" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All molds</SelectItem>
+            {molds.map(m => (
+              <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {isLoading ? (
@@ -130,12 +148,13 @@ export default function Issues() {
       ) : filtered.length === 0 ? (
         <EmptyState
           type="issues"
-          title={search || statusFilter !== 'all' || categoryFilter !== 'all' ? 'No matching issues' : 'No issues reported'}
-          description={search || statusFilter !== 'all' || categoryFilter !== 'all'
+          title={anyFilter ? 'No matching issues' : 'No issues reported'}
+          description={anyFilter
             ? 'Try adjusting your filters.'
             : 'When issues arise, report them here to track resolution.'}
           action={{ label: 'Report Issue', onClick: () => navigate('/issues/new') }}
         />
+
       ) : (
         <div className="grid gap-3">
           {filtered.map(issue => (
