@@ -211,7 +211,7 @@ export default function ConversationDetail() {
                       }`}
                     >
                       {m.body}
-                      {mine && (
+                      {canDeleteMessage(currentUser, { user_id: m.user_id }) && (
                         <button
                           type="button"
                           onClick={() => {
