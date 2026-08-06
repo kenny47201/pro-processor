@@ -9,7 +9,10 @@ import { Plus, Search, Wrench, FileEdit, ShieldCheck, FlaskConical } from 'lucid
 import { useTenant } from '@/contexts/TenantContext';
 import { EmptyState } from '@/components/EmptyState';
 import { supabase } from '@/integrations/supabase/client';
+import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { formatDistanceToNow } from 'date-fns';
+
 
 type FixStatus = 'draft' | 'committed' | 'verified';
 
