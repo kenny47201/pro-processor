@@ -422,7 +422,7 @@ export default function KnowledgeFixDetail() {
                         </div>
                         {t.notes && <div className="mt-1 whitespace-pre-wrap">{t.notes}</div>}
                       </div>
-                      {(t.logged_by === currentUser?.id) && (
+                      {canDeleteFixTrial(currentUser, { logged_by: t.logged_by, tenant_id: rec.tenant_id }) && (
                         <Button
                           variant="ghost"
                           size="sm"
