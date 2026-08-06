@@ -13,7 +13,7 @@ type AppRole =
 
 type Action =
   | "list" | "create" | "invite" | "approve"
-  | "update" | "deactivate" | "reactivate" | "delete";
+  | "update" | "deactivate" | "reactivate" | "delete" | "reset_password";
 
 interface Body {
   action: Action;
@@ -29,6 +29,14 @@ interface Body {
   // ops on existing users
   userId?: string;
 }
+
+function generatePassword() {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789";
+  const bytes = new Uint8Array(12);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => chars[b % chars.length]).join("");
+}
+
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -219,6 +227,25 @@ Deno.serve(async (req) => {
         await a.from("profiles").update({ status: body.action === "deactivate" ? "inactive" : "active" }).eq("user_id", body.userId);
         return jsonOk({ ok: true });
       }
+
+      case "reset_password": {
+        if (!body.userId) return jsonErr("userId is required");
+        const { data: target } = await a.from("profiles").select("tenant_id").eq("user_id", body.userId).maybeSingle();
+        if (!target) return jsonErr("User not found", 404);
+        if (!caller.isSuper && target.tenant_id !== caller.callerTenantId) return jsonErr("Forbidden", 403);
+
+        // Admins may not reset a super_admin's password
+        const { data: targetRoles } = await a.from("user_roles").select("role").eq("user_id", body.userId);
+        const isTargetSuper = (targetRoles ?? []).some(r => r.role === "super_admin");
+        if (isTargetSuper && !caller.isSuper) return jsonErr("Forbidden", 403);
+
+        const newPassword = body.password && body.password.length >= 6 ? body.password : generatePassword();
+        const { error } = await a.auth.admin.updateUserById(body.userId, { password: newPassword });
+        if (error) return jsonErr(error.message, 400);
+        return jsonOk({ ok: true, password: newPassword, generated: !body.password });
+      }
+
+
 
       case "delete": {
         if (!body.userId) return jsonErr("userId is required");
