@@ -9,8 +9,11 @@ import {
 } from '@/components/ui/select';
 import { Plus, AlertCircle, ChevronRight, Loader2, Search, Wrench } from 'lucide-react';
 import { useIssues, type IssueCategory, type IssuePriority, type IssueStatus } from '@/hooks/useIssues';
+import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
+import { useTenant } from '@/contexts/TenantContext';
 import { EmptyState } from '@/components/EmptyState';
 import { formatDistanceToNow } from 'date-fns';
+
 
 const STATUS_STYLES: Record<IssueStatus, string> = {
   open: 'bg-warning/10 text-warning border-warning/30',
