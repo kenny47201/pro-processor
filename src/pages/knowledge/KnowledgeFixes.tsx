@@ -41,11 +41,16 @@ const STATUS_META: Record<FixStatus, { label: string; icon: typeof FileEdit; var
 
 export default function KnowledgeFixes() {
   const navigate = useNavigate();
-  const { canCreateFixes, currentTenant } = useTenant();
+  const { canCreateFixes, currentTenant, currentUser } = useTenant();
   const [rows, setRows] = useState<FixRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<'all' | FixStatus>('all');
   const [q, setQ] = useState('');
+  const [machineFilter, setMachineFilter] = useState<'all' | string>('all');
+  const [moldFilter, setMoldFilter] = useState<'all' | string>('all');
+
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
 
   useEffect(() => {
     if (!currentTenant) return;
@@ -54,7 +59,7 @@ export default function KnowledgeFixes() {
       setLoading(true);
       const { data } = await supabase
         .from('knowledge_fixes')
-        .select('id,title,status,defect,tool,press,material,color,additive,fix_summary,created_at,updated_at,consecutive_passes,required_passes')
+        .select('id,title,status,defect,tool,press,machine_id,mold_id,material,color,additive,fix_summary,created_at,updated_at,consecutive_passes,required_passes')
         .order('updated_at', { ascending: false });
       if (active) {
         setRows((data ?? []) as FixRow[]);
@@ -72,16 +77,22 @@ export default function KnowledgeFixes() {
     };
   }, [currentTenant]);
 
+  const machineName = (id: string | null) => machines.find((m) => m.id === id)?.name;
+  const moldName = (id: string | null) => molds.find((m) => m.id === id)?.name;
+
   const filtered = useMemo(() => {
     const s = q.trim().toLowerCase();
     return rows.filter((r) => {
       if (tab !== 'all' && r.status !== tab) return false;
+      if (machineFilter !== 'all' && r.machine_id !== machineFilter) return false;
+      if (moldFilter !== 'all' && r.mold_id !== moldFilter) return false;
       if (!s) return true;
-      return [r.title, r.defect, r.tool, r.press, r.material, r.color, r.additive, r.fix_summary]
+      return [r.title, r.defect, r.tool, r.press, machineName(r.machine_id), moldName(r.mold_id), r.material, r.color, r.additive, r.fix_summary]
         .filter(Boolean)
         .some((v) => v!.toLowerCase().includes(s));
     });
-  }, [rows, tab, q]);
+  }, [rows, tab, q, machineFilter, moldFilter, machines, molds]);
+
 
   const counts = useMemo(
     () => ({
