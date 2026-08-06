@@ -180,12 +180,13 @@ export default function KnowledgeFixes() {
             const Icon = meta.icon;
             const chips = [
               r.defect && { k: 'Defect', v: r.defect },
-              r.tool && { k: 'Tool', v: r.tool },
-              r.press && { k: 'Press', v: r.press },
+              (moldName(r.mold_id) || r.tool) && { k: 'Tool', v: moldName(r.mold_id) ?? r.tool! },
+              (machineName(r.machine_id) || r.press) && { k: 'Press', v: machineName(r.machine_id) ?? r.press! },
               r.material && { k: 'Material', v: r.material },
               r.color && { k: 'Color', v: r.color },
               r.additive && { k: 'Additive', v: r.additive },
             ].filter(Boolean) as { k: string; v: string }[];
+
             return (
               <Card
                 key={r.id}
