@@ -140,7 +140,26 @@ export default function KnowledgeFixes() {
             className="pl-8"
           />
         </div>
+        <Select value={machineFilter} onValueChange={setMachineFilter}>
+          <SelectTrigger className="w-full sm:w-[170px]"><SelectValue placeholder="All presses" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All presses</SelectItem>
+            {machines.map((m) => (
+              <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={moldFilter} onValueChange={setMoldFilter}>
+          <SelectTrigger className="w-full sm:w-[170px]"><SelectValue placeholder="All molds" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All molds</SelectItem>
+            {molds.map((m) => (
+              <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
+
 
       {loading ? (
         <Card><CardContent className="py-12 text-center text-muted-foreground">Loading…</CardContent></Card>
