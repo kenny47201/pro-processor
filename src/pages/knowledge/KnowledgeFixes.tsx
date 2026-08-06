@@ -20,6 +20,8 @@ interface FixRow {
   defect: string | null;
   tool: string | null;
   press: string | null;
+  machine_id: string | null;
+  mold_id: string | null;
   material: string | null;
   color: string | null;
   additive: string | null;
@@ -29,6 +31,7 @@ interface FixRow {
   consecutive_passes: number;
   required_passes: number;
 }
+
 
 const STATUS_META: Record<FixStatus, { label: string; icon: typeof FileEdit; variant: 'secondary' | 'default' | 'outline' }> = {
   draft: { label: 'Draft', icon: FileEdit, variant: 'secondary' },
