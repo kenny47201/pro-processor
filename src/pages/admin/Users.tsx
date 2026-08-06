@@ -275,6 +275,16 @@ export default function Users() {
                       <Button size="sm" variant="outline" onClick={() => openEdit(u)} className="gap-1">
                         <Pencil className="h-3.5 w-3.5" /> Edit
                       </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => { setResetting(u); setResetPassword(''); setResetResult(null); }}
+                        disabled={busy === u.user_id}
+                        className="gap-1"
+                      >
+                        <KeyRound className="h-3.5 w-3.5" /> Reset Password
+                      </Button>
+
                       <Button size="sm" variant="destructive" onClick={() => removeUser(u)} disabled={busy === u.user_id}>
                         <Trash2 className="h-3.5 w-3.5" />
                       </Button>
