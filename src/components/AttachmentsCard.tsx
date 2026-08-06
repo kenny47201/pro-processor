@@ -130,7 +130,7 @@ export default function AttachmentsCard({ issueId, fixId, tenantId }: Props) {
   };
 
   const canDelete = (a: Attachment) =>
-    isSuperAdmin || isAdmin || a.uploaded_by === currentUser?.id;
+    canDeleteAttachment(currentUser, { uploaded_by: a.uploaded_by, tenant_id: tenantId });
 
   return (
     <Card>
