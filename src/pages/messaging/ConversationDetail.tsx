@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useTenant } from '@/contexts/TenantContext';
 import { toast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
+import { canDeleteMessage } from '@/lib/permissions';
 
 interface MessageRow {
   id: string;
@@ -210,7 +211,7 @@ export default function ConversationDetail() {
                       }`}
                     >
                       {m.body}
-                      {mine && (
+                      {canDeleteMessage(currentUser, { user_id: m.user_id }) && (
                         <button
                           type="button"
                           onClick={() => {

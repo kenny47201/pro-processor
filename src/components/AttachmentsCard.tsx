@@ -9,6 +9,7 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { canDeleteAttachment } from '@/lib/permissions';
 
 interface Attachment {
   id: string;
@@ -32,8 +33,6 @@ const ACCEPT = 'image/png,image/jpeg,image/webp,image/gif,image/heic';
 
 export default function AttachmentsCard({ issueId, fixId, tenantId }: Props) {
   const { currentUser } = useTenant();
-  const isAdmin = currentUser?.role === 'admin';
-  const isSuperAdmin = currentUser?.role === 'super_admin';
   const { toast } = useToast();
   const inputRef = useRef<HTMLInputElement>(null);
   const [items, setItems] = useState<Attachment[]>([]);
@@ -130,7 +129,7 @@ export default function AttachmentsCard({ issueId, fixId, tenantId }: Props) {
   };
 
   const canDelete = (a: Attachment) =>
-    isSuperAdmin || isAdmin || a.uploaded_by === currentUser?.id;
+    canDeleteAttachment(currentUser, { uploaded_by: a.uploaded_by, tenant_id: tenantId });
 
   return (
     <Card>
