@@ -42,14 +42,27 @@ const STATUS_LABELS: Record<IssueStatus, string> = {
 
 export default function Issues() {
   const navigate = useNavigate();
+  const { currentUser } = useTenant();
   const [statusFilter, setStatusFilter] = useState<'all' | IssueStatus>('all');
   const [categoryFilter, setCategoryFilter] = useState<'all' | IssueCategory>('all');
+  const [machineFilter, setMachineFilter] = useState<'all' | string>('all');
+  const [moldFilter, setMoldFilter] = useState<'all' | string>('all');
   const [search, setSearch] = useState('');
+
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
+  const machineName = (id: string | null) => machines.find(m => m.id === id)?.name;
+  const moldName = (id: string | null) => molds.find(m => m.id === id)?.name;
 
   const { data: issues, isLoading } = useIssues({
     status: statusFilter === 'all' ? undefined : statusFilter,
     category: categoryFilter === 'all' ? undefined : categoryFilter,
+    asset_id: machineFilter === 'all' ? undefined : machineFilter,
+    mold_id: moldFilter === 'all' ? undefined : moldFilter,
   });
+
+  const anyFilter = !!search || statusFilter !== 'all' || categoryFilter !== 'all'
+    || machineFilter !== 'all' || moldFilter !== 'all';
 
   const filtered = useMemo(() => {
     if (!issues) return [];
@@ -59,6 +72,7 @@ export default function Issues() {
       i.title.toLowerCase().includes(q) || i.description.toLowerCase().includes(q)
     );
   }, [issues, search]);
+
 
   return (
     <div className="space-y-6">
