@@ -9,8 +9,11 @@ import {
 } from '@/components/ui/select';
 import { Plus, AlertCircle, ChevronRight, Loader2, Search, Wrench } from 'lucide-react';
 import { useIssues, type IssueCategory, type IssuePriority, type IssueStatus } from '@/hooks/useIssues';
+import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
+import { useTenant } from '@/contexts/TenantContext';
 import { EmptyState } from '@/components/EmptyState';
 import { formatDistanceToNow } from 'date-fns';
+
 
 const STATUS_STYLES: Record<IssueStatus, string> = {
   open: 'bg-warning/10 text-warning border-warning/30',
@@ -42,14 +45,27 @@ const STATUS_LABELS: Record<IssueStatus, string> = {
 
 export default function Issues() {
   const navigate = useNavigate();
+  const { currentUser } = useTenant();
   const [statusFilter, setStatusFilter] = useState<'all' | IssueStatus>('all');
   const [categoryFilter, setCategoryFilter] = useState<'all' | IssueCategory>('all');
+  const [machineFilter, setMachineFilter] = useState<'all' | string>('all');
+  const [moldFilter, setMoldFilter] = useState<'all' | string>('all');
   const [search, setSearch] = useState('');
+
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
+  const machineName = (id: string | null) => machines.find(m => m.id === id)?.name;
+  const moldName = (id: string | null) => molds.find(m => m.id === id)?.name;
 
   const { data: issues, isLoading } = useIssues({
     status: statusFilter === 'all' ? undefined : statusFilter,
     category: categoryFilter === 'all' ? undefined : categoryFilter,
+    asset_id: machineFilter === 'all' ? undefined : machineFilter,
+    mold_id: moldFilter === 'all' ? undefined : moldFilter,
   });
+
+  const anyFilter = !!search || statusFilter !== 'all' || categoryFilter !== 'all'
+    || machineFilter !== 'all' || moldFilter !== 'all';
 
   const filtered = useMemo(() => {
     if (!issues) return [];
@@ -59,6 +75,7 @@ export default function Issues() {
       i.title.toLowerCase().includes(q) || i.description.toLowerCase().includes(q)
     );
   }, [issues, search]);
+
 
   return (
     <div className="space-y-6">
@@ -104,6 +121,24 @@ export default function Issues() {
             ))}
           </SelectContent>
         </Select>
+        <Select value={machineFilter} onValueChange={setMachineFilter}>
+          <SelectTrigger className="w-[170px]"><SelectValue placeholder="All presses" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All presses</SelectItem>
+            {machines.map(m => (
+              <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Select value={moldFilter} onValueChange={setMoldFilter}>
+          <SelectTrigger className="w-[170px]"><SelectValue placeholder="All molds" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All molds</SelectItem>
+            {molds.map(m => (
+              <SelectItem key={m.id} value={m.id}>{m.name}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
       {isLoading ? (
@@ -113,12 +148,13 @@ export default function Issues() {
       ) : filtered.length === 0 ? (
         <EmptyState
           type="issues"
-          title={search || statusFilter !== 'all' || categoryFilter !== 'all' ? 'No matching issues' : 'No issues reported'}
-          description={search || statusFilter !== 'all' || categoryFilter !== 'all'
+          title={anyFilter ? 'No matching issues' : 'No issues reported'}
+          description={anyFilter
             ? 'Try adjusting your filters.'
             : 'When issues arise, report them here to track resolution.'}
           action={{ label: 'Report Issue', onClick: () => navigate('/issues/new') }}
         />
+
       ) : (
         <div className="grid gap-3">
           {filtered.map(issue => (
@@ -140,7 +176,18 @@ export default function Issues() {
                       <Badge variant="outline" className="bg-card text-muted-foreground">
                         {CATEGORY_LABELS[issue.category]}
                       </Badge>
+                      {machineName(issue.asset_id) && (
+                        <Badge variant="outline" className="bg-card text-muted-foreground font-normal">
+                          <span className="mr-1 opacity-70">Press:</span>{machineName(issue.asset_id)}
+                        </Badge>
+                      )}
+                      {moldName(issue.mold_id) && (
+                        <Badge variant="outline" className="bg-card text-muted-foreground font-normal">
+                          <span className="mr-1 opacity-70">Mold:</span>{moldName(issue.mold_id)}
+                        </Badge>
+                      )}
                     </div>
+
                     <CardTitle className="text-base">{issue.title}</CardTitle>
                     {issue.description && (
                       <p className="text-sm text-muted-foreground line-clamp-2">{issue.description}</p>

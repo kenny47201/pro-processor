@@ -21,8 +21,11 @@ import {
   type IssueStatus, type IssuePriority,
 } from '@/hooks/useIssues';
 import { supabase } from '@/integrations/supabase/client';
+import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 import AttachmentsCard from '@/components/AttachmentsCard';
 import { format, formatDistanceToNow } from 'date-fns';
+
 
 const STATUS_LABELS: Record<IssueStatus, string> = {
   open: 'Open',
@@ -101,11 +104,36 @@ export default function IssueDetail() {
     return p?.display_name || p?.screen_name || uid.slice(0, 6);
   };
 
+  const { data: machines = [] } = useMachines(currentUser?.tenantId ?? null);
+  const { data: molds = [] } = useMolds(currentUser?.tenantId ?? null);
+
   const canEdit = useMemo(() => {
     if (!issue || !currentUser) return false;
     const supervisorish = ['supervisor', 'manager', 'admin', 'super_admin'].includes(currentUser.role);
     return supervisorish || issue.created_by === currentUser.id;
   }, [issue, currentUser]);
+
+  const handleRegistryChange = async (field: 'asset_id' | 'mold_id', value: string | null) => {
+    if (!issue || !currentUser) return;
+    const label = field === 'asset_id'
+      ? machines.find(m => m.id === value)?.name ?? 'none'
+      : molds.find(m => m.id === value)?.name ?? 'none';
+    try {
+      await updateIssue.mutateAsync({
+        id: issue.id,
+        patch: { [field]: value } as Record<string, string | null>,
+        event: {
+          actor_id: currentUser.id,
+          action: 'status_change',
+          notes: `${field === 'asset_id' ? 'Press' : 'Mold'} set to ${label}`,
+        },
+      });
+    } catch (err) {
+      toast({ title: 'Update failed', description: (err as Error).message, variant: 'destructive' });
+    }
+  };
+
+
 
   const handleStatusChange = async (next: IssueStatus) => {
     if (!issue || !currentUser) return;
@@ -360,6 +388,33 @@ export default function IssueDetail() {
               )}
             </div>
           </div>
+
+          <Separator />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">Press / Machine</label>
+              {canEdit ? (
+                <MachinePicker
+                  value={issue.asset_id}
+                  onChange={(v) => handleRegistryChange('asset_id', v)}
+                />
+              ) : (
+                <p className="text-sm">{machines.find(m => m.id === issue.asset_id)?.name ?? '—'}</p>
+              )}
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">Mold / Tool</label>
+              {canEdit ? (
+                <MoldPicker
+                  value={issue.mold_id}
+                  onChange={(v) => handleRegistryChange('mold_id', v)}
+                />
+              ) : (
+                <p className="text-sm">{molds.find(m => m.id === issue.mold_id)?.name ?? '—'}</p>
+              )}
+            </div>
+          </div>
+
 
           {canSignOffIssues && issue.status === 'needs_verification' && (
             <>
