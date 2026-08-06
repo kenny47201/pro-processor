@@ -55,6 +55,12 @@ export default function Users() {
     displayName: '', role: 'processor' as UserRole, shift: '', tenantId: '',
   });
 
+  // Password reset dialog
+  const [resetting, setResetting] = useState<AdminUser | null>(null);
+  const [resetPassword, setResetPassword] = useState('');
+  const [resetResult, setResetResult] = useState<string | null>(null);
+
+
   const callApi = async (body: Record<string, unknown>) => {
     const { data, error } = await supabase.functions.invoke('admin-users', { body });
     if (error) throw new Error(error.message);
