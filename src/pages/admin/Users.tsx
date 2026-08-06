@@ -187,6 +187,21 @@ export default function Users() {
     } catch (e) { toast({ title: 'Failed', description: (e as Error).message, variant: 'destructive' }); }
     finally { setBusy(null); }
   };
+  const submitReset = async () => {
+    if (!resetting) return;
+    setBusy(resetting.user_id);
+    try {
+      const data = await callApi({
+        action: 'reset_password',
+        userId: resetting.user_id,
+        password: resetPassword || undefined,
+      }) as { password: string };
+      setResetResult(data.password);
+      toast({ title: 'Password reset', description: 'Share the temporary password with the user.' });
+    } catch (e) { toast({ title: 'Failed', description: (e as Error).message, variant: 'destructive' }); }
+    finally { setBusy(null); }
+  };
+
 
   return (
     <div className="space-y-6">
