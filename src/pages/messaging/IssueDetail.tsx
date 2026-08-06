@@ -21,8 +21,11 @@ import {
   type IssueStatus, type IssuePriority,
 } from '@/hooks/useIssues';
 import { supabase } from '@/integrations/supabase/client';
+import { useMachines, useMolds } from '@/hooks/useMachinesMolds';
+import { MachinePicker, MoldPicker } from '@/components/forms/MachineMoldPickers';
 import AttachmentsCard from '@/components/AttachmentsCard';
 import { format, formatDistanceToNow } from 'date-fns';
+
 
 const STATUS_LABELS: Record<IssueStatus, string> = {
   open: 'Open',
