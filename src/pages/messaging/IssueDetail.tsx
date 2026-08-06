@@ -361,6 +361,33 @@ export default function IssueDetail() {
             </div>
           </div>
 
+          <Separator />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">Press / Machine</label>
+              {canEdit ? (
+                <MachinePicker
+                  value={issue.asset_id}
+                  onChange={(v) => handleRegistryChange('asset_id', v)}
+                />
+              ) : (
+                <p className="text-sm">{machines.find(m => m.id === issue.asset_id)?.name ?? '—'}</p>
+              )}
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs font-medium text-muted-foreground">Mold / Tool</label>
+              {canEdit ? (
+                <MoldPicker
+                  value={issue.mold_id}
+                  onChange={(v) => handleRegistryChange('mold_id', v)}
+                />
+              ) : (
+                <p className="text-sm">{molds.find(m => m.id === issue.mold_id)?.name ?? '—'}</p>
+              )}
+            </div>
+          </div>
+
+
           {canSignOffIssues && issue.status === 'needs_verification' && (
             <>
               <Separator />
