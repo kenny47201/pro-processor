@@ -78,6 +78,7 @@ export function AppSidebar() {
     { title: 'Users', url: '/users', icon: Users },
     { title: 'Settings', url: '/settings', icon: Settings },
     { title: 'Nav Report', url: '/nav-report', icon: Shield },
+    { title: 'Verification Audit', url: '/verification-audit', icon: ShieldAlert },
   ];
 
   const superAdminItems = [
