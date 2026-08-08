@@ -24,6 +24,19 @@ import { canDeleteFixRecord, canDeleteFixTrial } from '@/lib/permissions';
 type FixStatus = 'draft' | 'committed' | 'verified';
 type TrialOutcome = 'pass' | 'fail';
 
+interface VerificationEligibility {
+  eligible: boolean;
+  reasons: string[];
+  status?: FixStatus;
+  require_independent_verification?: boolean;
+  is_creator?: boolean;
+  can_verify_role?: boolean;
+  has_independent_pass?: boolean;
+  consecutive_passes?: number;
+  required_passes?: number;
+  trials_needed?: number;
+}
+
 interface ParamChange { param: string; before: string; after: string; units: string }
 
 interface FixRecord {
@@ -89,7 +102,7 @@ export default function KnowledgeFixDetail() {
   const [loading, setLoading] = useState(true);
   const [verifyNotes, setVerifyNotes] = useState('');
   const [busy, setBusy] = useState(false);
-  const [requireIndependent, setRequireIndependent] = useState(true);
+  const [eligibility, setEligibility] = useState<VerificationEligibility | null>(null);
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
@@ -102,22 +115,16 @@ export default function KnowledgeFixDetail() {
     if (!id) return;
     let active = true;
     const load = async () => {
-      const [{ data: fix }, { data: tr }] = await Promise.all([
+      const [{ data: fix }, { data: tr }, { data: elig }] = await Promise.all([
         supabase.from('knowledge_fixes').select('*').eq('id', id).maybeSingle(),
         supabase.from('fix_trials').select('*').eq('fix_id', id).order('created_at', { ascending: false }),
+        supabase.rpc('fix_verification_eligibility', { _fix_id: id }),
       ]);
       if (active) {
         setRec(fix as unknown as FixRecord);
         setTrials((tr ?? []) as TrialRow[]);
+        setEligibility((elig as unknown as VerificationEligibility) ?? null);
         setLoading(false);
-      }
-      if (fix?.tenant_id) {
-        const { data: t } = await supabase
-          .from('tenants')
-          .select('require_independent_verification')
-          .eq('id', fix.tenant_id)
-          .maybeSingle();
-        if (active) setRequireIndependent(t?.require_independent_verification ?? true);
       }
     };
     load();
@@ -143,16 +150,13 @@ export default function KnowledgeFixDetail() {
 
   const verify = async () => {
     if (!rec || !currentUser) return;
-    if (rec.consecutive_passes < rec.required_passes) {
-      toast.error(`Needs ${rec.required_passes} consecutive passing trials before verification.`);
-      return;
-    }
-    if (requireIndependent && currentUser.id === rec.created_by) {
-      toast.error('Independent verification required — the creator of a fix cannot verify it.');
-      return;
-    }
-    if (requireIndependent && !trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by)) {
-      toast.error('Independent verification required — needs a passing trial logged by someone other than the creator.');
+    // Re-check against the backend rules right before writing.
+    const { data: elig, error: eligErr } = await supabase.rpc('fix_verification_eligibility', { _fix_id: rec.id });
+    if (eligErr) { toast.error(eligErr.message); return; }
+    const check = elig as unknown as VerificationEligibility | null;
+    setEligibility(check ?? null);
+    if (!check?.eligible) {
+      toast.error(check?.reasons?.[0] ?? 'This fix cannot be verified yet.');
       return;
     }
     setBusy(true);
@@ -244,15 +248,9 @@ export default function KnowledgeFixDetail() {
   const readyToVerify = rec.consecutive_passes >= rec.required_passes;
   const inTrial = rec.status === 'committed';
 
-  const isCreator = !!currentUser && currentUser.id === rec.created_by;
-  const hasIndependentPass = trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by);
-  const independenceBlock = !requireIndependent
-    ? null
-    : isCreator
-      ? 'You created this fix — verification must be performed by someone else (segregation of duties).'
-      : !hasIndependentPass
-        ? 'At least one passing trial must be logged by someone other than the fix creator before verification.'
-        : null;
+  // Backend-authoritative gate: reasons come straight from the database rules.
+  const blockingReasons = eligibility && !eligibility.eligible ? eligibility.reasons ?? [] : [];
+  const verifyBlocked = !eligibility || !eligibility.eligible;
 
   return (
     <div className="space-y-6">
@@ -481,12 +479,14 @@ export default function KnowledgeFixDetail() {
             )}
             {rec.status === 'committed' && canVerifyFixes && (
               <div className="w-full space-y-2">
-                {independenceBlock && (
+                {blockingReasons.length > 0 && (
                   <div className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
                     <ShieldAlert className="h-4 w-4 mt-0.5 shrink-0 text-warning" />
                     <div>
-                      <div className="font-semibold">Independent verification required</div>
-                      <p className="text-muted-foreground">{independenceBlock}</p>
+                      <div className="font-semibold">Not eligible for verification yet</div>
+                      <ul className="mt-1 list-disc pl-4 space-y-0.5 text-muted-foreground">
+                        {blockingReasons.map((r) => <li key={r}>{r}</li>)}
+                      </ul>
                     </div>
                   </div>
                 )}
@@ -500,9 +500,9 @@ export default function KnowledgeFixDetail() {
                 />
                 <Button
                   onClick={verify}
-                  disabled={busy || !readyToVerify || !!independenceBlock}
+                  disabled={busy || verifyBlocked}
                   className="gap-2"
-                  title={independenceBlock || (readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`)}
+                  title={blockingReasons.join(' ')}
                 >
                   <ShieldCheck className="h-4 w-4" />
                   {readyToVerify

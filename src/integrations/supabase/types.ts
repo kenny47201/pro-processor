@@ -982,6 +982,7 @@ export type Database = {
         Returns: boolean
       }
       can_see_all_departments: { Args: { _user_id: string }; Returns: boolean }
+      fix_verification_eligibility: { Args: { _fix_id: string }; Returns: Json }
       get_user_department: {
         Args: { _user_id: string }
         Returns: Database["public"]["Enums"]["department"]
