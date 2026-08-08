@@ -66,6 +66,9 @@ interface FixRecord {
   verified_by: string | null;
   verified_at: string | null;
   verification_notes: string | null;
+  sod_override_by: string | null;
+  sod_override_reason: string | null;
+  sod_override_at: string | null;
   created_at: string;
   updated_at: string;
   consecutive_passes: number;
