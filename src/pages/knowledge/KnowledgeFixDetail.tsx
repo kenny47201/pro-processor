@@ -147,6 +147,14 @@ export default function KnowledgeFixDetail() {
       toast.error(`Needs ${rec.required_passes} consecutive passing trials before verification.`);
       return;
     }
+    if (requireIndependent && currentUser.id === rec.created_by) {
+      toast.error('Independent verification required — the creator of a fix cannot verify it.');
+      return;
+    }
+    if (requireIndependent && !trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by)) {
+      toast.error('Independent verification required — needs a passing trial logged by someone other than the creator.');
+      return;
+    }
     setBusy(true);
     const { error } = await supabase
       .from('knowledge_fixes')
@@ -235,6 +243,16 @@ export default function KnowledgeFixDetail() {
   const progressPct = Math.min(100, (rec.consecutive_passes / Math.max(rec.required_passes, 1)) * 100);
   const readyToVerify = rec.consecutive_passes >= rec.required_passes;
   const inTrial = rec.status === 'committed';
+
+  const isCreator = !!currentUser && currentUser.id === rec.created_by;
+  const hasIndependentPass = trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by);
+  const independenceBlock = !requireIndependent
+    ? null
+    : isCreator
+      ? 'You created this fix — verification must be performed by someone else (segregation of duties).'
+      : !hasIndependentPass
+        ? 'At least one passing trial must be logged by someone other than the fix creator before verification.'
+        : null;
 
   return (
     <div className="space-y-6">
