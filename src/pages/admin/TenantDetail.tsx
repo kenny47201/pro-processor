@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
+import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { useTenant } from '@/contexts/TenantContext';
 import { supabase } from '@/integrations/supabase/client';
@@ -26,6 +27,7 @@ interface TenantRow {
   city: string | null; state: string | null; postal_code: string | null; country: string | null;
   county: string | null; region: string | null; time_zone: string | null;
   operating_model: string | null; primary_industry: string | null;
+  require_independent_verification: boolean;
 }
 interface FacilityRow { id: string; tenant_id: string; name: string; }
 interface AdminUser {
@@ -56,6 +58,7 @@ export default function TenantDetail() {
   const [editName, setEditName] = useState('');
   const [editShifts, setEditShifts] = useState('');
   const [editAddr, setEditAddr] = useState({ line1: '', line2: '', city: '', state: '', postal: '', country: '', county: '', region: '', timeZone: '', operatingModel: '', primaryIndustry: '' });
+  const [requireIndependent, setRequireIndependent] = useState(true);
   const [savingDetails, setSavingDetails] = useState(false);
 
   // New facility
@@ -67,7 +70,7 @@ export default function TenantDetail() {
     setLoading(true);
     try {
       const [{ data: t, error: tErr }, { data: f }] = await Promise.all([
-        supabase.from('tenants').select('id,name,slug,shifts,created_at,address_line1,address_line2,city,state,postal_code,country,county,region,time_zone,operating_model,primary_industry').eq('id', id).single(),
+        supabase.from('tenants').select('id,name,slug,shifts,created_at,address_line1,address_line2,city,state,postal_code,country,county,region,time_zone,operating_model,primary_industry,require_independent_verification').eq('id', id).single(),
         supabase.from('facilities').select('id,tenant_id,name').eq('tenant_id', id),
       ]);
       if (tErr) throw tErr;
@@ -83,6 +86,7 @@ export default function TenantDetail() {
         timeZone: tRow.time_zone ?? '', operatingModel: tRow.operating_model ?? '',
         primaryIndustry: tRow.primary_industry ?? '',
       });
+      setRequireIndependent(tRow.require_independent_verification ?? true);
       setFacilities(f || []);
 
       // Load users via edge function and filter to this tenant
@@ -125,6 +129,7 @@ export default function TenantDetail() {
       time_zone: editAddr.timeZone.trim() || null,
       operating_model: editAddr.operatingModel.trim() || null,
       primary_industry: editAddr.primaryIndustry.trim() || null,
+      require_independent_verification: requireIndependent,
     }).eq('id', tenant.id);
     setSavingDetails(false);
     if (error) { toast({ title: 'Update failed', description: error.message, variant: 'destructive' }); return; }
@@ -235,6 +240,20 @@ export default function TenantDetail() {
                       <Input value={editAddr.primaryIndustry} onChange={e => setEditAddr({ ...editAddr, primaryIndustry: e.target.value })} placeholder="Primary Industry" />
                     </div>
                   </div>
+
+                  <div className="pt-2">
+                    <Label className="text-xs uppercase tracking-wide text-muted-foreground">Quality Governance</Label>
+                  </div>
+                  <div className="flex items-start justify-between gap-4 rounded-md border p-3">
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium">Require independent verification</div>
+                      <p className="text-xs text-muted-foreground">
+                        A fix cannot be verified by the person who created it, and at least one passing trial
+                        must be logged by someone other than the creator. Recommended for audited plants.
+                      </p>
+                    </div>
+                    <Switch checked={requireIndependent} onCheckedChange={setRequireIndependent} />
+                  </div>
                   <div className="flex justify-end">
                     <Button onClick={saveDetails} disabled={savingDetails} className="gap-1">
                       <Save className="h-3.5 w-3.5" /> Save
@@ -257,6 +276,7 @@ export default function TenantDetail() {
                     ['Time Zone', editAddr.timeZone],
                     ['Operating Model', editAddr.operatingModel],
                     ['Primary Industry', editAddr.primaryIndustry],
+                    ['Independent Verification', requireIndependent ? 'Required' : 'Not required'],
                   ].map(([label, value]) => (
                     <div key={label} className="space-y-1">
                       <dt className="text-xs uppercase tracking-wide text-muted-foreground">{label}</dt>

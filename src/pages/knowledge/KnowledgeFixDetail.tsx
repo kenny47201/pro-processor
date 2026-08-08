@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Wrench, CheckCircle2, ShieldCheck, FileEdit, Trash2, FlaskConical, X } from 'lucide-react';
+import { ArrowLeft, Wrench, CheckCircle2, ShieldCheck, ShieldAlert, FileEdit, Trash2, FlaskConical, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -89,6 +89,7 @@ export default function KnowledgeFixDetail() {
   const [loading, setLoading] = useState(true);
   const [verifyNotes, setVerifyNotes] = useState('');
   const [busy, setBusy] = useState(false);
+  const [requireIndependent, setRequireIndependent] = useState(true);
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
@@ -109,6 +110,14 @@ export default function KnowledgeFixDetail() {
         setRec(fix as unknown as FixRecord);
         setTrials((tr ?? []) as TrialRow[]);
         setLoading(false);
+      }
+      if (fix?.tenant_id) {
+        const { data: t } = await supabase
+          .from('tenants')
+          .select('require_independent_verification')
+          .eq('id', fix.tenant_id)
+          .maybeSingle();
+        if (active) setRequireIndependent(t?.require_independent_verification ?? true);
       }
     };
     load();
@@ -136,6 +145,14 @@ export default function KnowledgeFixDetail() {
     if (!rec || !currentUser) return;
     if (rec.consecutive_passes < rec.required_passes) {
       toast.error(`Needs ${rec.required_passes} consecutive passing trials before verification.`);
+      return;
+    }
+    if (requireIndependent && currentUser.id === rec.created_by) {
+      toast.error('Independent verification required — the creator of a fix cannot verify it.');
+      return;
+    }
+    if (requireIndependent && !trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by)) {
+      toast.error('Independent verification required — needs a passing trial logged by someone other than the creator.');
       return;
     }
     setBusy(true);
@@ -226,6 +243,16 @@ export default function KnowledgeFixDetail() {
   const progressPct = Math.min(100, (rec.consecutive_passes / Math.max(rec.required_passes, 1)) * 100);
   const readyToVerify = rec.consecutive_passes >= rec.required_passes;
   const inTrial = rec.status === 'committed';
+
+  const isCreator = !!currentUser && currentUser.id === rec.created_by;
+  const hasIndependentPass = trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by);
+  const independenceBlock = !requireIndependent
+    ? null
+    : isCreator
+      ? 'You created this fix — verification must be performed by someone else (segregation of duties).'
+      : !hasIndependentPass
+        ? 'At least one passing trial must be logged by someone other than the fix creator before verification.'
+        : null;
 
   return (
     <div className="space-y-6">
@@ -454,6 +481,15 @@ export default function KnowledgeFixDetail() {
             )}
             {rec.status === 'committed' && canVerifyFixes && (
               <div className="w-full space-y-2">
+                {independenceBlock && (
+                  <div className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
+                    <ShieldAlert className="h-4 w-4 mt-0.5 shrink-0 text-warning" />
+                    <div>
+                      <div className="font-semibold">Independent verification required</div>
+                      <p className="text-muted-foreground">{independenceBlock}</p>
+                    </div>
+                  </div>
+                )}
                 <Label htmlFor="vnotes">Verification notes (optional)</Label>
                 <Textarea
                   id="vnotes"
@@ -464,9 +500,9 @@ export default function KnowledgeFixDetail() {
                 />
                 <Button
                   onClick={verify}
-                  disabled={busy || !readyToVerify}
+                  disabled={busy || !readyToVerify || !!independenceBlock}
                   className="gap-2"
-                  title={readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`}
+                  title={independenceBlock || (readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`)}
                 >
                   <ShieldCheck className="h-4 w-4" />
                   {readyToVerify
