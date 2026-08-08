@@ -183,6 +183,45 @@ export default function KnowledgeFixDetail() {
     toast.success('Fix verified & committed to knowledge base');
   };
 
+  const refreshEligibility = async (fixId: string) => {
+    const { data } = await supabase.rpc('fix_verification_eligibility', { _fix_id: fixId });
+    setEligibility((data as unknown as VerificationEligibility) ?? null);
+  };
+
+  const applyOverride = async () => {
+    if (!rec || !currentUser) return;
+    const reason = overrideReason.trim();
+    if (reason.length < 10) { toast.error('Please give a specific reason (at least 10 characters).'); return; }
+    setBusy(true);
+    const { error } = await supabase
+      .from('knowledge_fixes')
+      .update({
+        sod_override_by: currentUser.id,
+        sod_override_reason: reason,
+        sod_override_at: new Date().toISOString(),
+      })
+      .eq('id', rec.id);
+    setBusy(false);
+    if (error) { toast.error(error.message); return; }
+    setOverrideReason('');
+    await refreshEligibility(rec.id);
+    toast.success('Segregation-of-duties override recorded');
+  };
+
+  const clearOverride = async () => {
+    if (!rec) return;
+    setBusy(true);
+    const { error } = await supabase
+      .from('knowledge_fixes')
+      .update({ sod_override_by: null, sod_override_reason: null, sod_override_at: null })
+      .eq('id', rec.id);
+    setBusy(false);
+    if (error) { toast.error(error.message); return; }
+    await refreshEligibility(rec.id);
+    toast.success('Override removed');
+  };
+
+
   const logTrial = async () => {
     if (!rec || !currentUser) return;
     setBusy(true);
