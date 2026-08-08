@@ -299,6 +299,13 @@ export default function KnowledgeFixDetail() {
   // Backend-authoritative gate: reasons come straight from the database rules.
   const blockingReasons = eligibility && !eligibility.eligible ? eligibility.reasons ?? [] : [];
   const verifyBlocked = !eligibility || !eligibility.eligible;
+  const canOverride = !!eligibility?.can_override;
+  const overrideActive = !!eligibility?.override_active;
+  // Only segregation-of-duties blocks can be overridden — trial counts still apply.
+  const sodBlocked = !!eligibility?.require_independent_verification
+    && !overrideActive
+    && (!!eligibility?.is_creator || eligibility?.has_independent_pass === false);
+
 
   return (
     <div className="space-y-6">
