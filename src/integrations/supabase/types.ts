@@ -991,6 +991,34 @@ export type Database = {
         Returns: boolean
       }
       can_see_all_departments: { Args: { _user_id: string }; Returns: boolean }
+      fix_verification_audit: {
+        Args: { _facility?: string; _from?: string; _to?: string }
+        Returns: {
+          blocking_reasons: string[]
+          consecutive_passes: number
+          created_at: string
+          created_by: string
+          creator_name: string
+          facility_id: string
+          has_independent_pass: boolean
+          id: string
+          override_active: boolean
+          override_at: string
+          override_by: string
+          override_by_name: string
+          override_reason: string
+          require_independent_verification: boolean
+          required_passes: number
+          self_verified: boolean
+          status: Database["public"]["Enums"]["fix_record_status"]
+          title: string
+          total_fails: number
+          total_passes: number
+          verified_at: string
+          verified_by: string
+          verifier_name: string
+        }[]
+      }
       fix_verification_eligibility: { Args: { _fix_id: string }; Returns: Json }
       get_user_department: {
         Args: { _user_id: string }

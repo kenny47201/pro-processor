@@ -13,6 +13,7 @@ import {
   ChevronDown,
   Calculator,
   Shield,
+  ShieldAlert,
 } from 'lucide-react';
 import { NavLink } from '@/components/NavLink';
 import { useTenant } from '@/contexts/TenantContext';
@@ -78,6 +79,7 @@ export function AppSidebar() {
     { title: 'Users', url: '/users', icon: Users },
     { title: 'Settings', url: '/settings', icon: Settings },
     { title: 'Nav Report', url: '/nav-report', icon: Shield },
+    { title: 'Verification Audit', url: '/verification-audit', icon: ShieldAlert },
   ];
 
   const superAdminItems = [
