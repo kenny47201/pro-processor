@@ -18,6 +18,7 @@ import KnowledgeFixDetail from "./pages/knowledge/KnowledgeFixDetail";
 import KnowledgeFixVerify from "./pages/knowledge/KnowledgeFixVerify";
 import KnowledgeFixCommit from "./pages/knowledge/KnowledgeFixCommit";
 import NavReport from "./pages/admin/NavReport";
+import VerificationAudit from "./pages/admin/VerificationAudit";
 
 // Process Tools
 import ProcessTools from "./pages/process/ProcessTools";
