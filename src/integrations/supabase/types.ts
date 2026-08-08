@@ -459,6 +459,9 @@ export type Database = {
           problem: string
           required_passes: number
           root_cause: string
+          sod_override_at: string | null
+          sod_override_by: string | null
+          sod_override_reason: string | null
           solution: string
           status: Database["public"]["Enums"]["fix_record_status"]
           tags: string[]
@@ -492,6 +495,9 @@ export type Database = {
           problem?: string
           required_passes?: number
           root_cause?: string
+          sod_override_at?: string | null
+          sod_override_by?: string | null
+          sod_override_reason?: string | null
           solution?: string
           status?: Database["public"]["Enums"]["fix_record_status"]
           tags?: string[]
@@ -525,6 +531,9 @@ export type Database = {
           problem?: string
           required_passes?: number
           root_cause?: string
+          sod_override_at?: string | null
+          sod_override_by?: string | null
+          sod_override_reason?: string | null
           solution?: string
           status?: Database["public"]["Enums"]["fix_record_status"]
           tags?: string[]

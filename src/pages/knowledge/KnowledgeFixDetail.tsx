@@ -31,6 +31,11 @@ interface VerificationEligibility {
   require_independent_verification?: boolean;
   is_creator?: boolean;
   can_verify_role?: boolean;
+  can_override?: boolean;
+  override_active?: boolean;
+  override_by?: string | null;
+  override_reason?: string | null;
+  override_at?: string | null;
   has_independent_pass?: boolean;
   consecutive_passes?: number;
   required_passes?: number;
@@ -61,6 +66,9 @@ interface FixRecord {
   verified_by: string | null;
   verified_at: string | null;
   verification_notes: string | null;
+  sod_override_by: string | null;
+  sod_override_reason: string | null;
+  sod_override_at: string | null;
   created_at: string;
   updated_at: string;
   consecutive_passes: number;
@@ -103,6 +111,7 @@ export default function KnowledgeFixDetail() {
   const [verifyNotes, setVerifyNotes] = useState('');
   const [busy, setBusy] = useState(false);
   const [eligibility, setEligibility] = useState<VerificationEligibility | null>(null);
+  const [overrideReason, setOverrideReason] = useState('');
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
@@ -173,6 +182,45 @@ export default function KnowledgeFixDetail() {
     if (error) { toast.error(error.message); return; }
     toast.success('Fix verified & committed to knowledge base');
   };
+
+  const refreshEligibility = async (fixId: string) => {
+    const { data } = await supabase.rpc('fix_verification_eligibility', { _fix_id: fixId });
+    setEligibility((data as unknown as VerificationEligibility) ?? null);
+  };
+
+  const applyOverride = async () => {
+    if (!rec || !currentUser) return;
+    const reason = overrideReason.trim();
+    if (reason.length < 10) { toast.error('Please give a specific reason (at least 10 characters).'); return; }
+    setBusy(true);
+    const { error } = await supabase
+      .from('knowledge_fixes')
+      .update({
+        sod_override_by: currentUser.id,
+        sod_override_reason: reason,
+        sod_override_at: new Date().toISOString(),
+      })
+      .eq('id', rec.id);
+    setBusy(false);
+    if (error) { toast.error(error.message); return; }
+    setOverrideReason('');
+    await refreshEligibility(rec.id);
+    toast.success('Segregation-of-duties override recorded');
+  };
+
+  const clearOverride = async () => {
+    if (!rec) return;
+    setBusy(true);
+    const { error } = await supabase
+      .from('knowledge_fixes')
+      .update({ sod_override_by: null, sod_override_reason: null, sod_override_at: null })
+      .eq('id', rec.id);
+    setBusy(false);
+    if (error) { toast.error(error.message); return; }
+    await refreshEligibility(rec.id);
+    toast.success('Override removed');
+  };
+
 
   const logTrial = async () => {
     if (!rec || !currentUser) return;
@@ -251,6 +299,13 @@ export default function KnowledgeFixDetail() {
   // Backend-authoritative gate: reasons come straight from the database rules.
   const blockingReasons = eligibility && !eligibility.eligible ? eligibility.reasons ?? [] : [];
   const verifyBlocked = !eligibility || !eligibility.eligible;
+  const canOverride = !!eligibility?.can_override;
+  const overrideActive = !!eligibility?.override_active;
+  // Only segregation-of-duties blocks can be overridden — trial counts still apply.
+  const sodBlocked = !!eligibility?.require_independent_verification
+    && !overrideActive
+    && (!!eligibility?.is_creator || eligibility?.has_independent_pass === false);
+
 
   return (
     <div className="space-y-6">
@@ -333,6 +388,21 @@ export default function KnowledgeFixDetail() {
             <div className="rounded-md border border-primary/30 bg-primary/5 p-3 text-sm">
               <div className="font-semibold mb-1">Verification notes</div>
               <p className="whitespace-pre-wrap">{rec.verification_notes}</p>
+            </div>
+          )}
+
+          {rec.sod_override_reason && (
+            <div className="rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
+              <div className="font-semibold mb-1 flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-warning" />
+                Independent verification waived by admin
+              </div>
+              <p className="whitespace-pre-wrap">{rec.sod_override_reason}</p>
+              {rec.sod_override_at && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Recorded {format(new Date(rec.sod_override_at), 'PP p')}
+                </p>
+              )}
             </div>
           )}
         </CardContent>
@@ -490,6 +560,50 @@ export default function KnowledgeFixDetail() {
                     </div>
                   </div>
                 )}
+
+                {overrideActive && (
+                  <div className="rounded-md border border-primary/40 bg-primary/10 p-3 text-sm space-y-1">
+                    <div className="flex items-center gap-2 font-semibold">
+                      <ShieldAlert className="h-4 w-4 text-primary" />
+                      Segregation-of-duties override active
+                    </div>
+                    <p className="text-muted-foreground whitespace-pre-wrap">
+                      Reason: {rec.sod_override_reason}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Overridden by {rec.sod_override_by === currentUser?.id ? 'you' : 'an admin'}
+                      {rec.sod_override_at ? ` on ${format(new Date(rec.sod_override_at), 'PP p')}` : ''}
+                    </p>
+                    {canOverride && (
+                      <Button variant="outline" size="sm" onClick={clearOverride} disabled={busy} className="mt-1 gap-2">
+                        <X className="h-4 w-4" /> Remove override
+                      </Button>
+                    )}
+                  </div>
+                )}
+
+                {!overrideActive && sodBlocked && canOverride && (
+                  <div className="rounded-md border border-border bg-muted/40 p-3 space-y-2">
+                    <div className="text-sm font-semibold">Admin override</div>
+                    <p className="text-xs text-muted-foreground">
+                      As an admin you may waive the independent-verification rule for this fix. The reason and your
+                      identity are recorded on the record for audit.
+                    </p>
+                    <Label htmlFor="ovr-reason" className="text-xs">Reason (required)</Label>
+                    <Textarea
+                      id="ovr-reason"
+                      rows={2}
+                      value={overrideReason}
+                      onChange={(e) => setOverrideReason(e.target.value)}
+                      placeholder="Why is independent verification being waived?"
+                    />
+                    <Button variant="outline" onClick={applyOverride} disabled={busy} className="gap-2">
+                      <ShieldAlert className="h-4 w-4" /> Record override
+                    </Button>
+                  </div>
+                )}
+
+
                 <Label htmlFor="vnotes">Verification notes (optional)</Label>
                 <Textarea
                   id="vnotes"
