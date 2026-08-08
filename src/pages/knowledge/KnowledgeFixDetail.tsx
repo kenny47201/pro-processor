@@ -479,12 +479,14 @@ export default function KnowledgeFixDetail() {
             )}
             {rec.status === 'committed' && canVerifyFixes && (
               <div className="w-full space-y-2">
-                {independenceBlock && (
+                {blockingReasons.length > 0 && (
                   <div className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
                     <ShieldAlert className="h-4 w-4 mt-0.5 shrink-0 text-warning" />
                     <div>
-                      <div className="font-semibold">Independent verification required</div>
-                      <p className="text-muted-foreground">{independenceBlock}</p>
+                      <div className="font-semibold">Not eligible for verification yet</div>
+                      <ul className="mt-1 list-disc pl-4 space-y-0.5 text-muted-foreground">
+                        {blockingReasons.map((r) => <li key={r}>{r}</li>)}
+                      </ul>
                     </div>
                   </div>
                 )}
@@ -498,9 +500,9 @@ export default function KnowledgeFixDetail() {
                 />
                 <Button
                   onClick={verify}
-                  disabled={busy || !readyToVerify || !!independenceBlock}
+                  disabled={busy || verifyBlocked}
                   className="gap-2"
-                  title={independenceBlock || (readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`)}
+                  title={blockingReasons.join(' ')}
                 >
                   <ShieldCheck className="h-4 w-4" />
                   {readyToVerify
