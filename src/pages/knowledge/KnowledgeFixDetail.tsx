@@ -113,6 +113,7 @@ export default function KnowledgeFixDetail() {
   const [busy, setBusy] = useState(false);
   const [eligibility, setEligibility] = useState<VerificationEligibility | null>(null);
   const [overrideReason, setOverrideReason] = useState('');
+  const [overrideConsent, setOverrideConsent] = useState(false);
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
