@@ -239,6 +239,20 @@ export default function TenantDetail() {
                       <Input value={editAddr.primaryIndustry} onChange={e => setEditAddr({ ...editAddr, primaryIndustry: e.target.value })} placeholder="Primary Industry" />
                     </div>
                   </div>
+
+                  <div className="pt-2">
+                    <Label className="text-xs uppercase tracking-wide text-muted-foreground">Quality Governance</Label>
+                  </div>
+                  <div className="flex items-start justify-between gap-4 rounded-md border p-3">
+                    <div className="space-y-1">
+                      <div className="text-sm font-medium">Require independent verification</div>
+                      <p className="text-xs text-muted-foreground">
+                        A fix cannot be verified by the person who created it, and at least one passing trial
+                        must be logged by someone other than the creator. Recommended for audited plants.
+                      </p>
+                    </div>
+                    <Switch checked={requireIndependent} onCheckedChange={setRequireIndependent} />
+                  </div>
                   <div className="flex justify-end">
                     <Button onClick={saveDetails} disabled={savingDetails} className="gap-1">
                       <Save className="h-3.5 w-3.5" /> Save
@@ -261,6 +275,7 @@ export default function TenantDetail() {
                     ['Time Zone', editAddr.timeZone],
                     ['Operating Model', editAddr.operatingModel],
                     ['Primary Industry', editAddr.primaryIndustry],
+                    ['Independent Verification', requireIndependent ? 'Required' : 'Not required'],
                   ].map(([label, value]) => (
                     <div key={label} className="space-y-1">
                       <dt className="text-xs uppercase tracking-wide text-muted-foreground">{label}</dt>
