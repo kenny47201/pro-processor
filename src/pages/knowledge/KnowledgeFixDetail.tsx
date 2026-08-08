@@ -481,6 +481,15 @@ export default function KnowledgeFixDetail() {
             )}
             {rec.status === 'committed' && canVerifyFixes && (
               <div className="w-full space-y-2">
+                {independenceBlock && (
+                  <div className="flex items-start gap-2 rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
+                    <ShieldAlert className="h-4 w-4 mt-0.5 shrink-0 text-warning" />
+                    <div>
+                      <div className="font-semibold">Independent verification required</div>
+                      <p className="text-muted-foreground">{independenceBlock}</p>
+                    </div>
+                  </div>
+                )}
                 <Label htmlFor="vnotes">Verification notes (optional)</Label>
                 <Textarea
                   id="vnotes"
@@ -491,9 +500,9 @@ export default function KnowledgeFixDetail() {
                 />
                 <Button
                   onClick={verify}
-                  disabled={busy || !readyToVerify}
+                  disabled={busy || !readyToVerify || !!independenceBlock}
                   className="gap-2"
-                  title={readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`}
+                  title={independenceBlock || (readyToVerify ? '' : `Needs ${rec.required_passes} consecutive passing trials first`)}
                 >
                   <ShieldCheck className="h-4 w-4" />
                   {readyToVerify
