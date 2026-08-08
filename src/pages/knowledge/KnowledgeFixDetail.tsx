@@ -24,6 +24,19 @@ import { canDeleteFixRecord, canDeleteFixTrial } from '@/lib/permissions';
 type FixStatus = 'draft' | 'committed' | 'verified';
 type TrialOutcome = 'pass' | 'fail';
 
+interface VerificationEligibility {
+  eligible: boolean;
+  reasons: string[];
+  status?: FixStatus;
+  require_independent_verification?: boolean;
+  is_creator?: boolean;
+  can_verify_role?: boolean;
+  has_independent_pass?: boolean;
+  consecutive_passes?: number;
+  required_passes?: number;
+  trials_needed?: number;
+}
+
 interface ParamChange { param: string; before: string; after: string; units: string }
 
 interface FixRecord {
@@ -89,7 +102,7 @@ export default function KnowledgeFixDetail() {
   const [loading, setLoading] = useState(true);
   const [verifyNotes, setVerifyNotes] = useState('');
   const [busy, setBusy] = useState(false);
-  const [requireIndependent, setRequireIndependent] = useState(true);
+  const [eligibility, setEligibility] = useState<VerificationEligibility | null>(null);
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
@@ -102,22 +115,16 @@ export default function KnowledgeFixDetail() {
     if (!id) return;
     let active = true;
     const load = async () => {
-      const [{ data: fix }, { data: tr }] = await Promise.all([
+      const [{ data: fix }, { data: tr }, { data: elig }] = await Promise.all([
         supabase.from('knowledge_fixes').select('*').eq('id', id).maybeSingle(),
         supabase.from('fix_trials').select('*').eq('fix_id', id).order('created_at', { ascending: false }),
+        supabase.rpc('fix_verification_eligibility', { _fix_id: id }),
       ]);
       if (active) {
         setRec(fix as unknown as FixRecord);
         setTrials((tr ?? []) as TrialRow[]);
+        setEligibility((elig as unknown as VerificationEligibility) ?? null);
         setLoading(false);
-      }
-      if (fix?.tenant_id) {
-        const { data: t } = await supabase
-          .from('tenants')
-          .select('require_independent_verification')
-          .eq('id', fix.tenant_id)
-          .maybeSingle();
-        if (active) setRequireIndependent(t?.require_independent_verification ?? true);
       }
     };
     load();
