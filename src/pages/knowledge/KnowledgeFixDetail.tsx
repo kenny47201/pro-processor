@@ -193,7 +193,10 @@ export default function KnowledgeFixDetail() {
   const applyOverride = async () => {
     if (!rec || !currentUser) return;
     const reason = overrideReason.trim();
+    if (!reason) { toast.error('A written reason is required to override independent verification.'); return; }
     if (reason.length < 10) { toast.error('Please give a specific reason (at least 10 characters).'); return; }
+    if (reason.length > 1000) { toast.error('Reason must be 1000 characters or fewer.'); return; }
+    if (!overrideConsent) { toast.error('Please confirm you accept responsibility for this override.'); return; }
     setBusy(true);
     const { error } = await supabase
       .from('knowledge_fixes')
@@ -206,6 +209,7 @@ export default function KnowledgeFixDetail() {
     setBusy(false);
     if (error) { toast.error(error.message); return; }
     setOverrideReason('');
+    setOverrideConsent(false);
     await refreshEligibility(rec.id);
     toast.success('Segregation-of-duties override recorded');
   };
