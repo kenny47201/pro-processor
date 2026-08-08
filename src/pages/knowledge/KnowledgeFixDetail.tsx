@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { ArrowLeft, Wrench, CheckCircle2, ShieldCheck, FileEdit, Trash2, FlaskConical, X } from 'lucide-react';
+import { ArrowLeft, Wrench, CheckCircle2, ShieldCheck, ShieldAlert, FileEdit, Trash2, FlaskConical, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
