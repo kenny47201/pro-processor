@@ -390,6 +390,21 @@ export default function KnowledgeFixDetail() {
               <p className="whitespace-pre-wrap">{rec.verification_notes}</p>
             </div>
           )}
+
+          {rec.sod_override_reason && (
+            <div className="rounded-md border border-warning/40 bg-warning/10 p-3 text-sm">
+              <div className="font-semibold mb-1 flex items-center gap-2">
+                <ShieldAlert className="h-4 w-4 text-warning" />
+                Independent verification waived by admin
+              </div>
+              <p className="whitespace-pre-wrap">{rec.sod_override_reason}</p>
+              {rec.sod_override_at && (
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Recorded {format(new Date(rec.sod_override_at), 'PP p')}
+                </p>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
 
