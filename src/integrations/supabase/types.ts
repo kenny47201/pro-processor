@@ -901,6 +901,7 @@ export type Database = {
           postal_code: string | null
           primary_industry: string | null
           region: string | null
+          require_independent_verification: boolean
           shifts: string[]
           slug: string
           state: string | null
@@ -920,6 +921,7 @@ export type Database = {
           postal_code?: string | null
           primary_industry?: string | null
           region?: string | null
+          require_independent_verification?: boolean
           shifts?: string[]
           slug: string
           state?: string | null
@@ -939,6 +941,7 @@ export type Database = {
           postal_code?: string | null
           primary_industry?: string | null
           region?: string | null
+          require_independent_verification?: boolean
           shifts?: string[]
           slug?: string
           state?: string | null
