@@ -545,6 +545,50 @@ export default function KnowledgeFixDetail() {
                     </div>
                   </div>
                 )}
+
+                {overrideActive && (
+                  <div className="rounded-md border border-primary/40 bg-primary/10 p-3 text-sm space-y-1">
+                    <div className="flex items-center gap-2 font-semibold">
+                      <ShieldAlert className="h-4 w-4 text-primary" />
+                      Segregation-of-duties override active
+                    </div>
+                    <p className="text-muted-foreground whitespace-pre-wrap">
+                      Reason: {rec.sod_override_reason}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Overridden by {rec.sod_override_by === currentUser?.id ? 'you' : 'an admin'}
+                      {rec.sod_override_at ? ` on ${format(new Date(rec.sod_override_at), 'PP p')}` : ''}
+                    </p>
+                    {canOverride && (
+                      <Button variant="outline" size="sm" onClick={clearOverride} disabled={busy} className="mt-1 gap-2">
+                        <X className="h-4 w-4" /> Remove override
+                      </Button>
+                    )}
+                  </div>
+                )}
+
+                {!overrideActive && sodBlocked && canOverride && (
+                  <div className="rounded-md border border-border bg-muted/40 p-3 space-y-2">
+                    <div className="text-sm font-semibold">Admin override</div>
+                    <p className="text-xs text-muted-foreground">
+                      As an admin you may waive the independent-verification rule for this fix. The reason and your
+                      identity are recorded on the record for audit.
+                    </p>
+                    <Label htmlFor="ovr-reason" className="text-xs">Reason (required)</Label>
+                    <Textarea
+                      id="ovr-reason"
+                      rows={2}
+                      value={overrideReason}
+                      onChange={(e) => setOverrideReason(e.target.value)}
+                      placeholder="Why is independent verification being waived?"
+                    />
+                    <Button variant="outline" onClick={applyOverride} disabled={busy} className="gap-2">
+                      <ShieldAlert className="h-4 w-4" /> Record override
+                    </Button>
+                  </div>
+                )}
+
+
                 <Label htmlFor="vnotes">Verification notes (optional)</Label>
                 <Textarea
                   id="vnotes"
