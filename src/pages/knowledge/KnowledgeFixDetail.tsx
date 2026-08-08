@@ -599,13 +599,41 @@ export default function KnowledgeFixDetail() {
                     <Textarea
                       id="ovr-reason"
                       rows={2}
+                      maxLength={1000}
                       value={overrideReason}
                       onChange={(e) => setOverrideReason(e.target.value)}
                       placeholder="Why is independent verification being waived?"
+                      aria-invalid={overrideReason.trim().length > 0 && overrideReason.trim().length < 10}
                     />
-                    <Button variant="outline" onClick={applyOverride} disabled={busy} className="gap-2">
+                    <p className="text-xs text-muted-foreground">
+                      {overrideReason.trim().length < 10
+                        ? `At least 10 characters required (${overrideReason.trim().length}/10).`
+                        : `${overrideReason.trim().length}/1000 characters.`}
+                    </p>
+                    <div className="flex items-start gap-2">
+                      <Checkbox
+                        id="ovr-consent"
+                        checked={overrideConsent}
+                        onCheckedChange={(v) => setOverrideConsent(v === true)}
+                      />
+                      <Label htmlFor="ovr-consent" className="text-xs font-normal leading-snug">
+                        I confirm I am authorized to waive independent verification for this fix, and I accept
+                        responsibility for this override being recorded in the audit trail.
+                      </Label>
+                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={applyOverride}
+                      disabled={busy || overrideReason.trim().length < 10 || !overrideConsent}
+                      className="gap-2"
+                    >
                       <ShieldAlert className="h-4 w-4" /> Record override
                     </Button>
+                    {(overrideReason.trim().length < 10 || !overrideConsent) && (
+                      <p className="text-xs text-muted-foreground">
+                        Enter a written reason and confirm consent to enable the override.
+                      </p>
+                    )}
                   </div>
                 )}
 
