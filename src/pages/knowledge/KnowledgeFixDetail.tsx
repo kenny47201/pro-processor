@@ -89,6 +89,7 @@ export default function KnowledgeFixDetail() {
   const [loading, setLoading] = useState(true);
   const [verifyNotes, setVerifyNotes] = useState('');
   const [busy, setBusy] = useState(false);
+  const [requireIndependent, setRequireIndependent] = useState(true);
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
@@ -109,6 +110,14 @@ export default function KnowledgeFixDetail() {
         setRec(fix as unknown as FixRecord);
         setTrials((tr ?? []) as TrialRow[]);
         setLoading(false);
+      }
+      if (fix?.tenant_id) {
+        const { data: t } = await supabase
+          .from('tenants')
+          .select('require_independent_verification')
+          .eq('id', fix.tenant_id)
+          .maybeSingle();
+        if (active) setRequireIndependent(t?.require_independent_verification ?? true);
       }
     };
     load();
