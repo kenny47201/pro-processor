@@ -79,6 +79,7 @@ export default function ProtectedApp() {
         <Route path="/users" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><Users /></RoleGuard></AppLayout>} />
         <Route path="/settings" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><Settings /></RoleGuard></AppLayout>} />
         <Route path="/nav-report" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><NavReport /></RoleGuard></AppLayout>} />
+        <Route path="/verification-audit" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><VerificationAudit /></RoleGuard></AppLayout>} />
 
         {/* Super Admin Routes */}
         <Route path="/tenants" element={<AppLayout><RoleGuard allowedRoles={['admin','super_admin']}><Tenants /></RoleGuard></AppLayout>} />
