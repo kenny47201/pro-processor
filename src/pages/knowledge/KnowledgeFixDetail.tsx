@@ -31,6 +31,11 @@ interface VerificationEligibility {
   require_independent_verification?: boolean;
   is_creator?: boolean;
   can_verify_role?: boolean;
+  can_override?: boolean;
+  override_active?: boolean;
+  override_by?: string | null;
+  override_reason?: string | null;
+  override_at?: string | null;
   has_independent_pass?: boolean;
   consecutive_passes?: number;
   required_passes?: number;
