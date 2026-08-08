@@ -150,16 +150,13 @@ export default function KnowledgeFixDetail() {
 
   const verify = async () => {
     if (!rec || !currentUser) return;
-    if (rec.consecutive_passes < rec.required_passes) {
-      toast.error(`Needs ${rec.required_passes} consecutive passing trials before verification.`);
-      return;
-    }
-    if (requireIndependent && currentUser.id === rec.created_by) {
-      toast.error('Independent verification required — the creator of a fix cannot verify it.');
-      return;
-    }
-    if (requireIndependent && !trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by)) {
-      toast.error('Independent verification required — needs a passing trial logged by someone other than the creator.');
+    // Re-check against the backend rules right before writing.
+    const { data: elig, error: eligErr } = await supabase.rpc('fix_verification_eligibility', { _fix_id: rec.id });
+    if (eligErr) { toast.error(eligErr.message); return; }
+    const check = elig as unknown as VerificationEligibility | null;
+    setEligibility(check ?? null);
+    if (!check?.eligible) {
+      toast.error(check?.reasons?.[0] ?? 'This fix cannot be verified yet.');
       return;
     }
     setBusy(true);
@@ -251,15 +248,9 @@ export default function KnowledgeFixDetail() {
   const readyToVerify = rec.consecutive_passes >= rec.required_passes;
   const inTrial = rec.status === 'committed';
 
-  const isCreator = !!currentUser && currentUser.id === rec.created_by;
-  const hasIndependentPass = trials.some((t) => t.outcome === 'pass' && t.logged_by !== rec.created_by);
-  const independenceBlock = !requireIndependent
-    ? null
-    : isCreator
-      ? 'You created this fix — verification must be performed by someone else (segregation of duties).'
-      : !hasIndependentPass
-        ? 'At least one passing trial must be logged by someone other than the fix creator before verification.'
-        : null;
+  // Backend-authoritative gate: reasons come straight from the database rules.
+  const blockingReasons = eligibility && !eligibility.eligible ? eligibility.reasons ?? [] : [];
+  const verifyBlocked = !eligibility || !eligibility.eligible;
 
   return (
     <div className="space-y-6">
