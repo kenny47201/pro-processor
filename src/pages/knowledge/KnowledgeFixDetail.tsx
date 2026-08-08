@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
@@ -112,6 +113,7 @@ export default function KnowledgeFixDetail() {
   const [busy, setBusy] = useState(false);
   const [eligibility, setEligibility] = useState<VerificationEligibility | null>(null);
   const [overrideReason, setOverrideReason] = useState('');
+  const [overrideConsent, setOverrideConsent] = useState(false);
 
   // Trial form state
   const [tOutcome, setTOutcome] = useState<TrialOutcome>('pass');
@@ -191,7 +193,10 @@ export default function KnowledgeFixDetail() {
   const applyOverride = async () => {
     if (!rec || !currentUser) return;
     const reason = overrideReason.trim();
+    if (!reason) { toast.error('A written reason is required to override independent verification.'); return; }
     if (reason.length < 10) { toast.error('Please give a specific reason (at least 10 characters).'); return; }
+    if (reason.length > 1000) { toast.error('Reason must be 1000 characters or fewer.'); return; }
+    if (!overrideConsent) { toast.error('Please confirm you accept responsibility for this override.'); return; }
     setBusy(true);
     const { error } = await supabase
       .from('knowledge_fixes')
@@ -204,6 +209,7 @@ export default function KnowledgeFixDetail() {
     setBusy(false);
     if (error) { toast.error(error.message); return; }
     setOverrideReason('');
+    setOverrideConsent(false);
     await refreshEligibility(rec.id);
     toast.success('Segregation-of-duties override recorded');
   };
@@ -593,13 +599,41 @@ export default function KnowledgeFixDetail() {
                     <Textarea
                       id="ovr-reason"
                       rows={2}
+                      maxLength={1000}
                       value={overrideReason}
                       onChange={(e) => setOverrideReason(e.target.value)}
                       placeholder="Why is independent verification being waived?"
+                      aria-invalid={overrideReason.trim().length > 0 && overrideReason.trim().length < 10}
                     />
-                    <Button variant="outline" onClick={applyOverride} disabled={busy} className="gap-2">
+                    <p className="text-xs text-muted-foreground">
+                      {overrideReason.trim().length < 10
+                        ? `At least 10 characters required (${overrideReason.trim().length}/10).`
+                        : `${overrideReason.trim().length}/1000 characters.`}
+                    </p>
+                    <div className="flex items-start gap-2">
+                      <Checkbox
+                        id="ovr-consent"
+                        checked={overrideConsent}
+                        onCheckedChange={(v) => setOverrideConsent(v === true)}
+                      />
+                      <Label htmlFor="ovr-consent" className="text-xs font-normal leading-snug">
+                        I confirm I am authorized to waive independent verification for this fix, and I accept
+                        responsibility for this override being recorded in the audit trail.
+                      </Label>
+                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={applyOverride}
+                      disabled={busy || overrideReason.trim().length < 10 || !overrideConsent}
+                      className="gap-2"
+                    >
                       <ShieldAlert className="h-4 w-4" /> Record override
                     </Button>
+                    {(overrideReason.trim().length < 10 || !overrideConsent) && (
+                      <p className="text-xs text-muted-foreground">
+                        Enter a written reason and confirm consent to enable the override.
+                      </p>
+                    )}
                   </div>
                 )}
 
